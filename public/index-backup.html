@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InferenceIQ — Console</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}html,body,#root{height:100%;width:100%}body{font-family:'Google Sans',Roboto,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}</style>
+<script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useMemo, useEffect, useCallback, useRef } = React;
+const {
+  AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  ComposedChart, Scatter, ScatterChart, ZAxis, Treemap
+} = Recharts;
+
+// Lucide-react replacement: simple inline SVG icons
+const _ic = (d, s=16, st) => React.createElement("svg", {width:s,height:s,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round",style:{display:"inline-block",verticalAlign:"middle",...(st||{})}}, React.createElement("path",{d}));
+const _icons = {
+  LayoutDashboard: (s,st) => _ic("M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",s,st),
+  Activity: (s,st) => _ic("M22 12h-4l-3 9L9 3l-3 9H2",s,st),
+  FileText: (s,st) => _ic("M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8",s,st),
+  Cpu: (s,st) => _ic("M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M9 9h6v6H9z",s,st),
+  Users: (s,st) => _ic("M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",s,st),
+  Settings: (s,st) => _ic("M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",s,st),
+  ChevronRight: (s,st) => _ic("M9 18l6-6-6-6",s,st),
+  Clock: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 6v6l4 2",s,st),
+  Zap: (s,st) => _ic("M13 2L3 14h9l-1 8 10-12h-9l1-8z",s,st),
+  Database: (s,st) => _ic("M12 2C6.5 2 2 4 2 6.5v11C2 20 6.5 22 12 22s10-2 10-4.5v-11C22 4 17.5 2 12 2z",s,st),
+  Shield: (s,st) => _ic("M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",s,st),
+  DollarSign: (s,st) => _ic("M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",s,st),
+  Bell: (s,st) => _ic("M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0",s,st),
+  Search: (s,st) => _ic("M11 17.25a6.25 6.25 0 1 1 0-12.5 6.25 6.25 0 0 1 0 12.5z M16 16l4.5 4.5",s,st),
+  ArrowUpRight: (s,st) => _ic("M7 17L17 7 M7 7h10v10",s,st),
+  ArrowDownRight: (s,st) => _ic("M7 7l10 10 M17 7v10H7",s,st),
+  Check: (s,st) => _ic("M20 6L9 17l-5-5",s,st),
+  AlertTriangle: (s,st) => _ic("M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",s,st),
+  Info: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 16v-4 M12 8h.01",s,st),
+  CheckCircle: (s,st) => _ic("M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3",s,st),
+  XCircle: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M15 9l-6 6 M9 9l6 6",s,st),
+  AlertCircle: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4 M12 16h.01",s,st),
+  Eye: (s,st) => _ic("M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z",s,st),
+  Terminal: (s,st) => _ic("M4 17l6-6-6-6 M12 19h8",s,st),
+  Play: (s,st) => _ic("M5 3l14 9-14 9V3z",s,st),
+  Key: (s,st) => _ic("M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777z",s,st),
+  MonitorDot: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4 M12 16h.01",s,st),
+  ShieldCheck: (s,st) => _ic("M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",s,st),
+  Timer: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 6v6l4 2",s,st),
+  TrendingUp: (s,st) => _ic("M23 6l-9.5 9.5-5-5L1 18",s,st),
+  TrendingDown: (s,st) => _ic("M23 18l-9.5-9.5-5 5L1 6",s,st),
+  Download: (s,st) => _ic("M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3",s,st),
+  RefreshCw: (s,st) => _ic("M23 4v6h-6 M1 20v-6h6",s,st),
+  LogOut: (s,st) => _ic("M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9",s,st),
+  Menu: (s,st) => _ic("M3 12h18M3 6h18M3 18h18",s,st),
+  X: (s,st) => _ic("M18 6L6 18M6 6l12 12",s,st),
+  HelpCircle: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z",s,st),
+  Filter: (s,st) => _ic("M22 3H2l8 9.46V19l4 2v-8.54L22 3z",s,st),
+  Sparkles: (s,st) => _ic("M12 3v1m0 16v1m-8-9H3m18 0h-1 M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",s,st),
+  Network: (s,st) => _ic("M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M12 8v6",s,st),
+  Layers: (s,st) => _ic("M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5",s,st),
+  Receipt: (s,st) => _ic("M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z",s,st),
+  CreditCard: (s,st) => _ic("M1 4h22v16H1z M1 10h22",s,st),
+};
+
+// Create icon components as globals
+const LayoutDashboard = ({size,style:st}) => _icons.LayoutDashboard(size,st);
+const Activity = ({size,style:st}) => _icons.Activity(size,st);
+const FileText = ({size,style:st}) => _icons.FileText(size,st);
+const Cpu = ({size,style:st}) => _icons.Cpu(size,st);
+const Users = ({size,style:st}) => _icons.Users(size,st);
+const Settings = ({size,style:st}) => _icons.Settings(size,st);
+const ChevronRight = ({size,style:st}) => _icons.ChevronRight(size,st);
+const Clock = ({size,style:st}) => _icons.Clock(size,st);
+const Zap = ({size,style:st}) => _icons.Zap(size,st);
+const Database = ({size,style:st}) => _icons.Database(size,st);
+const Shield = ({size,style:st}) => _icons.Shield(size,st);
+const DollarSign = ({size,style:st}) => _icons.DollarSign(size,st);
+const Bell = ({size,style:st}) => _icons.Bell(size,st);
+const Search = ({size,style:st}) => _icons.Search(size,st);
+const ArrowUpRight = ({size,style:st}) => _icons.ArrowUpRight(size,st);
+const ArrowDownRight = ({size,style:st}) => _icons.ArrowDownRight(size,st);
+const Check = ({size,style:st}) => _icons.Check(size,st);
+const AlertTriangle = ({size,style:st}) => _icons.AlertTriangle(size,st);
+const Info = ({size,style:st}) => _icons.Info(size,st);
+const CheckCircle = ({size,style:st}) => _icons.CheckCircle(size,st);
+const XCircle = ({size,style:st}) => _icons.XCircle(size,st);
+const AlertCircle = ({size,style:st}) => _icons.AlertCircle(size,st);
+const Eye = ({size,style:st}) => _icons.Eye(size,st);
+const Terminal = ({size,style:st}) => _icons.Terminal(size,st);
+const Play = ({size,style:st}) => _icons.Play(size,st);
+const Key = ({size,style:st}) => _icons.Key(size,st);
+const MonitorDot = ({size,style:st}) => _icons.MonitorDot(size,st);
+const ShieldCheck = ({size,style:st}) => _icons.ShieldCheck(size,st);
+const Timer = ({size,style:st}) => _icons.Timer(size,st);
+const TrendingUp = ({size,style:st}) => _icons.TrendingUp(size,st);
+const TrendingDown = ({size,style:st}) => _icons.TrendingDown(size,st);
+const Download = ({size,style:st}) => _icons.Download(size,st);
+const RefreshCw = ({size,style:st}) => _icons.RefreshCw(size,st);
+const LogOut = ({size,style:st}) => _icons.LogOut(size,st);
+const Menu = ({size,style:st}) => _icons.Menu(size,st);
+const X = ({size,style:st}) => _icons.X(size,st);
+const HelpCircle = ({size,style:st}) => _icons.HelpCircle(size,st);
+const Filter = ({size,style:st}) => _icons.Filter(size,st);
+const Sparkles = ({size,style:st}) => _icons.Sparkles(size,st);
+const Network = ({size,style:st}) => _icons.Network(size,st);
+const Layers = ({size,style:st}) => _icons.Layers(size,st);
+const Receipt = ({size,style:st}) => _icons.Receipt(size,st);
+const CreditCard = ({size,style:st}) => _icons.CreditCard(size,st);
+// Unused icon stubs
+const ChevronDown=Info,ExternalLink=Info,MoreVertical=Info,Copy=Info,BarChart3=Info,Globe=Info,Server=Info,ArrowRight=Info,Minus=Info,Code=Info,BookOpen=Info,Lock=Info,Mail=Info,Webhook=Info,GitBranch=Info,Box=Info,Gauge=Info,ChevronLeft=Info,ChevronsLeft=Info,ChevronsRight=Info,Loader=Info,Brain=Info,Workflow=Info,CircuitBoard=Info,Boxes=Info,Flame=Info,Target=Info,Building2=Info,UserPlus=Info,FileBarChart=Info,CalendarDays=Info,RotateCcw=Info,Plug=Info,Sliders=Info,ToggleLeft=Info,Hash=Info,Percent=Info;
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THEME & CONSTANTS
+   ═══════════════════════════════════════════════════════════════════════ */
+const C = {
+  blue: "#1a73e8", green: "#1e8e3e", red: "#d93025", amber: "#e8710a",
+  purple: "#9334e6", teal: "#00897b", grey: "#5f6368", pink: "#d01884",
+  cyan: "#007b83", indigo: "#4758b8",
+  bg: "#f8f9fa", surface: "#fff", border: "#dadce0", borderLight: "#e8eaed",
+  textPrimary: "#202124", textSecondary: "#5f6368", textTertiary: "#9aa0a6",
+};
+const FONT = "'Google Sans','Roboto','Helvetica Neue',Arial,sans-serif";
+const MONO = "'Roboto Mono','SF Mono','Menlo',monospace";
+const PROVIDERS = ["OpenAI", "Anthropic", "Google", "Meta", "Cohere", "Mistral"];
+const MODELS = {
+  OpenAI: ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"],
+  Anthropic: ["claude-sonnet-4-5", "claude-haiku-4-5", "claude-opus-4"],
+  Google: ["gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"],
+  Meta: ["llama-3.1-70b", "llama-3.1-8b", "llama-3.2-3b"],
+  Cohere: ["command-r-plus", "command-r", "embed-v3"],
+  Mistral: ["mistral-large", "mistral-medium", "codestral"],
+};
+const TEAMS = ["Platform Eng", "ML Research", "Product Analytics", "Data Science", "DevOps", "Customer Eng", "Trust & Safety", "Growth"];
+const OPTS = ["Model Routing", "Semantic Cache", "Prompt Compression", "Batch Shift", "Token Pruning", "Response Streaming"];
+const REGIONS = ["us-east-1", "us-west-2", "eu-west-1", "ap-southeast-1"];
+const PROVIDER_COLORS = { OpenAI: "#10a37f", Anthropic: "#d97706", Google: "#1a73e8", Meta: "#1877f2", Cohere: "#39594d", Mistral: "#f24822" };
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DATA GENERATORS
+   ═══════════════════════════════════════════════════════════════════════ */
+const seed = s => { let v = s; return () => { v = (v * 16807) % 2147483647; return (v - 1) / 2147483646; }; };
+const pick = (arr, r) => arr[Math.floor(r() * arr.length)];
+const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e3 ? (n / 1e3).toFixed(1) + "K" : n.toFixed ? n.toFixed(0) : String(n);
+const fmtD = n => "$" + fmt(n);
+const fmtP = n => n.toFixed(1) + "%";
+const fmtMs = n => n < 1000 ? n.toFixed(0) + "ms" : (n / 1000).toFixed(2) + "s";
+
+function genTimeSeries(days, s = 42) {
+  const r = seed(s), pts = [], now = Date.now(); let cum = 0;
+  for (let i = days; i >= 0; i--) {
+    const d = new Date(now - i * 864e5), base = 2400 + r() * 1800, saved = base * (0.28 + r() * 0.18);
+    cum += saved;
+    pts.push({
+      date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+      fullDate: d.toISOString().slice(0, 10),
+      cost: Math.round(base), optimized: Math.round(base - saved), saved: Math.round(saved),
+      cumSaved: Math.round(cum), requests: Math.floor(18000 + r() * 30000),
+      cacheHits: Math.floor(9000 + r() * 15000), cacheMisses: Math.floor(5000 + r() * 10000),
+      p50: Math.round(60 + r() * 80), p95: Math.round(180 + r() * 120), p99: Math.round(400 + r() * 200),
+      tps: Math.round(350 + r() * 200), errRate: +(r() * 1.5).toFixed(2),
+      qualityScore: +(92 + r() * 7).toFixed(1),
+    });
+  }
+  return pts;
+}
+
+function genLedger(count = 100) {
+  const r = seed(42), rows = [];
+  for (let i = 0; i < count; i++) {
+    const prov = pick(PROVIDERS, r), orig = 8 + r() * 50, sav = orig * (0.12 + r() * 0.4);
+    rows.push({
+      id: `INF-${(10000 + i).toString(36).toUpperCase()}`, time: new Date(Date.now() - r() * 864e5 * 7).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
+      provider: prov, model: pick(MODELS[prov], r), routed: pick(MODELS[pick(PROVIDERS, r)], r),
+      opt: pick(OPTS, r), team: pick(TEAMS, r), region: pick(REGIONS, r),
+      tokIn: Math.floor(200 + r() * 3000), tokOut: Math.floor(50 + r() * 800),
+      cost: orig, saved: sav, quality: Math.floor(80 + r() * 20),
+      ttft: Math.floor(30 + r() * 350), tps: Math.floor(40 + r() * 150),
+      status: r() > 0.06 ? "success" : r() > 0.5 ? "degraded" : "error",
+      cached: r() > 0.4,
+    });
+  }
+  return rows;
+}
+
+function genModels() {
+  const r = seed(42), out = [];
+  PROVIDERS.forEach(p => MODELS[p].forEach(m => {
+    out.push({
+      name: m, provider: p, reqs: Math.floor(20000 + r() * 180000),
+      cost: Math.round(2000 + r() * 15000), saved: Math.round(800 + r() * 8000),
+      ttft: Math.round(40 + r() * 250), tps: Math.round(40 + r() * 160),
+      err: (r() * 2.5).toFixed(2), availability: (99 + r()).toFixed(2),
+      qualityAvg: (88 + r() * 11).toFixed(1),
+    });
+  }));
+  return out;
+}
+
+function genTeams() {
+  const r = seed(42);
+  return TEAMS.map(t => {
+    const o = 15000 + r() * 40000, s = o * (0.2 + r() * 0.28);
+    return {
+      name: t, reqs: Math.floor(50000 + r() * 300000), orig: Math.round(o),
+      actual: Math.round(o - s), saved: Math.round(s), budget: Math.round(o * 1.15),
+      members: Math.floor(3 + r() * 20), topModel: pick(Object.values(MODELS).flat(), r),
+    };
+  });
+}
+
+function genAlerts() {
+  const r = seed(77);
+  const types = ["cost_spike", "latency_p99", "error_rate", "cache_miss", "model_degraded", "budget_warning"];
+  const severities = ["critical", "warning", "info"];
+  return Array.from({ length: 20 }, (_, i) => ({
+    id: `ALT-${1000 + i}`, type: pick(types, r), severity: pick(severities, r),
+    message: [
+      "Cost spike detected: +34% above baseline for gpt-4o",
+      "P99 latency exceeded 500ms threshold on claude-sonnet-4-5",
+      "Error rate above 2% on gemini-2.0-flash in us-west-2",
+      "Cache hit rate dropped below 50% for ML Research team",
+      "Model llama-3.1-70b degraded: quality score below 85%",
+      "Platform Eng team at 92% of monthly budget",
+      "Batch shift queue depth exceeding 10K requests",
+      "Token pruning savings below expected 15% threshold",
+      "New model version available: gpt-4o-2026-03",
+      "API rate limit approaching for Anthropic provider",
+    ][Math.floor(r() * 10)],
+    time: new Date(Date.now() - r() * 864e5 * 3).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
+    acknowledged: r() > 0.6,
+  }));
+}
+
+function genAuditLog() {
+  const r = seed(55);
+  const actions = ["api_key.created", "api_key.rotated", "team.member_added", "settings.updated", "model.enabled", "model.disabled", "alert.acknowledged", "report.exported", "budget.updated", "webhook.created"];
+  const users = ["drew@inferenceiq.com", "sarah@inferenceiq.com", "mike@inferenceiq.com", "system"];
+  return Array.from({ length: 30 }, (_, i) => ({
+    id: `AUD-${2000 + i}`, action: pick(actions, r), user: pick(users, r),
+    detail: "Configuration change applied successfully",
+    time: new Date(Date.now() - r() * 864e5 * 14).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
+    ip: `${Math.floor(r() * 200 + 10)}.${Math.floor(r() * 255)}.${Math.floor(r() * 255)}.${Math.floor(r() * 255)}`,
+  }));
+}
+
+function genIncidents() {
+  const r = seed(33);
+  return [
+    { id: "INC-001", title: "Elevated latency on OpenAI gpt-4o", status: "resolved", severity: "warning", started: "Mar 4, 2:14 PM", resolved: "Mar 4, 3:02 PM", duration: "48m", impact: "12% of requests affected" },
+    { id: "INC-002", title: "Cache service partial outage", status: "resolved", severity: "critical", started: "Mar 2, 9:30 AM", resolved: "Mar 2, 10:15 AM", duration: "45m", impact: "Cache hit rate dropped to 15%" },
+    { id: "INC-003", title: "Anthropic API rate limiting", status: "monitoring", severity: "warning", started: "Mar 6, 10:00 AM", resolved: null, duration: "Ongoing", impact: "Queue depth increasing" },
+  ];
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SHARED UI COMPONENTS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+const GTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "10px 14px", boxShadow: "0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15)", fontFamily: FONT }}>
+      <p style={{ fontSize: 11, color: C.textSecondary, margin: "0 0 6px", fontWeight: 500 }}>{label}</p>
+      {payload.map((p, i) => (
+        <p key={i} style={{ fontSize: 12, margin: "2px 0", color: p.color, fontWeight: 500 }}>{p.name}: {typeof p.value === "number" && p.value > 100 ? fmtD(p.value) : p.value}</p>
+      ))}
+    </div>
+  );
+};
+
+const Breadcrumb = ({ items }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: C.textSecondary }}>
+    {items.map((item, i) => (
+      <span key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        {i > 0 && <ChevronRight size={14} style={{ color: C.textTertiary }} />}
+        <span style={i === items.length - 1 ? { color: C.textPrimary, fontWeight: 500 } : { cursor: "pointer" }}>{item}</span>
+      </span>
+    ))}
+  </div>
+);
+
+const MetricCard = ({ label, value, delta, deltaUp, icon: Icon, sub, color, mini }) => (
+  <div style={{
+    background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+    padding: mini ? "14px 18px" : "20px 24px", display: "flex", flexDirection: "column", gap: mini ? 2 : 4,
+    transition: "box-shadow 0.2s",
+  }}
+  onMouseEnter={e => e.currentTarget.style.boxShadow = "0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15)"}
+  onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <span style={{ fontSize: mini ? 11 : 12, color: C.textSecondary, fontWeight: 500 }}>{label}</span>
+      {Icon && <Icon size={mini ? 14 : 16} style={{ color: C.textTertiary }} />}
+    </div>
+    <span style={{ fontSize: mini ? 22 : 28, fontWeight: 400, color: color || C.textPrimary, letterSpacing: "-0.02em", fontFamily: FONT }}>{value}</span>
+    {delta && <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 500, color: deltaUp ? C.green : C.red }}>{deltaUp ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}{delta}</div>}
+    {sub && <span style={{ fontSize: 11, color: C.textTertiary }}>{sub}</span>}
+  </div>
+);
+
+const ChartCard = ({ title, subtitle, children, height = 260, actions, noPad }) => (
+  <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden", transition: "box-shadow 0.2s" }}>
+    <div style={{ padding: "14px 20px 10px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${C.borderLight}` }}>
+      <div>
+        <div style={{ fontSize: 13, fontWeight: 500, color: C.textPrimary }}>{title}</div>
+        {subtitle && <div style={{ fontSize: 11, color: C.textSecondary, marginTop: 1 }}>{subtitle}</div>}
+      </div>
+      {actions && <div style={{ display: "flex", gap: 6 }}>{actions}</div>}
+    </div>
+    <div style={{ padding: noPad ? 0 : "12px 12px 8px", height }}>{children}</div>
+  </div>
+);
+
+const StatusChip = ({ status, label }) => {
+  const s = { success: { bg: "#e6f4ea", color: C.green, icon: CheckCircle }, warning: { bg: "#fef7e0", color: C.amber, icon: AlertTriangle }, error: { bg: "#fce8e6", color: C.red, icon: XCircle }, info: { bg: "#e8f0fe", color: C.blue, icon: Info }, critical: { bg: "#fce8e6", color: C.red, icon: AlertCircle }, degraded: { bg: "#fef7e0", color: C.amber, icon: AlertTriangle }, resolved: { bg: "#e6f4ea", color: C.green, icon: CheckCircle }, monitoring: { bg: "#e8f0fe", color: C.blue, icon: Eye } }[status] || { bg: "#e8f0fe", color: C.blue, icon: Info };
+  const Icon = s.icon;
+  return <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 8px 2px 6px", borderRadius: 4, background: s.bg, color: s.color, fontSize: 11, fontWeight: 500 }}><Icon size={12} />{label || status}</span>;
+};
+
+const ProviderBadge = ({ name }) => {
+  const col = PROVIDER_COLORS[name] || C.grey;
+  return <span style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 10px", borderRadius: 12, background: col + "12", color: col, fontSize: 11, fontWeight: 500 }}><span style={{ width: 6, height: 6, borderRadius: "50%", background: col }} />{name}</span>;
+};
+
+const IconBtn = ({ icon: Icon, onClick, tooltip, size = 18 }) => (
+  <button onClick={onClick} title={tooltip} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: "50%", border: "none", background: "transparent", cursor: "pointer", color: C.textSecondary, transition: "background 0.15s" }}
+    onMouseEnter={e => e.currentTarget.style.background = "#f1f3f4"} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+    <Icon size={size} />
+  </button>
+);
+
+const Pill = ({ label, active, onClick }) => (
+  <button onClick={onClick} style={{ padding: "6px 16px", borderRadius: 20, fontSize: 13, fontWeight: 500, border: active ? "none" : `1px solid ${C.border}`, background: active ? "#e8f0fe" : C.surface, color: active ? C.blue : C.textSecondary, cursor: "pointer", transition: "all 0.15s" }}
+    onMouseEnter={e => { if (!active) e.currentTarget.style.background = "#f8f9fa"; }} onMouseLeave={e => { if (!active) e.currentTarget.style.background = active ? "#e8f0fe" : C.surface; }}>
+    {label}
+  </button>
+);
+
+const Tabs = ({ tabs, active, onChange }) => (
+  <div style={{ display: "flex", gap: 0, borderBottom: `2px solid ${C.borderLight}` }}>
+    {tabs.map(t => (
+      <button key={t.id} onClick={() => onChange(t.id)} style={{
+        padding: "10px 20px", fontSize: 13, fontWeight: 500, border: "none", cursor: "pointer",
+        background: "transparent", color: active === t.id ? C.blue : C.textSecondary,
+        borderBottom: active === t.id ? `2px solid ${C.blue}` : "2px solid transparent",
+        marginBottom: -2, transition: "all 0.15s",
+      }}
+        onMouseEnter={e => { if (active !== t.id) e.currentTarget.style.background = "#f1f3f4"; }}
+        onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+        {t.icon && <span style={{ marginRight: 6, verticalAlign: "middle" }}>{t.icon}</span>}{t.label}
+      </button>
+    ))}
+  </div>
+);
+
+const Table = ({ columns, data, maxH, footer }) => (
+  <div style={{ overflowX: "auto" }}>
+    <div style={{ maxHeight: maxH, overflowY: maxH ? "auto" : undefined }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <thead style={{ position: "sticky", top: 0, zIndex: 2 }}>
+          <tr style={{ background: "#fafbfc", borderBottom: `2px solid ${C.borderLight}` }}>
+            {columns.map(col => <th key={col.key} style={{ textAlign: col.align || "left", padding: "10px 14px", fontSize: 11, fontWeight: 600, color: C.textSecondary, whiteSpace: "nowrap", letterSpacing: "0.02em", textTransform: "uppercase" }}>{col.label}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, i) => (
+            <tr key={i} style={{ borderBottom: `1px solid ${C.borderLight}`, transition: "background 0.1s" }}
+              onMouseEnter={e => e.currentTarget.style.background = "#f8f9fa"} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+              {columns.map(col => <td key={col.key} style={{ padding: "10px 14px", color: C.textPrimary, textAlign: col.align || "left", fontFamily: col.mono ? MONO : "inherit", fontSize: col.mono ? 12 : 13, fontWeight: col.bold ? 500 : 400, whiteSpace: "nowrap" }}>{col.render ? col.render(row[col.key], row) : row[col.key]}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {footer && <div style={{ padding: "10px 16px", borderTop: `1px solid ${C.borderLight}`, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12, color: C.textSecondary }}>{footer}</div>}
+  </div>
+);
+
+const Section = ({ title, desc, children, actions }) => (
+  <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
+    <div style={{ padding: "14px 20px", borderBottom: `1px solid ${C.borderLight}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div><div style={{ fontSize: 14, fontWeight: 500, color: C.textPrimary }}>{title}</div>{desc && <div style={{ fontSize: 12, color: C.textSecondary, marginTop: 2 }}>{desc}</div>}</div>
+      {actions}
+    </div>
+    {children}
+  </div>
+);
+
+const SettingRow = ({ label, value, trailing }) => (
+  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", borderBottom: `1px solid ${C.borderLight}` }}>
+    <div><div style={{ fontSize: 13, fontWeight: 500, color: C.textPrimary }}>{label}</div><div style={{ fontSize: 12, color: C.textSecondary, marginTop: 1 }}>{value}</div></div>
+    {trailing}
+  </div>
+);
+
+const Toggle = ({ on, onToggle }) => (
+  <button onClick={onToggle} style={{ width: 44, height: 24, borderRadius: 12, border: "none", cursor: "pointer", background: on ? C.blue : C.border, position: "relative", transition: "background 0.2s" }}>
+    <span style={{ position: "absolute", top: 3, width: 18, height: 18, borderRadius: "50%", background: "#fff", transition: "left 0.2s", left: on ? 23 : 3, boxShadow: "0 1px 3px rgba(0,0,0,.2)" }} />
+  </button>
+);
+
+const ProgressBar = ({ value, max, color = C.blue, height = 6 }) => (
+  <div style={{ width: "100%", height, borderRadius: height / 2, background: "#e8eaed", overflow: "hidden" }}>
+    <div style={{ width: `${Math.min(100, (value / max) * 100)}%`, height: "100%", borderRadius: height / 2, background: color, transition: "width 0.4s ease" }} />
+  </div>
+);
+
+const EmptyState = ({ icon: Icon, title, desc }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 24px", textAlign: "center" }}>
+    <Icon size={48} style={{ color: C.textTertiary, marginBottom: 16 }} />
+    <div style={{ fontSize: 16, fontWeight: 500, color: C.textPrimary, marginBottom: 4 }}>{title}</div>
+    <div style={{ fontSize: 13, color: C.textSecondary, maxWidth: 360 }}>{desc}</div>
+  </div>
+);
+
+const Button = ({ children, variant = "filled", onClick, icon: Icon, small }) => {
+  const filled = variant === "filled";
+  return (
+    <button onClick={onClick} style={{
+      display: "inline-flex", alignItems: "center", gap: 6, padding: small ? "6px 14px" : "8px 20px",
+      borderRadius: 20, fontSize: small ? 12 : 13, fontWeight: 500, cursor: "pointer",
+      border: filled ? "none" : `1px solid ${C.border}`,
+      background: filled ? C.blue : "transparent",
+      color: filled ? "#fff" : C.blue,
+      transition: "all 0.15s", fontFamily: FONT,
+    }}
+    onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+    onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
+      {Icon && <Icon size={small ? 14 : 16} />}{children}
+    </button>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LANDING PAGE
+   ═══════════════════════════════════════════════════════════════════════ */
+function LandingPage({ onLogin }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: FONT, color: C.textPrimary }}>
+      {/* Nav */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,.92)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.borderLight}`, padding: "0 48px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${C.blue}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "#fff" }}>IQ</div>
+          <span style={{ fontSize: 18, fontWeight: 600 }}>InferenceIQ</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 32, fontSize: 14, color: C.textSecondary }}>
+          {["Product", "Pricing", "Docs", "Blog", "Changelog"].map(l => <span key={l} style={{ cursor: "pointer", fontWeight: 500 }}>{l}</span>)}
+          <button onClick={onLogin} style={{ padding: "8px 24px", borderRadius: 20, border: "none", background: C.blue, color: "#fff", fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Sign in</button>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <section style={{ padding: "96px 48px 80px", textAlign: "center", maxWidth: 960, margin: "0 auto" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", borderRadius: 20, background: "#e8f0fe", color: C.blue, fontSize: 13, fontWeight: 500, marginBottom: 24 }}>
+          <Sparkles size={14} /> Now in Public Beta — Series A backed by a]16z
+        </div>
+        <h1 style={{ fontSize: 56, fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.03em", margin: "0 0 20px", color: C.textPrimary }}>
+          Cut AI inference costs<br /><span style={{ background: `linear-gradient(90deg, ${C.blue}, ${C.green})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>by 40% automatically</span>
+        </h1>
+        <p style={{ fontSize: 18, color: C.textSecondary, lineHeight: 1.6, maxWidth: 640, margin: "0 auto 36px" }}>
+          InferenceIQ optimizes every LLM request with intelligent model routing, semantic caching, prompt compression, and batch shifting. Enterprise-grade savings with per-request attribution.
+        </p>
+        <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
+          <button onClick={onLogin} style={{ padding: "12px 32px", borderRadius: 24, border: "none", background: C.blue, color: "#fff", fontSize: 16, fontWeight: 500, cursor: "pointer", boxShadow: "0 1px 3px rgba(26,115,232,.3)" }}>Start free trial</button>
+          <button style={{ padding: "12px 32px", borderRadius: 24, border: `1px solid ${C.border}`, background: "transparent", color: C.textPrimary, fontSize: 16, fontWeight: 500, cursor: "pointer" }}>View documentation</button>
+        </div>
+      </section>
+
+      {/* Stats row */}
+      <section style={{ padding: "0 48px 64px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, maxWidth: 960, margin: "0 auto" }}>
+          {[["$14.2M", "Savings delivered", C.green], ["2.8B", "Requests optimized", C.blue], ["99.97%", "Platform uptime", C.teal], ["142", "Enterprise customers", C.purple]].map(([v, l, c]) => (
+            <div key={l} style={{ textAlign: "center", padding: 24 }}>
+              <div style={{ fontSize: 40, fontWeight: 400, color: c, letterSpacing: "-0.02em" }}>{v}</div>
+              <div style={{ fontSize: 14, color: C.textSecondary, marginTop: 4 }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features */}
+      <section style={{ padding: "64px 48px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <h2 style={{ fontSize: 36, fontWeight: 400, textAlign: "center", marginBottom: 48, letterSpacing: "-0.02em" }}>Four optimization engines, one platform</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+            {[
+              { icon: Network, title: "Intelligent Model Routing", desc: "Automatically route each request to the optimal model based on task complexity, cost, and latency requirements. Quality-aware routing maintains output standards while reducing spend.", color: C.blue },
+              { icon: Database, title: "Semantic Caching", desc: "Deduplicate semantically similar requests with embedding-based cache lookups. Sub-10ms responses for cache hits with configurable similarity thresholds per use case.", color: C.green },
+              { icon: Layers, title: "Prompt Compression", desc: "Reduce input token count by 25-40% using learned compression models that preserve semantic meaning. Works transparently with any prompt format.", color: C.purple },
+              { icon: Clock, title: "Batch Shifting", desc: "Queue non-urgent requests for off-peak processing at reduced rates. Priority-aware scheduling ensures latency-sensitive requests are never delayed.", color: C.amber },
+              { icon: Shield, title: "Per-Request Attribution", desc: "Every optimization decision is logged to an immutable, cryptographically signed ledger. Full transparency into what was changed, why, and the exact savings achieved.", color: C.teal },
+              { icon: Receipt, title: "Team Chargeback", desc: "Automatically allocate costs to teams, projects, and cost centers. Real-time budget tracking with configurable alerts when teams approach spending limits.", color: C.pink },
+            ].map(f => (
+              <div key={f.title} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: 32, transition: "box-shadow 0.2s" }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = "0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15)"}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}>
+                <f.icon size={28} style={{ color: f.color, marginBottom: 16 }} />
+                <h3 style={{ fontSize: 18, fontWeight: 500, marginBottom: 8 }}>{f.title}</h3>
+                <p style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section style={{ padding: "80px 48px" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontSize: 36, fontWeight: 400, marginBottom: 56, letterSpacing: "-0.02em" }}>Three lines of code, 40% savings</h2>
+          <div style={{ display: "flex", justifyContent: "center", gap: 48 }}>
+            {[
+              { step: "1", title: "Install the SDK", desc: "Drop-in replacement for OpenAI, Anthropic, and Google SDKs." },
+              { step: "2", title: "Set your policy", desc: "Define cost vs latency vs quality tradeoffs per use case." },
+              { step: "3", title: "Watch savings grow", desc: "Real-time dashboard shows per-request savings attribution." },
+            ].map(s => (
+              <div key={s.step} style={{ flex: 1, maxWidth: 260 }}>
+                <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#e8f0fe", color: C.blue, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, fontWeight: 500, margin: "0 auto 16px" }}>{s.step}</div>
+                <h4 style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>{s.title}</h4>
+                <p style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.5 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Code example */}
+      <section style={{ padding: "0 48px 80px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", background: "#1e1e1e", borderRadius: 12, overflow: "hidden", boxShadow: "0 4px 12px rgba(0,0,0,.15)" }}>
+          <div style={{ padding: "12px 20px", background: "#2d2d2d", display: "flex", gap: 8, alignItems: "center" }}>
+            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f57" }} />
+            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#febc2e" }} />
+            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#28c840" }} />
+            <span style={{ marginLeft: 12, fontSize: 12, color: "#999" }}>app.py</span>
+          </div>
+          <pre style={{ padding: "20px 24px", margin: 0, fontSize: 13, lineHeight: 1.7, color: "#d4d4d4", fontFamily: MONO, overflow: "auto" }}>
+{`from inferenceiq import InferenceIQ
+
+iq = InferenceIQ(api_key="iq-...", policy="balanced")
+
+# Drop-in replacement — same OpenAI interface
+response = iq.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": prompt}],
+    team="analytics",        # automatic cost attribution
+    priority="normal",       # enables batch shifting
+    cache_ttl=3600,          # semantic cache for 1 hour
+)
+
+# Every response includes savings metadata
+print(f"Saved: \${response.savings.amount:.2f}")
+print(f"Optimization: {response.savings.method}")
+print(f"Routed to: {response.savings.actual_model}")
+print(f"Quality score: {response.savings.quality_score}%")`}
+          </pre>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section style={{ padding: "80px 48px", background: C.bg }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontSize: 36, fontWeight: 400, marginBottom: 48 }}>Simple, transparent pricing</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+            {[
+              { name: "Starter", price: "Free", desc: "Up to 10K requests/month", features: ["Model routing", "Basic caching", "7-day data retention", "Community support", "1 team"] },
+              { name: "Growth", price: "$499/mo", desc: "10% of savings + base", features: ["All optimizations", "Unlimited caching", "90-day retention", "Priority support", "10 teams", "API playground", "Custom policies"], popular: true },
+              { name: "Enterprise", price: "Custom", desc: "Volume pricing", features: ["Everything in Growth", "Unlimited retention", "SSO/SAML", "Dedicated CSM", "SLA guarantee", "On-prem option", "Custom integrations", "Audit log"] },
+            ].map(p => (
+              <div key={p.name} style={{ background: C.surface, border: p.popular ? `2px solid ${C.blue}` : `1px solid ${C.border}`, borderRadius: 12, padding: 32, position: "relative", textAlign: "left" }}>
+                {p.popular && <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: C.blue, color: "#fff", padding: "4px 14px", borderRadius: 12, fontSize: 11, fontWeight: 600 }}>MOST POPULAR</div>}
+                <h3 style={{ fontSize: 20, fontWeight: 500, marginBottom: 4 }}>{p.name}</h3>
+                <div style={{ fontSize: 32, fontWeight: 400, marginBottom: 4 }}>{p.price}</div>
+                <p style={{ fontSize: 13, color: C.textSecondary, marginBottom: 20 }}>{p.desc}</p>
+                <button onClick={onLogin} style={{ width: "100%", padding: "10px 0", borderRadius: 20, border: p.popular ? "none" : `1px solid ${C.border}`, background: p.popular ? C.blue : "transparent", color: p.popular ? "#fff" : C.blue, fontSize: 14, fontWeight: 500, cursor: "pointer", marginBottom: 20 }}>{p.name === "Enterprise" ? "Contact sales" : "Get started"}</button>
+                {p.features.map(f => <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: C.textSecondary, padding: "6px 0" }}><Check size={14} style={{ color: C.green }} />{f}</div>)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted by */}
+      <section style={{ padding: "64px 48px", textAlign: "center" }}>
+        <p style={{ fontSize: 14, color: C.textTertiary, fontWeight: 500, marginBottom: 24, letterSpacing: "0.05em", textTransform: "uppercase" }}>Trusted by engineering teams at</p>
+        <div style={{ display: "flex", justifyContent: "center", gap: 48, alignItems: "center", opacity: 0.5 }}>
+          {["Stripe", "Figma", "Notion", "Vercel", "Linear", "Datadog"].map(b => (
+            <span key={b} style={{ fontSize: 22, fontWeight: 600, color: C.textPrimary }}>{b}</span>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "80px 48px", background: C.blue, textAlign: "center" }}>
+        <h2 style={{ fontSize: 36, fontWeight: 400, color: "#fff", marginBottom: 12 }}>Start saving on AI inference today</h2>
+        <p style={{ fontSize: 16, color: "rgba(255,255,255,.75)", marginBottom: 32 }}>Free tier includes 10K requests/month. No credit card required.</p>
+        <button onClick={onLogin} style={{ padding: "14px 36px", borderRadius: 24, border: "none", background: "#fff", color: C.blue, fontSize: 16, fontWeight: 500, cursor: "pointer" }}>Create free account</button>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ padding: "48px", borderTop: `1px solid ${C.borderLight}`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <div style={{ width: 24, height: 24, borderRadius: 6, background: `linear-gradient(135deg, ${C.blue}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#fff" }}>IQ</div>
+            <span style={{ fontSize: 14, fontWeight: 600 }}>InferenceIQ</span>
+          </div>
+          <p style={{ fontSize: 12, color: C.textTertiary }}>&copy; 2026 InferenceIQ Inc. All rights reserved.</p>
+        </div>
+        <div style={{ display: "flex", gap: 48, fontSize: 13, color: C.textSecondary }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>Product</span>Features<br />Pricing<br />Documentation<br />Changelog</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>Company</span>About<br />Blog<br />Careers<br />Contact</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>Legal</span>Privacy<br />Terms<br />Security<br />SOC 2</div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LOGIN PAGE
+   ═══════════════════════════════════════════════════════════════════════ */
+function LoginPage({ onLogin, onBack }) {
+  const [email, setEmail] = useState("drew@inferenceiq.com");
+  const [pass, setPass] = useState("••••••••••");
+  return (
+    <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT }}>
+      <div style={{ width: 420, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: 40, boxShadow: "0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15)" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: `linear-gradient(135deg, ${C.blue}, ${C.green})`, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 16 }}>IQ</div>
+          <h2 style={{ fontSize: 24, fontWeight: 400, margin: "0 0 4px", color: C.textPrimary }}>Sign in to InferenceIQ</h2>
+          <p style={{ fontSize: 14, color: C.textSecondary, margin: 0 }}>Manage your AI inference optimization</p>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 500, color: C.textSecondary, display: "block", marginBottom: 6 }}>Email</label>
+            <input value={email} onChange={e => setEmail(e.target.value)} style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: FONT }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 500, color: C.textSecondary, display: "block", marginBottom: 6 }}>Password</label>
+            <input type="password" value={pass} onChange={e => setPass(e.target.value)} style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: FONT }} />
+          </div>
+          <button onClick={onLogin} style={{ width: "100%", padding: "12px 0", borderRadius: 20, border: "none", background: C.blue, color: "#fff", fontSize: 14, fontWeight: 500, cursor: "pointer", marginTop: 4 }}>Sign in</button>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "4px 0" }}>
+            <div style={{ flex: 1, height: 1, background: C.borderLight }} /><span style={{ fontSize: 12, color: C.textTertiary }}>or</span><div style={{ flex: 1, height: 1, background: C.borderLight }} />
+          </div>
+          <button style={{ width: "100%", padding: "10px 0", borderRadius: 20, border: `1px solid ${C.border}`, background: C.surface, color: C.textPrimary, fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Sign in with Google</button>
+          <button style={{ width: "100%", padding: "10px 0", borderRadius: 20, border: `1px solid ${C.border}`, background: C.surface, color: C.textPrimary, fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Sign in with SAML SSO</button>
+        </div>
+        <p style={{ textAlign: "center", fontSize: 13, color: C.blue, marginTop: 20, cursor: "pointer" }} onClick={onBack}>Back to home</p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DASHBOARD VIEWS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+function OverviewView({ days }) {
+  const ts = useMemo(() => genTimeSeries(days), [days]);
+  const tot = useMemo(() => ({ saved: ts.reduce((s, r) => s + r.saved, 0), cost: ts.reduce((s, r) => s + r.cost, 0), reqs: ts.reduce((s, r) => s + r.requests, 0) }), [ts]);
+  const providerData = PROVIDERS.slice(0, 4).map((p, i) => ({ name: p, value: Math.round(2000 + seed(42 + i)() * 8000) }));
+  const optData = OPTS.slice(0, 4).map((o, i) => ({ name: o, value: Math.round(1000 + seed(99 + i)() * 5000) }));
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ background: C.blue, borderRadius: 8, padding: "28px 32px", color: "#fff", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ fontSize: 13, opacity: 0.85, fontWeight: 500, marginBottom: 4 }}>Total Savings — {days}-Day Period</div>
+          <div style={{ fontSize: 44, fontWeight: 400, letterSpacing: "-0.02em", fontFamily: FONT }}>{fmtD(tot.saved)}</div>
+          <div style={{ fontSize: 13, opacity: 0.75, marginTop: 4 }}>{(tot.reqs / 1e6).toFixed(2)}M requests · {fmtP(tot.saved / tot.cost * 100)} cost reduction</div>
+        </div>
+        <div style={{ display: "flex", gap: 40 }}>
+          {[["Original", fmtD(tot.cost)], ["Optimized", fmtD(tot.cost - tot.saved)], ["ROI", Math.floor(tot.saved / (tot.cost - tot.saved) * 100) + "%"]].map(([l, v]) => (
+            <div key={l} style={{ textAlign: "right" }}><div style={{ fontSize: 24, fontWeight: 400 }}>{v}</div><div style={{ fontSize: 11, opacity: 0.7, marginTop: 2 }}>{l}</div></div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+        <MetricCard label="Requests" value={fmt(tot.reqs)} delta="+12.4%" deltaUp icon={Activity} mini />
+        <MetricCard label="Avg TTFT" value="138ms" delta="-6.2%" deltaUp icon={Clock} mini />
+        <MetricCard label="Cache Hit" value="61.3%" delta="+3.8pp" deltaUp icon={Database} mini />
+        <MetricCard label="Throughput" value="427 tok/s" delta="+4.1%" deltaUp icon={Zap} mini />
+        <MetricCard label="Error Rate" value="0.34%" delta="-0.12pp" deltaUp icon={Shield} mini color={C.green} />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <ChartCard title="Cost vs Optimized Spend" height={260}>
+          <ResponsiveContainer><AreaChart data={ts} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}>
+            <defs><linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.blue} stopOpacity={0.08} /><stop offset="95%" stopColor={C.blue} stopOpacity={0} /></linearGradient><linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.green} stopOpacity={0.08} /><stop offset="95%" stopColor={C.green} stopOpacity={0} /></linearGradient></defs>
+            <CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => "$" + fmt(v)} width={55} /><Tooltip content={<GTooltip />} />
+            <Area type="monotone" dataKey="cost" name="Original" stroke={C.blue} fill="url(#gB)" strokeWidth={2} dot={false} /><Area type="monotone" dataKey="optimized" name="Optimized" stroke={C.green} fill="url(#gG)" strokeWidth={2} dot={false} /><Legend iconType="line" iconSize={12} wrapperStyle={{ fontSize: 12, color: C.textSecondary, paddingTop: 8 }} />
+          </AreaChart></ResponsiveContainer>
+        </ChartCard>
+        <ChartCard title="Cumulative Savings" height={260}>
+          <ResponsiveContainer><AreaChart data={ts} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}>
+            <defs><linearGradient id="gCum" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.green} stopOpacity={0.12} /><stop offset="95%" stopColor={C.green} stopOpacity={0} /></linearGradient></defs>
+            <CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => "$" + fmt(v)} width={55} /><Tooltip content={<GTooltip />} />
+            <Area type="monotone" dataKey="cumSaved" name="Cumulative" stroke={C.green} fill="url(#gCum)" strokeWidth={2.5} dot={false} />
+          </AreaChart></ResponsiveContainer>
+        </ChartCard>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+        <ChartCard title="By Provider" height={200}><ResponsiveContainer><PieChart><Pie data={providerData} cx="50%" cy="45%" innerRadius={50} outerRadius={75} paddingAngle={2} dataKey="value">{providerData.map((_, i) => <Cell key={i} fill={[C.blue, C.amber, C.green, C.purple][i]} />)}</Pie><Tooltip content={<GTooltip />} /><Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: C.textSecondary }} /></PieChart></ResponsiveContainer></ChartCard>
+        <ChartCard title="By Optimization" height={200}><ResponsiveContainer><PieChart><Pie data={optData} cx="50%" cy="45%" innerRadius={50} outerRadius={75} paddingAngle={2} dataKey="value">{optData.map((_, i) => <Cell key={i} fill={[C.teal, C.purple, C.amber, C.blue][i]} />)}</Pie><Tooltip content={<GTooltip />} /><Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: C.textSecondary }} /></PieChart></ResponsiveContainer></ChartCard>
+        <ChartCard title="Request Volume" height={200}><ResponsiveContainer><BarChart data={ts} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 10 }} tickLine={false} axisLine={{ stroke: C.borderLight }} interval={Math.floor(ts.length / 4)} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={fmt} width={40} /><Tooltip content={<GTooltip />} /><Bar dataKey="requests" name="Requests" fill={C.blue} opacity={0.7} radius={[3, 3, 0, 0]} /></BarChart></ResponsiveContainer></ChartCard>
+      </div>
+    </div>
+  );
+}
+
+function InferenceView({ days }) {
+  const ts = useMemo(() => genTimeSeries(days), [days]);
+  const r = seed(99);
+  const ttftData = ["0–50", "50–100", "100–150", "150–200", "200–300", "300+"].map(b => ({ bucket: b, count: Math.floor(r() * 40000) }));
+  ttftData[1].count *= 2.5; ttftData[2].count *= 2;
+  const tputData = ts.map(t => ({ ...t, tps: Math.round(300 + r() * 200), err: +(r() * 1.8).toFixed(2) }));
+  const [tab, setTab] = useState("latency");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12 }}>
+        <MetricCard label="P50 TTFT" value="94ms" icon={Clock} color={C.green} mini />
+        <MetricCard label="P95 TTFT" value="248ms" icon={Clock} color={C.amber} mini />
+        <MetricCard label="P99 TTFT" value="512ms" icon={Clock} color={C.red} mini />
+        <MetricCard label="Quality" value="96.2%" icon={Check} color={C.green} mini />
+        <MetricCard label="Throughput" value="427 tok/s" icon={Zap} mini />
+        <MetricCard label="Error Rate" value="0.34%" icon={AlertTriangle} color={C.green} mini />
+      </div>
+
+      <Tabs tabs={[{ id: "latency", label: "Latency" }, { id: "throughput", label: "Throughput" }, { id: "quality", label: "Quality" }, { id: "errors", label: "Errors" }]} active={tab} onChange={setTab} />
+
+      {tab === "latency" && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <ChartCard title="TTFT Distribution" height={280}><ResponsiveContainer><BarChart data={ttftData} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="bucket" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={fmt} width={45} /><Tooltip content={<GTooltip />} /><Bar dataKey="count" name="Requests" fill={C.blue} opacity={0.75} radius={[4, 4, 0, 0]} /></BarChart></ResponsiveContainer></ChartCard>
+          <ChartCard title="Latency Percentiles Over Time" height={280}><ResponsiveContainer><LineChart data={ts} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => v + "ms"} width={50} /><Tooltip content={<GTooltip />} /><Line type="monotone" dataKey="p50" name="P50" stroke={C.green} strokeWidth={2} dot={false} /><Line type="monotone" dataKey="p95" name="P95" stroke={C.amber} strokeWidth={2} dot={false} /><Line type="monotone" dataKey="p99" name="P99" stroke={C.red} strokeWidth={2} dot={false} /><Legend iconType="line" iconSize={12} wrapperStyle={{ fontSize: 11, color: C.textSecondary }} /></LineChart></ResponsiveContainer></ChartCard>
+        </div>
+      )}
+      {tab === "throughput" && (
+        <ChartCard title="Throughput Over Time" height={300}><ResponsiveContainer><AreaChart data={tputData} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}><defs><linearGradient id="gPurp" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.purple} stopOpacity={0.08} /><stop offset="95%" stopColor={C.purple} stopOpacity={0} /></linearGradient></defs><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} width={40} /><Tooltip content={<GTooltip />} /><Area type="monotone" dataKey="tps" name="Tokens/sec" stroke={C.purple} fill="url(#gPurp)" strokeWidth={2} dot={false} /></AreaChart></ResponsiveContainer></ChartCard>
+      )}
+      {tab === "quality" && (
+        <ChartCard title="Quality Score Over Time" height={300}><ResponsiveContainer><LineChart data={ts} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} domain={[85, 100]} width={40} /><Tooltip content={<GTooltip />} /><Line type="monotone" dataKey="qualityScore" name="Quality %" stroke={C.blue} strokeWidth={2.5} dot={false} /></LineChart></ResponsiveContainer></ChartCard>
+      )}
+      {tab === "errors" && (
+        <ChartCard title="Error Rate" height={300}><ResponsiveContainer><AreaChart data={tputData} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}><defs><linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.red} stopOpacity={0.06} /><stop offset="95%" stopColor={C.red} stopOpacity={0} /></linearGradient></defs><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} domain={[0, 3]} tickFormatter={v => v + "%"} width={35} /><Tooltip content={<GTooltip />} /><Area type="monotone" dataKey="err" name="Error %" stroke={C.red} fill="url(#gRed)" strokeWidth={2} dot={false} /></AreaChart></ResponsiveContainer></ChartCard>
+      )}
+    </div>
+  );
+}
+
+function LedgerView() {
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const rows = useMemo(() => genLedger(200), []);
+  const filtered = rows.filter(r => !search || JSON.stringify(r).toLowerCase().includes(search.toLowerCase()));
+  const pageSize = 25;
+  const paged = filtered.slice(page * pageSize, (page + 1) * pageSize);
+  const totalSaved = rows.reduce((s, r) => s + r.saved, 0);
+
+  const columns = [
+    { key: "id", label: "ID", bold: true },
+    { key: "time", label: "Timestamp" },
+    { key: "provider", label: "Provider", render: v => <ProviderBadge name={v} /> },
+    { key: "model", label: "Model" },
+    { key: "routed", label: "Routed" },
+    { key: "opt", label: "Optimization", render: v => <StatusChip status="info" label={v} /> },
+    { key: "team", label: "Team" },
+    { key: "cost", label: "Cost", align: "right", mono: true, render: v => "$" + v.toFixed(2) },
+    { key: "saved", label: "Saved", align: "right", mono: true, render: v => <span style={{ color: C.green, fontWeight: 500 }}>-${v.toFixed(2)}</span> },
+    { key: "quality", label: "Quality", align: "right", render: v => <span style={{ color: v >= 95 ? C.green : v >= 85 ? C.blue : C.amber }}>{v}%</span> },
+    { key: "status", label: "Status", render: v => <StatusChip status={v} /> },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+        <MetricCard label="Total Entries" value={rows.length.toString()} icon={FileText} mini />
+        <MetricCard label="Total Saved" value={"$" + Math.round(totalSaved)} icon={DollarSign} color={C.green} mini />
+        <MetricCard label="Avg / Request" value={"$" + (totalSaved / rows.length).toFixed(2)} icon={TrendingUp} mini />
+        <MetricCard label="Avg Quality" value={fmtP(rows.reduce((s, r) => s + r.quality, 0) / rows.length)} icon={Check} color={C.blue} mini />
+      </div>
+
+      <Section title="Request-Level Savings Ledger" desc="Immutable, cryptographically signed" actions={
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ position: "relative" }}>
+            <Search size={14} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: C.textTertiary }} />
+            <input value={search} onChange={e => { setSearch(e.target.value); setPage(0); }} placeholder="Filter..." style={{ width: 200, padding: "7px 12px 7px 32px", borderRadius: 20, border: `1px solid ${C.border}`, fontSize: 13, outline: "none", background: "#f8f9fa", fontFamily: FONT }} onFocus={e => { e.target.style.borderColor = C.blue; e.target.style.background = "#fff"; }} onBlur={e => { e.target.style.borderColor = C.border; e.target.style.background = "#f8f9fa"; }} />
+          </div>
+          <IconBtn icon={Download} tooltip="Export" />
+        </div>
+      }>
+        <Table columns={columns} data={paged} maxH={420} footer={
+          <><span>Showing {page * pageSize + 1}–{Math.min((page + 1) * pageSize, filtered.length)} of {filtered.length}</span>
+            <div style={{ display: "flex", gap: 4 }}>
+              <button disabled={page === 0} onClick={() => setPage(p => p - 1)} style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${C.border}`, background: C.surface, cursor: page === 0 ? "default" : "pointer", fontSize: 12, opacity: page === 0 ? 0.4 : 1 }}>Previous</button>
+              <button disabled={(page + 1) * pageSize >= filtered.length} onClick={() => setPage(p => p + 1)} style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${C.border}`, background: C.surface, cursor: "pointer", fontSize: 12, opacity: (page + 1) * pageSize >= filtered.length ? 0.4 : 1 }}>Next</button>
+            </div></>
+        } />
+      </Section>
+    </div>
+  );
+}
+
+function ModelsView() {
+  const models = useMemo(() => genModels(), []);
+  const chartData = models.slice(0, 8).map(m => ({ ...m, shortName: m.name.length > 18 ? m.name.slice(0, 16) + "…" : m.name }));
+  const columns = [
+    { key: "name", label: "Model", bold: true },
+    { key: "provider", label: "Provider", render: v => <ProviderBadge name={v} /> },
+    { key: "reqs", label: "Requests", align: "right", mono: true, render: v => fmt(v) },
+    { key: "cost", label: "Cost", align: "right", mono: true, render: v => "$" + v.toLocaleString() },
+    { key: "saved", label: "Savings", align: "right", mono: true, render: v => <span style={{ color: C.green, fontWeight: 500 }}>${v.toLocaleString()}</span> },
+    { key: "availability", label: "Avail", align: "right", mono: true, render: v => <span style={{ color: parseFloat(v) >= 99.5 ? C.green : C.amber }}>{v}%</span> },
+    { key: "ttft", label: "TTFT", align: "right", mono: true, render: v => v + "ms" },
+    { key: "tps", label: "Tok/s", align: "right", mono: true },
+    { key: "err", label: "Err%", align: "right", mono: true, render: v => v + "%" },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <ChartCard title="Cost by Model" height={240}><ResponsiveContainer><BarChart data={chartData.slice(0, 6)} layout="vertical" margin={{ top: 5, right: 20, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" horizontal={false} /><XAxis type="number" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} tickFormatter={v => "$" + fmt(v)} /><YAxis type="category" dataKey="shortName" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} width={110} /><Tooltip content={<GTooltip />} /><Bar dataKey="cost" name="Cost" radius={[0, 4, 4, 0]} barSize={16}>{chartData.slice(0, 6).map((d, i) => <Cell key={i} fill={PROVIDER_COLORS[d.provider] || C.blue} opacity={0.75} />)}</Bar></BarChart></ResponsiveContainer></ChartCard>
+        <ChartCard title="Savings by Model" height={240}><ResponsiveContainer><BarChart data={chartData.slice(0, 6)} layout="vertical" margin={{ top: 5, right: 20, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" horizontal={false} /><XAxis type="number" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} tickFormatter={v => "$" + fmt(v)} /><YAxis type="category" dataKey="shortName" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} width={110} /><Tooltip content={<GTooltip />} /><Bar dataKey="saved" name="Savings" radius={[0, 4, 4, 0]} barSize={16}>{chartData.slice(0, 6).map((d, i) => <Cell key={i} fill={PROVIDER_COLORS[d.provider] || C.green} opacity={0.75} />)}</Bar></BarChart></ResponsiveContainer></ChartCard>
+      </div>
+      <Section title="Model Performance" actions={<IconBtn icon={Download} tooltip="Export" />}><Table columns={columns} data={models} /></Section>
+    </div>
+  );
+}
+
+function TeamsView() {
+  const teams = useMemo(() => genTeams(), []);
+  const columns = [
+    { key: "name", label: "Team", bold: true },
+    { key: "members", label: "Members", align: "right", mono: true },
+    { key: "reqs", label: "Requests", align: "right", mono: true, render: v => fmt(v) },
+    { key: "orig", label: "Original", align: "right", mono: true, render: v => "$" + v.toLocaleString() },
+    { key: "actual", label: "Actual", align: "right", mono: true, render: v => "$" + v.toLocaleString() },
+    { key: "saved", label: "Savings", align: "right", mono: true, render: v => <span style={{ color: C.green, fontWeight: 500 }}>${v.toLocaleString()}</span> },
+    { key: "budget", label: "Budget", align: "right", mono: true, render: v => "$" + v.toLocaleString() },
+    { key: "actual", label: "Utilization", align: "right", render: (v, row) => { const pct = v / row.budget * 100; return <span style={{ color: pct > 90 ? C.red : pct > 70 ? C.amber : C.green }}>{pct.toFixed(0)}%</span>; } },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <ChartCard title="Original vs Actual Spend" height={280}><ResponsiveContainer><BarChart data={teams} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}><CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="name" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} /><YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => "$" + fmt(v)} width={55} /><Tooltip content={<GTooltip />} /><Bar dataKey="orig" name="Original" fill="#e8eaed" radius={[4, 4, 0, 0]} barSize={20} /><Bar dataKey="actual" name="Actual" fill={C.blue} opacity={0.8} radius={[4, 4, 0, 0]} barSize={20} /><Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: C.textSecondary }} /></BarChart></ResponsiveContainer></ChartCard>
+        <ChartCard title="Budget Utilization" height={280}>
+          <div style={{ padding: "12px 8px", display: "flex", flexDirection: "column", gap: 16, height: "100%", justifyContent: "center" }}>
+            {teams.map(t => { const pct = t.actual / t.budget * 100; return (
+              <div key={t.name}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, fontSize: 12 }}>
+                  <span style={{ fontWeight: 500 }}>{t.name}</span>
+                  <span style={{ color: pct > 90 ? C.red : pct > 70 ? C.amber : C.green, fontWeight: 500 }}>{pct.toFixed(0)}%</span>
+                </div>
+                <ProgressBar value={t.actual} max={t.budget} color={pct > 90 ? C.red : pct > 70 ? C.amber : C.blue} />
+              </div>
+            ); })}
+          </div>
+        </ChartCard>
+      </div>
+      <Section title="Team Cost Allocation" actions={<IconBtn icon={Download} tooltip="Export" />}><Table columns={columns} data={teams} /></Section>
+    </div>
+  );
+}
+
+function AlertsView() {
+  const alerts = useMemo(() => genAlerts(), []);
+  const [filter, setFilter] = useState("all");
+  const filtered = alerts.filter(a => filter === "all" || a.severity === filter);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+        <MetricCard label="Total Alerts" value={alerts.length.toString()} icon={Bell} mini />
+        <MetricCard label="Critical" value={alerts.filter(a => a.severity === "critical").length.toString()} icon={AlertCircle} color={C.red} mini />
+        <MetricCard label="Warnings" value={alerts.filter(a => a.severity === "warning").length.toString()} icon={AlertTriangle} color={C.amber} mini />
+        <MetricCard label="Acknowledged" value={alerts.filter(a => a.acknowledged).length.toString()} icon={CheckCircle} color={C.green} mini />
+      </div>
+
+      <Section title="Alert Feed" desc="Real-time anomaly detection" actions={
+        <div style={{ display: "flex", gap: 6 }}>{["all", "critical", "warning", "info"].map(f => <Pill key={f} label={f.charAt(0).toUpperCase() + f.slice(1)} active={filter === f} onClick={() => setFilter(f)} />)}</div>
+      }>
+        <div style={{ maxHeight: 500, overflowY: "auto" }}>
+          {filtered.map(a => (
+            <div key={a.id} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 20px", borderBottom: `1px solid ${C.borderLight}`, transition: "background 0.1s" }}
+              onMouseEnter={e => e.currentTarget.style.background = "#f8f9fa"} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+              <StatusChip status={a.severity} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: C.textPrimary }}>{a.message}</div>
+                <div style={{ fontSize: 12, color: C.textTertiary, marginTop: 2 }}>{a.id} · {a.time}</div>
+              </div>
+              {a.acknowledged ? <StatusChip status="success" label="Ack'd" /> : <Button variant="outlined" small>Acknowledge</Button>}
+            </div>
+          ))}
+        </div>
+      </Section>
+    </div>
+  );
+}
+
+function MonitoringView() {
+  const incidents = useMemo(() => genIncidents(), []);
+  const ts = useMemo(() => genTimeSeries(7, 88), []);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+        <MetricCard label="Uptime (30d)" value="99.97%" icon={MonitorDot} color={C.green} mini />
+        <MetricCard label="Active Incidents" value={incidents.filter(i => i.status !== "resolved").length.toString()} icon={AlertCircle} color={incidents.filter(i => i.status !== "resolved").length > 0 ? C.amber : C.green} mini />
+        <MetricCard label="MTTR" value="38m" icon={Timer} mini />
+        <MetricCard label="SLA Status" value="Compliant" icon={ShieldCheck} color={C.green} mini />
+      </div>
+
+      <ChartCard title="Platform Health — Last 7 Days" height={200}>
+        <ResponsiveContainer><AreaChart data={ts} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}>
+          <defs><linearGradient id="gHealth" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.green} stopOpacity={0.1} /><stop offset="95%" stopColor={C.green} stopOpacity={0} /></linearGradient></defs>
+          <CartesianGrid stroke="#f1f3f4" vertical={false} /><XAxis dataKey="date" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} />
+          <YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} domain={[99, 100]} tickFormatter={v => v + "%"} width={40} />
+          <Tooltip content={<GTooltip />} /><Area type="monotone" dataKey="qualityScore" name="Uptime" stroke={C.green} fill="url(#gHealth)" strokeWidth={2} dot={false} />
+        </AreaChart></ResponsiveContainer>
+      </ChartCard>
+
+      <Section title="Incidents">
+        {incidents.map(inc => (
+          <div key={inc.id} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "16px 20px", borderBottom: `1px solid ${C.borderLight}` }}>
+            <StatusChip status={inc.status} />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: C.textPrimary }}>{inc.title}</div>
+              <div style={{ fontSize: 12, color: C.textSecondary, marginTop: 2 }}>Started {inc.started} · Duration: {inc.duration} · {inc.impact}</div>
+            </div>
+            <StatusChip status={inc.severity} />
+          </div>
+        ))}
+      </Section>
+    </div>
+  );
+}
+
+function AuditView() {
+  const logs = useMemo(() => genAuditLog(), []);
+  const columns = [
+    { key: "id", label: "ID", bold: true },
+    { key: "time", label: "Timestamp" },
+    { key: "user", label: "User", render: v => <span style={{ fontFamily: MONO, fontSize: 12 }}>{v}</span> },
+    { key: "action", label: "Action", render: v => <StatusChip status="info" label={v} /> },
+    { key: "detail", label: "Detail" },
+    { key: "ip", label: "IP", mono: true },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <Section title="Audit Log" desc="Complete history of all administrative actions" actions={<div style={{ display: "flex", gap: 8 }}><IconBtn icon={Filter} tooltip="Filter" /><IconBtn icon={Download} tooltip="Export" /></div>}>
+        <Table columns={columns} data={logs} maxH={500} footer={<span>Showing {logs.length} entries · Retention: 365 days</span>} />
+      </Section>
+    </div>
+  );
+}
+
+function PlaygroundView() {
+  const [model, setModel] = useState("gpt-4o");
+  const [response, setResponse] = useState(null);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, minHeight: 500 }}>
+        <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "14px 20px", borderBottom: `1px solid ${C.borderLight}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: 14, fontWeight: 500 }}>Request</div>
+            <select value={model} onChange={e => setModel(e.target.value)} style={{ padding: "5px 10px", borderRadius: 6, border: `1px solid ${C.border}`, fontSize: 13, fontFamily: FONT }}>
+              {Object.values(MODELS).flat().map(m => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </div>
+          <div style={{ flex: 1, padding: 16 }}>
+            <textarea placeholder="Enter your prompt here..." style={{ width: "100%", height: "100%", border: "none", outline: "none", fontSize: 13, fontFamily: MONO, resize: "none", color: C.textPrimary, boxSizing: "border-box" }} defaultValue={'Explain the benefits of semantic caching for LLM inference optimization.'} />
+          </div>
+          <div style={{ padding: "12px 20px", borderTop: `1px solid ${C.borderLight}`, display: "flex", justifyContent: "flex-end" }}>
+            <Button icon={Play} onClick={() => setResponse({ text: "Semantic caching provides several key benefits for LLM inference optimization:\n\n1. Reduced latency — Cache hits return responses in <10ms vs 200-500ms for model inference\n2. Lower cost — Cached responses avoid per-token charges entirely\n3. Consistency — Identical or similar queries return consistent results\n4. Throughput — Offloads traffic from rate-limited APIs", model: "gpt-4o-mini (routed)", saved: "$0.0034", ttft: "8ms", cached: true })}>Run</Button>
+          </div>
+        </div>
+
+        <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "14px 20px", borderBottom: `1px solid ${C.borderLight}`, fontSize: 14, fontWeight: 500 }}>Response</div>
+          {response ? (
+            <>
+              <div style={{ flex: 1, padding: 16, fontSize: 13, fontFamily: MONO, lineHeight: 1.7, color: C.textPrimary, whiteSpace: "pre-wrap", overflowY: "auto" }}>{response.text}</div>
+              <div style={{ padding: "12px 20px", borderTop: `1px solid ${C.borderLight}`, display: "flex", gap: 16, fontSize: 12, color: C.textSecondary }}>
+                <span>Model: <b>{response.model}</b></span><span>TTFT: <b>{response.ttft}</b></span><span style={{ color: C.green }}>Saved: <b>{response.saved}</b></span>{response.cached && <StatusChip status="success" label="Cache hit" />}
+              </div>
+            </>
+          ) : <EmptyState icon={Terminal} title="No response yet" desc="Enter a prompt and click Run to see the optimized response" />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SettingsView() {
+  const [toggles, setToggles] = useState({ anomaly: true, digest: true, weekly: true, slack: false, mfa: true, ipWhitelist: false });
+  const toggle = k => setToggles(p => ({ ...p, [k]: !p[k] }));
+  const [tab, setTab] = useState("profile");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 780 }}>
+      <Tabs tabs={[{ id: "profile", label: "Profile" }, { id: "api", label: "API Keys" }, { id: "notifications", label: "Notifications" }, { id: "billing", label: "Billing" }, { id: "security", label: "Security" }]} active={tab} onChange={setTab} />
+
+      {tab === "profile" && (
+        <Section title="Account Information"><SettingRow label="Name" value="Drew Hutton" /><SettingRow label="Email" value="drew@inferenceiq.com" /><SettingRow label="Organization" value="InferenceIQ Inc." /><SettingRow label="Role" value="Owner · Admin" trailing={<StatusChip status="info" label="Admin" />} /></Section>
+      )}
+      {tab === "api" && (
+        <Section title="Provider API Keys" desc="Manage connections to LLM providers" actions={<Button small icon={Key}>Add key</Button>}>
+          <SettingRow label="OpenAI" value="sk-...7f2a · Added Mar 1" trailing={<StatusChip status="success" label="Active" />} />
+          <SettingRow label="Anthropic" value="sk-ant-...9b3c · Added Feb 28" trailing={<StatusChip status="success" label="Active" />} />
+          <SettingRow label="Google AI" value="AIza...4d1e · Added Feb 28" trailing={<StatusChip status="success" label="Active" />} />
+          <SettingRow label="Cohere" value="co-...8f1d · Added Mar 4" trailing={<StatusChip status="success" label="Active" />} />
+          <SettingRow label="AWS Bedrock" value="Not configured" trailing={<StatusChip status="warning" label="Setup" />} />
+          <SettingRow label="Mistral" value="Not configured" trailing={<StatusChip status="warning" label="Setup" />} />
+        </Section>
+      )}
+      {tab === "notifications" && (
+        <Section title="Alert Preferences">
+          <SettingRow label="Cost anomaly alerts" value="Notify when spend deviates >20%" trailing={<Toggle on={toggles.anomaly} onToggle={() => toggle("anomaly")} />} />
+          <SettingRow label="Daily digest" value="Summary at 9:00 AM" trailing={<Toggle on={toggles.digest} onToggle={() => toggle("digest")} />} />
+          <SettingRow label="Weekly report" value="Detailed report every Monday" trailing={<Toggle on={toggles.weekly} onToggle={() => toggle("weekly")} />} />
+          <SettingRow label="Slack integration" value="#inferenceiq-alerts" trailing={<Toggle on={toggles.slack} onToggle={() => toggle("slack")} />} />
+        </Section>
+      )}
+      {tab === "billing" && (
+        <Section title="Plan & Billing">
+          <SettingRow label="Current Plan" value="$2,500/mo base + 5% of savings" trailing={<StatusChip status="info" label="Enterprise" />} />
+          <SettingRow label="Current Month" value="$2,500 + $1,847 share = $4,347" />
+          <SettingRow label="Payment Method" value="Visa ending 4242" trailing={<StatusChip status="success" label="Active" />} />
+          <SettingRow label="Next Invoice" value="April 1, 2026" />
+        </Section>
+      )}
+      {tab === "security" && (
+        <Section title="Security Settings">
+          <SettingRow label="Multi-factor authentication" value="TOTP authenticator app" trailing={<Toggle on={toggles.mfa} onToggle={() => toggle("mfa")} />} />
+          <SettingRow label="IP allowlist" value="Restrict access to specific IPs" trailing={<Toggle on={toggles.ipWhitelist} onToggle={() => toggle("ipWhitelist")} />} />
+          <SettingRow label="SSO / SAML" value="Configured via Okta" trailing={<StatusChip status="success" label="Active" />} />
+          <SettingRow label="Session timeout" value="8 hours" />
+        </Section>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MAIN APPLICATION
+   ═══════════════════════════════════════════════════════════════════════ */
+function InferenceIQDashboard() {
+  const [screen, setScreen] = useState("landing");
+  const [view, setView] = useState("overview");
+  const [days, setDays] = useState(7);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (screen === "landing") return <LandingPage onLogin={() => setScreen("login")} />;
+  if (screen === "login") return <LoginPage onLogin={() => setScreen("dash")} onBack={() => setScreen("landing")} />;
+
+  const navSections = [
+    { label: "DASHBOARD", items: [
+      { id: "overview", label: "Overview", icon: LayoutDashboard },
+      { id: "inference", label: "Inference", icon: Activity },
+      { id: "ledger", label: "Savings Ledger", icon: FileText },
+    ]},
+    { label: "ANALYTICS", items: [
+      { id: "models", label: "Models", icon: Cpu },
+      { id: "teams", label: "Teams", icon: Users },
+    ]},
+    { label: "OPERATIONS", items: [
+      { id: "alerts", label: "Alerts", icon: Bell },
+      { id: "monitoring", label: "Monitoring", icon: MonitorDot },
+      { id: "audit", label: "Audit Log", icon: ShieldCheck },
+    ]},
+    { label: "TOOLS", items: [
+      { id: "playground", label: "API Playground", icon: Terminal },
+    ]},
+    { label: "ACCOUNT", items: [
+      { id: "settings", label: "Settings", icon: Settings },
+    ]},
+  ];
+
+  const titles = { overview: "Overview", inference: "Inference", ledger: "Savings Ledger", models: "Models", teams: "Teams", alerts: "Alerts", monitoring: "Monitoring", audit: "Audit Log", playground: "API Playground", settings: "Settings" };
+
+  return (
+    <div style={{ display: "flex", height: "100vh", background: C.bg, fontFamily: FONT, color: C.textPrimary, fontSize: 14, WebkitFontSmoothing: "antialiased" }}>
+      {sidebarOpen && <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 30 }} onClick={() => setSidebarOpen(false)} />}
+
+      {/* Sidebar */}
+      <nav style={{ width: 240, minWidth: 240, height: "100%", background: C.surface, borderRight: `1px solid ${C.borderLight}`, display: "flex", flexDirection: "column", position: sidebarOpen ? "fixed" : "relative", zIndex: sidebarOpen ? 40 : 1 }}>
+        <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 10, borderBottom: `1px solid ${C.borderLight}` }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: `linear-gradient(135deg, ${C.blue}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#fff" }}>IQ</div>
+          <div><div style={{ fontSize: 14, fontWeight: 600, lineHeight: "18px" }}>InferenceIQ</div><div style={{ fontSize: 10, color: C.textTertiary }}>Console</div></div>
+        </div>
+        <div style={{ flex: 1, overflowY: "auto", padding: "6px 8px" }}>
+          {navSections.map(sec => (
+            <div key={sec.label} style={{ marginBottom: 4 }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: C.textTertiary, letterSpacing: "0.08em", padding: "10px 8px 4px" }}>{sec.label}</div>
+              {sec.items.map(item => {
+                const active = view === item.id; const Icon = item.icon;
+                return (
+                  <button key={item.id} onClick={() => { setView(item.id); setSidebarOpen(false); }} style={{
+                    width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "7px 12px", borderRadius: 20, border: "none",
+                    background: active ? "#e8f0fe" : "transparent", color: active ? C.blue : C.textSecondary,
+                    fontSize: 13, fontWeight: active ? 600 : 400, cursor: "pointer", textAlign: "left", transition: "all 0.15s",
+                  }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = "#f1f3f4"; }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = active ? "#e8f0fe" : "transparent"; }}>
+                    <Icon size={16} style={{ opacity: active ? 1 : 0.65 }} />{item.label}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        <div style={{ padding: "10px 16px", borderTop: `1px solid ${C.borderLight}`, display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: C.textSecondary }}>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.green }} />All systems operational
+        </div>
+      </nav>
+
+      {/* Main */}
+      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        <header style={{ height: 52, minHeight: 52, background: C.surface, borderBottom: `1px solid ${C.borderLight}`, display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
+          <Breadcrumb items={["InferenceIQ", titles[view]]} />
+          <div style={{ flex: 1 }} />
+          <div style={{ display: "flex", gap: 6 }}>{[["7d", 7], ["30d", 30], ["90d", 90]].map(([l, d]) => <Pill key={l} label={l} active={days === d} onClick={() => setDays(d)} />)}</div>
+          <div style={{ width: 1, height: 24, background: C.borderLight }} />
+          <IconBtn icon={Bell} tooltip="Notifications" /><IconBtn icon={HelpCircle} tooltip="Help" />
+          <div style={{ width: 30, height: 30, borderRadius: "50%", background: `linear-gradient(135deg, ${C.blue}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, color: "#fff", cursor: "pointer" }}>DH</div>
+          <button onClick={() => setScreen("landing")} style={{ background: "none", border: "none", cursor: "pointer", color: C.textTertiary, fontSize: 12, display: "flex", alignItems: "center", gap: 4 }}><LogOut size={14} />Sign out</button>
+        </header>
+
+        <main style={{ flex: 1, overflowY: "auto", padding: 20 }}>
+          <div style={{ maxWidth: 1400, margin: "0 auto" }}>
+            {view === "overview" && <OverviewView days={days} />}
+            {view === "inference" && <InferenceView days={days} />}
+            {view === "ledger" && <LedgerView />}
+            {view === "models" && <ModelsView />}
+            {view === "teams" && <TeamsView />}
+            {view === "alerts" && <AlertsView />}
+            {view === "monitoring" && <MonitoringView />}
+            {view === "audit" && <AuditView />}
+            {view === "playground" && <PlaygroundView />}
+            {view === "settings" && <SettingsView />}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(InferenceIQDashboard));
+</script>
+</body>
+</html>
