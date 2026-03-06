@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InferenceIQ — Console</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}html,body,#root{height:100%;width:100%}body{font-family:'Google Sans',Roboto,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InferenceIQ — AI Inference Cost Optimization</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231a73e8'/><text x='50%25' y='55%25' text-anchor='middle' dominant-baseline='middle' fill='white' font-family='Arial' font-size='14' font-weight='700'>IQ</text></svg>" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body,#root{height:100%;width:100%}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#dadce0;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#bdc1c6}
+html{scroll-behavior:smooth}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js"></script>
@@ -13,121 +22,144 @@
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
-const { useState, useMemo, useEffect, useCallback, useRef } = React;
-const {
-  AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
+<script type="text/babel" data-presets="react">
+// Recharts
+const { AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
-  ComposedChart, Scatter, ScatterChart, ZAxis, Treemap
-} = Recharts;
+  ComposedChart, Scatter, ScatterChart, ZAxis, Treemap } = Recharts;
 
-// Lucide-react replacement: simple inline SVG icons
-const _ic = (d, s=16, st) => React.createElement("svg", {width:s,height:s,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round",style:{display:"inline-block",verticalAlign:"middle",...(st||{})}}, React.createElement("path",{d}));
-const _icons = {
-  LayoutDashboard: (s,st) => _ic("M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",s,st),
-  Activity: (s,st) => _ic("M22 12h-4l-3 9L9 3l-3 9H2",s,st),
-  FileText: (s,st) => _ic("M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8",s,st),
-  Cpu: (s,st) => _ic("M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M9 9h6v6H9z",s,st),
-  Users: (s,st) => _ic("M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",s,st),
-  Settings: (s,st) => _ic("M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",s,st),
-  ChevronRight: (s,st) => _ic("M9 18l6-6-6-6",s,st),
-  Clock: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 6v6l4 2",s,st),
-  Zap: (s,st) => _ic("M13 2L3 14h9l-1 8 10-12h-9l1-8z",s,st),
-  Database: (s,st) => _ic("M12 2C6.5 2 2 4 2 6.5v11C2 20 6.5 22 12 22s10-2 10-4.5v-11C22 4 17.5 2 12 2z",s,st),
-  Shield: (s,st) => _ic("M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",s,st),
-  DollarSign: (s,st) => _ic("M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",s,st),
-  Bell: (s,st) => _ic("M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0",s,st),
-  Search: (s,st) => _ic("M11 17.25a6.25 6.25 0 1 1 0-12.5 6.25 6.25 0 0 1 0 12.5z M16 16l4.5 4.5",s,st),
-  ArrowUpRight: (s,st) => _ic("M7 17L17 7 M7 7h10v10",s,st),
-  ArrowDownRight: (s,st) => _ic("M7 7l10 10 M17 7v10H7",s,st),
-  Check: (s,st) => _ic("M20 6L9 17l-5-5",s,st),
-  AlertTriangle: (s,st) => _ic("M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",s,st),
-  Info: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 16v-4 M12 8h.01",s,st),
-  CheckCircle: (s,st) => _ic("M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3",s,st),
-  XCircle: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M15 9l-6 6 M9 9l6 6",s,st),
-  AlertCircle: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4 M12 16h.01",s,st),
-  Eye: (s,st) => _ic("M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z",s,st),
-  Terminal: (s,st) => _ic("M4 17l6-6-6-6 M12 19h8",s,st),
-  Play: (s,st) => _ic("M5 3l14 9-14 9V3z",s,st),
-  Key: (s,st) => _ic("M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777z",s,st),
-  MonitorDot: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4 M12 16h.01",s,st),
-  ShieldCheck: (s,st) => _ic("M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",s,st),
-  Timer: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 6v6l4 2",s,st),
-  TrendingUp: (s,st) => _ic("M23 6l-9.5 9.5-5-5L1 18",s,st),
-  TrendingDown: (s,st) => _ic("M23 18l-9.5-9.5-5 5L1 6",s,st),
-  Download: (s,st) => _ic("M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3",s,st),
-  RefreshCw: (s,st) => _ic("M23 4v6h-6 M1 20v-6h6",s,st),
-  LogOut: (s,st) => _ic("M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9",s,st),
-  Menu: (s,st) => _ic("M3 12h18M3 6h18M3 18h18",s,st),
-  X: (s,st) => _ic("M18 6L6 18M6 6l12 12",s,st),
-  HelpCircle: (s,st) => _ic("M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z",s,st),
-  Filter: (s,st) => _ic("M22 3H2l8 9.46V19l4 2v-8.54L22 3z",s,st),
-  Sparkles: (s,st) => _ic("M12 3v1m0 16v1m-8-9H3m18 0h-1 M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",s,st),
-  Network: (s,st) => _ic("M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M12 8v6",s,st),
-  Layers: (s,st) => _ic("M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5",s,st),
-  Receipt: (s,st) => _ic("M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z",s,st),
-  CreditCard: (s,st) => _ic("M1 4h22v16H1z M1 10h22",s,st),
-};
+const { useState, useMemo, useEffect, useCallback, useRef } = React;
 
-// Create icon components as globals
-const LayoutDashboard = ({size,style:st}) => _icons.LayoutDashboard(size,st);
-const Activity = ({size,style:st}) => _icons.Activity(size,st);
-const FileText = ({size,style:st}) => _icons.FileText(size,st);
-const Cpu = ({size,style:st}) => _icons.Cpu(size,st);
-const Users = ({size,style:st}) => _icons.Users(size,st);
-const Settings = ({size,style:st}) => _icons.Settings(size,st);
-const ChevronRight = ({size,style:st}) => _icons.ChevronRight(size,st);
-const Clock = ({size,style:st}) => _icons.Clock(size,st);
-const Zap = ({size,style:st}) => _icons.Zap(size,st);
-const Database = ({size,style:st}) => _icons.Database(size,st);
-const Shield = ({size,style:st}) => _icons.Shield(size,st);
-const DollarSign = ({size,style:st}) => _icons.DollarSign(size,st);
-const Bell = ({size,style:st}) => _icons.Bell(size,st);
-const Search = ({size,style:st}) => _icons.Search(size,st);
-const ArrowUpRight = ({size,style:st}) => _icons.ArrowUpRight(size,st);
-const ArrowDownRight = ({size,style:st}) => _icons.ArrowDownRight(size,st);
-const Check = ({size,style:st}) => _icons.Check(size,st);
-const AlertTriangle = ({size,style:st}) => _icons.AlertTriangle(size,st);
-const Info = ({size,style:st}) => _icons.Info(size,st);
-const CheckCircle = ({size,style:st}) => _icons.CheckCircle(size,st);
-const XCircle = ({size,style:st}) => _icons.XCircle(size,st);
-const AlertCircle = ({size,style:st}) => _icons.AlertCircle(size,st);
-const Eye = ({size,style:st}) => _icons.Eye(size,st);
-const Terminal = ({size,style:st}) => _icons.Terminal(size,st);
-const Play = ({size,style:st}) => _icons.Play(size,st);
-const Key = ({size,style:st}) => _icons.Key(size,st);
-const MonitorDot = ({size,style:st}) => _icons.MonitorDot(size,st);
-const ShieldCheck = ({size,style:st}) => _icons.ShieldCheck(size,st);
-const Timer = ({size,style:st}) => _icons.Timer(size,st);
-const TrendingUp = ({size,style:st}) => _icons.TrendingUp(size,st);
-const TrendingDown = ({size,style:st}) => _icons.TrendingDown(size,st);
-const Download = ({size,style:st}) => _icons.Download(size,st);
-const RefreshCw = ({size,style:st}) => _icons.RefreshCw(size,st);
-const LogOut = ({size,style:st}) => _icons.LogOut(size,st);
-const Menu = ({size,style:st}) => _icons.Menu(size,st);
-const X = ({size,style:st}) => _icons.X(size,st);
-const HelpCircle = ({size,style:st}) => _icons.HelpCircle(size,st);
-const Filter = ({size,style:st}) => _icons.Filter(size,st);
-const Sparkles = ({size,style:st}) => _icons.Sparkles(size,st);
-const Network = ({size,style:st}) => _icons.Network(size,st);
-const Layers = ({size,style:st}) => _icons.Layers(size,st);
-const Receipt = ({size,style:st}) => _icons.Receipt(size,st);
-const CreditCard = ({size,style:st}) => _icons.CreditCard(size,st);
-// Unused icon stubs
-const ChevronDown=Info,ExternalLink=Info,MoreVertical=Info,Copy=Info,BarChart3=Info,Globe=Info,Server=Info,ArrowRight=Info,Minus=Info,Code=Info,BookOpen=Info,Lock=Info,Mail=Info,Webhook=Info,GitBranch=Info,Box=Info,Gauge=Info,ChevronLeft=Info,ChevronsLeft=Info,ChevronsRight=Info,Loader=Info,Brain=Info,Workflow=Info,CircuitBoard=Info,Boxes=Info,Flame=Info,Target=Info,Building2=Info,UserPlus=Info,FileBarChart=Info,CalendarDays=Info,RotateCcw=Info,Plug=Info,Sliders=Info,ToggleLeft=Info,Hash=Info,Percent=Info;
+
+// === ICON DEFINITIONS ===
+// All icons defined as simple React components to avoid lucide-react UMD issues
+function _icon(paths, vb) {
+  vb = vb || "0 0 24 24";
+  return function IconComponent(props) {
+    var s = props.size || 24;
+    var st = Object.assign({display:'inline-block',verticalAlign:'middle'}, props.style || {});
+    return React.createElement('svg', {
+      width: s, height: s, viewBox: vb, fill: 'none',
+      stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round',
+      style: st, className: props.className || ''
+    }, ...paths.map(function(p,i) {
+      if (typeof p === 'string') return React.createElement('path', {key:i, d:p});
+      return React.createElement(p[0], Object.assign({key:i}, p[1]));
+    }));
+  };
+}
+
+var LayoutDashboard = _icon(['M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z']);
+var Activity = _icon(['M22 12h-4l-3 9L9 3l-3 9H2']);
+var FileText = _icon(['M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z','M14 2v6h6','M16 13H8','M16 17H8','M10 9H8']);
+var Cpu = _icon(['M4 4h16v16H4z','M9 9h6v6H9z','M9 1v3','M15 1v3','M9 20v3','M15 20v3','M20 9h3','M20 14h3','M1 9h3','M1 14h3']);
+var Users = _icon(['M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',[['circle',{cx:9,cy:7,r:4}]],'M23 21v-2a4 4 0 0 0-3-3.87',[['path',{d:'M16 3.13a4 4 0 0 1 0 7.75'}]]]);
+var Settings = _icon([[['circle',{cx:12,cy:12,r:3}]],'M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z']);
+var ChevronRight = _icon(['M9 18l6-6-6-6']);
+var TrendingUp = _icon(['M23 6l-9.5 9.5-5-5L1 18',[['polyline',{points:'17 6 23 6 23 12'}]]]);
+var TrendingDown = _icon(['M23 18l-9.5-9.5-5 5L1 6',[['polyline',{points:'17 18 23 18 23 12'}]]]);
+var Zap = _icon(['M13 2L3 14h9l-1 8 10-12h-9l1-8']);
+var Database = _icon([[['ellipse',{cx:12,cy:5,rx:9,ry:3}]],'M21 12c0 1.66-4 3-9 3s-9-1.34-9-3','M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5']);
+var Shield = _icon(['M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10']);
+var Clock = _icon([[['circle',{cx:12,cy:12,r:10}]],'M12 6v6l4 2']);
+var DollarSign = _icon(['M12 1v22','M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6']);
+var Menu = _icon(['M3 12h18','M3 6h18','M3 18h18']);
+var X = _icon(['M18 6L6 18','M6 6l12 12']);
+var LogOut = _icon(['M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4','M16 17l5-5-5-5','M21 12H9']);
+var Search = _icon([[['circle',{cx:11,cy:11,r:8}]],'M21 21l-4.35-4.35']);
+var Bell = _icon(['M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9','M13.73 21a2 2 0 0 1-3.46 0']);
+var ChevronDown = _icon(['M6 9l6 6 6-6']);
+var ExternalLink = _icon(['M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6','M15 3h6v6','M10 14L21 3']);
+var HelpCircle = _icon([[['circle',{cx:12,cy:12,r:10}]],'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3','M12 17h.01']);
+var ArrowUpRight = _icon(['M7 17L17 7','M7 7h10v10']);
+var ArrowDownRight = _icon(['M7 7l10 10','M17 7v10H7']);
+var MoreVertical = _icon([[['circle',{cx:12,cy:12,r:1}]],[['circle',{cx:12,cy:5,r:1}]],[['circle',{cx:12,cy:19,r:1}]]]);
+var Filter = _icon(['M22 3H2l8 9.46V19l4 2v-8.54L22 3']);
+var Download = _icon(['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4','M7 10l5 5 5-5','M12 15V3']);
+var RefreshCw = _icon(['M23 4v6h-6','M1 20v-6h6','M3.51 9a9 9 0 0 1 14.85-3.36L23 10','M1 14l4.64 4.36A9 9 0 0 0 20.49 15']);
+var Check = _icon(['M20 6L9 17l-5-5']);
+var AlertTriangle = _icon(['M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z','M12 9v4','M12 17h.01']);
+var Info = _icon([[['circle',{cx:12,cy:12,r:10}]],'M12 16v-4','M12 8h.01']);
+var Copy = _icon([[['rect',{x:9,y:9,width:13,height:13,rx:2,ry:2}]],'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1']);
+var Eye = _icon(['M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z',[['circle',{cx:12,cy:12,r:3}]]]);
+var Layers = _icon(['M12 2L2 7l10 5 10-5-10-5z','M2 17l10 5 10-5','M2 12l10 5 10-5']);
+var Globe = _icon([[['circle',{cx:12,cy:12,r:10}]],'M2 12h20','M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z']);
+var Server = _icon([[['rect',{x:2,y:2,width:20,height:8,rx:2,ry:2}]],[['rect',{x:2,y:14,width:20,height:8,rx:2,ry:2}]],'M6 6h.01','M6 18h.01']);
+var ArrowRight = _icon(['M5 12h14','M12 5l7 7-7 7']);
+var Minus = _icon(['M5 12h14']);
+var Play = _icon([[['polygon',{points:'5 3 19 12 5 21 5 3'}]]]);
+var Code = _icon(['M16 18l6-6-6-6','M8 6l-6 6 6 6']);
+var Terminal = _icon(['M4 17l6-6-6-6','M12 19h8']);
+var BookOpen = _icon(['M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z','M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z']);
+var Key = _icon(['M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4']);
+var Lock = _icon([[['rect',{x:3,y:11,width:18,height:11,rx:2,ry:2}]],'M7 11V7a5 5 0 0 1 10 0v4']);
+var Mail = _icon(['M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z','M22 6l-10 7L2 6']);
+var Webhook = _icon(['M18 16.98h1a2 2 0 0 0 2-2v-1a2 2 0 0 0-4 0v11','M6 16.98H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 4 0v11']);
+var GitBranch = _icon(['M6 3v12',[['circle',{cx:18,cy:6,r:3}]],[['circle',{cx:6,cy:18,r:3}]],'M18 9a9 9 0 0 1-9 9']);
+var Box = _icon(['M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z','M3.27 6.96L12 12.01l8.73-5.05','M12 22.08V12']);
+var AlertCircle = _icon([[['circle',{cx:12,cy:12,r:10}]],'M12 8v4','M12 16h.01']);
+var CheckCircle = _icon(['M22 11.08V12a10 10 0 1 1-5.93-9.14','M22 4L12 14.01l-3-3']);
+var XCircle = _icon([[['circle',{cx:12,cy:12,r:10}]],'M15 9l-6 6','M9 9l6 6']);
+var ChevronLeft = _icon(['M15 18l-6-6 6-6']);
+var ChevronsLeft = _icon(['M11 17l-5-5 5-5','M18 17l-5-5 5-5']);
+var ChevronsRight = _icon(['M13 17l5-5-5-5','M6 17l5-5-5-5']);
+var Loader = _icon(['M21 12a9 9 0 1 1-6.219-8.56']);
+var Sparkles = _icon(['M12 3l-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z','M5 3v4','M19 17v4','M3 5h4','M17 19h4']);
+var Brain = _icon(['M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.54','M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.54']);
+var Workflow = _icon([[['rect',{x:3,y:3,width:8,height:8,rx:2}]],'M7 11v4a2 2 0 0 0 2 2h4',[['rect',{x:13,y:13,width:8,height:8,rx:2}]]]);
+var Network = Globe;
+var CircuitBoard = Cpu;
+var Boxes = Box;
+var Flame = Zap;
+var MonitorDot = _icon([[['circle',{cx:19,cy:6,r:3}]],'M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h8','M8 21h8','M12 17v4']);
+var Target = _icon([[['circle',{cx:12,cy:12,r:10}]],[['circle',{cx:12,cy:12,r:6}]],[['circle',{cx:12,cy:12,r:2}]]]);
+var Receipt = FileText;
+var CreditCard = _icon([[['rect',{x:1,y:4,width:22,height:16,rx:2}]],'M1 10h22']);
+var Building2 = Box;
+var UserPlus = _icon(['M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',[['circle',{cx:8.5,cy:7,r:4}]],'M20 8v6','M23 11h-6']);
+var ShieldCheck = _icon(['M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10','M9 12l2 2 4-4']);
+var FileBarChart = FileText;
+var CalendarDays = Clock;
+var RotateCcw = RefreshCw;
+var Plug = Zap;
+var Sliders = _icon(['M4 21v-7','M4 10V3','M12 21v-9','M12 8V3','M20 21v-5','M20 12V3','M1 14h6','M9 8h6','M17 16h6']);
+var ToggleLeft = Settings;
+var Hash = _icon(['M4 9h16','M4 15h16','M10 3L8 21','M16 3l-2 18']);
+var Percent = _icon(['M19 5L5 19',[['circle',{cx:6.5,cy:6.5,r:2.5}]],[['circle',{cx:17.5,cy:17.5,r:2.5}]]]);
+var Timer = Clock;
+var RadarIcon = Activity;
+var LineChartIcon = Activity;
+var PieIcon = Activity;
+var BarChart3 = Activity;
+var Gauge = Activity;
+var Moon = _icon(['M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z']);
+var Sun = _icon([[['circle',{cx:12,cy:12,r:5}]],'M12 1v2','M12 21v2','M4.22 4.22l1.42 1.42','M18.36 18.36l1.42 1.42','M1 12h2','M21 12h2','M4.22 19.78l1.42-1.42','M18.36 5.64l1.42-1.42']);
+
 
 
 /* ═══════════════════════════════════════════════════════════════════════
    THEME & CONSTANTS
    ═══════════════════════════════════════════════════════════════════════ */
-const C = {
+const LIGHT = {
   blue: "#1a73e8", green: "#1e8e3e", red: "#d93025", amber: "#e8710a",
   purple: "#9334e6", teal: "#00897b", grey: "#5f6368", pink: "#d01884",
   cyan: "#007b83", indigo: "#4758b8",
   bg: "#f8f9fa", surface: "#fff", border: "#dadce0", borderLight: "#e8eaed",
   textPrimary: "#202124", textSecondary: "#5f6368", textTertiary: "#9aa0a6",
+  cardHover: "0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15)",
+  codeBg: "#1e1e1e", codeBar: "#2d2d2d",
 };
+const DARK = {
+  blue: "#8ab4f8", green: "#81c995", red: "#f28b82", amber: "#fdd663",
+  purple: "#d7aefb", teal: "#78d9ec", grey: "#9aa0a6", pink: "#ff8bcb",
+  cyan: "#78d9ec", indigo: "#a8c7fa",
+  bg: "#1f1f1f", surface: "#292929", border: "#3c4043", borderLight: "#3c4043",
+  textPrimary: "#e8eaed", textSecondary: "#9aa0a6", textTertiary: "#5f6368",
+  cardHover: "0 2px 6px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.3)",
+  codeBg: "#0d1117", codeBar: "#161b22",
+};
+let C = LIGHT; // will be set per-render
 const FONT = "'Google Sans','Roboto','Helvetica Neue',Arial,sans-serif";
 const MONO = "'Roboto Mono','SF Mono','Menlo',monospace";
 const PROVIDERS = ["OpenAI", "Anthropic", "Google", "Meta", "Cohere", "Mistral"];
@@ -452,7 +484,7 @@ function LandingPage({ onLogin }) {
           <span style={{ fontSize: 18, fontWeight: 600 }}>InferenceIQ</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 32, fontSize: 14, color: C.textSecondary }}>
-          {["Product", "Pricing", "Docs", "Blog", "Changelog"].map(l => <span key={l} style={{ cursor: "pointer", fontWeight: 500 }}>{l}</span>)}
+          {["Product", "Pricing", "Docs", "Blog", "Changelog"].map(l => <span key={l} onClick={() => { const el = document.getElementById("section-" + l.toLowerCase()); if (el) el.scrollIntoView({ behavior: "smooth" }); else if (l === "Docs") onLogin(); }} style={{ cursor: "pointer", fontWeight: 500, transition: "color 0.15s" }} onMouseEnter={e => e.currentTarget.style.color = "#1a73e8"} onMouseLeave={e => e.currentTarget.style.color = ""}>{l}</span>)}
           <button onClick={onLogin} style={{ padding: "8px 24px", borderRadius: 20, border: "none", background: C.blue, color: "#fff", fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Sign in</button>
         </div>
       </nav>
@@ -470,7 +502,7 @@ function LandingPage({ onLogin }) {
         </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
           <button onClick={onLogin} style={{ padding: "12px 32px", borderRadius: 24, border: "none", background: C.blue, color: "#fff", fontSize: 16, fontWeight: 500, cursor: "pointer", boxShadow: "0 1px 3px rgba(26,115,232,.3)" }}>Start free trial</button>
-          <button style={{ padding: "12px 32px", borderRadius: 24, border: `1px solid ${C.border}`, background: "transparent", color: C.textPrimary, fontSize: 16, fontWeight: 500, cursor: "pointer" }}>View documentation</button>
+          <button onClick={() => { const el = document.getElementById("section-docs"); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{ padding: "12px 32px", borderRadius: 24, border: `1px solid ${C.border}`, background: "transparent", color: C.textPrimary, fontSize: 16, fontWeight: 500, cursor: "pointer" }}>View documentation</button>
         </div>
       </section>
 
@@ -487,7 +519,7 @@ function LandingPage({ onLogin }) {
       </section>
 
       {/* Features */}
-      <section style={{ padding: "64px 48px", background: C.bg }}>
+      <section id="section-product" style={{ padding: "64px 48px", background: C.bg }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <h2 style={{ fontSize: 36, fontWeight: 400, textAlign: "center", marginBottom: 48, letterSpacing: "-0.02em" }}>Four optimization engines, one platform</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
@@ -532,7 +564,7 @@ function LandingPage({ onLogin }) {
       </section>
 
       {/* Code example */}
-      <section style={{ padding: "0 48px 80px" }}>
+      <section id="section-docs" style={{ padding: "0 48px 80px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto", background: "#1e1e1e", borderRadius: 12, overflow: "hidden", boxShadow: "0 4px 12px rgba(0,0,0,.15)" }}>
           <div style={{ padding: "12px 20px", background: "#2d2d2d", display: "flex", gap: 8, alignItems: "center" }}>
             <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f57" }} />
@@ -564,7 +596,7 @@ print(f"Quality score: {response.savings.quality_score}%")`}
       </section>
 
       {/* Pricing */}
-      <section style={{ padding: "80px 48px", background: C.bg }}>
+      <section id="section-pricing" style={{ padding: "80px 48px", background: C.bg }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
           <h2 style={{ fontSize: 36, fontWeight: 400, marginBottom: 48 }}>Simple, transparent pricing</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
@@ -597,7 +629,7 @@ print(f"Quality score: {response.savings.quality_score}%")`}
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "80px 48px", background: C.blue, textAlign: "center" }}>
+      <section id="section-blog" style={{ padding: "80px 48px", background: C.blue, textAlign: "center" }}>
         <h2 style={{ fontSize: 36, fontWeight: 400, color: "#fff", marginBottom: 12 }}>Start saving on AI inference today</h2>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,.75)", marginBottom: 32 }}>Free tier includes 10K requests/month. No credit card required.</p>
         <button onClick={onLogin} style={{ padding: "14px 36px", borderRadius: 24, border: "none", background: "#fff", color: C.blue, fontSize: 16, fontWeight: 500, cursor: "pointer" }}>Create free account</button>
@@ -613,9 +645,16 @@ print(f"Quality score: {response.savings.quality_score}%")`}
           <p style={{ fontSize: 12, color: C.textTertiary }}>&copy; 2026 InferenceIQ Inc. All rights reserved.</p>
         </div>
         <div style={{ display: "flex", gap: 48, fontSize: 13, color: C.textSecondary }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>Product</span>Features<br />Pricing<br />Documentation<br />Changelog</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>Company</span>About<br />Blog<br />Careers<br />Contact</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>Legal</span>Privacy<br />Terms<br />Security<br />SOC 2</div>
+          {[
+            { title: "Product", links: ["Features", "Pricing", "Documentation", "Changelog"] },
+            { title: "Company", links: ["About", "Blog", "Careers", "Contact"] },
+            { title: "Legal", links: ["Privacy", "Terms", "Security", "SOC 2"] },
+          ].map(col => (
+            <div key={col.title} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <span style={{ fontWeight: 600, color: C.textPrimary, marginBottom: 4 }}>{col.title}</span>
+              {col.links.map(link => <span key={link} style={{ cursor: "pointer", transition: "color 0.15s" }} onMouseEnter={e => e.currentTarget.style.color = "#1a73e8"} onMouseLeave={e => e.currentTarget.style.color = ""}>{link}</span>)}
+            </div>
+          ))}
         </div>
       </footer>
     </div>
@@ -898,7 +937,7 @@ function AlertsView() {
                 <div style={{ fontSize: 13, fontWeight: 500, color: C.textPrimary }}>{a.message}</div>
                 <div style={{ fontSize: 12, color: C.textTertiary, marginTop: 2 }}>{a.id} · {a.time}</div>
               </div>
-              {a.acknowledged ? <StatusChip status="success" label="Ack'd" /> : <Button variant="outlined" small>Acknowledge</Button>}
+              {a.acknowledged ? <StatusChip status="success" label="Ack'd" /> : <Button variant="outlined" small onClick={() => { a.acknowledged = true; }}>Acknowledge</Button>}
             </div>
           ))}
         </div>
@@ -1053,6 +1092,212 @@ function SettingsView() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   RECOMMENDATIONS VIEW
+   ═══════════════════════════════════════════════════════════════════════ */
+function RecommendationsView() {
+  const recs = [
+    { id: "REC-001", title: "Switch gpt-4o to gpt-4o-mini for classification tasks", impact: "$12,400/mo", effort: "Low", confidence: 94, category: "Model Routing", team: "Product Analytics", status: "new",
+      detail: "Analysis of 847K classification requests shows gpt-4o-mini achieves 98.2% accuracy vs 98.7% for gpt-4o on your eval set. Quality delta is within tolerance; cost reduction is 87%." },
+    { id: "REC-002", title: "Enable semantic cache for ML Research repeated prompts", impact: "$8,200/mo", effort: "Low", confidence: 91, category: "Semantic Cache", team: "ML Research", status: "new",
+      detail: "42% of ML Research prompts have >0.95 cosine similarity to previous requests. Cache TTL of 1 hour would eliminate redundant inference while keeping results fresh." },
+    { id: "REC-003", title: "Batch-shift non-urgent DevOps summarization jobs", impact: "$5,600/mo", effort: "Medium", confidence: 88, category: "Batch Shifting", team: "DevOps", status: "accepted",
+      detail: "DevOps runs 15K log summarization jobs daily during peak hours. Shifting to off-peak (2-6 AM) qualifies for 35% reduced rates with <4hr latency delta." },
+    { id: "REC-004", title: "Apply prompt compression to Customer Eng templates", impact: "$3,800/mo", effort: "Low", confidence: 96, category: "Prompt Compression", team: "Customer Eng", status: "accepted",
+      detail: "Customer Eng templates average 2,800 tokens input. Compression testing shows 38% token reduction with zero quality impact on response generation tasks." },
+    { id: "REC-005", title: "Consolidate Cohere + Mistral embed calls to single provider", impact: "$2,100/mo", effort: "Medium", confidence: 82, category: "Model Routing", team: "Data Science", status: "dismissed",
+      detail: "Data Science team uses both Cohere embed-v3 and Mistral embeddings for similar tasks. Standardizing on Cohere embed-v3 simplifies infrastructure and qualifies for volume discount." },
+    { id: "REC-006", title: "Enable token pruning for Growth team A/B test prompts", impact: "$4,300/mo", effort: "Low", confidence: 90, category: "Token Pruning", team: "Growth", status: "new",
+      detail: "Growth team A/B test prompts contain verbose context sections. Token pruning removes 25-30% of input tokens with <0.5% quality impact on copy generation." },
+  ];
+  const totalImpact = recs.filter(r => r.status !== "dismissed").reduce((s, r) => s + parseInt(r.impact.replace(/[^0-9]/g, "")), 0);
+  const [filter, setFilter] = useState("all");
+  const filtered = recs.filter(r => filter === "all" || r.status === filter);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ background: C.green, borderRadius: 8, padding: "24px 32px", color: "#fff", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ fontSize: 13, opacity: 0.85, fontWeight: 500 }}>Total Actionable Savings</div>
+          <div style={{ fontSize: 40, fontWeight: 400, letterSpacing: "-0.02em" }}>${totalImpact.toLocaleString()}/mo</div>
+          <div style={{ fontSize: 13, opacity: 0.7, marginTop: 4 }}>{recs.filter(r => r.status === "new").length} new recommendations · {recs.filter(r => r.status === "accepted").length} in progress</div>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+        <MetricCard label="Recommendations" value={recs.length.toString()} icon={Sparkles} mini />
+        <MetricCard label="Avg Confidence" value={Math.round(recs.reduce((s, r) => s + r.confidence, 0) / recs.length) + "%"} icon={Target} color={C.green} mini />
+        <MetricCard label="Low Effort" value={recs.filter(r => r.effort === "Low").length.toString()} icon={Zap} color={C.blue} mini />
+        <MetricCard label="Accepted" value={recs.filter(r => r.status === "accepted").length.toString()} icon={Check} color={C.green} mini />
+      </div>
+
+      <div style={{ display: "flex", gap: 6, marginBottom: -8 }}>
+        {["all", "new", "accepted", "dismissed"].map(f => <Pill key={f} label={f.charAt(0).toUpperCase() + f.slice(1)} active={filter === f} onClick={() => setFilter(f)} />)}
+      </div>
+
+      {filtered.map(rec => (
+        <div key={rec.id} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden" }}>
+          <div style={{ padding: "16px 20px", display: "flex", alignItems: "flex-start", gap: 16 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, background: rec.status === "dismissed" ? C.borderLight : "#e8f0fe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Sparkles size={20} style={{ color: rec.status === "dismissed" ? C.textTertiary : C.blue }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                <span style={{ fontSize: 14, fontWeight: 500, color: C.textPrimary }}>{rec.title}</span>
+                <StatusChip status={rec.status === "new" ? "info" : rec.status === "accepted" ? "success" : "warning"} label={rec.status} />
+              </div>
+              <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.5, marginBottom: 8 }}>{rec.detail}</div>
+              <div style={{ display: "flex", gap: 16, fontSize: 12, color: C.textTertiary }}>
+                <span>Impact: <b style={{ color: C.green }}>{rec.impact}</b></span>
+                <span>Effort: <b style={{ color: C.textSecondary }}>{rec.effort}</b></span>
+                <span>Confidence: <b style={{ color: rec.confidence >= 90 ? C.green : C.amber }}>{rec.confidence}%</b></span>
+                <span>Team: <b style={{ color: C.textSecondary }}>{rec.team}</b></span>
+                <span><StatusChip status="info" label={rec.category} /></span>
+              </div>
+            </div>
+            <div style={{ fontSize: 24, fontWeight: 400, color: C.green, whiteSpace: "nowrap" }}>{rec.impact}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FORECASTING VIEW
+   ═══════════════════════════════════════════════════════════════════════ */
+function ForecastView() {
+  const r = seed(42);
+  const months = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
+  const forecast = months.map((m, i) => {
+    const base = 85000 + i * 12000 + r() * 8000;
+    const optimized = base * (0.58 + r() * 0.08);
+    return {
+      month: m + (i >= 9 ? " '27" : " '26"), spend: Math.round(base), optimized: Math.round(optimized),
+      savings: Math.round(base - optimized), requests: Math.round(450000 + i * 80000 + r() * 50000),
+      confidence: i < 3 ? "high" : i < 6 ? "medium" : "low",
+    };
+  });
+  const totalSpend = forecast.reduce((s, f) => s + f.spend, 0);
+  const totalSavings = forecast.reduce((s, f) => s + f.savings, 0);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+        <MetricCard label="12-Month Projected Spend" value={fmtD(totalSpend)} icon={TrendingUp} mini />
+        <MetricCard label="Projected Savings" value={fmtD(totalSavings)} icon={DollarSign} color={C.green} mini />
+        <MetricCard label="Projected Reduction" value={fmtP(totalSavings / totalSpend * 100)} icon={Percent} color={C.green} mini />
+        <MetricCard label="Projected Requests" value={fmt(forecast.reduce((s, f) => s + f.requests, 0))} icon={Activity} mini />
+      </div>
+
+      <ChartCard title="12-Month Cost Forecast" subtitle="Based on current growth trajectory and optimization rates" height={320}>
+        <ResponsiveContainer><ComposedChart data={forecast} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
+          <defs>
+            <linearGradient id="gFSpend" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.blue} stopOpacity={0.06} /><stop offset="95%" stopColor={C.blue} stopOpacity={0} /></linearGradient>
+            <linearGradient id="gFOpt" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.green} stopOpacity={0.06} /><stop offset="95%" stopColor={C.green} stopOpacity={0} /></linearGradient>
+          </defs>
+          <CartesianGrid stroke={C.borderLight} vertical={false} />
+          <XAxis dataKey="month" tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={{ stroke: C.borderLight }} />
+          <YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => "$" + fmt(v)} width={60} />
+          <Tooltip content={<GTooltip />} />
+          <Area type="monotone" dataKey="spend" name="Without IQ" stroke={C.blue} fill="url(#gFSpend)" strokeWidth={2} dot={false} strokeDasharray="6 3" />
+          <Area type="monotone" dataKey="optimized" name="With IQ" stroke={C.green} fill="url(#gFOpt)" strokeWidth={2.5} dot={false} />
+          <Bar dataKey="savings" name="Savings" fill={C.green} opacity={0.2} radius={[3, 3, 0, 0]} barSize={16} />
+          <Legend iconType="line" iconSize={12} wrapperStyle={{ fontSize: 12, color: C.textSecondary, paddingTop: 8 }} />
+        </ComposedChart></ResponsiveContainer>
+      </ChartCard>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <ChartCard title="Request Volume Forecast" height={240}>
+          <ResponsiveContainer><BarChart data={forecast} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}>
+            <CartesianGrid stroke={C.borderLight} vertical={false} />
+            <XAxis dataKey="month" tick={{ fill: C.textSecondary, fontSize: 10 }} tickLine={false} axisLine={{ stroke: C.borderLight }} />
+            <YAxis tick={{ fill: C.textSecondary, fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={fmt} width={40} />
+            <Tooltip content={<GTooltip />} />
+            <Bar dataKey="requests" name="Requests" fill={C.purple} opacity={0.6} radius={[3, 3, 0, 0]} />
+          </BarChart></ResponsiveContainer>
+        </ChartCard>
+        <Section title="Confidence Breakdown" desc="Forecast accuracy by time horizon">
+          <div style={{ padding: "16px 20px" }}>
+            {[
+              { label: "Q2 2026 (Apr–Jun)", confidence: "High", pct: 92, color: C.green, detail: "Based on committed contracts and current run rate" },
+              { label: "Q3 2026 (Jul–Sep)", confidence: "Medium", pct: 74, color: C.amber, detail: "Pipeline-weighted with seasonal adjustment" },
+              { label: "Q4 2026 (Oct–Dec)", confidence: "Low", pct: 58, color: C.red, detail: "Extrapolated from growth trajectory with market assumptions" },
+              { label: "Q1 2027 (Jan–Mar)", confidence: "Low", pct: 45, color: C.red, detail: "Long-range projection with wide confidence interval" },
+            ].map(q => (
+              <div key={q.label} style={{ marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <span style={{ fontSize: 13, fontWeight: 500 }}>{q.label}</span>
+                  <span style={{ fontSize: 12, fontWeight: 500, color: q.color }}>{q.confidence} ({q.pct}%)</span>
+                </div>
+                <ProgressBar value={q.pct} max={100} color={q.color} />
+                <div style={{ fontSize: 11, color: C.textTertiary, marginTop: 3 }}>{q.detail}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   COMMAND PALETTE (Cmd+K)
+   ═══════════════════════════════════════════════════════════════════════ */
+function CommandPalette({ open, onClose, onNavigate }) {
+  const [query, setQuery] = useState("");
+  const inputRef = useRef(null);
+  useEffect(() => { if (open && inputRef.current) inputRef.current.focus(); }, [open]);
+
+  const commands = [
+    { id: "overview", label: "Go to Overview", icon: LayoutDashboard, section: "Navigate" },
+    { id: "inference", label: "Go to Inference", icon: Activity, section: "Navigate" },
+    { id: "ledger", label: "Go to Savings Ledger", icon: FileText, section: "Navigate" },
+    { id: "models", label: "Go to Models", icon: Cpu, section: "Navigate" },
+    { id: "teams", label: "Go to Teams", icon: Users, section: "Navigate" },
+    { id: "alerts", label: "Go to Alerts", icon: Bell, section: "Navigate" },
+    { id: "recommendations", label: "Go to Recommendations", icon: Sparkles, section: "Navigate" },
+    { id: "forecast", label: "Go to Forecasting", icon: TrendingUp, section: "Navigate" },
+    { id: "monitoring", label: "Go to Monitoring", icon: MonitorDot, section: "Navigate" },
+    { id: "playground", label: "Go to API Playground", icon: Terminal, section: "Navigate" },
+    { id: "settings", label: "Go to Settings", icon: Settings, section: "Navigate" },
+    { id: "audit", label: "Go to Audit Log", icon: ShieldCheck, section: "Navigate" },
+  ];
+
+  const filtered = commands.filter(c => !query || c.label.toLowerCase().includes(query.toLowerCase()));
+
+  if (!open) return null;
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: "20vh" }} onClick={onClose}>
+      <div style={{ width: 520, background: C.surface, borderRadius: 12, border: `1px solid ${C.border}`, boxShadow: "0 8px 30px rgba(0,0,0,.15)", overflow: "hidden" }} onClick={e => e.stopPropagation()}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", borderBottom: `1px solid ${C.borderLight}` }}>
+          <Search size={18} style={{ color: C.textTertiary }} />
+          <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)} placeholder="Search commands..." style={{ flex: 1, border: "none", outline: "none", fontSize: 15, background: "transparent", color: C.textPrimary, fontFamily: FONT }} onKeyDown={e => { if (e.key === "Escape") onClose(); }} />
+          <span style={{ fontSize: 11, color: C.textTertiary, padding: "2px 6px", borderRadius: 4, border: `1px solid ${C.borderLight}` }}>ESC</span>
+        </div>
+        <div style={{ maxHeight: 360, overflowY: "auto", padding: "4px 0" }}>
+          {filtered.length === 0 && <div style={{ padding: "24px 16px", textAlign: "center", fontSize: 13, color: C.textTertiary }}>No results</div>}
+          {filtered.map(cmd => {
+            const Icon = cmd.icon;
+            return (
+              <button key={cmd.id} onClick={() => { onNavigate(cmd.id); onClose(); setQuery(""); }} style={{
+                width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "10px 16px",
+                border: "none", background: "transparent", cursor: "pointer", color: C.textPrimary, fontSize: 13, fontFamily: FONT, textAlign: "left",
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = C.bg}
+              onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                <Icon size={16} style={{ color: C.textTertiary }} />
+                <span style={{ flex: 1 }}>{cmd.label}</span>
+                <span style={{ fontSize: 11, color: C.textTertiary }}>{cmd.section}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    MAIN APPLICATION
    ═══════════════════════════════════════════════════════════════════════ */
 function InferenceIQDashboard() {
@@ -1060,6 +1305,18 @@ function InferenceIQDashboard() {
   const [view, setView] = useState("overview");
   const [days, setDays] = useState(7);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [dark, setDark] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
+
+  // Apply theme
+  C = dark ? DARK : LIGHT;
+
+  // Cmd+K handler
+  useEffect(() => {
+    const handler = e => { if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); setCmdOpen(o => !o); } };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   if (screen === "landing") return <LandingPage onLogin={() => setScreen("login")} />;
   if (screen === "login") return <LoginPage onLogin={() => setScreen("dash")} onBack={() => setScreen("landing")} />;
@@ -1073,6 +1330,8 @@ function InferenceIQDashboard() {
     { label: "ANALYTICS", items: [
       { id: "models", label: "Models", icon: Cpu },
       { id: "teams", label: "Teams", icon: Users },
+      { id: "recommendations", label: "Recommendations", icon: Sparkles },
+      { id: "forecast", label: "Forecasting", icon: TrendingUp },
     ]},
     { label: "OPERATIONS", items: [
       { id: "alerts", label: "Alerts", icon: Bell },
@@ -1087,7 +1346,7 @@ function InferenceIQDashboard() {
     ]},
   ];
 
-  const titles = { overview: "Overview", inference: "Inference", ledger: "Savings Ledger", models: "Models", teams: "Teams", alerts: "Alerts", monitoring: "Monitoring", audit: "Audit Log", playground: "API Playground", settings: "Settings" };
+  const titles = { overview: "Overview", inference: "Inference", ledger: "Savings Ledger", models: "Models", teams: "Teams", recommendations: "Recommendations", forecast: "Forecasting", alerts: "Alerts", monitoring: "Monitoring", audit: "Audit Log", playground: "API Playground", settings: "Settings" };
 
   return (
     <div style={{ display: "flex", height: "100vh", background: C.bg, fontFamily: FONT, color: C.textPrimary, fontSize: 14, WebkitFontSmoothing: "antialiased" }}>
@@ -1112,7 +1371,7 @@ function InferenceIQDashboard() {
                     fontSize: 13, fontWeight: active ? 600 : 400, cursor: "pointer", textAlign: "left", transition: "all 0.15s",
                   }}
                   onMouseEnter={e => { if (!active) e.currentTarget.style.background = "#f1f3f4"; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = active ? "#e8f0fe" : "transparent"; }}>
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = "transparent"; }}>
                     <Icon size={16} style={{ opacity: active ? 1 : 0.65 }} />{item.label}
                   </button>
                 );
@@ -1130,8 +1389,12 @@ function InferenceIQDashboard() {
         <header style={{ height: 52, minHeight: 52, background: C.surface, borderBottom: `1px solid ${C.borderLight}`, display: "flex", alignItems: "center", padding: "0 20px", gap: 12 }}>
           <Breadcrumb items={["InferenceIQ", titles[view]]} />
           <div style={{ flex: 1 }} />
+          <button onClick={() => setCmdOpen(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, border: `1px solid ${C.border}`, background: C.bg, cursor: "pointer", fontSize: 12, color: C.textTertiary, fontFamily: FONT }}>
+            <Search size={13} /> Search... <span style={{ fontSize: 10, opacity: 0.6, marginLeft: 8 }}>⌘K</span>
+          </button>
           <div style={{ display: "flex", gap: 6 }}>{[["7d", 7], ["30d", 30], ["90d", 90]].map(([l, d]) => <Pill key={l} label={l} active={days === d} onClick={() => setDays(d)} />)}</div>
           <div style={{ width: 1, height: 24, background: C.borderLight }} />
+          <button onClick={() => setDark(d => !d)} title={dark ? "Light mode" : "Dark mode"} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: "50%", border: "none", background: "transparent", cursor: "pointer", color: C.textSecondary, transition: "background 0.15s", fontSize: 16 }} onMouseEnter={e => e.currentTarget.style.background = dark ? "#3c4043" : "#f1f3f4"} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>{dark ? "☀️" : "🌙"}</button>
           <IconBtn icon={Bell} tooltip="Notifications" /><IconBtn icon={HelpCircle} tooltip="Help" />
           <div style={{ width: 30, height: 30, borderRadius: "50%", background: `linear-gradient(135deg, ${C.blue}, ${C.green})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, color: "#fff", cursor: "pointer" }}>DH</div>
           <button onClick={() => setScreen("landing")} style={{ background: "none", border: "none", cursor: "pointer", color: C.textTertiary, fontSize: 12, display: "flex", alignItems: "center", gap: 4 }}><LogOut size={14} />Sign out</button>
@@ -1144,6 +1407,8 @@ function InferenceIQDashboard() {
             {view === "ledger" && <LedgerView />}
             {view === "models" && <ModelsView />}
             {view === "teams" && <TeamsView />}
+            {view === "recommendations" && <RecommendationsView />}
+            {view === "forecast" && <ForecastView />}
             {view === "alerts" && <AlertsView />}
             {view === "monitoring" && <MonitoringView />}
             {view === "audit" && <AuditView />}
@@ -1152,12 +1417,13 @@ function InferenceIQDashboard() {
           </div>
         </main>
       </div>
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} onNavigate={setView} />
     </div>
   );
 }
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(InferenceIQDashboard));
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(InferenceIQDashboard));
 </script>
 </body>
 </html>
