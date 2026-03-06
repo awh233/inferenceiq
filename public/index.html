@@ -45,6 +45,7 @@ function _icon(paths, vb) {
       style: st, className: props.className || ''
     }, ...paths.map(function(p,i) {
       if (typeof p === 'string') return React.createElement('path', {key:i, d:p});
+           if (Array.isArray(p[0])) p = p[0];
       return React.createElement(p[0], Object.assign({key:i}, p[1]));
     }));
   };
@@ -492,7 +493,7 @@ function LandingPage({ onLogin }) {
       {/* Hero */}
       <section style={{ padding: "96px 48px 80px", textAlign: "center", maxWidth: 960, margin: "0 auto" }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", borderRadius: 20, background: "#e8f0fe", color: C.blue, fontSize: 13, fontWeight: 500, marginBottom: 24 }}>
-          <Sparkles size={14} /> Now in Public Beta — Series A backed by a]16z
+          <Sparkles size={14} /> Now in Public Beta
         </div>
         <h1 style={{ fontSize: 56, fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.03em", margin: "0 0 20px", color: C.textPrimary }}>
           Cut AI inference costs<br /><span style={{ background: `linear-gradient(90deg, ${C.blue}, ${C.green})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>by 40% automatically</span>
