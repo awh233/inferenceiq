@@ -1936,12 +1936,18 @@
         function switchScreen(screenName) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenName + '-screen').classList.add('active');
+            window.scrollTo(0, 0);
 
-            // Hide nav on dashboard
-            if (screenName === 'dashboard') {
+            // Hide nav on dashboard and login
+            if (screenName === 'dashboard' || screenName === 'login') {
                 document.getElementById('nav').style.display = 'none';
             } else {
                 document.getElementById('nav').style.display = 'flex';
+            }
+
+            // Init charts when switching to dashboard
+            if (screenName === 'dashboard') {
+                setTimeout(initCharts, 150);
             }
         }
 
