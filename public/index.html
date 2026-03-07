@@ -1,2133 +1,2336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InferenceIQ - AI Inference Cost Optimization</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-
-  <style>
-    :root {
-      --white: #fafafa;
-      --gray-100: #f4f4f5;
-      --gray-200: #e4e4e7;
-      --gray-300: #d4d4d8;
-      --gray-400: #a1a1aa;
-      --gray-500: #71717a;
-      --gray-600: #52525b;
-      --gray-700: #3f3f46;
-      --gray-800: #27272a;
-      --gray-900: #18181b;
-      --gray-950: #111113;
-      --black: #09090b;
-      --indigo: #6366f1;
-      --indigo-light: #818cf8;
-      --indigo-dark: #4f46e5;
-      --green: #22c55e;
-      --amber: #f59e0b;
-      --rose: #f43f5e;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--black);
-      color: var(--white);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Screen Management */
-    .screen {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-    }
-    .screen.active {
-      display: block;
-    }
-    .screen.active.dashboard-screen {
-      display: flex;
-    }
-
-    /* ============================================ */
-    /* LANDING SCREEN */
-    /* ============================================ */
-
-    .landing-screen {
-      width: 100%;
-      overflow-x: hidden;
-    }
-
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 60px;
-      background: rgba(9, 9, 11, 0.8);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .nav-logo {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--white);
-    }
-
-    .nav-right {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--gray-400);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: var(--white);
-    }
-
-    .nav-btn-group {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .nav-btn-login {
-      padding: 10px 20px;
-      background: transparent;
-      border: none;
-      color: var(--gray-400);
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-btn-login:hover {
-      color: var(--white);
-    }
-
-    .nav-btn-cta {
-      padding: 10px 20px;
-      background: transparent;
-      border: 1px solid var(--indigo);
-      color: var(--indigo);
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .nav-btn-cta:hover {
-      background: var(--indigo);
-      color: var(--white);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 140px 60px 100px 60px;
-      position: relative;
-      overflow: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 150%;
-      height: 150%;
-      top: -25%;
-      left: -25%;
-      background:
-        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 50%);
-      animation: meshMove 20s ease-in-out infinite;
-      z-index: 0;
-    }
-
-    @keyframes meshMove {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(30px, -30px) rotate(1deg); }
-      66% { transform: translate(-20px, 20px) rotate(-1deg); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 600px;
-    }
-
-    .beta-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 16px;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      background: rgba(99, 102, 241, 0.1);
-      border-radius: 100px;
-      margin-bottom: 32px;
-      width: fit-content;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-
-    .beta-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      animation: blink 1s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .beta-text {
-      font-size: 13px;
-      color: var(--indigo);
-      font-weight: 500;
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
-      color: var(--white);
-    }
-
-    .hero h1 .gradient-text {
-      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-size: 1.15rem;
-      color: var(--gray-400);
-      margin-bottom: 48px;
-      line-height: 1.7;
-      max-width: 540px;
-    }
-
-    .hero-cta-group {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 80px;
-      flex-wrap: wrap;
-    }
-
-    .cta-button-primary {
-      padding: 14px 28px;
-      background: var(--indigo);
-      border: none;
-      color: var(--white);
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .cta-button-primary:hover {
-      background: var(--indigo-dark);
-      transform: translateY(-2px);
-    }
-
-    .cta-button-secondary {
-      padding: 14px 28px;
-      background: transparent;
-      border: 1px solid var(--gray-700);
-      color: var(--white);
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .cta-button-secondary:hover {
-      border-color: var(--gray-500);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    /* Persona Cards */
-    .persona-container {
-      margin-bottom: 100px;
-      border: 1px solid var(--gray-800);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.01);
-    }
-
-    .persona-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-
-    .persona-card {
-      padding: 32px;
-      border-right: 1px solid var(--gray-800);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .persona-card:last-child {
-      border-right: none;
-    }
-
-    .persona-card:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .persona-content {
-      flex: 1;
-    }
-
-    .persona-icon {
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--gray-700);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 24px;
-      color: var(--indigo);
-      font-size: 20px;
-    }
-
-    .persona-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-
-    .persona-desc {
-      font-size: 14px;
-      color: var(--gray-400);
-    }
-
-    .persona-arrow {
-      font-size: 20px;
-      color: var(--gray-500);
-      transition: all 0.3s;
-      margin-left: 24px;
-    }
-
-    .persona-card:hover .persona-arrow {
-      color: var(--indigo);
-      transform: translateX(4px);
-    }
-
-    /* Stats Bar */
-    .stats-bar {
-      margin-bottom: 120px;
-      border: 1px solid var(--gray-800);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.01);
-      overflow: hidden;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 0;
-    }
-
-    .stat-item {
-      padding: 40px;
-      text-align: center;
-      border-right: 1px solid var(--gray-800);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .stat-item:last-child {
-      border-right: none;
-    }
-
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .stat-value.green {
-      color: var(--green);
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--gray-500);
-      font-weight: 500;
-      letter-spacing: 0.05em;
-    }
-
-    /* Logo Marquee */
-    .marquee-section {
-      margin-bottom: 120px;
-      padding: 80px 0;
-    }
-
-    .marquee-label {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--gray-500);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 40px;
-      font-weight: 600;
-    }
-
-    .marquee-container {
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.01);
-      border-top: 1px solid var(--gray-800);
-      border-bottom: 1px solid var(--gray-800);
-      padding: 32px 0;
-    }
-
-    .marquee-content {
-      display: flex;
-      gap: 60px;
-      animation: scroll-left 30s linear infinite;
-      white-space: nowrap;
-      padding: 0 60px;
-    }
-
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    .marquee-item {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      flex-shrink: 0;
-    }
-
-    /* How It Works Section */
-    .how-it-works {
-      padding: 100px 60px;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      color: var(--indigo);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-      font-weight: 600;
-    }
-
-    .section-heading {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 60px;
-      max-width: 600px;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-    }
-
-    .step-card {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid var(--gray-800);
-      border-radius: 12px;
-      padding: 32px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .step-card:hover {
-      border-color: var(--indigo);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .step-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--gray-900);
-      border: 1px solid var(--gray-800);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      color: var(--indigo);
-      font-size: 18px;
-    }
-
-    .step-number {
-      font-size: 0.75rem;
-      color: var(--gray-500);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .step-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-
-    .step-desc {
-      font-size: 13px;
-      color: var(--gray-400);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .step-metric {
-      font-size: 13px;
-      color: var(--green);
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Demo Section */
-    .demo-section {
-      padding: 100px 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .demo-left {
-      max-width: 500px;
-    }
-
-    .demo-title {
-      font-size: clamp(1.75rem, 3vw, 2.5rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-
-    .demo-subtitle {
-      font-size: 15px;
-      color: var(--gray-400);
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-
-    .terminal {
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid var(--gray-800);
-      border-radius: 12px;
-      overflow: hidden;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .terminal-header {
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid var(--gray-800);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .terminal-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .terminal-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--gray-700);
-      border-radius: 50%;
-    }
-
-    .terminal-title {
-      margin-left: 12px;
-      color: var(--gray-400);
-      font-size: 12px;
-    }
-
-    .terminal-content {
-      padding: 24px;
-      color: var(--green);
-      max-height: 400px;
-      overflow-y: auto;
-    }
-
-    .terminal-line {
-      margin-bottom: 8px;
-      animation: fadeInUp 0.5s ease-out forwards;
-      opacity: 0;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .terminal-line:nth-child(1) { animation-delay: 0s; }
-    .terminal-line:nth-child(2) { animation-delay: 0.1s; }
-    .terminal-line:nth-child(3) { animation-delay: 0.2s; }
-    .terminal-line:nth-child(4) { animation-delay: 0.3s; }
-    .terminal-line:nth-child(5) { animation-delay: 0.4s; }
-    .terminal-line:nth-child(6) { animation-delay: 0.5s; }
-
-    .comment { color: var(--gray-500); }
-    .output { color: var(--white); }
-    .keyword { color: var(--indigo-light); }
-    .string { color: var(--green); }
-
-    /* Features Section */
-    .features-section {
-      padding: 100px 60px;
-    }
-
-    .features-heading {
-      margin-bottom: 80px;
-    }
-
-    .features-section .section-label {
-      color: var(--indigo);
-    }
-
-    .features-section .section-heading {
-      max-width: 700px;
-    }
-
-    .features-subtext {
-      font-size: 15px;
-      color: var(--gray-400);
-      line-height: 1.7;
-      max-width: 600px;
-      margin-top: 20px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
-    }
-
-    .feature-card {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid var(--gray-800);
-      border-radius: 12px;
-      padding: 32px;
-      transition: all 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--indigo);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .feature-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--gray-900);
-      border: 1px solid var(--gray-800);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--green);
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    .feature-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-
-    .feature-desc {
-      font-size: 14px;
-      color: var(--gray-400);
-      line-height: 1.6;
-      margin-bottom: 16px;
-    }
-
-    .feature-stat {
-      font-size: 13px;
-      color: var(--green);
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .feature-card.full-width {
-      grid-column: 1 / -1;
-    }
-
-    /* Platform Leaders Section */
-    .platform-section {
-      padding: 100px 60px;
-    }
-
-    .platform-section .section-label {
-      color: var(--amber);
-    }
-
-    /* Pricing Section */
-    .pricing-section {
-      padding: 100px 60px;
-    }
-
-    .pricing-section .section-label {
-      color: var(--indigo);
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 60px;
-    }
-
-    .pricing-card {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid var(--gray-800);
-      border-radius: 12px;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.3s;
-      position: relative;
-    }
-
-    .pricing-card:hover {
-      border-color: var(--gray-700);
-    }
-
-    .pricing-card.featured {
-      border-color: var(--indigo);
-      background: rgba(99, 102, 241, 0.08);
-      transform: scale(1.02);
-    }
-
-    .pricing-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--indigo);
-      color: var(--white);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .pricing-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 12px;
-      margin-top: 8px;
-    }
-
-    .pricing-price {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 4px;
-    }
-
-    .pricing-period {
-      font-size: 14px;
-      color: var(--gray-400);
-      margin-bottom: 32px;
-    }
-
-    .pricing-features {
-      list-style: none;
-      margin-bottom: 32px;
-      flex: 1;
-    }
-
-    .pricing-features li {
-      font-size: 14px;
-      color: var(--gray-400);
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .pricing-features li::before {
-      content: '';
-      width: 16px;
-      height: 16px;
-      background: var(--green);
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 10px;
-      line-height: 1;
-    }
-
-    .pricing-btn {
-      padding: 12px 24px;
-      background: var(--indigo);
-      border: none;
-      color: var(--white);
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .pricing-card.featured .pricing-btn {
-      background: var(--indigo);
-    }
-
-    .pricing-card:not(.featured) .pricing-btn {
-      background: transparent;
-      border: 1px solid var(--gray-700);
-      color: var(--white);
-    }
-
-    .pricing-card:not(.featured) .pricing-btn:hover {
-      border-color: var(--indigo);
-      color: var(--indigo);
-    }
-
-    .pricing-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    /* Final CTA Section */
-    .final-cta {
-      padding: 100px 60px;
-      text-align: center;
-    }
-
-    .final-cta h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      margin-bottom: 16px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .final-cta-subtitle {
-      font-size: 18px;
-      color: var(--gray-400);
-      margin-bottom: 40px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Footer */
-    footer {
-      padding: 60px;
-      border-top: 1px solid var(--gray-800);
-      background: rgba(255, 255, 255, 0.01);
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 60px;
-      margin-bottom: 60px;
-    }
-
-    .footer-col-left {
-      grid-column: span 1;
-    }
-
-    .footer-col-left .footer-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-
-    .footer-col-left .footer-tagline {
-      font-size: 13px;
-      color: var(--gray-500);
-    }
-
-    .footer-col h3 {
-      font-size: 13px;
-      color: var(--gray-400);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-      font-weight: 600;
-    }
-
-    .footer-col a {
-      display: block;
-      font-size: 13px;
-      color: var(--gray-500);
-      text-decoration: none;
-      margin-bottom: 12px;
-      transition: color 0.3s;
-    }
-
-    .footer-col a:hover {
-      color: var(--white);
-    }
-
-    .footer-bottom {
-      border-top: 1px solid var(--gray-800);
-      padding-top: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-    }
-
-    .footer-copyright {
-      color: var(--gray-600);
-    }
-
-    .footer-legal {
-      display: flex;
-      gap: 24px;
-    }
-
-    .footer-legal a {
-      color: var(--gray-600);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .footer-legal a:hover {
-      color: var(--white);
-    }
-
-    /* Scroll animation */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .steps-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pricing-card.featured {
-        transform: scale(1);
-      }
-
-      .demo-section {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .persona-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .persona-card {
-        border-right: none;
-        border-bottom: 1px solid var(--gray-800);
-      }
-
-      .persona-card:last-child {
-        border-bottom: none;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
-        height: 56px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .nav-right {
-        gap: 12px;
-      }
-
-      .hero {
-        padding: 100px 20px 60px 20px;
-      }
-
-      .hero-content {
-        max-width: 100%;
-      }
-
-      .how-it-works,
-      .demo-section,
-      .features-section,
-      .platform-section,
-      .pricing-section,
-      .final-cta {
-        padding: 60px 20px;
-      }
-
-      footer {
-        padding: 40px 20px;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .marquee-content {
-        padding: 0 20px;
-      }
-    }
-
-    /* ============================================ */
-    /* LOGIN SCREEN */
-    /* ============================================ */
-
-    .login-screen.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(99,102,241,0.1));
-    }
-
-    .login-card {
-      background: rgba(15, 15, 20, 0.8);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 48px;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .login-header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .login-header h2 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--white);
-    }
-
-    .login-header p {
-      font-size: 14px;
-      color: var(--gray-400);
-    }
-
-    .login-form {
-      margin-bottom: 24px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gray-300);
-      margin-bottom: 8px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: var(--white);
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--indigo);
-      background: rgba(99, 102, 241, 0.1);
-    }
-
-    .form-group input::placeholder {
-      color: var(--gray-500);
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      background: var(--indigo);
-      border: none;
-      color: var(--white);
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 15px;
-    }
-
-    .login-btn:hover {
-      background: var(--indigo-dark);
-      transform: translateY(-1px);
-    }
-
-    .login-divider {
-      margin: 32px 0;
-      position: relative;
-      text-align: center;
-    }
-
-    .login-divider span {
-      background: rgba(15, 15, 20, 0.8);
-      color: var(--gray-500);
-      font-size: 13px;
-      padding: 0 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .login-divider::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.1);
-      z-index: 0;
-    }
-
-    .social-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .social-btn {
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: var(--white);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.3s;
-    }
-
-    .social-btn:hover {
-      background: rgba(99, 102, 241, 0.1);
-      border-color: var(--indigo);
-    }
-
-    .social-icon-small {
-      width: 16px;
-      height: 16px;
-    }
-
-    .login-footer {
-      text-align: center;
-      font-size: 13px;
-      color: var(--gray-400);
-    }
-
-    .login-footer a {
-      color: var(--indigo);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .login-footer a:hover {
-      color: var(--indigo-light);
-    }
-
-    /* ============================================ */
-    /* DASHBOARD SCREEN */
-    /* ============================================ */
-
-    .dashboard-screen {
-      flex-direction: row;
-      background: var(--black);
-    }
-
-    .dashboard-container {
-      display: flex;
-      width: 100%;
-      height: 100%;
-    }
-
-    .dashboard-sidebar {
-      width: 260px;
-      background: rgba(15, 15, 20, 0.5);
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 32px 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .dashboard-sidebar-header {
-      font-size: 18px;
-      font-weight: 700;
-      padding: 0 24px;
-      margin-bottom: 32px;
-    }
-
-    .dashboard-nav {
-      list-style: none;
-      flex: 1;
-    }
-
-    .dashboard-nav li {
-      margin: 0;
-    }
-
-    .dashboard-nav a {
-      display: block;
-      padding: 12px 24px;
-      color: var(--gray-400);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.3s;
-      border-left: 2px solid transparent;
-    }
-
-    .dashboard-nav a:hover,
-    .dashboard-nav a.active {
-      color: var(--indigo);
-      border-left-color: var(--indigo);
-      background: rgba(99, 102, 241, 0.1);
-    }
-
-    .logout-btn {
-      margin: 0 16px;
-      padding: 10px 16px;
-      background: transparent;
-      border: 1px solid var(--gray-700);
-      color: var(--gray-400);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .logout-btn:hover {
-      border-color: var(--indigo);
-      color: var(--indigo);
-    }
-
-    .dashboard-main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 32px;
-    }
-
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .dashboard-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .dashboard-user {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      background: var(--indigo);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .dashboard-user span {
-      font-size: 14px;
-      color: var(--gray-400);
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .metric-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 24px;
-      transition: all 0.3s;
-    }
-
-    .metric-card:hover {
-      border-color: var(--indigo);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .metric-card-label {
-      font-size: 13px;
-      color: var(--gray-500);
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .metric-card-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-
-    .metric-card-change {
-      font-size: 12px;
-      color: var(--green);
-    }
-
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .chart-container {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 24px;
-    }
-
-    .chart-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 20px;
-    }
-
-    .alerts-table {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .alerts-header {
-      padding: 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--white);
-    }
-
-    .alerts-body {
-      padding: 0;
-    }
-
-    .alert-row {
-      padding: 16px 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .alert-row:last-child {
-      border-bottom: none;
-    }
-
-    .alert-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .alert-message {
-      flex: 1;
-      font-size: 14px;
-      color: var(--white);
-    }
-
-    .alert-time {
-      font-size: 12px;
-      color: var(--gray-500);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InferenceIQ - AI Inference Cost Optimization Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #09090b;
+            --surface: #111113;
+            --surface-light: #18181b;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --text: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --red: #ef4444;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .screen.active.dashboard-screen {
+            display: flex;
+        }
+
+        .login-screen.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        p {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-light);
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            color: var(--text);
+            border-color: var(--border-light);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .badge.green {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: var(--green);
+        }
+
+        .badge.amber {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: var(--amber);
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ===== LANDING PAGE ===== */
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(17, 17, 19, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            flex-direction: column;
+            padding: 24px;
+            gap: 16px;
+        }
+
+        .mobile-nav a {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Hero Section */
+        .landing-screen {
+            padding-top: 64px;
+        }
+
+        .hero {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .hero-right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-badge {
+            width: fit-content;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--green);
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero-content h1 {
+            margin-bottom: 12px;
+        }
+
+        .hero-content h1 .gradient {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons .btn {
+            padding: 14px 28px;
+            font-size: 16px;
+        }
+
+        .metric-card {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .metric-card h4 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .metric-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-row-label {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .metric-row-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Stats Bar */
+        .stats {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .stat-highlight {
+            color: var(--green);
+        }
+
+        /* Logo Marquee */
+        .marquee-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .marquee-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            height: 60px;
+        }
+
+        .marquee {
+            display: flex;
+            gap: 60px;
+            animation: scroll 20s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-item {
+            flex-shrink: 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-label.amber {
+            color: var(--amber);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .section-label.green {
+            color: var(--green);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .section-heading {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .step-card {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .step-card:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .step-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .step-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .step-badge {
+            display: inline-block;
+            font-size: 12px;
+            padding: 6px 10px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 6px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Terminal Section */
+        .terminal-section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .terminal-left h3 {
+            margin-bottom: 12px;
+        }
+
+        .terminal-left p {
+            margin-bottom: 24px;
+        }
+
+        .terminal-window {
+            background: rgba(17, 17, 19, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .terminal-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .terminal-dot.red {
+            background: var(--red);
+        }
+
+        .terminal-dot.amber {
+            background: var(--amber);
+        }
+
+        .terminal-dot.green {
+            background: var(--green);
+        }
+
+        .terminal-body {
+            padding: 24px;
+            font-size: 14px;
+            color: var(--green);
+            line-height: 1.6;
+            height: 300px;
+            overflow: hidden;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .terminal-line {
+            opacity: 0;
+            animation: typewriter 2s steps(80) forwards;
+        }
+
+        @keyframes typewriter {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Feature Sections */
+        .features-section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        .feature-badge {
+            align-self: flex-start;
+            font-size: 12px;
+            padding: 6px 10px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 6px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Code Block */
+        .code-section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--green);
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .code-keyword {
+            color: var(--primary);
+        }
+
+        .code-string {
+            color: var(--amber);
+        }
+
+        /* Pricing */
+        .pricing-section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .pricing-card {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card.recommended {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-10px);
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+        }
+
+        .pricing-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .pricing-period {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+            flex-grow: 1;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 14px 24px;
+            font-size: 16px;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 100px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .final-cta h2 {
+            margin-bottom: 16px;
+        }
+
+        .final-cta p {
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(17, 17, 19, 0.5);
+            border-top: 1px solid var(--border);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 16px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            color: var(--text);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(17, 17, 19, 0.5) 100%);
+        }
+
+        .login-card {
+            background: rgba(17, 17, 19, 0.8);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 48px;
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+
+        .login-button:hover {
+            background: var(--primary-light);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-light);
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .signup-link a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ===== DASHBOARD SCREEN ===== */
+        .dashboard-screen {
+            background: var(--bg);
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 240px;
+            background: rgba(17, 17, 19, 0.8);
+            border-right: 1px solid var(--border);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .dashboard-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 12px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--text);
+        }
+
+        .sidebar-logout {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 40px;
+        }
+
+        .sidebar-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            margin-left: 240px;
+            padding: 32px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dashboard-header h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .dashboard-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card-dash {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-card-dash h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .metric-card-dash .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .metric-card-dash .change {
+            font-size: 13px;
+            color: var(--green);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-container h4 {
+            margin-bottom: 24px;
+        }
+
+        .chart-container canvas {
+            max-height: 300px;
+        }
+
+        .activity-container {
+            background: rgba(17, 17, 19, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .activity-container h4 {
+            margin-bottom: 24px;
+        }
+
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .activity-table thead {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-table th {
+            text-align: left;
+            padding: 12px 0;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .activity-table td {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .activity-table td:last-child {
+            text-align: right;
+        }
+
+        .alert-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .alert-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+        }
+
+        .alert-badge.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--green);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 80px 0;
+            }
+
+            .hero-right {
+                order: -1;
+            }
+
+            .step-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .terminal-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                gap: 24px;
+            }
+
+            .dashboard-main {
+                margin-left: 200px;
+                padding: 24px;
+            }
+
+            .dashboard-sidebar {
+                width: 200px;
+                padding: 24px 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-nav.active {
+                display: flex;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+
+            h2 {
+                font-size: 32px;
+            }
+
+            .section-heading {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+
+            .step-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+                padding: 60px 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .footer-legal {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-logo {
+                font-size: 18px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .step-card {
+                padding: 24px 20px;
+            }
+
+            .feature-card {
+                padding: 24px;
+            }
+
+            .pricing-card {
+                padding: 32px 24px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .metric-card-dash {
+                padding: 20px;
+            }
+
+            .metric-card-dash .value {
+                font-size: 24px;
+            }
+
+            .dashboard-main {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                flex-direction: row;
+                padding: 16px 24px;
+                justify-content: space-between;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .sidebar-nav {
+                display: flex;
+                gap: 8px;
+                flex-grow: 0;
+            }
+
+            .sidebar-logout {
+                margin-top: 0;
+                width: auto;
+                padding: 8px 16px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            h1 {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+
+            h2 {
+                font-size: 24px;
+                margin-bottom: 16px;
+            }
+
+            .section-heading {
+                font-size: 24px;
+            }
+
+            .hero {
+                padding: 40px 0;
+                gap: 24px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 40px 0;
+            }
+
+            .marquee-section {
+                padding: 40px 0;
+            }
+
+            .how-it-works {
+                padding: 60px 0;
+            }
+
+            .terminal-section {
+                padding: 60px 0;
+            }
+
+            .features-section {
+                padding: 60px 0;
+            }
+
+            .pricing-section {
+                padding: 60px 0;
+            }
+
+            .code-section {
+                padding: 60px 0;
+            }
+
+            .final-cta {
+                padding: 60px 0;
+            }
+
+            .terminal-body {
+                font-size: 12px;
+                padding: 16px;
+                height: 250px;
+            }
+
+            .code-block {
+                padding: 16px;
+                font-size: 12px;
+            }
+
+            .metric-card {
+                padding: 16px;
+            }
+
+            .step-card {
+                padding: 20px 16px;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+
+            .pricing-card {
+                padding: 24px 20px;
+            }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .nav-logo {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+
+            .metric-card-dash .value {
+                font-size: 20px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-table {
+                font-size: 12px;
+            }
+
+            .activity-table th,
+            .activity-table td {
+                padding: 12px 0;
+            }
+        }
+
+        /* Fade in animation */
+        .fade-in-up {
+            opacity: 0.3;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Landing Screen -->
-<div id="landing-screen" class="screen active landing-screen">
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-logo">InferenceIQ</div>
-    <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#features">Product</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#">Docs</a></li>
-      </ul>
-      <div class="nav-btn-group">
-        <button class="nav-btn-login" onclick="switchScreen('login')">Log In</button>
-        <button class="nav-btn-cta" onclick="switchScreen('login')">Get Early Access</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="beta-badge">
-        <div class="beta-dot"></div>
-        <div class="beta-text">Now in Private Beta — Request Access</div>
-      </div>
-
-      <h1>Optimize every <span class="gradient-text">inference call</span></h1>
-
-      <p class="hero-subtitle">
-        The optimization layer between your AI models and your cloud bill. Intelligent batching, semantic caching, and model routing — saving teams 40-60% on inference costs.
-      </p>
-
-      <div class="hero-cta-group">
-        <button class="cta-button-primary" onclick="switchScreen('dashboard')">See the Dashboard</button>
-        <button class="cta-button-secondary" onclick="switchScreen('login')">Get Early Access</button>
-      </div>
-
-      <!-- Persona Cards -->
-      <div class="persona-container">
-        <div class="persona-grid">
-          <div class="persona-card">
-            <div class="persona-icon">&lt;/&gt;</div>
-            <div class="persona-content">
-              <div class="persona-title">I'm an ML engineer</div>
-              <div class="persona-desc">See live optimization and SDK integration</div>
+<!-- Navigation -->
+<nav>
+    <div class="container">
+        <div class="nav-content">
+            <div class="nav-logo">InferenceIQ</div>
+            <ul class="nav-links">
+                <li><a href="#product">Product</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#docs">Docs</a></li>
+                <li><a href="#login" onclick="switchScreen('login'); return false;">Log In</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="#product">Product</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#docs">Docs</a>
+                <a href="#login" onclick="switchScreen('login'); return false;">Log In</a>
+                <button class="btn btn-primary" onclick="switchScreen('login'); return false;">Get Early Access</button>
             </div>
-            <div class="persona-arrow">→</div>
-          </div>
-          <div class="persona-card">
-            <div class="persona-icon">📊</div>
-            <div class="persona-content">
-              <div class="persona-title">I'm a platform leader</div>
-              <div class="persona-desc">Preview cost analytics and team dashboards</div>
-            </div>
-            <div class="persona-arrow">→</div>
-          </div>
+            <button class="btn btn-ghost" onclick="switchScreen('login'); return false;" style="margin-left: auto;">Get Early Access</button>
         </div>
-      </div>
+    </div>
+</nav>
 
-      <!-- Stats Bar -->
-      <div class="stats-bar">
+<!-- LANDING SCREEN -->
+<div id="landing-screen" class="screen active">
+
+    <!-- Hero Section -->
+    <section class="hero container fade-in-up">
+        <div class="hero-left">
+            <div class="hero-badge">
+                Now in Private Beta
+            </div>
+            <div class="hero-content">
+                <h1>Optimize every <span class="gradient">inference call</span></h1>
+                <p class="hero-subtitle">Cut AI infrastructure costs by 60%, reduce latency by 87%, and scale confidently with intelligent request optimization.</p>
+            </div>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="switchScreen('dashboard'); return false;">See Dashboard</button>
+                <button class="btn btn-ghost">Get Early Access</button>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="metric-card">
+                <h4>Cost Saved Today</h4>
+                <div class="metric-value">$847</div>
+                <div class="metric-row">
+                    <div class="metric-row-label">Requests Optimized</div>
+                    <div class="metric-row-value">12,847</div>
+                </div>
+                <div class="metric-row">
+                    <div class="metric-row-label">Cache Hit Rate</div>
+                    <div class="metric-row-value">68.3%</div>
+                </div>
+                <div class="metric-row">
+                    <div class="metric-row-label">Avg Latency</div>
+                    <div class="metric-row-value">142ms</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats container fade-in-up">
         <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-value">$22M+</div>
-            <div class="stat-label">SAVED FOR CUSTOMERS</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">847ms → 123ms</div>
-            <div class="stat-label">P99 LATENCY REDUCTION</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value green">60%</div>
-            <div class="stat-label">AVERAGE COST REDUCTION</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">99.97%</div>
-            <div class="stat-label">PLATFORM UPTIME</div>
-          </div>
+            <div class="stat-item">
+                <div class="stat-value">$22M+</div>
+                <div class="stat-label">Total Savings</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">847ms→123ms</div>
+                <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value"><span class="stat-highlight">60%</span></div>
+                <div class="stat-label">Cost Reduction</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">99.97%</div>
+                <div class="stat-label">Platform Uptime</div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Logo Marquee -->
-  <section class="marquee-section">
-    <div class="marquee-label">WORKS WITH YOUR STACK</div>
-    <div class="marquee-container">
-      <div class="marquee-content">
-        <div class="marquee-item">OpenAI</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Anthropic</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">AWS Bedrock</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Google Vertex</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Azure OpenAI</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Hugging Face</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Cohere</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Mistral</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">OpenAI</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Anthropic</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">AWS Bedrock</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Google Vertex</div>
-        <div class="marquee-item">•</div>
-        <div class="marquee-item">Azure OpenAI</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works -->
-  <section class="how-it-works" id="features">
-    <div class="features-heading">
-      <div class="section-label">HOW IT WORKS</div>
-      <h2 class="section-heading">From API call to optimized response</h2>
-    </div>
-
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-icon">→</div>
-        <div class="step-number">Step 01</div>
-        <div class="step-title">API Request Received</div>
-        <div class="step-desc">Your inference request enters the InferenceIQ optimization layer</div>
-        <div class="step-metric">0ms</div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-icon">♻</div>
-        <div class="step-number">Step 02</div>
-        <div class="step-title">Cache Check</div>
-        <div class="step-desc">Semantic similarity matching across cached responses</div>
-        <div class="step-metric">&lt;5ms</div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-icon">⚡</div>
-        <div class="step-number">Step 03</div>
-        <div class="step-title">Intelligent Batching</div>
-        <div class="step-desc">Combines compatible requests for batch processing</div>
-        <div class="step-metric">&lt;50ms</div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-icon">✓</div>
-        <div class="step-number">Step 04</div>
-        <div class="step-title">Response Delivered</div>
-        <div class="step-desc">Optimized response with cost savings logged</div>
-        <div class="step-metric">&lt;100ms</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Live Demo Section -->
-  <section class="demo-section">
-    <div class="demo-left">
-      <h2 class="demo-title">Live Optimization Example</h2>
-      <p class="demo-subtitle">
-        Watch a real request cycle through the InferenceIQ optimization engine. Every optimization completes in milliseconds, delivering cost-optimized responses before your AI finishes generating output.
-      </p>
-    </div>
-
-    <div class="terminal">
-      <div class="terminal-header">
-        <div class="terminal-dots">
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
+    <!-- Logo Marquee -->
+    <section class="marquee-section container fade-in-up">
+        <div class="marquee-label">Works with your stack</div>
+        <div class="marquee-container">
+            <div class="marquee">
+                <div class="marquee-item">OpenAI</div>
+                <div class="marquee-item">Anthropic</div>
+                <div class="marquee-item">AWS Bedrock</div>
+                <div class="marquee-item">Google Vertex</div>
+                <div class="marquee-item">Azure OpenAI</div>
+                <div class="marquee-item">Hugging Face</div>
+                <div class="marquee-item">Cohere</div>
+                <div class="marquee-item">Mistral</div>
+                <div class="marquee-item">OpenAI</div>
+                <div class="marquee-item">Anthropic</div>
+                <div class="marquee-item">AWS Bedrock</div>
+                <div class="marquee-item">Google Vertex</div>
+                <div class="marquee-item">Azure OpenAI</div>
+                <div class="marquee-item">Hugging Face</div>
+                <div class="marquee-item">Cohere</div>
+                <div class="marquee-item">Mistral</div>
+            </div>
         </div>
-        <div class="terminal-title">optimization_log</div>
-      </div>
-      <div class="terminal-content">
-        <div class="terminal-line"><span class="comment"># Ready for next inference...</span></div>
-        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Request received: gpt-4 completion</span></div>
-        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Checking semantic cache... HIT (94% match)</span></div>
-        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Cost: $0.0245 → $0.0088 (-64%)</span></div>
-        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Latency: 1247ms → 89ms</span></div>
-        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Response delivered successfully</span></div>
-        <div class="terminal-line"><span class="comment"># < 200 0K 4ms</span></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Features for Engineers -->
-  <section class="features-section">
-    <div class="features-heading">
-      <div class="section-label">FOR ENGINEERS</div>
-      <h2 class="section-heading">Optimize without refactoring</h2>
-      <p class="features-subtext">
-        Drop-in replacement for your existing inference clients. No code changes needed. Start saving immediately.
-      </p>
-    </div>
-
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">♻</div>
-        <div class="feature-title">Semantic Caching</div>
-        <div class="feature-desc">
-          Intelligent response caching based on semantic similarity, not exact matches. Reuse responses across equivalent queries.
+    <!-- How It Works -->
+    <section class="how-it-works container fade-in-up">
+        <span class="section-label">How it works</span>
+        <h2 class="section-heading">From API call to optimized response</h2>
+        <div class="step-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">📡</div>
+                <div class="step-title">Capture Request</div>
+                <div class="step-description">Intercept API calls through our lightweight SDK integration.</div>
+                <div class="step-badge">0ms overhead</div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">🧠</div>
+                <div class="step-title">Smart Analysis</div>
+                <div class="step-description">ML models analyze request patterns and semantic similarity.</div>
+                <div class="step-badge">87% accurate</div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">⚡</div>
+                <div class="step-title">Optimize Routing</div>
+                <div class="step-description">Route to best model, cache results, and batch intelligently.</div>
+                <div class="step-badge">67% hit rate</div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <div class="step-icon">📊</div>
+                <div class="step-title">Report & Track</div>
+                <div class="step-description">Real-time dashboards show cost, latency, and quality metrics.</div>
+                <div class="step-badge">Per-request</div>
+            </div>
         </div>
-        <div class="feature-stat">75% Hit Rate</div>
-      </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Intelligent Batching</div>
-        <div class="feature-desc">
-          Automatically batch compatible requests for higher throughput. Process 5-10 requests in the time of one.
+    <!-- Terminal Animation -->
+    <section class="terminal-section container fade-in-up">
+        <div>
+            <h3>Live Optimization Example</h3>
+            <p>See how InferenceIQ processes a typical inference request in real-time, applying caching, intelligent batching, and model routing.</p>
         </div>
-        <div class="feature-stat">$2,100/mo Savings</div>
-      </div>
-
-      <div class="feature-card full-width">
-        <div class="feature-icon">📊</div>
-        <div class="feature-title">Real-time Analytics</div>
-        <div class="feature-desc">
-          Live visibility into every optimization. Track cache hits, batch efficiency, cost savings, and latency improvements per request, model, and user.
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot amber"></span>
+                <span class="terminal-dot green"></span>
+                <span style="margin-left: auto; font-size: 12px;">optimization_log</span>
+            </div>
+            <div class="terminal-body" id="terminal">
+                <div class="terminal-line" style="animation-delay: 0s">$ REQUEST_HANDLER.process()</div>
+                <div class="terminal-line" style="animation-delay: 0.2s">→ Input: "Summarize document ABC"</div>
+                <div class="terminal-line" style="animation-delay: 0.4s">→ Cache check: MISS (new doc)</div>
+                <div class="terminal-line" style="animation-delay: 0.6s">→ Semantic similarity: 92% match found</div>
+                <div class="terminal-line" style="animation-delay: 0.8s">→ Routing: Claude 3.5 Sonnet (faster)</div>
+                <div class="terminal-line" style="animation-delay: 1s">→ Processing: 142ms latency</div>
+                <div class="terminal-line" style="animation-delay: 1.2s">→ Cost: $0.002 (vs $0.015 baseline)</div>
+                <div class="terminal-line" style="animation-delay: 1.4s">✓ Saved: $0.013 per request</div>
+            </div>
         </div>
-        <div class="feature-stat">Per-request granularity</div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Features for Platform Leaders -->
-  <section class="platform-section">
-    <div class="features-heading">
-      <div class="section-label">FOR PLATFORM LEADERS</div>
-      <h2 class="section-heading">Complete cost visibility</h2>
-      <p class="features-subtext">
-        Understand exactly where your inference spend is going and optimize at the organizational level.
-      </p>
-    </div>
-
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <div class="feature-title">Cost Attribution</div>
-        <div class="feature-desc">
-          Break down costs by team, project, model, or user. See which teams are optimized and where savings are possible.
+    <!-- For Engineers -->
+    <section class="features-section container fade-in-up">
+        <span class="section-label amber">For engineers</span>
+        <h2 class="section-heading">Optimize without refactoring</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3 class="feature-title">Semantic Caching</h3>
+                <p class="feature-description">Automatically cache semantically similar requests. Reduce repeated computations with intelligent similarity matching.</p>
+                <div class="feature-badge">75% hit rate</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3 class="feature-title">Intelligent Batching</h3>
+                <p class="feature-description">Group compatible requests and batch them together. Reduce API calls by up to 70% and lower per-unit costs.</p>
+                <div class="feature-badge">$2,100/mo savings</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3 class="feature-title">Real-time Analytics</h3>
+                <p class="feature-description">Granular per-request metrics. Understand exactly where costs and latency come from in your inference pipelines.</p>
+                <div class="feature-badge">Per-request granularity</div>
+            </div>
         </div>
-        <div class="feature-stat">Per-team dashboards</div>
-      </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="feature-icon">🔔</div>
-        <div class="feature-title">Budget Alerts</div>
-        <div class="feature-desc">
-          Set spending thresholds and get alerted before costs spiral. Prevent budget overruns with proactive notifications.
+    <!-- For Platform Leaders -->
+    <section class="features-section container fade-in-up">
+        <span class="section-label amber">For platform leaders</span>
+        <h2 class="section-heading">Complete cost visibility</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3 class="feature-title">Cost Attribution</h3>
+                <p class="feature-description">Allocate AI costs to projects, teams, or users. Get chargeback accuracy and understand consumption patterns deeply.</p>
+                <div class="feature-badge">Team-level tracking</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚨</div>
+                <h3 class="feature-title">Budget Alerts</h3>
+                <p class="feature-description">Set spending thresholds and get instant notifications. Prevent runaway costs before they become a problem.</p>
+                <div class="feature-badge">Real-time alerts</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Model Routing</h3>
+                <p class="feature-description">Automatically switch between models based on quality/cost tradeoffs. Optimize for your specific SLAs dynamically.</p>
+                <div class="feature-badge">Save 40-60%</div>
+            </div>
         </div>
-        <div class="feature-stat">Real-time alerts</div>
-      </div>
+    </section>
 
-      <div class="feature-card full-width">
-        <div class="feature-icon">🔀</div>
-        <div class="feature-title">Model Routing</div>
-        <div class="feature-desc">
-          Automatically route requests to the most cost-effective model for each use case. Balance accuracy, speed, and cost without manual intervention.
+    <!-- Code Integration -->
+    <section class="code-section container fade-in-up">
+        <div class="code-block"><span class="code-comment"># Install via pip</span>
+pip install inferenceiq
+
+<span class="code-comment"># Add one line to your application</span>
+<span class="code-keyword">import</span> inferenceiq
+
+<span class="code-comment"># Initialize with your API key</span>
+client = inferenceiq.Client(api_key=<span class="code-string">"your-api-key"</span>)
+
+<span class="code-comment"># Wrap your existing OpenAI calls</span>
+response = client.optimized_request(
+    model=<span class="code-string">"gpt-4o"</span>,
+    messages=[{
+        <span class="code-string">"role"</span>: <span class="code-string">"user"</span>,
+        <span class="code-string">"content"</span>: <span class="code-string">"Analyze this document..."</span>
+    }],
+    optimization_level=<span class="code-string">"aggressive"</span>  <span class="code-comment"># 0ms latency overhead</span>
+)
+
+<span class="code-comment"># Get instant cost & latency metrics</span>
+<span class="code-keyword">print</span>(response.cost_saved)  <span class="code-comment"># $0.013</span>
+<span class="code-keyword">print</span>(response.latency_ms)  <span class="code-comment"># 142ms</span></div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing-section container fade-in-up" id="pricing">
+        <span class="section-label">Pricing</span>
+        <h2 class="section-heading">Simple, transparent pricing</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="pricing-name">Free</h3>
+                <div class="pricing-price">$0</div>
+                <p class="pricing-period">Forever free</p>
+                <ul class="pricing-features">
+                    <li>Up to 1,000 requests/month</li>
+                    <li>Basic analytics</li>
+                    <li>Community support</li>
+                    <li>Single API key</li>
+                </ul>
+                <button class="btn btn-ghost pricing-cta">Get Started</button>
+            </div>
+            <div class="pricing-card recommended">
+                <h3 class="pricing-name">Pro</h3>
+                <div class="pricing-price">$49<span style="font-size: 16px; color: var(--text-secondary);">/mo</span></div>
+                <p class="pricing-period">Most popular</p>
+                <ul class="pricing-features">
+                    <li>Unlimited requests</li>
+                    <li>Advanced caching & batching</li>
+                    <li>Priority support</li>
+                    <li>Team collaboration (5 users)</li>
+                    <li>Cost attribution</li>
+                </ul>
+                <button class="btn btn-primary pricing-cta">Start Free Trial</button>
+            </div>
+            <div class="pricing-card">
+                <h3 class="pricing-name">Enterprise</h3>
+                <div class="pricing-price">Custom</div>
+                <p class="pricing-period">For large deployments</p>
+                <ul class="pricing-features">
+                    <li>Everything in Pro</li>
+                    <li>Custom model routing</li>
+                    <li>SLA & uptime guarantee</li>
+                    <li>Dedicated support</li>
+                    <li>On-premise option</li>
+                </ul>
+                <button class="btn btn-ghost pricing-cta">Contact Sales</button>
+            </div>
         </div>
-        <div class="feature-stat">Save 40-60% average</div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Pricing Section -->
-  <section class="pricing-section" id="pricing">
-    <div class="section-label">PRICING</div>
-    <h2 class="section-heading">Simple, transparent pricing</h2>
+    <!-- Final CTA -->
+    <section class="final-cta container fade-in-up">
+        <h2>Start optimizing today</h2>
+        <p>Join hundreds of companies cutting AI costs by 40-60% without sacrificing quality or speed.</p>
+        <button class="btn btn-primary">Get Early Access</button>
+    </section>
 
-    <div class="pricing-grid">
-      <!-- Free Tier -->
-      <div class="pricing-card">
-        <h3 class="pricing-title">Free</h3>
-        <div class="pricing-price">$0</div>
-        <div class="pricing-period">Forever free tier</div>
-        <ul class="pricing-features">
-          <li>Up to 10K requests/mo</li>
-          <li>Intelligent batching</li>
-          <li>Basic analytics</li>
-          <li>Community support</li>
-          <li>Single model</li>
-        </ul>
-        <button class="pricing-btn" onclick="switchScreen('login')">Get started</button>
-      </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>InferenceIQ</h4>
+                    <p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">Optimize every inference call.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#sdk">SDK</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#changelog">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#api">API Reference</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#status">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#security">Security</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 InferenceIQ. All rights reserved.</span>
+                <div class="footer-legal">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#security">Security</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-      <!-- Pro Tier (Featured) -->
-      <div class="pricing-card featured">
-        <div class="pricing-badge">Most popular</div>
-        <h3 class="pricing-title">Pro</h3>
-        <div class="pricing-price">$49</div>
-        <div class="pricing-period">per month</div>
-        <ul class="pricing-features">
-          <li>Up to 1M requests/mo</li>
-          <li>Intelligent batching</li>
-          <li>Semantic caching</li>
-          <li>Model routing</li>
-          <li>Advanced analytics</li>
-          <li>Priority support</li>
-          <li>Webhook integrations</li>
-        </ul>
-        <button class="pricing-btn" onclick="switchScreen('login')">Start free trial</button>
-      </div>
-
-      <!-- Enterprise Tier -->
-      <div class="pricing-card">
-        <h3 class="pricing-title">Enterprise</h3>
-        <div class="pricing-price">Custom</div>
-        <div class="pricing-period">contact sales</div>
-        <ul class="pricing-features">
-          <li>Unlimited requests</li>
-          <li>All Pro features</li>
-          <li>Custom model deployment</li>
-          <li>Dedicated account manager</li>
-          <li>SLA guarantee</li>
-          <li>On-premise option</li>
-          <li>API rate priority</li>
-        </ul>
-        <button class="pricing-btn" onclick="alert('Contact sales team')">Talk to sales</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="final-cta">
-    <h2>Start optimizing today</h2>
-    <p class="final-cta-subtitle">See results in under 5 minutes. No credit card required.</p>
-    <button class="cta-button-primary" onclick="switchScreen('login')" style="margin-top: 20px;">Get Early Access</button>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-col-left">
-        <div class="footer-title">InferenceIQ</div>
-        <div class="footer-tagline">AI inference cost optimization</div>
-      </div>
-      <div class="footer-col">
-        <h3>Product</h3>
-        <a href="#">Dashboard</a>
-        <a href="#">SDK</a>
-        <a href="#">Pricing</a>
-        <a href="#">Changelog</a>
-      </div>
-      <div class="footer-col">
-        <h3>Resources</h3>
-        <a href="#">Documentation</a>
-        <a href="#">API Reference</a>
-        <a href="#">Blog</a>
-        <a href="#">Status</a>
-      </div>
-      <div class="footer-col">
-        <h3>Company</h3>
-        <a href="#">About</a>
-        <a href="#">Careers</a>
-        <a href="#">Security</a>
-        <a href="#">Contact</a>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="footer-copyright">InferenceIQ, Inc. All rights reserved.</div>
-      <div class="footer-legal">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Security</a>
-      </div>
-    </div>
-  </footer>
 </div>
 
-<!-- Login Screen -->
-<div id="login-screen" class="screen login-screen">
-  <div class="login-card">
-    <div class="login-header">
-      <h2>Welcome back</h2>
-      <p>Sign in to your InferenceIQ account</p>
-    </div>
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="screen">
+    <div class="login-card">
+        <h2>Welcome back</h2>
 
-    <form class="login-form" onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" placeholder="you@example.com" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="login-btn">Sign in</button>
-    </form>
+        <form onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="you@company.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="button" class="login-button" onclick="switchScreen('dashboard'); return false;">Sign In</button>
+        </form>
 
-    <div class="login-divider">
-      <span>or continue with</span>
-    </div>
+        <div class="divider">or continue with</div>
 
-    <div class="social-buttons">
-      <button type="button" class="social-btn" onclick="alert('Google login')">
-        <svg class="social-icon-small" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Google
-      </button>
-      <button type="button" class="social-btn" onclick="alert('GitHub login')">
-        <svg class="social-icon-small" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" fill="currentColor"/>
-        </svg>
-        GitHub
-      </button>
-    </div>
+        <div class="social-buttons">
+            <button class="social-btn">Google</button>
+            <button class="social-btn">GitHub</button>
+        </div>
 
-    <div class="login-footer">
-      Don't have an account? <a href="#signup">Sign up for free</a>
+        <div class="signup-link">
+            Don't have an account? <a href="#signup">Sign up for free</a>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- Dashboard Screen -->
-<div id="dashboard-screen" class="screen dashboard-screen">
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <div class="dashboard-sidebar">
-      <div class="dashboard-sidebar-header">InferenceIQ</div>
-      <ul class="dashboard-nav">
-        <li><a href="#overview" class="active">Overview</a></li>
-        <li><a href="#analytics">Analytics</a></li>
-        <li><a href="#api">API Keys</a></li>
-        <li><a href="#settings">Settings</a></li>
-      </ul>
-      <button class="logout-btn" onclick="switchScreen('landing')">Logout</button>
-    </div>
+<!-- DASHBOARD SCREEN -->
+<div id="dashboard-screen" class="screen">
 
-    <!-- Main Content -->
-    <div class="dashboard-main">
-      <div class="dashboard-header">
-        <div class="dashboard-title">Overview</div>
-        <div class="dashboard-user">
-          <div class="user-avatar">JD</div>
-          <span>john@example.com</span>
-        </div>
-      </div>
+    <aside class="dashboard-sidebar">
+        <div class="dashboard-logo">InferenceIQ</div>
+        <ul class="sidebar-nav">
+            <li><a href="#overview" class="active">Overview</a></li>
+            <li><a href="#analytics">Analytics</a></li>
+            <li><a href="#api-keys">API Keys</a></li>
+            <li><a href="#settings">Settings</a></li>
+        </ul>
+        <button class="sidebar-logout" onclick="switchScreen('landing'); return false;">Logout</button>
+    </aside>
 
-      <!-- Metrics Grid -->
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-card-label">Total Requests</div>
-          <div class="metric-card-value">2,847</div>
-          <div class="metric-card-change">+12.5% from last week</div>
+    <main class="dashboard-main">
+        <div class="dashboard-header">
+            <h1>Overview</h1>
+            <div class="dashboard-avatar">JD</div>
         </div>
-        <div class="metric-card">
-          <div class="metric-card-label">Cost Savings</div>
-          <div class="metric-card-value">$2,340</div>
-          <div class="metric-card-change">+8.2% from last week</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-card-label">Cache Hit Rate</div>
-          <div class="metric-card-value">67.3%</div>
-          <div class="metric-card-change">+4.1% from last week</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-card-label">Avg Latency</div>
-          <div class="metric-card-value">142ms</div>
-          <div class="metric-card-change">-23% from last week</div>
-        </div>
-      </div>
 
-      <!-- Charts -->
-      <div class="charts-grid">
-        <div class="chart-container">
-          <div class="chart-title">Requests Over Time</div>
-          <canvas id="chart1"></canvas>
+        <div class="metrics-grid">
+            <div class="metric-card-dash">
+                <h4>Total Requests</h4>
+                <div class="value">2,847</div>
+                <div class="change">↑ 12% from last week</div>
+            </div>
+            <div class="metric-card-dash">
+                <h4>Cost Savings</h4>
+                <div class="value">$2,340</div>
+                <div class="change">↑ 23% from last week</div>
+            </div>
+            <div class="metric-card-dash">
+                <h4>Cache Hit Rate</h4>
+                <div class="value">67.3%</div>
+                <div class="change">↑ 5% from last week</div>
+            </div>
+            <div class="metric-card-dash">
+                <h4>Avg Latency</h4>
+                <div class="value">142ms</div>
+                <div class="change">↓ 8% from last week</div>
+            </div>
         </div>
-        <div class="chart-container">
-          <div class="chart-title">Cost Breakdown</div>
-          <canvas id="chart2"></canvas>
-        </div>
-      </div>
 
-      <!-- Alerts -->
-      <div class="alerts-table">
-        <div class="alerts-header">Recent Activity</div>
-        <div class="alerts-body">
-          <div class="alert-row">
-            <div class="alert-dot"></div>
-            <div class="alert-message">API key rotation completed</div>
-            <div class="alert-time">2h ago</div>
-          </div>
-          <div class="alert-row">
-            <div class="alert-dot"></div>
-            <div class="alert-message">New model added: gpt-4-turbo</div>
-            <div class="alert-time">5h ago</div>
-          </div>
-          <div class="alert-row">
-            <div class="alert-dot"></div>
-            <div class="alert-message">Cache optimization improved hit rate</div>
-            <div class="alert-time">1d ago</div>
-          </div>
-          <div class="alert-row">
-            <div class="alert-dot"></div>
-            <div class="alert-message">Monthly report generated</div>
-            <div class="alert-time">2d ago</div>
-          </div>
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h4>Requests Over Time</h4>
+                <canvas id="requestsChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h4>Cost Breakdown</h4>
+                <canvas id="costChart"></canvas>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+
+        <div class="activity-container">
+            <h4>Recent Activity</h4>
+            <table class="activity-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Model</th>
+                        <th>Cost</th>
+                        <th>Latency</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2 minutes ago</td>
+                        <td>gpt-4o</td>
+                        <td>$0.015</td>
+                        <td>234ms</td>
+                        <td><span class="alert-badge success">Cached</span></td>
+                    </tr>
+                    <tr>
+                        <td>5 minutes ago</td>
+                        <td>Claude 3.5 Sonnet</td>
+                        <td>$0.008</td>
+                        <td>142ms</td>
+                        <td><span class="alert-badge success">Optimized</span></td>
+                    </tr>
+                    <tr>
+                        <td>8 minutes ago</td>
+                        <td>gpt-4-turbo</td>
+                        <td>$0.023</td>
+                        <td>456ms</td>
+                        <td><span class="alert-badge warning">High latency</span></td>
+                    </tr>
+                    <tr>
+                        <td>12 minutes ago</td>
+                        <td>Claude 3.5 Sonnet</td>
+                        <td>$0.006</td>
+                        <td>128ms</td>
+                        <td><span class="alert-badge success">Batched</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
 </div>
 
 <script>
-  // Screen switching
-  function switchScreen(screenName) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(screenName + '-screen');
-    if (target) {
-      target.classList.add('active');
-      if (screenName === 'dashboard') {
-        setTimeout(() => { initCharts(); }, 100);
-      }
-    }
-  }
-
-  // Login handler
-  function handleLogin(event) {
-    event.preventDefault();
-    switchScreen('dashboard');
-  }
-
-  // Chart.js initialization
-  let chart1, chart2;
-
-  function initCharts() {
-    if (chart1) chart1.destroy();
-    if (chart2) chart2.destroy();
-
-    const ctx1 = document.getElementById('chart1');
-    if (ctx1) {
-      chart1 = new Chart(ctx1, {
-        type: 'line',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'Requests',
-            data: [320, 380, 350, 420, 490, 520, 487],
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#6366f1',
-            pointBorderColor: '#6366f1'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: {
-              display: false
+    // Screen Management
+    function switchScreen(screenName) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(screenName + '-screen');
+        if (target) {
+            target.classList.add('active');
+            if (screenName === 'dashboard') {
+                setTimeout(() => { initCharts(); }, 100);
             }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              grid: {
-                color: 'rgba(255, 255, 255, 0.05)'
-              },
-              ticks: {
-                color: '#888'
-              }
-            },
-            x: {
-              grid: {
-                color: 'rgba(255, 255, 255, 0.05)'
-              },
-              ticks: {
-                color: '#888'
-              }
-            }
-          }
         }
-      });
     }
 
-    const ctx2 = document.getElementById('chart2');
-    if (ctx2) {
-      chart2 = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-          labels: ['API Calls', 'Cache Hits', 'Model Routing'],
-          datasets: [{
-            data: [45, 35, 20],
-            backgroundColor: [
-              '#6366f1',
-              '#818cf8',
-              '#a5b4fc'
-            ],
-            borderColor: '#09090b',
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                color: '#888',
-                padding: 20
-              }
-            }
-          }
-        }
-      });
-    }
-  }
+    // Mobile Menu Toggle
+    document.getElementById('hamburger').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.getElementById('mobileNav').classList.toggle('active');
+    });
 
-  // Set landing screen as active on load
-  document.addEventListener('DOMContentLoaded', function() {
-    // Intersection Observer for scroll animations
+    // Intersection Observer for fade-in animations
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100;
+                entry.target.style.animationDelay = `${delay}ms`;
+            }
+        });
     }, observerOptions);
 
-    // Observe all fade elements
-    document.querySelectorAll('.step-card, .feature-card, .pricing-card').forEach(el => {
-      el.classList.add('fade-in');
-      observer.observe(el);
+    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+    // Chart.js Initialization
+    let requestsChartInstance = null;
+    let costChartInstance = null;
+
+    function initCharts() {
+        // Destroy existing charts if they exist
+        if (requestsChartInstance) {
+            requestsChartInstance.destroy();
+        }
+        if (costChartInstance) {
+            costChartInstance.destroy();
+        }
+
+        const ctxRequests = document.getElementById('requestsChart');
+        const ctxCost = document.getElementById('costChart');
+
+        if (!ctxRequests || !ctxCost) return;
+
+        // Requests Chart
+        requestsChartInstance = new Chart(ctxRequests, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Requests',
+                    data: [320, 380, 420, 450, 520, 480, 550],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#6366f1',
+                    pointBorderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.06)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#a1a1aa',
+                            font: {
+                                family: 'Inter, sans-serif',
+                                size: 12
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#a1a1aa',
+                            font: {
+                                family: 'Inter, sans-serif',
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Cost Chart
+        costChartInstance = new Chart(ctxCost, {
+            type: 'doughnut',
+            data: {
+                labels: ['GPT-4o', 'Claude 3.5', 'GPT-4 Turbo', 'Other'],
+                datasets: [{
+                    data: [35, 28, 22, 15],
+                    backgroundColor: [
+                        '#6366f1',
+                        '#22c55e',
+                        '#f59e0b',
+                        '#71717a'
+                    ],
+                    borderColor: '#09090b',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#a1a1aa',
+                            font: {
+                                family: 'Inter, sans-serif',
+                                size: 12
+                            },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Terminal Animation Cycling
+    let terminalIndex = 0;
+    const terminalStates = [
+        [
+            "$ REQUEST_HANDLER.process()",
+            "→ Input: \"Summarize document ABC\"",
+            "→ Cache check: MISS (new doc)",
+            "→ Semantic similarity: 92% match found",
+            "→ Routing: Claude 3.5 Sonnet (faster)",
+            "→ Processing: 142ms latency",
+            "→ Cost: $0.002 (vs $0.015 baseline)",
+            "✓ Saved: $0.013 per request"
+        ],
+        [
+            "$ REQUEST_HANDLER.process()",
+            "→ Input: \"Translate to Spanish\"",
+            "→ Cache check: HIT (87% similarity)",
+            "→ Fetching cached response...",
+            "→ Processing: 12ms latency",
+            "→ Cost: $0.0001 (vs $0.008 baseline)",
+            "✓ Saved: $0.0079 per request",
+            "✓ Cache hit! Instant response"
+        ],
+        [
+            "$ REQUEST_HANDLER.process()",
+            "→ Input: \"Batch 4 similar prompts\"",
+            "→ Batching compatible requests...",
+            "→ Single API call: 4 requests",
+            "→ Processing: 186ms latency",
+            "→ Cost: $0.005 (vs $0.032 baseline)",
+            "✓ Saved: $0.027 per batch",
+            "✓ Efficiency: 70% cost reduction"
+        ]
+    ];
+
+    function updateTerminal() {
+        const terminal = document.getElementById('terminal');
+        if (!terminal) return;
+
+        const lines = terminalStates[terminalIndex % terminalStates.length];
+        terminal.innerHTML = '';
+
+        lines.forEach((line, idx) => {
+            const div = document.createElement('div');
+            div.className = 'terminal-line';
+            div.textContent = line;
+            div.style.animationDelay = `${idx * 0.2}s`;
+            terminal.appendChild(div);
+        });
+
+        terminalIndex++;
+    }
+
+    // Update terminal every 5 seconds
+    updateTerminal();
+    setInterval(updateTerminal, 5000);
+
+    // Smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#login' || href === '#signup') return;
+
+            e.preventDefault();
+            const element = document.querySelector(href);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     });
-  });
 </script>
 
 </body>
