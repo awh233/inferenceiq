@@ -27,9 +27,11 @@
             --gray-900: #18181b;
             --gray-950: #111113;
             --black: #09090b;
-            --indigo: #6366f1;
-            --indigo-light: #818cf8;
-            --indigo-dark: #4f46e5;
+            --primary: #10b981;
+            --primary-light: #34d399;
+            --primary-dark: #059669;
+            --accent: #06b6d4;
+            --accent-light: #22d3ee;
             --green: #22c55e;
             --amber: #f59e0b;
             --rose: #f43f5e;
@@ -119,7 +121,7 @@
         .nav-logo-icon {
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, var(--indigo-light), var(--indigo));
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -165,14 +167,14 @@
             font-size: 13px;
             font-weight: 500;
             color: var(--white);
-            background-color: var(--indigo);
+            background-color: var(--primary);
             border: none;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .nav-cta:hover {
-            background-color: var(--indigo-dark);
+            background-color: var(--primary-dark);
         }
 
         .hamburger {
@@ -212,7 +214,7 @@
             left: -20%;
             width: 800px;
             height: 800px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -224,7 +226,7 @@
             right: -10%;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -246,8 +248,8 @@
             gap: 8px;
             padding: 6px 16px;
             border-radius: 100px;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            background-color: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            background-color: rgba(16, 185, 129, 0.05);
             font-size: 13px;
             color: var(--white);
             width: fit-content;
@@ -281,7 +283,7 @@
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, var(--indigo-light), var(--indigo), #a78bfa);
+            background: linear-gradient(135deg, var(--accent-light), var(--primary), var(--primary-dark));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -303,7 +305,7 @@
         }
 
         .cta-primary {
-            background-color: var(--indigo);
+            background-color: var(--primary);
             color: var(--white);
             padding: 12px 28px;
             border-radius: 8px;
@@ -315,7 +317,7 @@
         }
 
         .cta-primary:hover {
-            background-color: var(--indigo-dark);
+            background-color: var(--primary-dark);
         }
 
         .cta-ghost {
@@ -331,8 +333,8 @@
         }
 
         .cta-ghost:hover {
-            border-color: rgba(99, 102, 241, 0.5);
-            background-color: rgba(99, 102, 241, 0.05);
+            border-color: rgba(16, 185, 129, 0.5);
+            background-color: rgba(16, 185, 129, 0.05);
         }
 
         .demo-cards {
@@ -357,14 +359,14 @@
         }
 
         .demo-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-            background-color: rgba(99, 102, 241, 0.02);
+            border-color: rgba(16, 185, 129, 0.3);
+            background-color: rgba(16, 185, 129, 0.02);
         }
 
         .demo-card-icon {
             width: 32px;
             height: 32px;
-            background-color: rgba(99, 102, 241, 0.1);
+            background-color: rgba(16, 185, 129, 0.1);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -419,7 +421,7 @@
         }
 
         .metric-value.green { color: var(--green); }
-        .metric-value.indigo { color: var(--indigo-light); }
+        .metric-value.indigo { color: var(--primary-light); }
 
         .metric-label {
             font-size: 13px;
@@ -433,7 +435,7 @@
             padding: 48px 0;
             border-top: 1px solid;
             border-bottom: 1px solid;
-            border-image: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.2), transparent) 1;
+            border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.2), transparent) 1;
             margin-top: 80px;
         }
 
@@ -502,7 +504,7 @@
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 0.15em;
-            color: var(--indigo-light);
+            color: var(--primary-light);
             margin-bottom: 16px;
         }
 
@@ -538,13 +540,13 @@
         }
 
         .step-card:hover {
-            border-color: rgba(99, 102, 241, 0.2);
-            background-color: rgba(99, 102, 241, 0.02);
+            border-color: rgba(16, 185, 129, 0.2);
+            background-color: rgba(16, 185, 129, 0.02);
         }
 
         .step-number {
             font-size: 13px;
-            color: var(--indigo-light);
+            color: var(--primary-light);
             font-weight: 600;
             font-variant-numeric: tabular-nums;
             margin-bottom: 24px;
@@ -605,7 +607,7 @@
 
         .feature-bullet::before {
             content: '✓';
-            color: var(--indigo);
+            color: var(--primary);
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -657,7 +659,7 @@
         }
 
         .terminal-prompt {
-            color: var(--indigo);
+            color: var(--primary);
         }
 
         /* Bento Grid Section */
@@ -705,8 +707,8 @@
         }
 
         .bento-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-            background-color: rgba(99, 102, 241, 0.02);
+            border-color: rgba(16, 185, 129, 0.3);
+            background-color: rgba(16, 185, 129, 0.02);
         }
 
         .bento-icon {
@@ -750,8 +752,8 @@
         }
 
         .comparison-side.with {
-            background-color: rgba(99, 102, 241, 0.05);
-            border-color: rgba(99, 102, 241, 0.2);
+            background-color: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
         }
 
         .comparison-title {
@@ -819,14 +821,14 @@
         }
 
         .pricing-card.featured {
-            background-color: rgba(99, 102, 241, 0.03);
-            border-color: rgba(99, 102, 241, 0.3);
+            background-color: rgba(16, 185, 129, 0.03);
+            border-color: rgba(16, 185, 129, 0.3);
             transform: translateY(-8px);
         }
 
         .pricing-badge {
             display: inline-block;
-            background-color: var(--indigo);
+            background-color: var(--primary);
             color: var(--white);
             padding: 4px 12px;
             border-radius: 4px;
@@ -883,7 +885,7 @@
 
         .pricing-feature::before {
             content: '✓';
-            color: var(--indigo);
+            color: var(--primary);
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -902,8 +904,8 @@
         }
 
         .pricing-card.featured .pricing-cta {
-            background-color: var(--indigo);
-            border-color: var(--indigo);
+            background-color: var(--primary);
+            border-color: var(--primary);
         }
 
         .pricing-cta:hover {
@@ -912,14 +914,14 @@
         }
 
         .pricing-card.featured .pricing-cta:hover {
-            background-color: var(--indigo-dark);
+            background-color: var(--primary-dark);
         }
 
         /* CTA Section */
         .final-cta {
             padding: 120px 0;
             border-top: 1px solid;
-            border-image: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.2), transparent) 1;
+            border-image: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.2), transparent) 1;
             text-align: center;
         }
 
@@ -1025,7 +1027,7 @@
 
         /* Login Screen */
         .login-screen {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(0, 0, 0, 0));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(0, 0, 0, 0));
         }
 
         .login-card {
@@ -1048,7 +1050,7 @@
         .login-logo-icon {
             width: 28px;
             height: 28px;
-            background: linear-gradient(135deg, var(--indigo-light), var(--indigo));
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -1105,13 +1107,13 @@
 
         .form-input:focus {
             outline: none;
-            border-color: rgba(99, 102, 241, 0.5);
-            background-color: rgba(99, 102, 241, 0.02);
+            border-color: rgba(16, 185, 129, 0.5);
+            background-color: rgba(16, 185, 129, 0.02);
         }
 
         .login-submit {
             width: 100%;
-            background-color: var(--indigo);
+            background-color: var(--primary);
             color: var(--white);
             padding: 12px 16px;
             border-radius: 8px;
@@ -1124,7 +1126,7 @@
         }
 
         .login-submit:hover {
-            background-color: var(--indigo-dark);
+            background-color: var(--primary-dark);
         }
 
         .login-forgot {
@@ -1134,13 +1136,13 @@
 
         .login-forgot a {
             font-size: 13px;
-            color: var(--indigo);
+            color: var(--primary);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .login-forgot a:hover {
-            color: var(--indigo-light);
+            color: var(--primary-light);
         }
 
         .login-signup {
@@ -1153,13 +1155,13 @@
         }
 
         .login-signup a {
-            color: var(--indigo);
+            color: var(--primary);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .login-signup a:hover {
-            color: var(--indigo-light);
+            color: var(--primary-light);
         }
 
         .login-back {
@@ -1206,7 +1208,7 @@
         .sidebar-logo-icon {
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, var(--indigo-light), var(--indigo));
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -1249,8 +1251,8 @@
         }
 
         .sidebar-nav-item.active {
-            background-color: rgba(99, 102, 241, 0.1);
-            color: var(--indigo-light);
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--primary-light);
         }
 
         .sidebar-logout {
@@ -1620,15 +1622,15 @@
                                 <div class="terminal-line"><span class="terminal-prompt">$</span> npm install @inferenceiq/sdk</div>
                                 <div class="terminal-line" style="margin-top: 8px; color: var(--gray-500);">added 12 packages in 2.3s</div>
                                 <div class="terminal-line" style="margin-top: 16px;"><span class="terminal-prompt">$</span> cat app.js</div>
-                                <div class="terminal-line" style="margin-top: 8px; color: var(--indigo);">import InferenceIQ from '@inferenceiq/sdk';</div>
-                                <div class="terminal-line" style="color: var(--indigo);">const iq = new InferenceIQ({</div>
-                                <div class="terminal-line" style="color: var(--indigo);">  apiKey: process.env.IQ_API_KEY</div>
-                                <div class="terminal-line" style="color: var(--indigo);">});</div>
-                                <div class="terminal-line" style="color: var(--indigo); margin-top: 8px;">const response = await iq.chat({</div>
-                                <div class="terminal-line" style="color: var(--indigo);">  messages: [...],</div>
-                                <div class="terminal-line" style="color: var(--indigo);">  maxCost: 0.01,</div>
-                                <div class="terminal-line" style="color: var(--indigo);">  maxLatency: 2000</div>
-                                <div class="terminal-line" style="color: var(--indigo);">});</div>
+                                <div class="terminal-line" style="margin-top: 8px; color: var(--primary);">import InferenceIQ from '@inferenceiq/sdk';</div>
+                                <div class="terminal-line" style="color: var(--primary);">const iq = new InferenceIQ({</div>
+                                <div class="terminal-line" style="color: var(--primary);">  apiKey: process.env.IQ_API_KEY</div>
+                                <div class="terminal-line" style="color: var(--primary);">});</div>
+                                <div class="terminal-line" style="color: var(--primary); margin-top: 8px;">const response = await iq.chat({</div>
+                                <div class="terminal-line" style="color: var(--primary);">  messages: [...],</div>
+                                <div class="terminal-line" style="color: var(--primary);">  maxCost: 0.01,</div>
+                                <div class="terminal-line" style="color: var(--primary);">  maxLatency: 2000</div>
+                                <div class="terminal-line" style="color: var(--primary);">});</div>
                             </div>
                         </div>
                     </div>
@@ -2043,12 +2045,12 @@
                     datasets: [{
                         label: 'Cost Savings ($)',
                         data: [12400, 28900, 41200, 53800, 62100, 78400],
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         tension: 0.4,
                         fill: true,
                         borderWidth: 2,
-                        pointBackgroundColor: '#6366f1',
+                        pointBackgroundColor: '#10b981',
                         pointBorderColor: '#09090b',
                         pointBorderWidth: 2,
                         pointRadius: 4,
@@ -2097,8 +2099,8 @@
                     datasets: [{
                         data: [35, 28, 22, 15],
                         backgroundColor: [
-                            '#6366f1',
-                            '#818cf8',
+                            '#10b981',
+                            '#34d399',
                             '#22c55e',
                             '#f59e0b'
                         ],
