@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — InferenceIQ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2322c55e'/><text x='16' y='22' font-size='16' font-weight='bold' fill='white' text-anchor='middle' font-family='system-ui'>IQ</text></svg>">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050507;--bg2:#09090b;--surface:#111114;--surface2:#18181b;
+  --border:rgba(255,255,255,.06);--border-h:rgba(255,255,255,.12);
+  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
+  --green:#22c55e;--green-dim:rgba(34,197,94,.15);--green-border:rgba(34,197,94,.25);
+  --blue:#3b82f6;--radius:10px;--radius-lg:16px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(34,197,94,.25)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,7,.8);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;color:var(--text);transition:.2s}
+.nav-logo:hover{color:var(--green)}
+.nav-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{padding:8px 16px;font-size:14px;color:var(--text2);text-decoration:none;border-radius:8px;transition:.15s}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.cta-sm{padding:8px 20px;background:var(--green);color:#fff;font-weight:600;font-size:14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .1s,box-shadow .15s}
+.cta-sm:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+
+.page-header{padding:140px 32px 60px;text-align:center;max-width:900px;margin:0 auto}
+.page-title{font-size:clamp(36px,6vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+
+.legal-section{padding:60px 32px;max-width:900px;margin:0 auto}
+.legal-section h2{font-size:20px;font-weight:600;margin:32px 0 16px 0}
+.legal-section p{font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.8}
+.legal-section ul{padding-left:24px;margin-bottom:16px}
+.legal-section li{font-size:14px;color:var(--text2);margin-bottom:8px}
+
+.footer{border-top:1px solid var(--border);padding:40px 32px;background:var(--bg2)}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
+.footer-col h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:12px}
+.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:8px;transition:.15s}
+.footer-col a:hover{color:var(--text)}
+.footer-col-brand{grid-column:1}
+.footer-col-brand .logo{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:600}
+.footer-copy{text-align:center;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);grid-column:1/-1}
+
+@media(max-width:768px){
+  .page-header{padding:120px 20px 40px}
+  .legal-section{padding:40px 20px}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:20px}
+}
+@media(max-width:480px){
+  .nav-links a{display:none}
+  .page-title{font-size:32px}
+  .footer-inner{grid-template-columns:1fr;gap:16px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><div class="nav-mark">IQ</div>InferenceIQ</a>
+  <div class="nav-links">
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="https://awh233.github.io/inferenceiq">Docs</a>
+    <a href="blog.html">Blog</a>
+    <a href="changelog.html">Changelog</a>
+    <button class="cta-sm">Get Started</button>
+  </div>
+</nav>
+
+<main style="padding-top:64px">
+<div class="page-header">
+  <h1 class="page-title">Terms of Service</h1>
+  <p style="font-size:14px;color:var(--text3)">Last updated: March 7, 2026</p>
+</div>
+
+<section class="legal-section">
+  <h2>1. Acceptance of Terms</h2>
+  <p>By accessing and using InferenceIQ's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+
+  <h2>2. Service Description</h2>
+  <p>InferenceIQ provides AI inference optimization services, including intelligent model routing, semantic caching, prompt compression, and batch shifting. The service is designed to reduce AI inference costs while maintaining response quality.</p>
+
+  <h2>3. Acceptable Use</h2>
+  <p>You agree not to use the service:</p>
+  <ul>
+    <li>For illegal purposes or in violation of any applicable laws</li>
+    <li>To harass, abuse, or harm any person</li>
+    <li>To send spam or unsolicited communications</li>
+    <li>To interfere with or disrupt the service infrastructure</li>
+    <li>To attempt to gain unauthorized access to systems</li>
+    <li>To reverse engineer or extract service algorithms</li>
+  </ul>
+
+  <h2>4. User Accounts</h2>
+  <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account.</p>
+
+  <h2>5. Intellectual Property</h2>
+  <p>All content, features, and functionality of the service are owned by InferenceIQ, its licensors, or other providers of such material and are protected by international copyright, trademark, and other intellectual property laws.</p>
+
+  <h2>6. Limitation of Liability</h2>
+  <p>InferenceIQ shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or business interruption, even if advised of the possibility of such damages.</p>
+
+  <h2>7. Service Modifications</h2>
+  <p>InferenceIQ reserves the right to modify or discontinue the service at any time, with or without notice. We will make reasonable efforts to notify users of significant changes.</p>
+
+  <h2>8. Termination</h2>
+  <p>We may terminate or suspend your account and access to the service immediately, without prior notice or liability, if you violate these terms or our acceptable use policy.</p>
+
+  <h2>9. Governing Law</h2>
+  <p>These terms shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflicts of law provisions.</p>
+
+  <h2>10. Contact for Legal Notices</h2>
+  <p><strong>Email:</strong> legal@inferenceiq.com</p>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-col-brand">
+      <div class="logo"><div class="nav-mark" style="width:28px;height:28px;font-size:11px">IQ</div>InferenceIQ</div>
+      <p style="font-size:12px;color:var(--text3);line-height:1.6">Cut AI inference costs 40% without sacrificing quality. Transparent, instant, automatic.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="features.html">Features</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="index.html">Dashboard</a>
+      <a href="https://inferenceiq-api.onrender.com/docs">API Docs</a>
+      <a href="https://pypi.org/project/inferenceiq/">SDK</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="careers.html">Careers</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="https://awh233.github.io/inferenceiq">Documentation</a>
+      <a href="https://inferenceiq-api.onrender.com/docs">API Reference</a>
+      <a href="status.html">Status</a>
+      <a href="changelog.html">Changelog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="security.html">Security</a>
+      <a href="compliance.html">Compliance</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 InferenceIQ Inc. All rights reserved.</div>
+</footer>
+</body>
+</html>
