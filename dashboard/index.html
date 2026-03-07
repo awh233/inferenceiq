@@ -3,33 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InferenceIQ - AI Inference Optimization</title>
+  <title>InferenceIQ - AI Inference Cost Optimization</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 
   <style>
+    :root {
+      --white: #fafafa;
+      --gray-100: #f4f4f5;
+      --gray-200: #e4e4e7;
+      --gray-300: #d4d4d8;
+      --gray-400: #a1a1aa;
+      --gray-500: #71717a;
+      --gray-600: #52525b;
+      --gray-700: #3f3f46;
+      --gray-800: #27272a;
+      --gray-900: #18181b;
+      --gray-950: #111113;
+      --black: #09090b;
+      --indigo: #6366f1;
+      --indigo-light: #818cf8;
+      --indigo-dark: #4f46e5;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: #000;
-      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--black);
+      color: var(--white);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* Screen Management */
     .screen {
       display: none;
+      width: 100%;
+      min-height: 100vh;
     }
     .screen.active {
       display: block;
@@ -39,7 +67,7 @@
     }
 
     /* ============================================ */
-    /* LANDING PAGE */
+    /* LANDING SCREEN */
     /* ============================================ */
 
     .landing-screen {
@@ -53,21 +81,22 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 70px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 60px;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
       z-index: 1000;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .logo {
+    .nav-logo {
       font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.5px;
+      color: var(--white);
     }
 
     .nav-right {
@@ -83,44 +112,64 @@
     }
 
     .nav-links a {
-      color: #999;
+      color: var(--gray-400);
       text-decoration: none;
       font-size: 14px;
+      font-weight: 500;
       transition: color 0.3s;
     }
 
     .nav-links a:hover {
-      color: #fff;
+      color: var(--white);
     }
 
-    .nav-btn {
-      padding: 8px 18px;
+    .nav-btn-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-btn-login {
+      padding: 10px 20px;
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      border-radius: 6px;
+      border: none;
+      color: var(--gray-400);
       cursor: pointer;
       font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-btn-login:hover {
+      color: var(--white);
+    }
+
+    .nav-btn-cta {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--indigo);
+      color: var(--indigo);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
       transition: all 0.3s;
     }
 
-    .nav-btn:hover {
-      border-color: rgba(255, 255, 255, 0.5);
-      background: rgba(255, 255, 255, 0.05);
+    .nav-btn-cta:hover {
+      background: var(--indigo);
+      color: var(--white);
     }
 
     /* Hero Section */
     .hero {
-      padding-top: 120px;
-      padding-bottom: 100px;
+      padding: 140px 60px 100px 60px;
       position: relative;
       overflow: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      background: #000;
     }
 
     .hero::before {
@@ -131,9 +180,8 @@
       top: -25%;
       left: -25%;
       background:
-        radial-gradient(circle at 20% 50%, rgba(45, 27, 105, 0.5) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(12, 20, 69, 0.6) 0%, transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(108, 92, 231, 0.3) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 50%);
       animation: meshMove 20s ease-in-out infinite;
       z-index: 0;
     }
@@ -147,209 +195,446 @@
     .hero-content {
       position: relative;
       z-index: 1;
-      text-align: center;
-      max-width: 900px;
+      max-width: 600px;
+    }
+
+    .beta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 100px;
+      margin-bottom: 32px;
+      width: fit-content;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .beta-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .beta-text {
+      font-size: 13px;
+      color: var(--indigo);
+      font-weight: 500;
     }
 
     .hero h1 {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(60px, 10vw, 96px);
-      font-weight: 400;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      letter-spacing: -1px;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: var(--white);
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero-subtitle {
-      font-size: 20px;
-      color: #888;
-      margin-bottom: 50px;
-      font-weight: 400;
+      font-size: 1.15rem;
+      color: var(--gray-400);
+      margin-bottom: 48px;
+      line-height: 1.7;
+      max-width: 540px;
     }
 
-    .hero-cta {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
       margin-bottom: 80px;
+      flex-wrap: wrap;
     }
 
-    .cta-button {
-      padding: 14px 32px;
-      background: linear-gradient(135deg, #6C5CE7, #5a4fc1);
+    .cta-button-primary {
+      padding: 14px 28px;
+      background: var(--indigo);
       border: none;
-      color: #fff;
+      color: var(--white);
       border-radius: 8px;
-      font-size: 16px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 0 40px rgba(108, 92, 231, 0.3);
       font-family: 'Inter', sans-serif;
     }
 
-    .cta-button:hover {
+    .cta-button-primary:hover {
+      background: var(--indigo-dark);
       transform: translateY(-2px);
-      box-shadow: 0 0 60px rgba(108, 92, 231, 0.5);
     }
 
-    .cta-button.outline {
+    .cta-button-secondary {
+      padding: 14px 28px;
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: none;
+      border: 1px solid var(--gray-700);
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
     }
 
-    .cta-button.outline:hover {
+    .cta-button-secondary:hover {
+      border-color: var(--gray-500);
       background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: none;
     }
 
-    .install-text {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: #666;
-      letter-spacing: 0.5px;
-    }
-
-    /* Code Block */
-    .code-section {
-      position: relative;
-      z-index: 1;
-      padding: 0 40px;
+    /* Persona Cards */
+    .persona-container {
       margin-bottom: 100px;
-    }
-
-    .code-block {
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--gray-800);
       border-radius: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      line-height: 1.8;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .persona-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .persona-card {
       padding: 32px;
-      max-width: 650px;
-      margin: 0 auto;
-      overflow-x: auto;
-      animation: slideUp 0.8s ease-out;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .code-block .keyword {
-      color: #c678dd;
-    }
-
-    .code-block .string {
-      color: #98c379;
-    }
-
-    .code-block .comment {
-      color: #5c6370;
-    }
-
-    .code-block .function {
-      color: #61afef;
-    }
-
-    .code-block .number {
-      color: #e5c07b;
-    }
-
-    /* Metrics Strip */
-    .metrics-strip {
-      position: relative;
-      z-index: 1;
+      border-right: 1px solid var(--gray-800);
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .persona-card:last-child {
+      border-right: none;
+    }
+
+    .persona-card:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .persona-content {
+      flex: 1;
+    }
+
+    .persona-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--gray-700);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 80px;
-      padding: 60px 40px;
-      margin-bottom: 100px;
+      margin-right: 24px;
+      color: var(--indigo);
+      font-size: 20px;
     }
 
-    .metric {
+    .persona-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .persona-desc {
+      font-size: 14px;
+      color: var(--gray-400);
+    }
+
+    .persona-arrow {
+      font-size: 20px;
+      color: var(--gray-500);
+      transition: all 0.3s;
+      margin-left: 24px;
+    }
+
+    .persona-card:hover .persona-arrow {
+      color: var(--indigo);
+      transform: translateX(4px);
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      margin-bottom: 120px;
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.01);
+      overflow: hidden;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0;
+    }
+
+    .stat-item {
+      padding: 40px;
       text-align: center;
+      border-right: 1px solid var(--gray-800);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    .metric-value {
-      font-size: 48px;
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-value {
+      font-size: 2rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #6C5CE7, #74b9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--white);
       margin-bottom: 8px;
       font-variant-numeric: tabular-nums;
     }
 
-    .metric-label {
-      font-size: 14px;
-      color: #888;
-      font-weight: 400;
+    .stat-value.green {
+      color: var(--green);
     }
 
-    /* Bento Grid */
-    .bento-section {
-      position: relative;
-      z-index: 1;
-      padding: 0 40px 100px;
-      max-width: 1400px;
-      margin: 0 auto;
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray-500);
+      font-weight: 500;
+      letter-spacing: 0.05em;
     }
 
-    .bento-grid {
+    /* Logo Marquee */
+    .marquee-section {
+      margin-bottom: 120px;
+      padding: 80px 0;
+    }
+
+    .marquee-label {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      font-weight: 600;
+    }
+
+    .marquee-container {
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.01);
+      border-top: 1px solid var(--gray-800);
+      border-bottom: 1px solid var(--gray-800);
+      padding: 32px 0;
+    }
+
+    .marquee-content {
+      display: flex;
+      gap: 60px;
+      animation: scroll-left 30s linear infinite;
+      white-space: nowrap;
+      padding: 0 60px;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      flex-shrink: 0;
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+      padding: 100px 60px;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      color: var(--indigo);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 60px;
+      max-width: 600px;
+    }
+
+    .steps-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 24px;
     }
 
-    .bento-card {
-      background: rgba(10, 10, 10, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      padding: 40px;
-      position: relative;
+    .step-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .step-card:hover {
+      border-color: var(--indigo);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: var(--indigo);
+      font-size: 18px;
+    }
+
+    .step-number {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .step-metric {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Demo Section */
+    .demo-section {
+      padding: 100px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .demo-left {
+      max-width: 500px;
+    }
+
+    .demo-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .demo-subtitle {
+      font-size: 15px;
+      color: var(--gray-400);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .terminal {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
       overflow: hidden;
-      animation: fadeInUp 0.8s ease-out forwards;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
     }
 
-    .bento-card:nth-child(1) {
-      grid-column: span 2;
-      grid-row: span 1;
-      animation-delay: 0.1s;
+    .terminal-header {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--gray-800);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .bento-card:nth-child(2) {
-      grid-column: span 2;
-      grid-row: span 2;
-      animation-delay: 0.2s;
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
     }
 
-    .bento-card:nth-child(3) {
-      grid-column: span 2;
-      grid-row: span 1;
-      animation-delay: 0.3s;
+    .terminal-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gray-700);
+      border-radius: 50%;
     }
 
-    .bento-card:nth-child(4) {
-      grid-column: span 2;
-      grid-row: span 1;
-      animation-delay: 0.4s;
+    .terminal-title {
+      margin-left: 12px;
+      color: var(--gray-400);
+      font-size: 12px;
+    }
+
+    .terminal-content {
+      padding: 24px;
+      color: var(--green);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .terminal-line {
+      margin-bottom: 8px;
+      animation: fadeInUp 0.5s ease-out forwards;
+      opacity: 0;
     }
 
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(10px);
       }
       to {
         opacity: 1;
@@ -357,516 +642,485 @@
       }
     }
 
-    .bento-card h3 {
-      font-size: 20px;
-      margin-bottom: 30px;
-      font-weight: 600;
+    .terminal-line:nth-child(1) { animation-delay: 0s; }
+    .terminal-line:nth-child(2) { animation-delay: 0.1s; }
+    .terminal-line:nth-child(3) { animation-delay: 0.2s; }
+    .terminal-line:nth-child(4) { animation-delay: 0.3s; }
+    .terminal-line:nth-child(5) { animation-delay: 0.4s; }
+    .terminal-line:nth-child(6) { animation-delay: 0.5s; }
+
+    .comment { color: var(--gray-500); }
+    .output { color: var(--white); }
+    .keyword { color: var(--indigo-light); }
+    .string { color: var(--green); }
+
+    /* Features Section */
+    .features-section {
+      padding: 100px 60px;
     }
 
-    .bento-card:hover {
-      border-color: rgba(255, 255, 255, 0.12);
-      background: rgba(10, 10, 10, 0.95);
+    .features-heading {
+      margin-bottom: 80px;
     }
 
-    /* Batching Visualization */
-    .batching-viz {
-      display: flex;
-      gap: 8px;
-      align-items: flex-end;
-      height: 100px;
+    .features-section .section-label {
+      color: var(--indigo);
     }
 
-    .batch-bar {
-      flex: 1;
-      background: linear-gradient(180deg, #6C5CE7, #5a4fc1);
-      border-radius: 4px;
-      animation: batchPulse 2s ease-in-out infinite;
+    .features-section .section-heading {
+      max-width: 700px;
     }
 
-    .batch-bar:nth-child(1) { animation-delay: 0s; }
-    .batch-bar:nth-child(2) { animation-delay: 0.2s; }
-    .batch-bar:nth-child(3) { animation-delay: 0.4s; }
-    .batch-bar:nth-child(4) { animation-delay: 0.6s; }
-    .batch-bar:nth-child(5) { animation-delay: 0.8s; }
-
-    @keyframes batchPulse {
-      0%, 100% { height: 30%; }
-      50% { height: 100%; }
+    .features-subtext {
+      font-size: 15px;
+      color: var(--gray-400);
+      line-height: 1.7;
+      max-width: 600px;
+      margin-top: 20px;
     }
 
-    /* Cache Visualization */
-    .cache-viz {
-      display: flex;
-      gap: 12px;
-      height: 60px;
-      align-items: center;
-    }
-
-    .cache-item {
-      flex: 1;
-      height: 100%;
-      background: rgba(108, 92, 231, 0.1);
-      border: 1px solid rgba(108, 92, 231, 0.3);
-      border-radius: 8px;
-      animation: cacheFlip 3s ease-in-out infinite;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: #888;
-    }
-
-    .cache-item:nth-child(1) { animation-delay: 0s; }
-    .cache-item:nth-child(2) { animation-delay: 0.4s; }
-    .cache-item:nth-child(3) { animation-delay: 0.8s; }
-    .cache-item:nth-child(4) { animation-delay: 1.2s; }
-
-    @keyframes cacheFlip {
-      0%, 20% { background: rgba(108, 92, 231, 0.1); color: #888; }
-      40%, 60% { background: rgba(152, 195, 121, 0.2); color: #98c379; }
-      80%, 100% { background: rgba(108, 92, 231, 0.1); color: #888; }
-    }
-
-    /* Pie Chart (CSS Conic Gradient) */
-    .pie-chart {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        #6C5CE7 0deg 120deg,
-        #74b9ff 120deg 240deg,
-        #a29bfe 240deg 360deg
-      );
-      margin: 0 auto 20px;
-      animation: rotatePie 3s linear infinite;
-    }
-
-    @keyframes rotatePie {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .pie-legend {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    .pie-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .pie-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    /* Routing Diagram */
-    .routing-diagram {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 80px;
-      position: relative;
-    }
-
-    .route-node {
-      width: 40px;
-      height: 40px;
-      background: rgba(108, 92, 231, 0.2);
-      border: 2px solid #6C5CE7;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: #6C5CE7;
-      z-index: 2;
-    }
-
-    .route-line {
-      position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(108, 92, 231, 0.1), rgba(108, 92, 231, 0.3), rgba(108, 92, 231, 0.1));
-      top: 50%;
-      left: 50px;
-      right: 50px;
-      animation: flowRoute 2s ease-in-out infinite;
-    }
-
-    @keyframes flowRoute {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.8; }
-    }
-
-    /* Before/After Section */
-    .before-after-section {
-      position: relative;
-      z-index: 1;
-      padding: 100px 40px;
-      background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0.2)
-      );
-      background-image:
-        linear-gradient(0deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-    }
-
-    .ba-container {
-      max-width: 1200px;
-      margin: 0 auto;
+    .features-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--indigo);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 8px;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      color: var(--green);
+      font-size: 18px;
+      margin-bottom: 20px;
     }
 
-    .ba-card {
-      background: rgba(10, 10, 10, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      padding: 50px 40px;
-      text-align: center;
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
     }
 
-    .ba-card.before {
-      border-color: rgba(200, 50, 50, 0.2);
-    }
-
-    .ba-card.after {
-      border-color: rgba(50, 150, 50, 0.2);
-    }
-
-    .ba-label {
+    .feature-desc {
       font-size: 14px;
-      color: #888;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 500;
+      color: var(--gray-400);
+      line-height: 1.6;
+      margin-bottom: 16px;
     }
 
-    .ba-amount {
-      font-size: 56px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .ba-card.before .ba-amount {
-      color: #d9534f;
-    }
-
-    .ba-card.after .ba-amount {
-      color: #5cb85c;
-    }
-
-    .ba-breakdown {
+    .feature-stat {
       font-size: 13px;
-      color: #666;
-      line-height: 2;
+      color: var(--green);
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    .ba-arrow {
-      display: none;
+    .feature-card.full-width {
+      grid-column: 1 / -1;
     }
 
-    /* Trust Section */
-    .trust-section {
-      position: relative;
-      z-index: 1;
-      padding: 80px 40px;
-      text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    /* Platform Leaders Section */
+    .platform-section {
+      padding: 100px 60px;
     }
 
-    .trust-label {
-      font-size: 12px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 40px;
-    }
-
-    .logo-grid {
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      flex-wrap: wrap;
-    }
-
-    .logo-item {
-      width: 60px;
-      height: 60px;
-      opacity: 0.25;
-      transition: opacity 0.3s;
-    }
-
-    .logo-item:hover {
-      opacity: 0.4;
-    }
-
-    /* Security Strip */
-    .security-strip {
-      position: relative;
-      z-index: 1;
-      padding: 40px;
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .security-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 13px;
-      color: #888;
-    }
-
-    .shield-icon {
-      width: 16px;
-      height: 16px;
-      opacity: 0.6;
+    .platform-section .section-label {
+      color: var(--amber);
     }
 
     /* Pricing Section */
     .pricing-section {
-      position: relative;
-      z-index: 1;
-      padding: 100px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
+      padding: 100px 60px;
+    }
+
+    .pricing-section .section-label {
+      color: var(--indigo);
     }
 
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      margin-top: 50px;
+      margin-top: 60px;
     }
 
     .pricing-card {
-      background: rgba(10, 10, 10, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 20px;
-      padding: 50px 40px;
-      position: relative;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
       transition: all 0.3s;
+      position: relative;
     }
 
     .pricing-card:hover {
-      border-color: rgba(255, 255, 255, 0.12);
+      border-color: var(--gray-700);
     }
 
     .pricing-card.featured {
-      border: 1px solid rgba(108, 92, 231, 0.4);
-      background: rgba(108, 92, 231, 0.05);
+      border-color: var(--indigo);
+      background: rgba(99, 102, 241, 0.08);
       transform: scale(1.02);
     }
 
     .pricing-badge {
       position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #6C5CE7;
-      color: #fff;
-      padding: 4px 16px;
-      border-radius: 20px;
+      top: 20px;
+      right: 20px;
+      background: var(--indigo);
+      color: var(--white);
+      padding: 6px 12px;
+      border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
     }
 
-    .pricing-card h3 {
+    .pricing-title {
       font-size: 20px;
-      margin-bottom: 20px;
       font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+      margin-top: 8px;
     }
 
     .pricing-price {
-      font-size: 48px;
+      font-size: 2.5rem;
       font-weight: 700;
-      margin-bottom: 10px;
-      font-variant-numeric: tabular-nums;
+      color: var(--white);
+      margin-bottom: 4px;
     }
 
     .pricing-period {
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 30px;
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-bottom: 32px;
     }
 
     .pricing-features {
       list-style: none;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
+      flex: 1;
     }
 
     .pricing-features li {
-      font-size: 13px;
-      color: #aaa;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      font-size: 14px;
+      color: var(--gray-400);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pricing-features li::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: var(--green);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 10px;
+      line-height: 1;
     }
 
     .pricing-btn {
-      width: 100%;
       padding: 12px 24px;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
+      background: var(--indigo);
+      border: none;
+      color: var(--white);
       border-radius: 8px;
-      cursor: pointer;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
     }
 
     .pricing-card.featured .pricing-btn {
-      background: #6C5CE7;
-      border-color: #6C5CE7;
-      box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+      background: var(--indigo);
+    }
+
+    .pricing-card:not(.featured) .pricing-btn {
+      background: transparent;
+      border: 1px solid var(--gray-700);
+      color: var(--white);
+    }
+
+    .pricing-card:not(.featured) .pricing-btn:hover {
+      border-color: var(--indigo);
+      color: var(--indigo);
     }
 
     .pricing-btn:hover {
-      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
     }
 
-    .pricing-card.featured .pricing-btn:hover {
-      box-shadow: 0 0 30px rgba(108, 92, 231, 0.5);
-    }
-
-    /* Final CTA */
+    /* Final CTA Section */
     .final-cta {
-      position: relative;
-      z-index: 1;
-      padding: 100px 40px;
+      padding: 100px 60px;
       text-align: center;
     }
 
     .final-cta h2 {
-      font-size: 48px;
+      font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 30px;
+      margin-bottom: 16px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .final-cta-subtitle {
+      font-size: 18px;
+      color: var(--gray-400);
+      margin-bottom: 40px;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
     }
 
-    .final-cta p {
-      font-size: 18px;
-      color: #888;
-      margin-bottom: 40px;
-    }
-
     /* Footer */
     footer {
-      position: relative;
-      z-index: 1;
-      padding: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 60px;
+      border-top: 1px solid var(--gray-800);
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-col-left {
+      grid-column: span 1;
+    }
+
+    .footer-col-left .footer-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .footer-col-left .footer-tagline {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    .footer-col h3 {
+      font-size: 13px;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 13px;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+
+    .footer-col a:hover {
+      color: var(--white);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--gray-800);
+      padding-top: 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    .footer-left {
       font-size: 13px;
-      color: #666;
     }
 
-    .footer-right {
+    .footer-copyright {
+      color: var(--gray-600);
+    }
+
+    .footer-legal {
       display: flex;
-      gap: 30px;
-      align-items: center;
+      gap: 24px;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .footer-links a {
-      font-size: 13px;
-      color: #888;
+    .footer-legal a {
+      color: var(--gray-600);
       text-decoration: none;
       transition: color 0.3s;
     }
 
-    .footer-links a:hover {
-      color: #fff;
+    .footer-legal a:hover {
+      color: var(--white);
     }
 
-    .footer-icons {
-      display: flex;
-      gap: 12px;
+    /* Scroll animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
 
-    .social-icon {
-      width: 18px;
-      height: 18px;
-      opacity: 0.5;
-      cursor: pointer;
-      transition: opacity 0.3s;
-    }
-
-    .social-icon:hover {
+    .fade-in.visible {
       opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+
+      .demo-section {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .persona-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .persona-card {
+        border-right: none;
+        border-bottom: 1px solid var(--gray-800);
+      }
+
+      .persona-card:last-child {
+        border-bottom: none;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 20px;
+        height: 56px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-right {
+        gap: 12px;
+      }
+
+      .hero {
+        padding: 100px 20px 60px 20px;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .how-it-works,
+      .demo-section,
+      .features-section,
+      .platform-section,
+      .pricing-section,
+      .final-cta {
+        padding: 60px 20px;
+      }
+
+      footer {
+        padding: 40px 20px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .marquee-content {
+        padding: 0 20px;
+      }
     }
 
     /* ============================================ */
-    /* LOGIN PAGE */
+    /* LOGIN SCREEN */
     /* ============================================ */
 
     .login-screen {
-      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(99,102,241,0.1));
     }
 
     .login-card {
-      width: 100%;
-      max-width: 400px;
-      background: rgba(10, 10, 10, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      padding: 50px 40px;
+      background: rgba(15, 15, 20, 0.8);
       backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 48px;
+      width: 100%;
+      max-width: 420px;
     }
 
     .login-header {
-      margin-bottom: 40px;
+      text-align: center;
+      margin-bottom: 32px;
     }
 
     .login-header h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      font-weight: 600;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--white);
     }
 
     .login-header p {
-      font-size: 13px;
-      color: #888;
+      font-size: 14px;
+      color: var(--gray-400);
     }
 
     .login-form {
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .form-group {
@@ -876,96 +1130,102 @@
     .form-group label {
       display: block;
       font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-300);
       margin-bottom: 8px;
-      color: #aaa;
-      font-weight: 500;
     }
 
     .form-group input {
       width: 100%;
       padding: 12px 16px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      color: #fff;
-      font-size: 13px;
-      font-family: 'Inter', sans-serif;
+      color: var(--white);
+      font-size: 14px;
       transition: all 0.3s;
     }
 
     .form-group input:focus {
       outline: none;
-      border-color: rgba(108, 92, 231, 0.5);
-      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--indigo);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: var(--gray-500);
     }
 
     .login-btn {
       width: 100%;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #6C5CE7, #5a4fc1);
+      padding: 12px;
+      background: var(--indigo);
       border: none;
-      color: #fff;
+      color: var(--white);
       border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
       font-weight: 600;
+      cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 0 20px rgba(108, 92, 231, 0.2);
+      font-size: 15px;
     }
 
     .login-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(108, 92, 231, 0.4);
+      background: var(--indigo-dark);
+      transform: translateY(-1px);
     }
 
     .login-divider {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin: 30px 0;
-    }
-
-    .login-divider::before,
-    .login-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.08);
+      margin: 32px 0;
+      position: relative;
+      text-align: center;
     }
 
     .login-divider span {
-      font-size: 12px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      background: rgba(15, 15, 20, 0.8);
+      color: var(--gray-500);
+      font-size: 13px;
+      padding: 0 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 0;
     }
 
     .social-buttons {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 12px;
+      margin-bottom: 24px;
     }
 
     .social-btn {
-      width: 100%;
-      padding: 12px 24px;
+      padding: 12px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
+      color: var(--white);
       cursor: pointer;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       transition: all 0.3s;
     }
 
     .social-btn:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--indigo);
     }
 
     .social-icon-small {
@@ -975,82 +1235,100 @@
 
     .login-footer {
       text-align: center;
-      padding-top: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 12px;
-      color: #888;
+      font-size: 13px;
+      color: var(--gray-400);
     }
 
     .login-footer a {
-      color: #6C5CE7;
+      color: var(--indigo);
       text-decoration: none;
+      font-weight: 600;
     }
 
     .login-footer a:hover {
-      text-decoration: underline;
+      color: var(--indigo-light);
     }
 
     /* ============================================ */
-    /* DASHBOARD */
+    /* DASHBOARD SCREEN */
     /* ============================================ */
 
     .dashboard-screen {
-      width: 100%;
-      height: 100vh;
+      flex-direction: row;
+      background: var(--black);
     }
 
     .dashboard-container {
       display: flex;
-      height: 100%;
       width: 100%;
+      height: 100%;
     }
 
     .dashboard-sidebar {
-      width: 280px;
-      background: #0a0a0a;
-      border-right: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 30px 20px;
-      overflow-y: auto;
-      flex-shrink: 0;
+      width: 260px;
+      background: rgba(15, 15, 20, 0.5);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
     }
 
     .dashboard-sidebar-header {
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 30px;
+      padding: 0 24px;
+      margin-bottom: 32px;
     }
 
     .dashboard-nav {
       list-style: none;
+      flex: 1;
     }
 
     .dashboard-nav li {
-      margin-bottom: 8px;
+      margin: 0;
     }
 
     .dashboard-nav a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 16px;
-      color: #888;
+      display: block;
+      padding: 12px 24px;
+      color: var(--gray-400);
       text-decoration: none;
-      border-radius: 8px;
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 500;
       transition: all 0.3s;
+      border-left: 2px solid transparent;
     }
 
     .dashboard-nav a:hover,
     .dashboard-nav a.active {
-      color: #fff;
-      background: rgba(108, 92, 231, 0.1);
+      color: var(--indigo);
+      border-left-color: var(--indigo);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .logout-btn {
+      margin: 0 16px;
+      padding: 10px 16px;
+      background: transparent;
+      border: 1px solid var(--gray-700);
+      color: var(--gray-400);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      border-color: var(--indigo);
+      color: var(--indigo);
     }
 
     .dashboard-main {
       flex: 1;
-      background: #111;
       overflow-y: auto;
-      padding: 40px;
+      padding: 32px;
     }
 
     .dashboard-header {
@@ -1058,116 +1336,125 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .dashboard-title {
       font-size: 28px;
       font-weight: 700;
+      color: var(--white);
     }
 
     .dashboard-user {
       display: flex;
       align-items: center;
       gap: 12px;
-      cursor: pointer;
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
     }
 
     .user-avatar {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, #6C5CE7, #74b9ff);
-      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      background: var(--indigo);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--white);
+      font-weight: 700;
       font-size: 14px;
-      font-weight: 600;
+    }
+
+    .dashboard-user span {
+      font-size: 14px;
+      color: var(--gray-400);
     }
 
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      gap: 24px;
       margin-bottom: 40px;
     }
 
     .metric-card {
-      background: rgba(10, 10, 10, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       padding: 24px;
+      transition: all 0.3s;
+    }
+
+    .metric-card:hover {
+      border-color: var(--indigo);
+      background: rgba(99, 102, 241, 0.05);
     }
 
     .metric-card-label {
-      font-size: 12px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      font-size: 13px;
+      color: var(--gray-500);
       margin-bottom: 12px;
+      font-weight: 600;
     }
 
     .metric-card-value {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 700;
+      color: var(--white);
       margin-bottom: 8px;
-      font-variant-numeric: tabular-nums;
     }
 
     .metric-card-change {
       font-size: 12px;
-      color: #5cb85c;
+      color: var(--green);
     }
 
     .charts-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
       margin-bottom: 40px;
     }
 
     .chart-container {
-      background: rgba(10, 10, 10, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       padding: 24px;
     }
 
     .chart-title {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
+      color: var(--white);
       margin-bottom: 20px;
     }
 
     .alerts-table {
-      background: rgba(10, 10, 10, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       overflow: hidden;
     }
 
     .alerts-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 16px;
       font-weight: 600;
-      font-size: 14px;
+      color: var(--white);
     }
 
     .alerts-body {
-      max-height: 300px;
-      overflow-y: auto;
+      padding: 0;
     }
 
     .alert-row {
       padding: 16px 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 13px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
       align-items: center;
+      gap: 16px;
     }
 
     .alert-row:last-child {
@@ -1177,335 +1464,304 @@
     .alert-dot {
       width: 8px;
       height: 8px;
-      background: #5cb85c;
+      background: var(--green);
       border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .alert-message {
-      color: #aaa;
+      flex: 1;
+      font-size: 14px;
+      color: var(--white);
     }
 
     .alert-time {
-      color: #666;
       font-size: 12px;
-    }
-
-    /* Logout button */
-    .logout-btn {
-      width: 100%;
-      padding: 10px 16px;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #888;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 13px;
-      margin-top: auto;
-      transition: all 0.3s;
-    }
-
-    .logout-btn:hover {
-      border-color: #d9534f;
-      color: #d9534f;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .bento-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .bento-card:nth-child(1) { grid-column: span 2; }
-      .bento-card:nth-child(2) { grid-column: span 2; grid-row: span 1; }
-      .bento-card:nth-child(3) { grid-column: span 1; }
-      .bento-card:nth-child(4) { grid-column: span 1; }
-
-      .pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .metrics-strip {
-        gap: 40px;
-        flex-wrap: wrap;
-      }
-
-      .ba-container {
-        grid-template-columns: 1fr;
-      }
-
-      .charts-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .hero h1 {
-        font-size: 48px;
-      }
-
-      .metrics-strip {
-        flex-direction: column;
-        gap: 30px;
-      }
-
-      .bento-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .bento-card {
-        grid-column: span 1 !important;
-        grid-row: auto !important;
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-      }
-
-      .dashboard-sidebar {
-        width: 70px;
-        padding: 20px 10px;
-      }
-
-      .dashboard-nav a span {
-        display: none;
-      }
-
-      .metrics-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .logo-grid {
-        gap: 30px;
-      }
+      color: var(--gray-500);
     }
   </style>
 </head>
 <body>
 
-<!-- Landing Page -->
+<!-- Landing Screen -->
 <div id="landing-screen" class="screen active landing-screen">
   <!-- Navigation -->
   <nav>
-    <div class="logo">InferenceIQ</div>
+    <div class="nav-logo">InferenceIQ</div>
     <div class="nav-right">
       <ul class="nav-links">
         <li><a href="#features">Product</a></li>
         <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#docs">Docs</a></li>
+        <li><a href="#">Docs</a></li>
       </ul>
-      <button class="nav-btn" onclick="switchScreen('login-screen')">Sign in</button>
+      <div class="nav-btn-group">
+        <button class="nav-btn-login" onclick="switchScreen('login')">Log In</button>
+        <button class="nav-btn-cta" onclick="switchScreen('login')">Get Early Access</button>
+      </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Inference costs,<br>solved.</h1>
-      <p class="hero-subtitle">The optimization layer between your AI models and your wallet.</p>
-      <div class="hero-cta">
-        <button class="cta-button" onclick="switchScreen('login-screen')">Get started — it's free</button>
-        <div class="install-text">pip install inferenceiq</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Code Block -->
-  <div class="code-section">
-    <div class="code-block"><span class="keyword">from</span> inferenceiq <span class="keyword">import</span> <span class="function">optimize</span>
-
-<span class="comment"># Initialize the optimization client</span>
-client = <span class="function">optimize</span>.<span class="function">Client</span>(api_key=<span class="string">"iq_live_..."</span>)
-
-<span class="comment"># Your API call stays exactly the same</span>
-response = client.<span class="function">complete</span>(
-    model=<span class="string">"gpt-4"</span>,
-    messages=[{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"Hello"</span>}],
-)
-
-<span class="comment"># Cost: $0.002 → $0.0008 (60% savings)</span></div>
-  </div>
-
-  <!-- Metrics Strip -->
-  <section class="metrics-strip">
-    <div class="metric">
-      <div class="metric-value">$2.4M</div>
-      <div class="metric-label">saved for customers</div>
-    </div>
-    <div class="metric">
-      <div class="metric-value">847ms → 142ms</div>
-      <div class="metric-label">p99 latency reduction</div>
-    </div>
-    <div class="metric">
-      <div class="metric-value">99.97%</div>
-      <div class="metric-label">platform uptime</div>
-    </div>
-  </section>
-
-  <!-- Bento Grid -->
-  <section class="bento-section" id="features">
-    <div class="bento-grid">
-      <!-- Large Card: Intelligent Batching -->
-      <div class="bento-card">
-        <h3>Intelligent Batching</h3>
-        <div class="batching-viz">
-          <div class="batch-bar"></div>
-          <div class="batch-bar"></div>
-          <div class="batch-bar"></div>
-          <div class="batch-bar"></div>
-          <div class="batch-bar"></div>
-        </div>
+      <div class="beta-badge">
+        <div class="beta-dot"></div>
+        <div class="beta-text">Now in Private Beta — Request Access</div>
       </div>
 
-      <!-- Tall Card: Cost Attribution -->
-      <div class="bento-card">
-        <h3>Cost Attribution</h3>
-        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <div class="pie-chart"></div>
-          <div class="pie-legend">
-            <div class="pie-legend-item">
-              <div class="pie-dot" style="background: #6C5CE7;"></div>
-              <span>Model A: 45%</span>
+      <h1>Optimize every <span class="gradient-text">inference call</span></h1>
+
+      <p class="hero-subtitle">
+        The optimization layer between your AI models and your cloud bill. Intelligent batching, semantic caching, and model routing — saving teams 40-60% on inference costs.
+      </p>
+
+      <div class="hero-cta-group">
+        <button class="cta-button-primary" onclick="switchScreen('dashboard')">See the Dashboard</button>
+        <button class="cta-button-secondary" onclick="switchScreen('login')">Get Early Access</button>
+      </div>
+
+      <!-- Persona Cards -->
+      <div class="persona-container">
+        <div class="persona-grid">
+          <div class="persona-card">
+            <div class="persona-icon">&lt;/&gt;</div>
+            <div class="persona-content">
+              <div class="persona-title">I'm an ML engineer</div>
+              <div class="persona-desc">See live optimization and SDK integration</div>
             </div>
-            <div class="pie-legend-item">
-              <div class="pie-dot" style="background: #74b9ff;"></div>
-              <span>Model B: 35%</span>
+            <div class="persona-arrow">→</div>
+          </div>
+          <div class="persona-card">
+            <div class="persona-icon">📊</div>
+            <div class="persona-content">
+              <div class="persona-title">I'm a platform leader</div>
+              <div class="persona-desc">Preview cost analytics and team dashboards</div>
             </div>
-            <div class="pie-legend-item">
-              <div class="pie-dot" style="background: #a29bfe;"></div>
-              <span>Other: 20%</span>
-            </div>
+            <div class="persona-arrow">→</div>
           </div>
         </div>
       </div>
 
-      <!-- Small Card: Semantic Caching -->
-      <div class="bento-card">
-        <h3>Semantic Caching</h3>
-        <div class="cache-viz">
-          <div class="cache-item">HIT</div>
-          <div class="cache-item">HIT</div>
-          <div class="cache-item">MISS</div>
-          <div class="cache-item">HIT</div>
-        </div>
-      </div>
-
-      <!-- Small Card: Model Routing -->
-      <div class="bento-card">
-        <h3>Model Routing</h3>
-        <div class="routing-diagram">
-          <div class="route-node">IN</div>
-          <div class="route-line"></div>
-          <div class="route-node">OUT</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Before/After -->
-  <section class="before-after-section">
-    <div class="ba-container">
-      <div class="ba-card before">
-        <div class="ba-label">Without InferenceIQ</div>
-        <div class="ba-amount">$12,400</div>
-        <div class="ba-breakdown">
-          <div>API Calls: $8,200</div>
-          <div>Redundant Queries: $2,800</div>
-          <div>Failed Retries: $1,400</div>
-        </div>
-      </div>
-      <div class="ba-card after">
-        <div class="ba-label">With InferenceIQ</div>
-        <div class="ba-amount">$4,960</div>
-        <div class="ba-breakdown">
-          <div>API Calls: $3,280</div>
-          <div>Smart Batching Savings: $2,100</div>
-          <div>Semantic Cache Savings: $1,580</div>
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">$22M+</div>
+            <div class="stat-label">SAVED FOR CUSTOMERS</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">847ms → 123ms</div>
+            <div class="stat-label">P99 LATENCY REDUCTION</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value green">60%</div>
+            <div class="stat-label">AVERAGE COST REDUCTION</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">99.97%</div>
+            <div class="stat-label">PLATFORM UPTIME</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Trust Section -->
-  <section class="trust-section">
-    <div class="trust-label">Used by leading AI teams</div>
-    <div class="logo-grid">
-      <svg class="logo-item" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="2"/>
-        <text x="50" y="65" font-size="48" font-weight="bold" text-anchor="middle" fill="white" font-family="serif">N</text>
-      </svg>
-      <svg class="logo-item" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="10" width="80" height="80" rx="12" fill="none" stroke="white" stroke-width="2"/>
-        <text x="50" y="65" font-size="48" font-weight="bold" text-anchor="middle" fill="white" font-family="serif">S</text>
-      </svg>
-      <svg class="logo-item" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="2"/>
-        <path d="M 35 40 L 50 25 L 65 40 L 65 65 L 35 65 Z" fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
-      </svg>
-      <svg class="logo-item" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="2"/>
-        <text x="50" y="65" font-size="48" font-weight="bold" text-anchor="middle" fill="white" font-family="serif">U</text>
-      </svg>
-      <svg class="logo-item" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="2"/>
-        <path d="M 30 50 Q 35 35 50 30 Q 65 35 70 50 Q 65 65 50 70 Q 35 65 30 50" fill="none" stroke="white" stroke-width="3"/>
-      </svg>
-      <svg class="logo-item" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="2"/>
-        <text x="50" y="65" font-size="48" font-weight="bold" text-anchor="middle" fill="white" font-family="serif">C</text>
-      </svg>
+  <!-- Logo Marquee -->
+  <section class="marquee-section">
+    <div class="marquee-label">WORKS WITH YOUR STACK</div>
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <div class="marquee-item">OpenAI</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Anthropic</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">AWS Bedrock</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Google Vertex</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Azure OpenAI</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Hugging Face</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Cohere</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Mistral</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">OpenAI</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Anthropic</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">AWS Bedrock</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Google Vertex</div>
+        <div class="marquee-item">•</div>
+        <div class="marquee-item">Azure OpenAI</div>
+      </div>
     </div>
   </section>
 
-  <!-- Security Strip -->
-  <section class="security-strip">
-    <div class="security-item">
-      <svg class="shield-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/>
-      </svg>
-      SOC2 Type II
+  <!-- How It Works -->
+  <section class="how-it-works" id="features">
+    <div class="features-heading">
+      <div class="section-label">HOW IT WORKS</div>
+      <h2 class="section-heading">From API call to optimized response</h2>
     </div>
-    <div class="security-item">
-      <svg class="shield-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/>
-      </svg>
-      HIPAA Compliant
-    </div>
-    <div class="security-item">
-      <svg class="shield-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/>
-      </svg>
-      GDPR Ready
-    </div>
-    <div class="security-item">
-      <svg class="shield-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/>
-      </svg>
-      256-bit encryption
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">→</div>
+        <div class="step-number">Step 01</div>
+        <div class="step-title">API Request Received</div>
+        <div class="step-desc">Your inference request enters the InferenceIQ optimization layer</div>
+        <div class="step-metric">0ms</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon">♻</div>
+        <div class="step-number">Step 02</div>
+        <div class="step-title">Cache Check</div>
+        <div class="step-desc">Semantic similarity matching across cached responses</div>
+        <div class="step-metric">&lt;5ms</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon">⚡</div>
+        <div class="step-number">Step 03</div>
+        <div class="step-title">Intelligent Batching</div>
+        <div class="step-desc">Combines compatible requests for batch processing</div>
+        <div class="step-metric">&lt;50ms</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon">✓</div>
+        <div class="step-number">Step 04</div>
+        <div class="step-title">Response Delivered</div>
+        <div class="step-desc">Optimized response with cost savings logged</div>
+        <div class="step-metric">&lt;100ms</div>
+      </div>
     </div>
   </section>
 
-  <!-- Pricing -->
+  <!-- Live Demo Section -->
+  <section class="demo-section">
+    <div class="demo-left">
+      <h2 class="demo-title">Live Optimization Example</h2>
+      <p class="demo-subtitle">
+        Watch a real request cycle through the InferenceIQ optimization engine. Every optimization completes in milliseconds, delivering cost-optimized responses before your AI finishes generating output.
+      </p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+        </div>
+        <div class="terminal-title">optimization_log</div>
+      </div>
+      <div class="terminal-content">
+        <div class="terminal-line"><span class="comment"># Ready for next inference...</span></div>
+        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Request received: gpt-4 completion</span></div>
+        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Checking semantic cache... HIT (94% match)</span></div>
+        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Cost: $0.0245 → $0.0088 (-64%)</span></div>
+        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Latency: 1247ms → 89ms</span></div>
+        <div class="terminal-line"><span class="keyword">&gt;</span> <span class="output">Response delivered successfully</span></div>
+        <div class="terminal-line"><span class="comment"># < 200 0K 4ms</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features for Engineers -->
+  <section class="features-section">
+    <div class="features-heading">
+      <div class="section-label">FOR ENGINEERS</div>
+      <h2 class="section-heading">Optimize without refactoring</h2>
+      <p class="features-subtext">
+        Drop-in replacement for your existing inference clients. No code changes needed. Start saving immediately.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">♻</div>
+        <div class="feature-title">Semantic Caching</div>
+        <div class="feature-desc">
+          Intelligent response caching based on semantic similarity, not exact matches. Reuse responses across equivalent queries.
+        </div>
+        <div class="feature-stat">75% Hit Rate</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Intelligent Batching</div>
+        <div class="feature-desc">
+          Automatically batch compatible requests for higher throughput. Process 5-10 requests in the time of one.
+        </div>
+        <div class="feature-stat">$2,100/mo Savings</div>
+      </div>
+
+      <div class="feature-card full-width">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Real-time Analytics</div>
+        <div class="feature-desc">
+          Live visibility into every optimization. Track cache hits, batch efficiency, cost savings, and latency improvements per request, model, and user.
+        </div>
+        <div class="feature-stat">Per-request granularity</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features for Platform Leaders -->
+  <section class="platform-section">
+    <div class="features-heading">
+      <div class="section-label">FOR PLATFORM LEADERS</div>
+      <h2 class="section-heading">Complete cost visibility</h2>
+      <p class="features-subtext">
+        Understand exactly where your inference spend is going and optimize at the organizational level.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Cost Attribution</div>
+        <div class="feature-desc">
+          Break down costs by team, project, model, or user. See which teams are optimized and where savings are possible.
+        </div>
+        <div class="feature-stat">Per-team dashboards</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <div class="feature-title">Budget Alerts</div>
+        <div class="feature-desc">
+          Set spending thresholds and get alerted before costs spiral. Prevent budget overruns with proactive notifications.
+        </div>
+        <div class="feature-stat">Real-time alerts</div>
+      </div>
+
+      <div class="feature-card full-width">
+        <div class="feature-icon">🔀</div>
+        <div class="feature-title">Model Routing</div>
+        <div class="feature-desc">
+          Automatically route requests to the most cost-effective model for each use case. Balance accuracy, speed, and cost without manual intervention.
+        </div>
+        <div class="feature-stat">Save 40-60% average</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
   <section class="pricing-section" id="pricing">
-    <h2 style="font-size: 32px; margin-bottom: 20px; font-weight: 700;">Simple, transparent pricing</h2>
+    <div class="section-label">PRICING</div>
+    <h2 class="section-heading">Simple, transparent pricing</h2>
+
     <div class="pricing-grid">
-      <!-- Starter -->
+      <!-- Free Tier -->
       <div class="pricing-card">
-        <h3>Starter</h3>
-        <div class="pricing-price">Free</div>
+        <h3 class="pricing-title">Free</h3>
+        <div class="pricing-price">$0</div>
         <div class="pricing-period">Forever free tier</div>
         <ul class="pricing-features">
           <li>Up to 10K requests/mo</li>
@@ -1514,13 +1770,13 @@ response = client.<span class="function">complete</span>(
           <li>Community support</li>
           <li>Single model</li>
         </ul>
-        <button class="pricing-btn" onclick="switchScreen('login-screen')">Get started</button>
+        <button class="pricing-btn" onclick="switchScreen('login')">Get started</button>
       </div>
 
-      <!-- Pro -->
+      <!-- Pro Tier (Featured) -->
       <div class="pricing-card featured">
         <div class="pricing-badge">Most popular</div>
-        <h3>Pro</h3>
+        <h3 class="pricing-title">Pro</h3>
         <div class="pricing-price">$49</div>
         <div class="pricing-period">per month</div>
         <ul class="pricing-features">
@@ -1532,12 +1788,12 @@ response = client.<span class="function">complete</span>(
           <li>Priority support</li>
           <li>Webhook integrations</li>
         </ul>
-        <button class="pricing-btn" onclick="switchScreen('login-screen')">Start free trial</button>
+        <button class="pricing-btn" onclick="switchScreen('login')">Start free trial</button>
       </div>
 
-      <!-- Enterprise -->
+      <!-- Enterprise Tier -->
       <div class="pricing-card">
-        <h3>Enterprise</h3>
+        <h3 class="pricing-title">Enterprise</h3>
         <div class="pricing-price">Custom</div>
         <div class="pricing-period">contact sales</div>
         <ul class="pricing-features">
@@ -1556,27 +1812,47 @@ response = client.<span class="function">complete</span>(
 
   <!-- Final CTA -->
   <section class="final-cta">
-    <h2>Your AI costs<br>are too high.</h2>
-    <p>We can prove it in 5 minutes.</p>
-    <button class="cta-button" onclick="switchScreen('login-screen')">Start your free trial →</button>
+    <h2>Start optimizing today</h2>
+    <p class="final-cta-subtitle">See results in under 5 minutes. No credit card required.</p>
+    <button class="cta-button-primary" onclick="switchScreen('login')" style="margin-top: 20px;">Get Early Access</button>
   </section>
 
   <!-- Footer -->
   <footer>
-    <div class="footer-left">© 2024 InferenceIQ</div>
-    <div class="footer-right">
-      <div class="footer-links">
-        <a href="#docs">Docs</a>
-        <a href="#api">API</a>
-        <a href="#status">Status</a>
-        <div class="footer-icons">
-          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" fill="currentColor"/>
-          </svg>
-          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-2 7-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+    <div class="footer-content">
+      <div class="footer-col-left">
+        <div class="footer-title">InferenceIQ</div>
+        <div class="footer-tagline">AI inference cost optimization</div>
+      </div>
+      <div class="footer-col">
+        <h3>Product</h3>
+        <a href="#">Dashboard</a>
+        <a href="#">SDK</a>
+        <a href="#">Pricing</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <h3>Resources</h3>
+        <a href="#">Documentation</a>
+        <a href="#">API Reference</a>
+        <a href="#">Blog</a>
+        <a href="#">Status</a>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Security</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copyright">InferenceIQ, Inc. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Security</a>
       </div>
     </div>
   </footer>
@@ -1637,12 +1913,12 @@ response = client.<span class="function">complete</span>(
     <div class="dashboard-sidebar">
       <div class="dashboard-sidebar-header">InferenceIQ</div>
       <ul class="dashboard-nav">
-        <li><a href="#overview" class="active"><span style="display: inline;">Overview</span></a></li>
-        <li><a href="#analytics"><span style="display: inline;">Analytics</span></a></li>
-        <li><a href="#api"><span style="display: inline;">API Keys</span></a></li>
-        <li><a href="#settings"><span style="display: inline;">Settings</span></a></li>
+        <li><a href="#overview" class="active">Overview</a></li>
+        <li><a href="#analytics">Analytics</a></li>
+        <li><a href="#api">API Keys</a></li>
+        <li><a href="#settings">Settings</a></li>
       </ul>
-      <button class="logout-btn" onclick="switchScreen('login-screen')">Logout</button>
+      <button class="logout-btn" onclick="switchScreen('landing')">Logout</button>
     </div>
 
     <!-- Main Content -->
@@ -1723,25 +1999,21 @@ response = client.<span class="function">complete</span>(
 
 <script>
   // Screen switching
-  function switchScreen(screenId) {
-    // Hide all screens
-    document.querySelectorAll('.screen').forEach(screen => {
-      screen.classList.remove('active');
-    });
-    // Show target screen
-    const targetScreen = document.getElementById(screenId);
-    targetScreen.classList.add('active');
-
-    // Initialize charts if dashboard is shown
-    if (screenId === 'dashboard-screen') {
-      setTimeout(initCharts, 100);
+  function switchScreen(screenName) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenName + '-screen');
+    if (target) {
+      target.classList.add('active');
+      if (screenName === 'dashboard') {
+        setTimeout(() => { initCharts(); }, 100);
+      }
     }
   }
 
   // Login handler
   function handleLogin(event) {
     event.preventDefault();
-    switchScreen('dashboard-screen');
+    switchScreen('dashboard');
   }
 
   // Chart.js initialization
@@ -1760,13 +2032,13 @@ response = client.<span class="function">complete</span>(
           datasets: [{
             label: 'Requests',
             data: [320, 380, 350, 420, 490, 520, 487],
-            borderColor: '#6C5CE7',
-            backgroundColor: 'rgba(108, 92, 231, 0.1)',
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
             borderWidth: 2,
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: '#6C5CE7',
-            pointBorderColor: '#6C5CE7'
+            pointBackgroundColor: '#6366f1',
+            pointBorderColor: '#6366f1'
           }]
         },
         options: {
@@ -1809,11 +2081,11 @@ response = client.<span class="function">complete</span>(
           datasets: [{
             data: [45, 35, 20],
             backgroundColor: [
-              '#6C5CE7',
-              '#74b9ff',
-              '#a29bfe'
+              '#6366f1',
+              '#818cf8',
+              '#a5b4fc'
             ],
-            borderColor: '#111',
+            borderColor: '#09090b',
             borderWidth: 2
           }]
         },
@@ -1834,77 +2106,28 @@ response = client.<span class="function">complete</span>(
     }
   }
 
-  // Intersection Observer for scroll animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-  };
+  // Set landing screen as active on load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade elements
+    document.querySelectorAll('.step-card, .feature-card, .pricing-card').forEach(el => {
+      el.classList.add('fade-in');
+      observer.observe(el);
     });
-  }, observerOptions);
-
-  // Observe all fade elements
-  document.querySelectorAll('.bento-card').forEach(el => {
-    observer.observe(el);
   });
-
-  // Metrics count-up animation
-  const metrics = document.querySelectorAll('.metric-value');
-  let counted = false;
-
-  function animateMetrics() {
-    if (counted) return;
-    counted = true;
-
-    metrics.forEach((metric, index) => {
-      const text = metric.textContent;
-      let finalValue;
-
-      if (text.includes('$')) {
-        finalValue = parseInt(text.replace(/\D/g, ''));
-      } else if (text.includes('ms')) {
-        finalValue = parseInt(text.split('→')[1].replace(/\D/g, ''));
-      } else if (text.includes('%')) {
-        finalValue = parseFloat(text);
-      }
-
-      let current = 0;
-      const increment = finalValue / 30;
-
-      const counter = setInterval(() => {
-        current += increment;
-        if (current >= finalValue) {
-          current = finalValue;
-          clearInterval(counter);
-        }
-
-        if (text.includes('$')) {
-          metric.textContent = '$' + current.toFixed(0) + 'M';
-        } else if (text.includes('ms')) {
-          const beforeMs = parseInt(text.split('→')[0]);
-          metric.textContent = beforeMs + 'ms → ' + current.toFixed(0) + 'ms';
-        } else if (text.includes('%')) {
-          metric.textContent = current.toFixed(2) + '%';
-        }
-      }, 30);
-    });
-  }
-
-  // Trigger metrics animation on scroll
-  const metricsSection = document.querySelector('.metrics-strip');
-  if (metricsSection) {
-    const metricsObserver = new IntersectionObserver(() => {
-      animateMetrics();
-      metricsObserver.unobserve(metricsSection);
-    }, { threshold: 0.5 });
-    metricsObserver.observe(metricsSection);
-  }
 </script>
 
 </body>
