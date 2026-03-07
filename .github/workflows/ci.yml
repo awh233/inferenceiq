@@ -36,7 +36,7 @@ jobs:
 
       - name: Python syntax check
         run: |
-          python -m py_compile server/*.py api/**/*.py engine/**/*.py
+          find server/ engine/ -name '*.py' -exec python -m py_compile {} +
 
       - name: Install SDK dependencies
         run: |
