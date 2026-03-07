@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: inferenceiq-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn server.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: IQ_DEV_MODE
+        value: "true"
+      - key: IQ_DB_PATH
+        value: "/tmp/inferenceiq.db"
+      - key: IQ_CACHE_TTL
+        value: "3600"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+    healthCheckPath: /v1/health
+    plan: free
