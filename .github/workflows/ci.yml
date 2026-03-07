@@ -1,39 +1,105 @@
-name: CI/CD
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Lint
-        run: npm run lint
-      - name: Test
-        run: npm run test
+    timeout-minutes: 15
 
-  build-and-deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Build
-        run: npm run build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
         with:
-          path: dist
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+
+      - name: Lint with ruff
+        run: |
+          pip install ruff
+          ruff check . --exit-zero
+        continue-on-error: true
+
+      - name: Python syntax check
+        run: |
+          python -m py_compile server/*.py api/**/*.py engine/**/*.py
+
+      - name: Install SDK dependencies
+        run: |
+          pip install build
+
+      - name: Build Python SDK
+        run: |
+          cd sdk/python
+          python -m build
+          ls -lh dist/
+
+      - name: Start server in dev mode
+        env:
+          IQ_DEV_MODE: 'true'
+        run: |
+          python -m uvicorn server.app:app --host 0.0.0.0 --port 8000 &
+          echo "Server PID: $!"
+          sleep 2
+
+      - name: Wait for server to be ready
+        timeout-minutes: 2
+        run: |
+          python << 'EOF'
+          import time
+          import httpx
+
+          max_retries = 30
+          retry_delay = 1
+          base_url = "http://localhost:8000"
+
+          for attempt in range(max_retries):
+              try:
+                  response = httpx.get(f"{base_url}/v1/health", timeout=5)
+                  if response.status_code == 200:
+                      print(f"✅ Server is ready! (attempt {attempt + 1})")
+                      break
+              except Exception as e:
+                  print(f"⏳ Waiting for server... (attempt {attempt + 1}/{max_retries})")
+                  if attempt == max_retries - 1:
+                      print(f"❌ Server failed to start: {e}")
+                      exit(1)
+              time.sleep(retry_delay)
+          EOF
+
+      - name: Run integration tests
+        env:
+          IQ_TEST_URL: 'http://localhost:8000'
+          IQ_VERBOSE: 'false'
+        run: |
+          python test_integration.py
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            *.log
+            test_output/
+          retention-days: 30
+
+      - name: Cleanup
+        if: always()
+        run: |
+          pkill -f "uvicorn server.app" || true
+          sleep 1

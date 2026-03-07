@@ -25,9 +25,18 @@ Usage:
     print(f"Saved {response.savings_percentage:.0f}% on this request!")
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from inferenceiq.client import InferenceIQ, InferenceIQAsync
+from inferenceiq.exceptions import (
+    APIError,
+    AuthenticationError,
+    ConnectionError,
+    InferenceIQError,
+    RateLimitError,
+    TimeoutError,
+)
+from inferenceiq.middleware import CostTracker, Middleware, RequestLogger
 from inferenceiq.types import (
     ChatCompletion,
     ChatCompletionChunk,
@@ -42,4 +51,15 @@ __all__ = [
     "ChatCompletionChunk",
     "OptimizedResponse",
     "RoutingInfo",
+    # Exceptions
+    "InferenceIQError",
+    "AuthenticationError",
+    "RateLimitError",
+    "APIError",
+    "TimeoutError",
+    "ConnectionError",
+    # Middleware
+    "Middleware",
+    "RequestLogger",
+    "CostTracker",
 ]

@@ -465,6 +465,14 @@ response = client.chat.completions.<span class="fn">create</span>(
     <div class="d-nav-sec">Analytics</div>
     <button class="d-nav" data-v="models"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Models</button>
     <button class="d-nav" data-v="teams"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Teams</button>
+    <div class="d-nav-sec">Optimization</div>
+    <button class="d-nav" data-v="recommendations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>Recommendations</button>
+    <button class="d-nav" data-v="forecasting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Forecasting</button>
+    <button class="d-nav" data-v="alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Alerts</button>
+    <div class="d-nav-sec">Operations</div>
+    <button class="d-nav" data-v="monitoring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Monitoring</button>
+    <button class="d-nav" data-v="audit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Audit Log</button>
+    <button class="d-nav" data-v="playground"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>API Playground</button>
     <div class="d-nav-sec">Account</div>
     <button class="d-nav" data-v="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</button>
     <button class="d-nav" onclick="showScreen('landing')" style="margin-top:8px;color:var(--text3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</button>
@@ -484,6 +492,12 @@ response = client.chat.completions.<span class="fn">create</span>(
       <div class="view" id="v-ledger"></div>
       <div class="view" id="v-models"></div>
       <div class="view" id="v-teams"></div>
+      <div class="view" id="v-recommendations"></div>
+      <div class="view" id="v-forecasting"></div>
+      <div class="view" id="v-alerts"></div>
+      <div class="view" id="v-monitoring"></div>
+      <div class="view" id="v-audit"></div>
+      <div class="view" id="v-playground"></div>
       <div class="view" id="v-settings"></div>
     </div></div>
   </div>
@@ -760,6 +774,161 @@ async function rTe(){
   mc('t2',{type:'bar',data:{labels:n,datasets:[{data:t.map(x=>x.s||0),backgroundColor:'rgba(34,197,94,.65)',borderRadius:5,barPercentage:.5}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+F(v)}}},plugins:{legend:{display:false}}}});
 }
 
+async function rRec(){
+  _s=42;
+  const recs=[
+    {pri:'High',cat:'Model Switch',desc:'Switch gpt-4o to gpt-4o-mini for classification tasks',sav:450,imp:'High',stat:'New'},
+    {pri:'High',cat:'Caching',desc:'Enable semantic caching for FAQ endpoint',sav:320,imp:'High',stat:'In Progress'},
+    {pri:'High',cat:'Batching',desc:'Batch 100+ summarization requests every 5m',sav:280,imp:'Medium',stat:'New'},
+    {pri:'Medium',cat:'Prompt Optimization',desc:'Reduce system prompt tokens by 40% via compression',sav:210,imp:'High',stat:'Implemented'},
+    {pri:'Medium',cat:'Model Switch',desc:'Replace claude-3-sonnet with claude-3-haiku for simple tasks',sav:390,imp:'High',stat:'New'},
+    {pri:'Medium',cat:'Caching',desc:'Cache embeddings for product search',sav:180,imp:'Medium',stat:'Dismissed'},
+    {pri:'Medium',cat:'Batching',desc:'Queue email generation for batch processing',sav:160,imp:'Low',stat:'New'},
+    {pri:'Low',cat:'Caching',desc:'Enable response caching for status API',sav:85,imp:'Low',stat:'New'},
+    {pri:'Low',cat:'Prompt Optimization',desc:'Use shorter variable names in prompts',sav:45,imp:'Low',stat:'Implemented'},
+    {pri:'Low',cat:'Model Switch',desc:'Use smaller models for internal tools',sav:120,imp:'Low',stat:'In Progress'},
+    {pri:'Medium',cat:'Prompt Optimization',desc:'Consolidate multi-turn conversations into single requests',sav:230,imp:'Medium',stat:'New'},
+    {pri:'High',cat:'Batching',desc:'Batch content moderation checks',sav:290,imp:'High',stat:'New'},
+    {pri:'Low',cat:'Caching',desc:'Cache translation results',sav:110,imp:'Medium',stat:'In Progress'},
+    {pri:'Medium',cat:'Model Switch',desc:'Use Llama-2-70B for code generation fallback',sav:155,imp:'Medium',stat:'New'},
+    {pri:'High',cat:'Caching',desc:'Enable API-level response caching',sav:380,imp:'High',stat:'New'},
+  ];
+  const active=recs.filter(r=>r.stat!=='Dismissed').length,savings=recs.reduce((a,r)=>a+r.sav,0),implemented=recs.filter(r=>r.stat==='Implemented').length,avgTime=18;
+  const priCol={High:'var(--red)',Medium:'var(--amber)',Low:'var(--green)'};
+  const impCol={High:'var(--red)',Medium:'var(--amber)',Low:'var(--blue)'};
+  const statCol={New:'var(--blue)',['In Progress']:'var(--amber)',Implemented:'var(--green)',Dismissed:'var(--text3)'};
+  document.getElementById('v-recommendations').innerHTML=`<div class="sh"><h3>Recommendations</h3><p>AI-driven optimization suggestions</p></div>
+<div class="kpi-row"><div class="kpi"><div class="kl">Active Recommendations</div><div class="kv">${active}</div></div><div class="kpi"><div class="kl">Potential Monthly Savings</div><div class="kv" style="color:var(--green)">$${savings}</div></div><div class="kpi"><div class="kl">Implementation Rate</div><div class="kv" style="color:var(--blue)">${P(implemented/recs.length*100)}</div></div><div class="kpi"><div class="kl">Avg Time to Implement</div><div class="kv" style="color:var(--violet)">${avgTime} min</div></div></div>
+<div class="tc"><div class="th"><span class="ct">Optimization Recommendations</span></div><div class="tsc"><table><thead><tr><th>Priority</th><th>Category</th><th>Description</th><th style="text-align:right">Est. Monthly Savings</th><th>Impact</th><th>Status</th></tr></thead><tbody>${recs.map(r=>`<tr><td><span class="badge" style="background:${priCol[r.pri]};color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:500">${r.pri}</span></td><td><span class="badge bv">${r.cat}</span></td><td>${r.desc}</td><td class="tn tg">$${r.sav}</td><td><span class="badge" style="background:${impCol[r.imp]};color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:500">${r.imp}</span></td><td><span class="badge" style="background:${statCol[r.stat]};color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:500">${r.stat}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+async function rFo(){
+  _s=42;
+  const L=[];for(let i=29;i>=0;i--){const d=new Date(Date.now()-i*864e5);L.push(d.toLocaleDateString('en-US',{month:'short',day:'numeric'}))}
+  const costData=L.map((d,i)=>2200+sr()*400+(i>15?i*50:0)),savData=costData.map(c=>c*(.25+sr()*.1)),roiData=savData.map((s,i)=>Math.round(s/(costData[i]*0.05)*100));
+  const projCost=L[L.length-1],projSav=savData[savData.length-1],projRoi=roiData[roiData.length-1];
+  document.getElementById('v-forecasting').innerHTML=`<div class="sh"><h3>Forecasting</h3><p>30-day cost and savings projections</p></div>
+<div class="kpi-row"><div class="kpi"><div class="kl">Projected Monthly Cost</div><div class="kv">$${Math.round(costData.reduce((a,c)=>a+c,0)/30*1000)/1000}</div></div><div class="kpi"><div class="kl">Projected Savings</div><div class="kv" style="color:var(--green)">$${Math.round(savData.reduce((a,s)=>a+s,0)/30*1000)/1000}</div></div><div class="kpi"><div class="kl">Projected ROI</div><div class="kv" style="color:var(--blue)">${P(savData.reduce((a,s)=>a+s,0)/costData.reduce((a,c)=>a+c,0)*100)}</div></div><div class="kpi"><div class="kl">Confidence Level</div><div class="kv" style="color:var(--violet)">92%</div></div></div>
+<div class="g2"><div class="cd"><div class="ch"><span class="ct">Cost Forecast (30-Day)</span></div><div class="cw cwl"><canvas id="f1"></canvas></div></div><div class="cd"><div class="ch"><span class="ct">Savings Forecast</span></div><div class="cw cwl"><canvas id="f2"></canvas></div></div></div>
+<div class="cd"><div class="ch"><span class="ct">Projected Savings by Optimization Type</span></div><div class="cw"><canvas id="f3"></canvas></div></div>`;
+  const optTypes=['Model Routing','Semantic Cache','Prompt Compression','Batch Shift'];
+  const optSavings=optTypes.map(()=>Math.floor(800+sr()*1200));
+  mc('f1',{type:'line',data:{labels:L,datasets:[{label:'Cost',data:costData,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.08)',fill:true,tension:.3,borderWidth:2,pointRadius:0},{label:'Confidence band',data:costData.map(c=>c*1.15),borderColor:'rgba(59,130,246,.3)',backgroundColor:'transparent',borderWidth:1,borderDash:[4,4],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+F(v)}}},plugins:{legend:{position:'bottom'}}}});
+  mc('f2',{type:'line',data:{labels:L,datasets:[{data:savData,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.08)',fill:true,tension:.3,borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+F(v)}}},plugins:{legend:{display:false}}}});
+  mc('f3',{type:'bar',data:{labels:optTypes,datasets:[{data:optSavings,backgroundColor:['#06b6d4','#8b5cf6','#f59e0b','#ec4899'],borderRadius:5,barPercentage:.6}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+F(v)}}},plugins:{legend:{display:false}}}});
+}
+
+async function rAl(){
+  let a;
+  try{a=await iq.getAlerts?.()}catch(e){a=null}
+  _s=42;
+  const alerts=a||[
+    {sev:'Critical',name:'Cost Anomaly',desc:'OpenAI spend +47% vs baseline',time:'2 min ago',stat:'Active'},
+    {sev:'Critical',name:'Latency Spike',desc:'P95 > 500ms for claude-sonnet',time:'5 min ago',stat:'Acknowledged'},
+    {sev:'Warning',name:'Cache Hit Drop',desc:'Cache hit rate dropped below 40%',time:'12 min ago',stat:'Active'},
+    {sev:'Warning',name:'Rate Limit Warning',desc:'80% of daily API quota used',time:'18 min ago',stat:'Resolved'},
+    {sev:'Warning',name:'Provider Degradation',desc:'Google API latency +200%',time:'32 min ago',stat:'Active'},
+    {sev:'Info',name:'Model Availability',desc:'New gpt-4o-mini tier available',time:'1h ago',stat:'Resolved'},
+    {sev:'Critical',name:'Error Rate Spike',desc:'5xx errors: 2.3% (threshold: 0.5%)',time:'3 min ago',stat:'Acknowledged'},
+    {sev:'Warning',name:'Budget Alert',desc:'Team "ML Research" at 85% of monthly budget',time:'8 min ago',stat:'Active'},
+  ];
+  const critCount=alerts.filter(a=>a.sev==='Critical').length,resolvedToday=alerts.filter(a=>a.stat==='Resolved').length,avgTime='24 min';
+  const sevCol={Critical:'var(--red)',Warning:'var(--amber)',Info:'var(--blue)'};
+  const statCol2={Active:'var(--red)',Acknowledged:'var(--amber)',Resolved:'var(--green)'};
+  document.getElementById('v-alerts').innerHTML=`<div class="sh"><h3>Alerts</h3><p>System and cost anomaly alerts</p></div>
+<div class="kpi-row"><div class="kpi"><div class="kl">Active Alerts</div><div class="kv">${alerts.filter(a=>a.stat==='Active').length}</div></div><div class="kpi"><div class="kl">Critical</div><div class="kv" style="color:var(--red)">${critCount}</div></div><div class="kpi"><div class="kl">Resolved Today</div><div class="kv" style="color:var(--green)">${resolvedToday}</div></div><div class="kpi"><div class="kl">Avg Resolution Time</div><div class="kv" style="color:var(--blue)">${avgTime}</div></div></div>
+<div class="tc"><div class="th"><span class="ct">Recent Alerts</span></div><div class="tsc"><table><thead><tr><th>Severity</th><th>Alert Name</th><th>Description</th><th>Triggered</th><th>Status</th></tr></thead><tbody>${alerts.map(a=>`<tr><td><span class="badge" style="background:${sevCol[a.sev]};color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:500">${a.sev}</span></td><td class="tb">${a.name}</td><td>${a.desc}</td><td>${a.time}</td><td><span class="badge" style="background:${statCol2[a.stat]};color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:500">${a.stat}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+async function rMn(){
+  _s=42;
+  const L=[];for(let i=59;i>=0;i--){L.push(new Date(Date.now()-i*60000).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}))}
+  const reqRates=L.map(()=>Math.floor(8000+sr()*3000)),errRates=L.map(()=>Math.round(sr()*1.5*10)/10),latencies=L.map(()=>Math.floor(120+sr()*180));
+  const providers=[{name:'OpenAI',stat:'green',lat:145,err:0.3,check:'30s ago'},{name:'Anthropic',stat:'green',lat:182,err:0.1,check:'28s ago'},{name:'Google',stat:'green',lat:156,err:0.4,check:'29s ago'},{name:'Groq',stat:'green',lat:98,err:0.2,check:'31s ago'},{name:'DeepSeek',stat:'yellow',lat:420,err:1.2,check:'32s ago'}];
+  document.getElementById('v-monitoring').innerHTML=`<div class="sh"><h3>System Monitoring</h3><p>Real-time infrastructure health</p></div>
+<div class="kpi-row"><div class="kpi"><div class="kl">API Gateway</div><div class="kv" style="color:var(--green);display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green)"></span>Online</div></div><div class="kpi"><div class="kl">Model Router</div><div class="kv" style="color:var(--green);display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green)"></span>Online</div></div><div class="kpi"><div class="kl">Cache Layer</div><div class="kv" style="color:var(--green);display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green)"></span>Online</div></div><div class="kpi"><div class="kl">Provider Connections</div><div class="kv" style="color:var(--green)">4/5 healthy</div></div></div>
+<div class="g2"><div class="cd"><div class="ch"><span class="ct">Request Rate (Last Hour)</span></div><div class="cw cwl"><canvas id="mn1"></canvas></div></div><div class="cd"><div class="ch"><span class="ct">Error Rate (Last Hour)</span></div><div class="cw cwl"><canvas id="mn2"></canvas></div></div></div>
+<div class="g2"><div class="cd"><div class="ch"><span class="ct">Response Time Distribution</span></div><div class="cw"><canvas id="mn3"></canvas></div></div><div class="cd"><div class="ch"><span class="ct">Provider Health</span></div><div class="cw"><canvas id="mn4"></canvas></div></div></div>
+<div class="tc"><div class="th"><span class="ct">Provider Status</span></div><div class="tsc"><table><thead><tr><th>Provider</th><th style="text-align:center">Status</th><th style="text-align:right">Latency</th><th style="text-align:right">Error Rate</th><th>Last Check</th></tr></thead><tbody>${providers.map(p=>`<tr><td class="tb">${p.name}</td><td style="text-align:center"><span style="width:10px;height:10px;background:${p.stat==='green'?'var(--green)':'var(--amber)'};border-radius:50%;display:inline-block;box-shadow:0 0 6px ${p.stat==='green'?'var(--green)':'var(--amber)'}"></span></td><td class="tn">${p.lat}ms</td><td class="tn">${p.err}%</td><td>${p.check}</td></tr>`).join('')}</tbody></table></div></div>`;
+  mc('mn1',{type:'line',data:{labels:L,datasets:[{data:reqRates,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.06)',fill:true,tension:.2,borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>F(v)}}},plugins:{legend:{display:false}}}});
+  mc('mn2',{type:'line',data:{labels:L,datasets:[{data:errRates,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.06)',fill:true,tension:.2,borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>v.toFixed(1)+'%'}}},plugins:{legend:{display:false}}}});
+  const ltBuckets=['0-100ms','100-200ms','200-300ms','300-500ms','500ms+'],ltData=[Math.floor(sr()*25000),Math.floor(sr()*30000),Math.floor(sr()*20000),Math.floor(sr()*10000),Math.floor(sr()*5000)];
+  mc('mn3',{type:'bar',data:{labels:ltBuckets,datasets:[{data:ltData,backgroundColor:'rgba(139,92,246,.55)',borderRadius:4,barPercentage:.7}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>F(v)}}},plugins:{legend:{display:false}}}});
+  mc('mn4',{type:'bar',data:{labels:providers.map(p=>p.name),datasets:[{data:providers.map(p=>100-p.err),backgroundColor:providers.map(p=>p.stat==='green'?'rgba(34,197,94,.6)':'rgba(245,158,11,.6)'),borderRadius:4,barPercentage:.6}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{max:100,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}});
+}
+
+async function rAu(){
+  _s=42;
+  const users=['Drew H.','Alice M.','Bob T.','Charlie L.','Diana K.'];
+  const actions=['API key created','Strategy changed to cost_optimized','Alert threshold updated','User invited','Webhook configured','Integration enabled','Settings saved','Model selected','Team created','Budget limit set','Notification preference changed','Cache policy updated','Provider connected','Optimization rule created','Cost alert triggered'];
+  const resources=['api-key-789','optimization-config','alert-rule-45','user-invitation','webhook-001','gpt-4o-integration','account-settings','model-selection','team-platform','monthly-budget','notification-slack','cache-policy','anthropic-api','rule-model-routing','anomaly-detect'];
+  const audits=[];
+  for(let i=0;i<25;i++){
+    const d=new Date(Date.now()-i*3600000);
+    audits.push({
+      ts:d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'}),
+      user:users[Math.floor(sr()*users.length)],
+      action:actions[Math.floor(sr()*actions.length)],
+      resource:resources[Math.floor(sr()*resources.length)],
+      detail:['Success','Updated','Created','Enabled','Modified'][Math.floor(sr()*5)],
+      ip:['192.168.1.'+Math.floor(sr()*255),'203.0.113.'+Math.floor(sr()*255),'198.51.100.'+Math.floor(sr()*255)][Math.floor(sr()*3)]
+    });
+  }
+  document.getElementById('v-audit').innerHTML=`<div class="sh"><h3>Audit Log</h3><p>User activities and system changes</p></div>
+<div class="tc"><div class="th"><span class="ct">Audit Events</span><input type="text" class="ts" id="auditS" placeholder="Search…"></div><div class="tsc"><table><thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Resource</th><th>Details</th><th>IP Address</th></tr></thead><tbody id="auditB">${audits.map(a=>`<tr><td>${a.ts}</td><td>${a.user}</td><td><span class="badge bv">${a.action}</span></td><td class="tb">${a.resource}</td><td>${a.detail}</td><td>${a.ip}</td></tr>`).join('')}</tbody></table></div></div>`;
+  document.getElementById('auditS').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#auditB tr').forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(q)?'':'none'})});
+}
+
+async function rPg(){
+  const endpoints=[{name:'Chat Completion',path:'/v1/chat/completions',method:'POST'},{name:'Optimize Request',path:'/v1/optimize',method:'POST'},{name:'Models List',path:'/v1/models',method:'GET'},{name:'Health Check',path:'/v1/health',method:'GET'},{name:'Dashboard Stats',path:'/v1/dashboard/overview',method:'GET'}];
+  const examples={'/v1/chat/completions':`{
+  "model": "gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the capital of France?"
+    }
+  ],
+  "temperature": 0.7
+}`,'POST':'/v1/optimize':`{
+  "model": "gpt-4o",
+  "strategy": "cost_optimized",
+  "quality_threshold": 0.85
+}`,'/v1/models':`{"limit": 50}`,'/v1/health':`{}`,'/v1/dashboard/overview':`{"days": 30}`};
+  document.getElementById('v-playground').innerHTML=`<div class="sh"><h3>API Playground</h3><p>Interactive API testing interface</p></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+<div class="cd">
+  <div class="ch"><span class="ct">Request Configuration</span></div>
+  <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+    <div><label style="display:block;font-size:12px;color:var(--text2);margin-bottom:4px">Endpoint</label><select id="pgEndpoint" style="width:100%;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font:inherit">${endpoints.map(e=>`<option value="${e.path}">${e.name} (${e.method})</option>`).join('')}</select></div>
+    <div><label style="display:block;font-size:12px;color:var(--text2);margin-bottom:4px">Request Body</label><textarea id="pgBody" style="width:100%;height:200px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font:inherit;font-family:var(--mono);font-size:12px;resize:vertical">${examples['/v1/chat/completions']}</textarea></div>
+    <button onclick="sendPlaygroundRequest()" style="padding:10px;background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;border-radius:6px;font:inherit;font-weight:600;cursor:pointer;transition:transform .1s,box-shadow .15s">Send Request</button>
+  </div>
+</div>
+<div class="cd">
+  <div class="ch"><span class="ct">Response</span></div>
+  <div id="pgResponse" style="padding:16px;font-family:var(--mono);font-size:11px;color:var(--text2);white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto;background:var(--surface2);border-radius:6px">Ready to send request...</div>
+  <div id="pgStats" style="padding:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);display:none"><span id="pgTime"></span> | Status: <span id="pgStatus"></span></div>
+</div>
+</div>`;
+  document.getElementById('pgEndpoint').addEventListener('change',e=>{
+    const path=e.target.value;
+    const ep=endpoints.find(x=>x.path===path);
+    const exKey=examples[path]?path:Object.keys(examples)[0];
+    document.getElementById('pgBody').value=examples[exKey]||'{}';
+  });
+}
+
+function sendPlaygroundRequest(){
+  const endpoint=document.getElementById('pgEndpoint').value;
+  const body=document.getElementById('pgBody').value;
+  const respEl=document.getElementById('pgResponse');
+  const statsEl=document.getElementById('pgStats');
+  const startTime=Date.now();
+  respEl.textContent='Sending request...';statsEl.style.display='none';
+  const url='https://inferenceiq-api.onrender.com'+endpoint;
+  fetch(url,{method:endpoint.includes('GET')?'GET':'POST',headers:{'Content-Type':'application/json'},body:endpoint.includes('GET')?undefined:body}).then(r=>{const elapsed=Date.now()-startTime;document.getElementById('pgTime').textContent=elapsed+'ms';document.getElementById('pgStatus').textContent=r.status;statsEl.style.display='block';return r.json()}).then(d=>{respEl.textContent=JSON.stringify(d,null,2)}).catch(e=>{respEl.textContent='Error: '+e.message;statsEl.style.display='none'});}
+
 function rSe(){document.getElementById('v-settings').innerHTML=`<div class="sh"><h3>Settings</h3><p>Account, API keys, and preferences</p></div>
 <div class="set-cd"><h4>Profile</h4><p>Your information</p><div class="set-r"><div><div class="set-rl">Name</div><div class="set-rd">Drew Hutton</div></div></div><div class="set-r"><div><div class="set-rl">Email</div><div class="set-rd">drew@inferenceiq.com</div></div></div><div class="set-r"><div><div class="set-rl">Organization</div><div class="set-rd">InferenceIQ Inc.</div></div></div><div class="set-r"><div><div class="set-rl">Role</div><div class="set-rd">Admin</div></div></div></div>
 <div class="set-cd"><h4>API Keys</h4><p>Provider connections</p><div class="set-r"><div><div class="set-rl">OpenAI</div><div class="set-rd">sk-...7f2a</div></div><span class="badge bg">Active</span></div><div class="set-r"><div><div class="set-rl">Anthropic</div><div class="set-rd">sk-ant-...9b3c</div></div><span class="badge bg">Active</span></div><div class="set-r"><div><div class="set-rl">Google AI</div><div class="set-rd">AIza...4d1e</div></div><span class="badge bg">Active</span></div><div class="set-r"><div><div class="set-rl">AWS Bedrock</div><div class="set-rd">Not configured</div></div><span class="badge ba">Setup</span></div></div>
@@ -768,10 +937,10 @@ function rSe(){document.getElementById('v-settings').innerHTML=`<div class="sh">
 
 /* ═══════ DASHBOARD NAV ═══════ */
 let cv='overview',cd=7;
-const titles={overview:'Overview',inference:'Inference',ledger:'Savings Ledger',models:'Models',teams:'Teams',settings:'Settings'};
+const titles={overview:'Overview',inference:'Inference',ledger:'Savings Ledger',models:'Models',teams:'Teams',recommendations:'Recommendations',forecasting:'Forecasting',alerts:'Alerts',monitoring:'Monitoring',audit:'Audit Log',playground:'API Playground',settings:'Settings'};
 async function go(v){cv=v;document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');document.querySelectorAll('.d-nav[data-v]').forEach(b=>b.classList.toggle('active',b.dataset.v===v));document.getElementById('dTitle').textContent=titles[v]||v;
 document.getElementById('dSidebar').classList.remove('open');document.getElementById('dOverlay').classList.remove('show');
-dc();if(v==='overview')await rOv(cd);else if(v==='inference')await rIn(cd);else if(v==='ledger')await rLe();else if(v==='models')await rMo();else if(v==='teams')await rTe();else if(v==='settings')rSe()}
+dc();if(v==='overview')await rOv(cd);else if(v==='inference')await rIn(cd);else if(v==='ledger')await rLe();else if(v==='models')await rMo();else if(v==='teams')await rTe();else if(v==='recommendations')await rRec();else if(v==='forecasting')await rFo();else if(v==='alerts')await rAl();else if(v==='monitoring')await rMn();else if(v==='audit')await rAu();else if(v==='playground')await rPg();else if(v==='settings')rSe()}
 async function setR(r){cd=r==='7d'?7:r==='30d'?30:90;document.querySelectorAll('.d-pill').forEach(p=>p.classList.toggle('active',p.dataset.r===r));dc();if(cv==='overview')await rOv(cd);else if(cv==='inference')await rIn(cd)}
 
 let dashInit=false;

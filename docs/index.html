@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InferenceIQ Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #22c55e;
+            --bg-dark: #0f172a;
+            --bg-darker: #0a0f1b;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+            --hover-color: #1e293b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--bg-darker);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .version {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background-color: var(--card-bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-left: 1rem;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .header-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .header-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .toggle-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-darker);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding: 2rem 0;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding: 0 1.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover {
+            color: var(--primary-color);
+            background-color: var(--hover-color);
+            border-left-color: var(--primary-color);
+        }
+
+        .sidebar-nav a.active {
+            color: var(--primary-color);
+            background-color: var(--hover-color);
+            border-left-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 3rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            display: none;
+        }
+
+        section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Inline Code */
+        p code, li code {
+            background-color: var(--card-bg);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            color: var(--primary-color);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        th {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background-color: var(--hover-color);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-get {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .badge-post {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+        }
+
+        .badge-put {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+
+        .badge-delete {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        /* Endpoint Documentation */
+        .endpoint {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .endpoint-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .endpoint-method {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .endpoint-path {
+            font-family: 'Monaco', monospace;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+        }
+
+        .endpoint-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .grid-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Feature highlight */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 70px;
+                width: 100%;
+                height: auto;
+                max-height: 0;
+                overflow: hidden;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                transition: max-height 0.3s ease;
+            }
+
+            .sidebar.open {
+                max-height: 500px;
+                overflow-y: auto;
+            }
+
+            .toggle-sidebar {
+                display: block;
+            }
+
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+
+            pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.1rem;
+            }
+
+            .header-links {
+                display: none;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .intro-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">InferenceIQ</a>
+            <span class="version">v2.0</span>
+        </div>
+        <div class="header-links">
+            <a href="https://inferenceiq.onrender.com" target="_blank">Dashboard</a>
+            <a href="https://github.com/awh233/inferenceiq" target="_blank">GitHub</a>
+            <a href="https://pypi.org/project/inferenceiq/" target="_blank">PyPI</a>
+            <a href="https://inferenceiq-api.onrender.com/docs" target="_blank">API Docs</a>
+        </div>
+        <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Getting Started</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(0)">Installation</a></li>
+                    <li><a href="#" onclick="showSection(1)">First API Call</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">SDK Reference</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(2)">Python Client</a></li>
+                    <li><a href="#" onclick="showSection(3)">Async Client</a></li>
+                    <li><a href="#" onclick="showSection(4)">Types & Models</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">API Reference</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(5)">REST API Endpoints</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Features</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(6)">Routing Strategies</a></li>
+                    <li><a href="#" onclick="showSection(7)">Semantic Caching</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Dashboard</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(8)">Dashboard Guide</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Deployment</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(9)">Self-Hosting</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Examples</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" onclick="showSection(10)">Code Examples</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Section 0: Installation -->
+            <section class="active">
+                <h1>Installation</h1>
+                <p>Get started with InferenceIQ in minutes. Install the Python SDK from PyPI.</p>
+
+                <h2>Via pip</h2>
+                <p>The easiest way to install InferenceIQ is using pip:</p>
+                <pre><code class="language-bash">pip install inferenceiq</code></pre>
+
+                <h2>From source</h2>
+                <p>To install from the GitHub repository:</p>
+                <pre><code class="language-bash">git clone https://github.com/awh233/inferenceiq.git
+cd inferenceiq
+pip install -e .</code></pre>
+
+                <h2>Verify Installation</h2>
+                <p>Verify your installation by checking the version:</p>
+                <pre><code class="language-bash">python -c "import inferenceiq; print(inferenceiq.__version__)"</code></pre>
+
+                <h2>API Key Setup</h2>
+                <p>To use InferenceIQ, you'll need an API key. Get one from the <a href="https://inferenceiq.onrender.com" target="_blank">InferenceIQ Dashboard</a>.</p>
+                <pre><code class="language-bash">export INFERENCEIQ_API_KEY="your_api_key_here"</code></pre>
+
+                <p>Or set it in your code:</p>
+                <pre><code class="language-python">import os
+os.environ["INFERENCEIQ_API_KEY"] = "your_api_key_here"</code></pre>
+
+                <div class="highlight-box">
+                    <strong>Tip:</strong> Keep your API key secure and never commit it to version control. Use environment variables or .env files.
+                </div>
+
+                <h2>Next Steps</h2>
+                <p>After installation, check out the <a href="#" onclick="showSection(1)">First API Call</a> guide to make your first request.</p>
+            </section>
+
+            <!-- Section 1: First API Call -->
+            <section>
+                <h1>Your First API Call</h1>
+                <p>Make your first API call to InferenceIQ in under a minute.</p>
+
+                <h2>Basic Usage</h2>
+                <p>Initialize the client and make a simple request:</p>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+# Make an inference request
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[
+        {"role": "user", "content": "What is 2+2?"}
+    ],
+    routing_strategy="cost_optimized"
+)
+
+print(response.result)</code></pre>
+
+                <h2>Understanding the Response</h2>
+                <p>The response includes:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>result</code></td>
+                            <td>The generated text or response from the model</td>
+                        </tr>
+                        <tr>
+                            <td><code>model_used</code></td>
+                            <td>The actual model that processed the request</td>
+                        </tr>
+                        <tr>
+                            <td><code>cost</code></td>
+                            <td>The estimated cost of this inference in USD</td>
+                        </tr>
+                        <tr>
+                            <td><code>latency_ms</code></td>
+                            <td>Time taken to process the request in milliseconds</td>
+                        </tr>
+                        <tr>
+                            <td><code>cached</code></td>
+                            <td>Whether the result was retrieved from the semantic cache</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Routing Strategies</h2>
+                <p>InferenceIQ supports multiple routing strategies to optimize for your needs:</p>
+                <pre><code class="language-python"># Cost-optimized: Use cheaper models when possible
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Hello"}],
+    routing_strategy="cost_optimized"
+)
+
+# Quality-first: Prefer higher quality models
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Hello"}],
+    routing_strategy="quality_first"
+)
+
+# Balanced: Balance between cost and quality
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Hello"}],
+    routing_strategy="balanced"
+)
+
+# Latency-first: Minimize response time
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Hello"}],
+    routing_strategy="latency_first"
+)</code></pre>
+
+                <h2>Error Handling</h2>
+                <p>Handle errors gracefully:</p>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+from inferenceiq.exceptions import InferenceIQError
+
+client = InferenceIQ(api_key="your_api_key")
+
+try:
+    response = client.infer(
+        model="gpt-4-turbo",
+        messages=[{"role": "user", "content": "Hello"}]
+    )
+except InferenceIQError as e:
+    print(f"Error: {e}")
+    print(f"Status code: {e.status_code}")</code></pre>
+
+                <div class="highlight-box">
+                    <strong>Next:</strong> Explore the <a href="#" onclick="showSection(2)">Python Client Reference</a> to learn about all available options and parameters.
+                </div>
+            </section>
+
+            <!-- Section 2: Python Client -->
+            <section>
+                <h1>Python SDK Reference</h1>
+                <p>Complete reference for the InferenceIQ Python client.</p>
+
+                <h2>InferenceIQ Client</h2>
+                <p>The main client class for synchronous operations.</p>
+
+                <h3>Initialization</h3>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(
+    api_key="your_api_key",  # Required: your API key
+    base_url="https://inferenceiq-api.onrender.com",  # Optional: API endpoint
+    timeout=30.0  # Optional: request timeout in seconds
+)</code></pre>
+
+                <h3>infer() Method</h3>
+                <p>Make an inference request.</p>
+                <pre><code class="language-python">response = client.infer(
+    model: str,                          # Model name (required)
+    messages: List[Dict[str, str]],      # Chat messages (required)
+    routing_strategy: str = "balanced",  # Routing strategy (optional)
+    temperature: float = 0.7,            # Sampling temperature (optional)
+    max_tokens: int = 2048,              # Max output tokens (optional)
+    top_p: float = 1.0,                  # Nucleus sampling param (optional)
+    frequency_penalty: float = 0.0,      # Frequency penalty (optional)
+    presence_penalty: float = 0.0,       # Presence penalty (optional)
+    stop: List[str] = None               # Stop sequences (optional)
+) -> InferenceResponse</code></pre>
+
+                <h3>Available Models</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Provider</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>gpt-4-turbo</code></td>
+                            <td>OpenAI</td>
+                            <td>Most capable model for complex tasks</td>
+                        </tr>
+                        <tr>
+                            <td><code>gpt-4</code></td>
+                            <td>OpenAI</td>
+                            <td>General purpose with excellent reasoning</td>
+                        </tr>
+                        <tr>
+                            <td><code>gpt-3.5-turbo</code></td>
+                            <td>OpenAI</td>
+                            <td>Fast and cost-effective</td>
+                        </tr>
+                        <tr>
+                            <td><code>claude-3-opus</code></td>
+                            <td>Anthropic</td>
+                            <td>Powerful model for complex analysis</td>
+                        </tr>
+                        <tr>
+                            <td><code>claude-3-sonnet</code></td>
+                            <td>Anthropic</td>
+                            <td>Balanced performance and speed</td>
+                        </tr>
+                        <tr>
+                            <td><code>claude-3-haiku</code></td>
+                            <td>Anthropic</td>
+                            <td>Fast and lightweight</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Response Object</h3>
+                <p>The <code>InferenceResponse</code> object contains:</p>
+                <pre><code class="language-python">class InferenceResponse:
+    result: str              # Generated text
+    model_used: str          # Actual model used
+    cost: float              # Cost in USD
+    latency_ms: int          # Response time
+    cached: bool             # Was it from cache?
+    provider: str            # Model provider
+    input_tokens: int        # Tokens used in input
+    output_tokens: int       # Tokens generated
+    total_tokens: int        # Total tokens used</code></pre>
+
+                <h3>Example: Streaming Responses</h3>
+                <pre><code class="language-python"># Stream responses in real-time
+stream = client.infer_stream(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Write a poem"}],
+    routing_strategy="quality_first"
+)
+
+for chunk in stream:
+    print(chunk, end="", flush=True)</code></pre>
+            </section>
+
+            <!-- Section 3: Async Client -->
+            <section>
+                <h1>Async Client</h1>
+                <p>Use the InferenceIQAsync client for non-blocking operations in async applications.</p>
+
+                <h2>Initialization</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQAsync
+import asyncio
+
+async def main():
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    response = await client.infer(
+        model="gpt-4-turbo",
+        messages=[{"role": "user", "content": "Hello"}]
+    )
+
+    print(response.result)
+
+asyncio.run(main())</code></pre>
+
+                <h2>Concurrent Requests</h2>
+                <p>Run multiple inferences concurrently:</p>
+                <pre><code class="language-python">import asyncio
+from inferenceiq import InferenceIQAsync
+
+async def main():
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    # Create multiple tasks
+    tasks = [
+        client.infer(
+            model="gpt-4-turbo",
+            messages=[{"role": "user", "content": f"Question {i}"}]
+        )
+        for i in range(5)
+    ]
+
+    # Run them concurrently
+    responses = await asyncio.gather(*tasks)
+
+    for response in responses:
+        print(response.result)
+
+asyncio.run(main())</code></pre>
+
+                <h2>Context Manager</h2>
+                <p>Use the async client with a context manager for proper cleanup:</p>
+                <pre><code class="language-python">from inferenceiq import InferenceIQAsync
+import asyncio
+
+async def main():
+    async with InferenceIQAsync(api_key="your_api_key") as client:
+        response = await client.infer(
+            model="gpt-4-turbo",
+            messages=[{"role": "user", "content": "Hello"}]
+        )
+        print(response.result)
+
+asyncio.run(main())</code></pre>
+
+                <h2>Streaming Responses</h2>
+                <p>Stream responses asynchronously:</p>
+                <pre><code class="language-python">async def main():
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    async for chunk in client.infer_stream(
+        model="gpt-4-turbo",
+        messages=[{"role": "user", "content": "Write a story"}]
+    ):
+        print(chunk, end="", flush=True)
+
+asyncio.run(main())</code></pre>
+
+                <h2>Error Handling</h2>
+                <p>Handle async errors:</p>
+                <pre><code class="language-python">from inferenceiq import InferenceIQAsync
+from inferenceiq.exceptions import InferenceIQError
+import asyncio
+
+async def main():
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    try:
+        response = await client.infer(
+            model="gpt-4-turbo",
+            messages=[{"role": "user", "content": "Hello"}]
+        )
+    except InferenceIQError as e:
+        print(f"Error: {e}")
+        print(f"Status code: {e.status_code}")
+
+asyncio.run(main())</code></pre>
+            </section>
+
+            <!-- Section 4: Types & Models -->
+            <section>
+                <h1>Types & Models</h1>
+                <p>Complete reference for InferenceIQ data types and models.</p>
+
+                <h2>InferenceResponse</h2>
+                <p>The response returned from inference operations.</p>
+                <pre><code class="language-python">from inferenceiq.types import InferenceResponse
+
+class InferenceResponse:
+    """Response from an inference request"""
+    result: str              # Generated text output
+    model_used: str          # Actual model used (may differ from requested)
+    cost: float              # Cost in USD
+    latency_ms: int          # Response time in milliseconds
+    cached: bool             # Whether retrieved from semantic cache
+    provider: str            # Model provider (openai, anthropic, etc)
+    input_tokens: int        # Tokens in the input
+    output_tokens: int       # Tokens in the output
+    total_tokens: int        # Total tokens used
+    stop_reason: str         # Why generation stopped
+    metadata: Dict[str, Any] # Additional metadata</code></pre>
+
+                <h2>Message Format</h2>
+                <p>Messages must follow the OpenAI message format:</p>
+                <pre><code class="language-python">messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "What is AI?"},
+    {"role": "assistant", "content": "AI is..."},
+    {"role": "user", "content": "Tell me more."}
+]</code></pre>
+
+                <h3>Message Roles</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>system</code></td>
+                            <td>Sets the behavior and context for the assistant</td>
+                        </tr>
+                        <tr>
+                            <td><code>user</code></td>
+                            <td>User input and questions</td>
+                        </tr>
+                        <tr>
+                            <td><code>assistant</code></td>
+                            <td>Previous assistant responses (for context)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Routing Strategy Types</h2>
+                <pre><code class="language-python">from inferenceiq.types import RoutingStrategy
+
+# Available strategies:
+RoutingStrategy.COST_OPTIMIZED   # Minimize cost
+RoutingStrategy.QUALITY_FIRST    # Maximize quality
+RoutingStrategy.BALANCED         # Balance cost and quality
+RoutingStrategy.LATENCY_FIRST    # Minimize latency</code></pre>
+
+                <h2>Exception Types</h2>
+                <pre><code class="language-python">from inferenceiq import exceptions
+
+# Available exceptions:
+exceptions.InferenceIQError      # Base exception
+exceptions.AuthenticationError   # Invalid API key
+exceptions.RateLimitError        # Rate limit exceeded
+exceptions.ModelNotFoundError    # Model doesn't exist
+exceptions.TimeoutError          # Request timeout
+exceptions.ValidationError       # Invalid parameters</code></pre>
+
+                <h2>Cache Configuration</h2>
+                <pre><code class="language-python">from inferenceiq.types import CacheConfig
+
+config = CacheConfig(
+    enabled: bool = True,           # Enable caching
+    ttl_seconds: int = 3600,        # Cache duration
+    similarity_threshold: float = 0.95  # Similarity for cache hits
+)</code></pre>
+            </section>
+
+            <!-- Section 5: REST API Endpoints -->
+            <section>
+                <h1>REST API Reference</h1>
+                <p>Complete reference for all 12 REST API endpoints.</p>
+
+                <h2>Base URL</h2>
+                <p>All API endpoints are available at:</p>
+                <pre><code>https://inferenceiq-api.onrender.com</code></pre>
+
+                <h2>Authentication</h2>
+                <p>All requests require authentication via API key in the Authorization header:</p>
+                <pre><code class="language-bash">curl -H "Authorization: Bearer YOUR_API_KEY" https://inferenceiq-api.onrender.com/v1/infer</code></pre>
+
+                <!-- Inference Endpoints -->
+                <h2>Inference Endpoints</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-post">POST</span>
+                        <span class="endpoint-path">/v1/infer</span>
+                    </div>
+                    <p class="endpoint-description">Make a single inference request</p>
+                    <h4>Request Body</h4>
+                    <pre><code class="language-json">{
+  "model": "gpt-4-turbo",
+  "messages": [
+    {"role": "user", "content": "What is 2+2?"}
+  ],
+  "routing_strategy": "balanced",
+  "temperature": 0.7,
+  "max_tokens": 2048,
+  "top_p": 1.0
+}</code></pre>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "result": "2+2 equals 4.",
+  "model_used": "gpt-3.5-turbo",
+  "cost": 0.0015,
+  "latency_ms": 245,
+  "cached": false,
+  "provider": "openai",
+  "input_tokens": 12,
+  "output_tokens": 8,
+  "total_tokens": 20,
+  "stop_reason": "stop"
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-post">POST</span>
+                        <span class="endpoint-path">/v1/infer/stream</span>
+                    </div>
+                    <p class="endpoint-description">Stream inference responses using Server-Sent Events</p>
+                    <h4>Request Body</h4>
+                    <pre><code class="language-json">{
+  "model": "gpt-4-turbo",
+  "messages": [
+    {"role": "user", "content": "Write a short poem"}
+  ],
+  "routing_strategy": "quality_first"
+}</code></pre>
+                    <h4>Response (SSE)</h4>
+                    <pre><code class="language-text">data: {"chunk":"Once "}
+data: {"chunk":"upon "}
+data: {"chunk":"a "}
+data: {"chunk":"time..."}
+data: {"done":true,"total_tokens":42}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-post">POST</span>
+                        <span class="endpoint-path">/v1/infer/batch</span>
+                    </div>
+                    <p class="endpoint-description">Process multiple inferences in one request</p>
+                    <h4>Request Body</h4>
+                    <pre><code class="language-json">{
+  "requests": [
+    {
+      "model": "gpt-4-turbo",
+      "messages": [{"role": "user", "content": "Question 1"}]
+    },
+    {
+      "model": "claude-3-opus",
+      "messages": [{"role": "user", "content": "Question 2"}]
+    }
+  ]
+}</code></pre>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "results": [
+    {
+      "result": "Answer 1",
+      "model_used": "gpt-3.5-turbo",
+      "cost": 0.0012,
+      "latency_ms": 180
+    },
+    {
+      "result": "Answer 2",
+      "model_used": "claude-3-haiku",
+      "cost": 0.0008,
+      "latency_ms": 220
+    }
+  ]
+}</code></pre>
+                </div>
+
+                <!-- Model Management -->
+                <h2>Model Management Endpoints</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/v1/models</span>
+                    </div>
+                    <p class="endpoint-description">List all available models</p>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "models": [
+    {
+      "id": "gpt-4-turbo",
+      "provider": "openai",
+      "cost_per_1k_input": 0.01,
+      "cost_per_1k_output": 0.03,
+      "max_tokens": 128000,
+      "available": true
+    },
+    {
+      "id": "claude-3-opus",
+      "provider": "anthropic",
+      "cost_per_1k_input": 0.015,
+      "cost_per_1k_output": 0.075,
+      "max_tokens": 200000,
+      "available": true
+    }
+  ]
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/v1/models/{model_id}</span>
+                    </div>
+                    <p class="endpoint-description">Get details about a specific model</p>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "id": "gpt-4-turbo",
+  "provider": "openai",
+  "cost_per_1k_input": 0.01,
+  "cost_per_1k_output": 0.03,
+  "max_tokens": 128000,
+  "available": true,
+  "created_at": "2024-01-01T00:00:00Z"
+}</code></pre>
+                </div>
+
+                <!-- Cache Management -->
+                <h2>Cache Management Endpoints</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/v1/cache/stats</span>
+                    </div>
+                    <p class="endpoint-description">Get cache statistics for your account</p>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "total_requests": 1250,
+  "cached_requests": 340,
+  "cache_hit_rate": 0.272,
+  "total_saved_cost": 2.45,
+  "total_saved_latency_ms": 18500,
+  "cache_size_bytes": 524288
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-delete">DELETE</span>
+                        <span class="endpoint-path">/v1/cache/clear</span>
+                    </div>
+                    <p class="endpoint-description">Clear your semantic cache</p>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "success": true,
+  "cleared_entries": 342,
+  "freed_bytes": 524288
+}</code></pre>
+                </div>
+
+                <!-- Usage Endpoints -->
+                <h2>Usage & Billing Endpoints</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/v1/usage</span>
+                    </div>
+                    <p class="endpoint-description">Get current usage and billing information</p>
+                    <h4>Query Parameters</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>start_date</code></td>
+                                <td>string</td>
+                                <td>ISO 8601 start date (optional)</td>
+                            </tr>
+                            <tr>
+                                <td><code>end_date</code></td>
+                                <td>string</td>
+                                <td>ISO 8601 end date (optional)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "total_tokens": 125000,
+  "total_cost": 5.32,
+  "requests_count": 1250,
+  "models_used": ["gpt-4-turbo", "claude-3-opus"],
+  "daily_breakdown": [
+    {"date": "2024-03-01", "cost": 0.45, "requests": 50},
+    {"date": "2024-03-02", "cost": 0.52, "requests": 62}
+  ]
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/v1/usage/limits</span>
+                    </div>
+                    <p class="endpoint-description">Get rate limits and quota information</p>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "requests_per_minute": 60,
+  "tokens_per_day": 1000000,
+  "max_batch_size": 100,
+  "current_requests_this_minute": 12,
+  "current_tokens_today": 125000
+}</code></pre>
+                </div>
+
+                <!-- Health Check -->
+                <h2>System Endpoints</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/health</span>
+                    </div>
+                    <p class="endpoint-description">Check API health status</p>
+                    <h4>Response</h4>
+                    <pre><code class="language-json">{
+  "status": "healthy",
+  "uptime_seconds": 864000,
+  "version": "2.0.0",
+  "timestamp": "2024-03-07T12:00:00Z"
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="badge badge-get">GET</span>
+                        <span class="endpoint-path">/docs</span>
+                    </div>
+                    <p class="endpoint-description">Interactive API documentation (Swagger UI)</p>
+                </div>
+            </section>
+
+            <!-- Section 6: Routing Strategies -->
+            <section>
+                <h1>Routing Strategies</h1>
+                <p>InferenceIQ intelligently routes your requests to different models based on your optimization preferences.</p>
+
+                <h2>Overview</h2>
+                <p>Choose the routing strategy that best matches your use case. InferenceIQ analyzes request complexity and automatically selects the optimal model.</p>
+
+                <div class="grid">
+                    <div class="grid-item">
+                        <h4>Cost Optimized</h4>
+                        <p>Minimize API costs by routing to cheaper models when quality permits. Great for high-volume inference.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Quality First</h4>
+                        <p>Prioritize response quality by selecting the most capable models. Best for critical tasks.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Balanced</h4>
+                        <p>Default strategy balancing cost and quality. Recommended for most use cases.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Latency First</h4>
+                        <p>Minimize response time. Perfect for real-time applications and user-facing features.</p>
+                    </div>
+                </div>
+
+                <h2>Cost Optimized</h2>
+                <p>This strategy analyzes your request and routes to the cheapest model capable of handling it effectively.</p>
+                <pre><code class="language-python">response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Translate to Spanish: Hello"}],
+    routing_strategy="cost_optimized"
+)
+# Might use: gpt-3.5-turbo (saves ~70% cost)</code></pre>
+
+                <h3>When to Use</h3>
+                <ul>
+                    <li>High-volume inference workloads</li>
+                    <li>Simple, straightforward tasks</li>
+                    <li>Cost-sensitive applications</li>
+                    <li>Background processing</li>
+                </ul>
+
+                <h3>Typical Model Selection</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request Type</th>
+                            <th>Selected Model</th>
+                            <th>Cost Savings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Simple questions</td>
+                            <td>gpt-3.5-turbo</td>
+                            <td>70-80%</td>
+                        </tr>
+                        <tr>
+                            <td>Summarization</td>
+                            <td>claude-3-haiku</td>
+                            <td>60-70%</td>
+                        </tr>
+                        <tr>
+                            <td>Classification</td>
+                            <td>gpt-3.5-turbo</td>
+                            <td>75-85%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Quality First</h2>
+                <p>Always routes to the highest-quality model capable of handling your request.</p>
+                <pre><code class="language-python">response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Write technical documentation for..."}],
+    routing_strategy="quality_first"
+)
+# Uses: gpt-4-turbo (best quality)</code></pre>
+
+                <h3>When to Use</h3>
+                <ul>
+                    <li>Mission-critical tasks</li>
+                    <li>Complex reasoning or analysis</li>
+                    <li>Content generation</li>
+                    <li>Professional deliverables</li>
+                </ul>
+
+                <h2>Balanced (Default)</h2>
+                <p>Intelligently balances cost and quality for optimal value.</p>
+                <pre><code class="language-python">response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "What's the weather?"}],
+    routing_strategy="balanced"
+)
+# Might use: gpt-3.5-turbo or claude-3-sonnet</code></pre>
+
+                <h3>When to Use</h3>
+                <ul>
+                    <li>Most general use cases</li>
+                    <li>Production applications</li>
+                    <li>When you're unsure which to choose</li>
+                </ul>
+
+                <h2>Latency First</h2>
+                <p>Optimizes for fastest possible response time.</p>
+                <pre><code class="language-python">response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Quick answer needed"}],
+    routing_strategy="latency_first"
+)
+# Uses: Fastest available model</code></pre>
+
+                <h3>When to Use</h3>
+                <ul>
+                    <li>Real-time user interactions</li>
+                    <li>Chat applications</li>
+                    <li>Time-sensitive operations</li>
+                    <li>When response time is critical</li>
+                </ul>
+
+                <h2>Monitoring Routing Decisions</h2>
+                <p>Check which model was actually used:</p>
+                <pre><code class="language-python">response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Hello"}],
+    routing_strategy="cost_optimized"
+)
+
+print(f"Requested: gpt-4-turbo")
+print(f"Actually used: {response.model_used}")
+print(f"Cost: ${response.cost}")
+print(f"Latency: {response.latency_ms}ms")</code></pre>
+
+                <div class="highlight-box">
+                    <strong>Pro Tip:</strong> You can request a specific model, but InferenceIQ may substitute it based on your routing strategy. The <code>model_used</code> field in the response shows what was actually used.
+                </div>
+            </section>
+
+            <!-- Section 7: Semantic Caching -->
+            <section>
+                <h1>Semantic Caching</h1>
+                <p>InferenceIQ uses semantic caching to dramatically reduce costs and latency for similar requests.</p>
+
+                <h2>How It Works</h2>
+                <p>Instead of exact text matching, semantic caching uses embeddings to understand request meaning. If you ask a similar question with different wording, we can return the cached result.</p>
+
+                <pre><code class="language-python"># First request - goes to the API
+response1 = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "What is machine learning?"}]
+)
+print(f"Cost: ${response1.cost}, Cached: {response1.cached}")
+# Cost: $0.05, Cached: False
+
+# Very similar request - uses cache!
+response2 = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "Can you explain machine learning?"}]
+)
+print(f"Cost: ${response2.cost}, Cached: {response2.cached}")
+# Cost: $0.0001, Cached: True (99.8% cost savings!)</code></pre>
+
+                <h2>Cache Hit Rate</h2>
+                <p>Monitor your cache performance in the dashboard or via the API:</p>
+                <pre><code class="language-python">stats = client.get_cache_stats()
+print(f"Cache Hit Rate: {stats.cache_hit_rate:.2%}")
+print(f"Requests Served from Cache: {stats.cached_requests}")
+print(f"Total Cost Saved: ${stats.total_saved_cost:.2f}")</code></pre>
+
+                <h2>Configuration Options</h2>
+
+                <h3>TTL (Time-To-Live)</h3>
+                <p>Control how long cached results are valid (default: 1 hour).</p>
+                <pre><code class="language-python"># Cache results for 24 hours
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "..."}],
+    cache_ttl_seconds=86400  # 24 hours
+)
+
+# Disable caching for this request
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "..."}],
+    cache_enabled=False
+)</code></pre>
+
+                <h3>Similarity Threshold</h3>
+                <p>Control how similar a request must be to get a cache hit (0-1, default: 0.95).</p>
+                <pre><code class="language-python"># Stricter matching (95%+ similarity required)
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "..."}],
+    cache_similarity_threshold=0.95
+)
+
+# Looser matching (80%+ similarity sufficient)
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[{"role": "user", "content": "..."}],
+    cache_similarity_threshold=0.80
+)</code></pre>
+
+                <h2>Real-World Examples</h2>
+
+                <h3>FAQs and Help Centers</h3>
+                <p>Dramatically reduce costs for FAQ-like systems:</p>
+                <pre><code class="language-python"># User asks: "How do I reset my password?"
+# Cache saves this result
+
+# Next user asks: "What do I do if I forgot my password?"
+# Returns cached result (97% similarity) - nearly free!</code></pre>
+
+                <h3>Content Generation</h3>
+                <p>Cache translators and formatters:</p>
+                <pre><code class="language-python"># First user translates document to Spanish
+# Result is cached for 24 hours
+
+# Another user translates similar document
+# Gets cached result if semantic match > 0.9</code></pre>
+
+                <h3>Research and Analysis</h3>
+                <p>Cache research summaries and analyses:</p>
+                <pre><code class="language-python"># "Summarize recent advances in quantum computing"
+# Cached for 1 week
+
+# "What's new in quantum computers?"
+# Returns cached summary (94% match)</code></pre>
+
+                <h2>Cache Management</h2>
+
+                <h3>View Cache Stats</h3>
+                <pre><code class="language-python">stats = client.get_cache_stats()
+print(f"Total cached entries: {stats.total_entries}")
+print(f"Cache size: {stats.size_bytes / 1024 / 1024:.2f} MB")
+print(f"Hit rate: {stats.hit_rate:.2%}")
+print(f"Cost saved: ${stats.cost_saved:.2f}")</code></pre>
+
+                <h3>Clear Cache</h3>
+                <pre><code class="language-python"># Clear your entire semantic cache
+client.clear_cache()
+
+# Clear cache entries older than 7 days
+client.clear_cache_older_than(days=7)</code></pre>
+
+                <h2>Advanced Configuration</h2>
+                <p>Fine-tune caching behavior:</p>
+                <pre><code class="language-python">from inferenceiq.types import CacheConfig
+
+config = CacheConfig(
+    enabled=True,
+    ttl_seconds=3600,              # 1 hour
+    similarity_threshold=0.95,      # 95% match
+    max_entries=10000,              # Max cache size
+    cleanup_interval_seconds=3600   # Cleanup old entries
+)
+
+client = InferenceIQ(
+    api_key="your_api_key",
+    cache_config=config
+)</code></pre>
+
+                <div class="highlight-box">
+                    <strong>Fact:</strong> Typical users see 15-30% of requests served from the semantic cache, resulting in 20-50% cost reduction across their inference workload.
+                </div>
+            </section>
+
+            <!-- Section 8: Dashboard Guide -->
+            <section>
+                <h1>Dashboard Guide</h1>
+                <p>Manage your InferenceIQ account, monitor usage, and optimize costs through the web dashboard.</p>
+
+                <h2>Getting Started</h2>
+                <p>Access the dashboard at <a href="https://inferenceiq.onrender.com" target="_blank">https://inferenceiq.onrender.com</a></p>
+
+                <h2>Overview Tab</h2>
+                <p>The main dashboard shows your account health at a glance:</p>
+                <div class="grid">
+                    <div class="grid-item">
+                        <h4>Total Cost (This Month)</h4>
+                        <p>Running total of your inference costs. Helps you monitor spending.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Total Requests</h4>
+                        <p>Count of all inference requests made this month.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Average Latency</h4>
+                        <p>Mean response time across all requests.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Cache Hit Rate</h4>
+                        <p>Percentage of requests served from semantic cache.</p>
+                    </div>
+                </div>
+
+                <h2>Models Tab</h2>
+                <p>View and manage your available models.</p>
+                <pre><code>Each model card shows:
+- Model name and provider
+- Pricing (cost per 1K input/output tokens)
+- Max tokens supported
+- Availability status
+- Recent usage statistics</code></pre>
+
+                <h3>Model Filtering</h3>
+                <ul>
+                    <li>Filter by provider (OpenAI, Anthropic, etc.)</li>
+                    <li>Sort by cost, performance, or latency</li>
+                    <li>Search by model name</li>
+                </ul>
+
+                <h3>Model Details</h3>
+                <p>Click any model to see:</p>
+                <ul>
+                    <li>Detailed pricing breakdown</li>
+                    <li>Context window size</li>
+                    <li>Training data cutoff</li>
+                    <li>Recommended use cases</li>
+                    <li>Your usage of this model</li>
+                </ul>
+
+                <h2>Savings Ledger</h2>
+                <p>Track cost savings from routing and caching:</p>
+                <pre><code>The savings ledger shows:
+- Requests where routing saved money
+- Cache hits and their cost impact
+- Estimated monthly savings
+- Breakdown by routing strategy</code></pre>
+
+                <h3>Example Savings Breakdown</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Requests</th>
+                            <th>Potential Cost</th>
+                            <th>Actual Cost</th>
+                            <th>Savings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cost Optimized</td>
+                            <td>1200</td>
+                            <td>$24.50</td>
+                            <td>$8.25</td>
+                            <td>$16.25 (66%)</td>
+                        </tr>
+                        <tr>
+                            <td>Semantic Cache</td>
+                            <td>340</td>
+                            <td>$6.80</td>
+                            <td>$0.34</td>
+                            <td>$6.46 (95%)</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>1540</td>
+                            <td>$31.30</td>
+                            <td>$8.59</td>
+                            <td>$22.71 (73%)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Teams Tab</h2>
+                <p>Manage team members and permissions (Enterprise only).</p>
+
+                <h3>Add Team Members</h3>
+                <ul>
+                    <li>Invite users by email</li>
+                    <li>Assign roles (Admin, Member, Viewer)</li>
+                    <li>Set API key permissions</li>
+                    <li>Track activity per member</li>
+                </ul>
+
+                <h3>Roles and Permissions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Permissions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Admin</strong></td>
+                            <td>Full access, manage team, billing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Member</strong></td>
+                            <td>Create API keys, view usage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Viewer</strong></td>
+                            <td>View-only access to analytics</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Alerts Tab</h2>
+                <p>Set up notifications for usage and billing events.</p>
+
+                <h3>Alert Types</h3>
+                <ul>
+                    <li><strong>Cost Threshold:</strong> Notify when monthly spend exceeds limit</li>
+                    <li><strong>Rate Limit:</strong> Alert when approaching request limits</li>
+                    <li><strong>Error Rate:</strong> Warn if error rate exceeds threshold</li>
+                    <li><strong>Downtime:</strong> Notify of API availability issues</li>
+                </ul>
+
+                <h3>Setting Up an Alert</h3>
+                <pre><code>1. Click "Create Alert"
+2. Select alert type (Cost, Rate Limit, etc.)
+3. Set threshold and frequency
+4. Choose notification method (Email, Slack, Webhook)
+5. Save and activate</code></pre>
+
+                <h2>API Keys Management</h2>
+                <p>Manage API keys used by your applications.</p>
+
+                <h3>Create New Key</h3>
+                <ul>
+                    <li>Click "Generate New Key"</li>
+                    <li>Name the key (e.g., "Production App")</li>
+                    <li>Set optional restrictions (IP whitelist, rate limits)</li>
+                    <li>Copy and store securely</li>
+                </ul>
+
+                <h3>Key Security</h3>
+                <ul>
+                    <li>Keys are shown only once - save immediately</li>
+                    <li>Rotate keys regularly</li>
+                    <li>Use different keys for different environments</li>
+                    <li>Delete unused keys</li>
+                </ul>
+
+                <h2>Settings</h2>
+                <p>Configure account preferences:</p>
+                <ul>
+                    <li><strong>Email notifications:</strong> Choose what alerts to receive</li>
+                    <li><strong>Default routing strategy:</strong> Set your preferred default</li>
+                    <li><strong>Cache settings:</strong> Configure TTL and thresholds</li>
+                    <li><strong>Timezone:</strong> For accurate billing cycles</li>
+                    <li><strong>Plan:</strong> View current plan and upgrade options</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Tip:</strong> Use the "Cost Forecast" feature to estimate spending for the month based on current usage trends.
+                </div>
+            </section>
+
+            <!-- Section 9: Self-Hosting -->
+            <section>
+                <h1>Self-Hosting Guide</h1>
+                <p>Run InferenceIQ on your own infrastructure for maximum control and privacy.</p>
+
+                <h2>Architecture</h2>
+                <p>InferenceIQ consists of three main components:</p>
+                <ul>
+                    <li><strong>API Server:</strong> Handles inference requests and routing</li>
+                    <li><strong>Cache Service:</strong> Semantic caching backend (Redis-compatible)</li>
+                    <li><strong>Analytics Service:</strong> Usage tracking and billing</li>
+                </ul>
+
+                <h2>Local Development Setup</h2>
+
+                <h3>Prerequisites</h3>
+                <pre><code class="language-bash">Python 3.9+
+Docker and Docker Compose (optional but recommended)
+Redis 6.0+ (for caching)
+PostgreSQL 12+ (for analytics)</code></pre>
+
+                <h3>Installation</h3>
+                <pre><code class="language-bash"># Clone the repository
+git clone https://github.com/awh233/inferenceiq.git
+cd inferenceiq
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+# Create .env file
+cp .env.example .env</code></pre>
+
+                <h3>Configuration</h3>
+                <p>Edit <code>.env</code> with your settings:</p>
+                <pre><code class="language-bash"># API Keys
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/inferenceiq
+
+# Redis Cache
+REDIS_URL=redis://localhost:6379
+
+# Server
+API_PORT=8000
+API_HOST=0.0.0.0
+DEBUG=false
+
+# Routing
+DEFAULT_ROUTING_STRATEGY=balanced
+ENABLE_COST_OPTIMIZATION=true
+
+# Cache
+CACHE_TTL_SECONDS=3600
+CACHE_SIMILARITY_THRESHOLD=0.95</code></pre>
+
+                <h3>Running Locally</h3>
+                <pre><code class="language-bash"># Start all services with Docker Compose
+docker-compose up -d
+
+# Or run individually:
+# Terminal 1: Start Redis
+redis-server
+
+# Terminal 2: Start PostgreSQL
+docker run -d -e POSTGRES_PASSWORD=password -p 5432:5432 postgres:15
+
+# Terminal 3: Run the API server
+python -m inferenceiq.api
+
+# Terminal 4: Run the worker
+python -m inferenceiq.worker</code></pre>
+
+                <h3>Verify Installation</h3>
+                <pre><code class="language-bash"># Check API health
+curl http://localhost:8000/health
+
+# Run tests
+pytest tests/
+
+# Check code quality
+flake8 inferenceiq/
+black --check inferenceiq/</code></pre>
+
+                <h2>Docker Deployment</h2>
+
+                <h3>Build Docker Image</h3>
+                <pre><code class="language-bash"># Build the image
+docker build -t inferenceiq:latest .
+
+# Run the container
+docker run -d \
+  --name inferenceiq \
+  -p 8000:8000 \
+  -e OPENAI_API_KEY=$OPENAI_API_KEY \
+  -e DATABASE_URL=$DATABASE_URL \
+  -e REDIS_URL=$REDIS_URL \
+  inferenceiq:latest</code></pre>
+
+                <h3>Docker Compose</h3>
+                <pre><code class="language-yaml">version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/inferenceiq
+      REDIS_URL: redis://cache:6379
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: inferenceiq
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  cache:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:</code></pre>
+
+                <h2>Render Deployment</h2>
+
+                <h3>Create Render Account</h3>
+                <ul>
+                    <li>Go to <a href="https://render.com" target="_blank">render.com</a></li>
+                    <li>Sign up with GitHub</li>
+                    <li>Connect your InferenceIQ repository</li>
+                </ul>
+
+                <h3>Deploy API Service</h3>
+                <pre><code>1. Create New > Web Service
+2. Connect GitHub repository
+3. Set Runtime: Python 3.11
+4. Build Command: pip install -r requirements.txt
+5. Start Command: gunicorn -w 4 -k uvicorn.workers.UvicornWorker inferenceiq.api:app
+6. Add Environment Variables:
+   - OPENAI_API_KEY
+   - ANTHROPIC_API_KEY
+   - DATABASE_URL (use Render PostgreSQL)
+   - REDIS_URL (use Render Redis)
+7. Deploy</code></pre>
+
+                <h3>Add Database</h3>
+                <pre><code>1. Create New > PostgreSQL
+2. Copy connection string to DATABASE_URL
+3. Run migrations: python -m alembic upgrade head</code></pre>
+
+                <h3>Add Redis Cache</h3>
+                <pre><code>1. Create New > Redis
+2. Copy connection string to REDIS_URL
+3. Restart API service</code></pre>
+
+                <h2>Environment Variables Reference</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>OPENAI_API_KEY</code></td>
+                            <td>OpenAI API key</td>
+                            <td>sk-...</td>
+                        </tr>
+                        <tr>
+                            <td><code>ANTHROPIC_API_KEY</code></td>
+                            <td>Anthropic API key</td>
+                            <td>sk-ant-...</td>
+                        </tr>
+                        <tr>
+                            <td><code>DATABASE_URL</code></td>
+                            <td>PostgreSQL connection</td>
+                            <td>postgresql://user:pass@host/db</td>
+                        </tr>
+                        <tr>
+                            <td><code>REDIS_URL</code></td>
+                            <td>Redis connection</td>
+                            <td>redis://host:6379</td>
+                        </tr>
+                        <tr>
+                            <td><code>API_PORT</code></td>
+                            <td>Server port</td>
+                            <td>8000</td>
+                        </tr>
+                        <tr>
+                            <td><code>LOG_LEVEL</code></td>
+                            <td>Logging level</td>
+                            <td>INFO, DEBUG, WARNING</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Monitoring and Logging</h2>
+
+                <h3>View Logs</h3>
+                <pre><code class="language-bash"># Docker logs
+docker logs -f inferenceiq
+
+# Render logs (via dashboard or CLI)
+render logs --service inferenceiq
+
+# Application logs
+tail -f logs/app.log</code></pre>
+
+                <h3>Metrics and Health</h3>
+                <pre><code class="language-bash"># Health check endpoint
+curl http://localhost:8000/health
+
+# Prometheus metrics (if enabled)
+curl http://localhost:8000/metrics</code></pre>
+
+                <h2>Scaling</h2>
+
+                <h3>Horizontal Scaling</h3>
+                <ul>
+                    <li>Run multiple API instances behind a load balancer</li>
+                    <li>Use managed PostgreSQL for better performance</li>
+                    <li>Enable Redis persistence for caching</li>
+                </ul>
+
+                <h3>Load Balancer Configuration</h3>
+                <pre><code class="language-bash"># Example: Nginx
+upstream inferenceiq {
+    server api-1:8000;
+    server api-2:8000;
+    server api-3:8000;
+}
+
+server {
+    listen 80;
+    location / {
+        proxy_pass http://inferenceiq;
+    }
+}</code></pre>
+
+                <div class="highlight-box">
+                    <strong>Production Checklist:</strong>
+                    <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                        <li>Set DEBUG=false in production</li>
+                        <li>Use strong database passwords</li>
+                        <li>Enable Redis persistence</li>
+                        <li>Configure backup strategy</li>
+                        <li>Set up monitoring and alerts</li>
+                        <li>Use environment variables for secrets</li>
+                        <li>Run database migrations before deployment</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section 10: Code Examples -->
+            <section>
+                <h1>Code Examples</h1>
+                <p>Practical examples for common use cases with InferenceIQ.</p>
+
+                <h2>Synchronous Inference</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+# Simple question
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain quantum computing in simple terms."}
+    ]
+)
+
+print(f"Response: {response.result}")
+print(f"Cost: ${response.cost}")
+print(f"Model: {response.model_used}")
+print(f"Latency: {response.latency_ms}ms")</code></pre>
+
+                <h2>Asynchronous Inference</h2>
+                <pre><code class="language-python">import asyncio
+from inferenceiq import InferenceIQAsync
+
+async def main():
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    response = await client.infer(
+        model="gpt-4-turbo",
+        messages=[
+            {"role": "user", "content": "What is machine learning?"}
+        ]
+    )
+
+    print(response.result)
+
+asyncio.run(main())</code></pre>
+
+                <h2>Concurrent Requests</h2>
+                <pre><code class="language-python">import asyncio
+from inferenceiq import InferenceIQAsync
+
+async def process_questions(questions):
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    tasks = [
+        client.infer(
+            model="gpt-4-turbo",
+            messages=[{"role": "user", "content": q}]
+        )
+        for q in questions
+    ]
+
+    results = await asyncio.gather(*tasks)
+    return results
+
+questions = [
+    "What is AI?",
+    "Explain machine learning",
+    "What are neural networks?"
+]
+
+responses = asyncio.run(process_questions(questions))
+for i, response in enumerate(responses):
+    print(f"Q: {questions[i]}")
+    print(f"A: {response.result}\n")</code></pre>
+
+                <h2>Streaming Responses</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+# Stream response chunks as they arrive
+for chunk in client.infer_stream(
+    model="gpt-4-turbo",
+    messages=[
+        {"role": "user", "content": "Write a short story about AI"}
+    ]
+):
+    print(chunk, end="", flush=True)</code></pre>
+
+                <h2>Async Streaming</h2>
+                <pre><code class="language-python">import asyncio
+from inferenceiq import InferenceIQAsync
+
+async def main():
+    client = InferenceIQAsync(api_key="your_api_key")
+
+    async for chunk in client.infer_stream(
+        model="gpt-4-turbo",
+        messages=[
+            {"role": "user", "content": "Write a poem about technology"}
+        ]
+    ):
+        print(chunk, end="", flush=True)
+
+asyncio.run(main())</code></pre>
+
+                <h2>Batch Processing</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+requests = [
+    {
+        "model": "gpt-4-turbo",
+        "messages": [{"role": "user", "content": "Translate to French: Hello"}]
+    },
+    {
+        "model": "claude-3-opus",
+        "messages": [{"role": "user", "content": "Translate to Spanish: Goodbye"}]
+    }
+]
+
+responses = client.infer_batch(requests)
+for response in responses:
+    print(f"Model: {response.model_used}, Cost: ${response.cost}")</code></pre>
+
+                <h2>Using Routing Strategies</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+message = {"role": "user", "content": "What is 2+2?"}
+
+# Cost optimized
+cheap = client.infer(
+    model="gpt-4-turbo",
+    messages=[message],
+    routing_strategy="cost_optimized"
+)
+print(f"Cost optimized: ${cheap.cost}, model: {cheap.model_used}")
+
+# Quality first
+quality = client.infer(
+    model="gpt-4-turbo",
+    messages=[message],
+    routing_strategy="quality_first"
+)
+print(f"Quality first: ${quality.cost}, model: {quality.model_used}")
+
+# Balanced (default)
+balanced = client.infer(
+    model="gpt-4-turbo",
+    messages=[message],
+    routing_strategy="balanced"
+)
+print(f"Balanced: ${balanced.cost}, model: {balanced.model_used}")
+
+# Latency first
+fast = client.infer(
+    model="gpt-4-turbo",
+    messages=[message],
+    routing_strategy="latency_first"
+)
+print(f"Latency first: {fast.latency_ms}ms, model: {fast.model_used}")</code></pre>
+
+                <h2>Error Handling</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+from inferenceiq.exceptions import (
+    AuthenticationError,
+    RateLimitError,
+    ModelNotFoundError,
+    InferenceIQError
+)
+
+client = InferenceIQ(api_key="your_api_key")
+
+try:
+    response = client.infer(
+        model="gpt-4-turbo",
+        messages=[{"role": "user", "content": "Hello"}]
+    )
+except AuthenticationError:
+    print("Invalid API key")
+except RateLimitError:
+    print("Rate limit exceeded, retry later")
+except ModelNotFoundError:
+    print("Model not available")
+except InferenceIQError as e:
+    print(f"API error: {e.message}")
+    print(f"Status code: {e.status_code}")</code></pre>
+
+                <h2>FAQ Chatbot</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+class FAQBot:
+    def __init__(self, api_key):
+        self.client = InferenceIQ(api_key=api_key)
+        self.system_prompt = """You are a helpful FAQ assistant.
+Keep responses concise and clear. If you don't know the answer,
+say so and suggest contacting support."""
+
+    def answer(self, question):
+        response = self.client.infer(
+            model="gpt-4-turbo",
+            messages=[
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": question}
+            ],
+            routing_strategy="cost_optimized"  # Save money on FAQs
+        )
+        return {
+            "answer": response.result,
+            "cost": response.cost,
+            "cached": response.cached
+        }
+
+bot = FAQBot(api_key="your_api_key")
+
+# Questions (similar ones will hit the cache)
+questions = [
+    "How do I reset my password?",
+    "How do I change my password?",
+    "What's your refund policy?"
+]
+
+for q in questions:
+    result = bot.answer(q)
+    print(f"Q: {q}")
+    print(f"A: {result['answer']}")
+    print(f"Cached: {result['cached']}\n")</code></pre>
+
+                <h2>Token Management</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+response = client.infer(
+    model="gpt-4-turbo",
+    messages=[
+        {"role": "user", "content": "What is AI?"}
+    ],
+    max_tokens=100  # Limit output tokens
+)
+
+print(f"Input tokens: {response.input_tokens}")
+print(f"Output tokens: {response.output_tokens}")
+print(f"Total tokens: {response.total_tokens}")
+print(f"Cost per token: ${response.cost / response.total_tokens:.6f}")</code></pre>
+
+                <h2>Using Different Models</h2>
+                <pre><code class="language-python">from inferenceiq import InferenceIQ
+
+client = InferenceIQ(api_key="your_api_key")
+
+models_to_test = [
+    "gpt-4-turbo",
+    "gpt-4",
+    "gpt-3.5-turbo",
+    "claude-3-opus",
+    "claude-3-sonnet"
+]
+
+prompt = {"role": "user", "content": "What is neural networks?"}
+
+for model in models_to_test:
+    try:
+        response = client.infer(model=model, messages=[prompt])
+        print(f"{model:20} | Cost: ${response.cost:.4f} | Latency: {response.latency_ms}ms")
+    except Exception as e:
+        print(f"{model:20} | Error: {e}")</code></pre>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+        function showSection(index) {
+            // Hide all sections
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Show selected section
+            if (sections[index]) {
+                sections[index].classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            // Update active nav link
+            navLinks.forEach((link, i) => {
+                link.classList.remove('active');
+                if (i === index) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Close mobile sidebar
+            closeSidebar();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('open');
+        }
+
+        // Set first nav link as active on page load
+        if (navLinks.length > 0) {
+            navLinks[0].classList.add('active');
+        }
+
+        // Highlight code blocks on page load and after section change
+        function highlightCode() {
+            document.querySelectorAll('pre code').forEach(block => {
+                hljs.highlightElement(block);
+            });
+        }
+
+        highlightCode();
+
+        // Re-highlight when section changes
+        const observer = new MutationObserver(() => {
+            highlightCode();
+        });
+
+        sections.forEach(section => {
+            observer.observe(section, { attributes: true });
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            const sidebar = document.querySelector('.sidebar');
+            const toggle = document.querySelector('.toggle-sidebar');
+            if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+</html>

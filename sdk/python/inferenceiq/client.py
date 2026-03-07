@@ -17,6 +17,13 @@ from typing import Any, AsyncIterator, Dict, Iterator, List, Optional, Union
 
 import httpx
 
+from inferenceiq.exceptions import (
+    APIError,
+    AuthenticationError,
+    ConnectionError,
+    RateLimitError,
+    TimeoutError,
+)
 from inferenceiq.types import (
     ChatCompletion,
     ChatCompletionChunk,
@@ -31,6 +38,36 @@ logger = logging.getLogger("inferenceiq")
 
 DEFAULT_BASE_URL = "https://api.inferenceiq.io/v1"
 DEFAULT_TIMEOUT = 120.0
+DEFAULT_MAX_RETRIES = 3
+
+
+def _get_backoff_time(attempt: int) -> float:
+    """Calculate exponential backoff with jitter.
+
+    Args:
+        attempt: Zero-indexed attempt number.
+
+    Returns:
+        Backoff time in seconds.
+    """
+    import random
+
+    base_delay = 2 ** attempt  # 1s, 2s, 4s
+    jitter = random.uniform(0, base_delay * 0.1)
+    return base_delay + jitter
+
+
+def _should_retry(status_code: int) -> bool:
+    """Check if a status code is retryable.
+
+    Args:
+        status_code: HTTP status code.
+
+    Returns:
+        True if the request should be retried.
+    """
+    # Retry on rate limit and server errors
+    return status_code == 429 or 500 <= status_code < 600
 
 
 class ChatCompletions:
@@ -211,12 +248,14 @@ class InferenceIQ:
         timeout: float = DEFAULT_TIMEOUT,
         default_strategy: str = "balanced",
         default_quality_floor: float = 70.0,
+        max_retries: int = DEFAULT_MAX_RETRIES,
     ):
         self.api_key = api_key
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.default_strategy = default_strategy
         self.default_quality_floor = default_quality_floor
+        self.max_retries = max_retries
 
         self._client = httpx.Client(timeout=timeout)
         self.chat = Chat(self)
@@ -229,23 +268,103 @@ class InferenceIQ:
         }
 
     def _post(self, path: str, payload: Dict) -> Dict:
-        """Make a POST request to the InferenceIQ API."""
+        """Make a POST request to the InferenceIQ API with retry logic.
+
+        Implements exponential backoff for rate limits and server errors.
+
+        Args:
+            path: API endpoint path.
+            payload: Request payload as dictionary.
+
+        Returns:
+            Parsed JSON response.
+
+        Raises:
+            AuthenticationError: On 401 Unauthorized.
+            RateLimitError: On 429 Too Many Requests (after retries exhausted).
+            APIError: On 5xx server errors (after retries exhausted).
+            TimeoutError: On timeout.
+            ConnectionError: On connection failure.
+        """
         url = f"{self.base_url}{path}"
-        start = time.monotonic()
+        last_exception: Optional[Exception] = None
 
-        try:
-            response = self._client.post(
-                url, json=payload, headers=self._headers()
-            )
-            response.raise_for_status()
-            return response.json()
+        for attempt in range(self.max_retries + 1):
+            try:
+                response = self._client.post(
+                    url, json=payload, headers=self._headers()
+                )
 
-        except httpx.HTTPStatusError as e:
-            logger.error(f"API error: {e.response.status_code} - {e.response.text}")
-            raise
-        except httpx.RequestError as e:
-            logger.error(f"Request error: {e}")
-            raise
+                # Handle different status codes
+                if response.status_code == 401:
+                    raise AuthenticationError(
+                        "Invalid API key",
+                        status_code=401,
+                        response_text=response.text,
+                    )
+
+                if response.status_code == 429:
+                    if attempt < self.max_retries:
+                        backoff = _get_backoff_time(attempt)
+                        logger.warning(
+                            f"Rate limited on {path}. Retrying in {backoff:.2f}s "
+                            f"(attempt {attempt + 1}/{self.max_retries + 1})"
+                        )
+                        time.sleep(backoff)
+                        continue
+                    else:
+                        retry_after = response.headers.get("retry-after")
+                        raise RateLimitError(
+                            "Rate limit exceeded",
+                            retry_after=float(retry_after) if retry_after else None,
+                            status_code=429,
+                            response_text=response.text,
+                        )
+
+                if 500 <= response.status_code < 600:
+                    if attempt < self.max_retries:
+                        backoff = _get_backoff_time(attempt)
+                        logger.warning(
+                            f"Server error on {path}: {response.status_code}. "
+                            f"Retrying in {backoff:.2f}s "
+                            f"(attempt {attempt + 1}/{self.max_retries + 1})"
+                        )
+                        time.sleep(backoff)
+                        continue
+                    else:
+                        raise APIError(
+                            f"Server error",
+                            status_code=response.status_code,
+                            response_text=response.text,
+                        )
+
+                # Raise for other HTTP errors
+                response.raise_for_status()
+                return response.json()
+
+            except httpx.TimeoutException as e:
+                raise TimeoutError(f"Request timeout: {e}")
+            except httpx.ConnectError as e:
+                if attempt < self.max_retries:
+                    backoff = _get_backoff_time(attempt)
+                    logger.warning(
+                        f"Connection error on {path}. "
+                        f"Retrying in {backoff:.2f}s "
+                        f"(attempt {attempt + 1}/{self.max_retries + 1})"
+                    )
+                    time.sleep(backoff)
+                    last_exception = e
+                    continue
+                else:
+                    raise ConnectionError(f"Connection failed: {e}")
+            except httpx.RequestError as e:
+                logger.error(f"Request error: {e}")
+                raise
+
+        # Should not reach here, but for type safety
+        if last_exception:
+            raise ConnectionError(f"Connection failed after {self.max_retries + 1} retries: {last_exception}")
+        raise RuntimeError("Unexpected error in retry loop")
 
     def optimize(
         self,
@@ -345,12 +464,14 @@ class InferenceIQAsync:
         timeout: float = DEFAULT_TIMEOUT,
         default_strategy: str = "balanced",
         default_quality_floor: float = 70.0,
+        max_retries: int = DEFAULT_MAX_RETRIES,
     ):
         self.api_key = api_key
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.default_strategy = default_strategy
         self.default_quality_floor = default_quality_floor
+        self.max_retries = max_retries
 
         self._client = httpx.AsyncClient(timeout=timeout)
         self.chat = AsyncChat(self)
@@ -363,12 +484,105 @@ class InferenceIQAsync:
         }
 
     async def _post(self, path: str, payload: Dict) -> Dict:
+        """Make an async POST request to the InferenceIQ API with retry logic.
+
+        Implements exponential backoff for rate limits and server errors.
+
+        Args:
+            path: API endpoint path.
+            payload: Request payload as dictionary.
+
+        Returns:
+            Parsed JSON response.
+
+        Raises:
+            AuthenticationError: On 401 Unauthorized.
+            RateLimitError: On 429 Too Many Requests (after retries exhausted).
+            APIError: On 5xx server errors (after retries exhausted).
+            TimeoutError: On timeout.
+            ConnectionError: On connection failure.
+        """
+        import asyncio
+
         url = f"{self.base_url}{path}"
-        response = await self._client.post(
-            url, json=payload, headers=self._headers()
-        )
-        response.raise_for_status()
-        return response.json()
+        last_exception: Optional[Exception] = None
+
+        for attempt in range(self.max_retries + 1):
+            try:
+                response = await self._client.post(
+                    url, json=payload, headers=self._headers()
+                )
+
+                # Handle different status codes
+                if response.status_code == 401:
+                    raise AuthenticationError(
+                        "Invalid API key",
+                        status_code=401,
+                        response_text=response.text,
+                    )
+
+                if response.status_code == 429:
+                    if attempt < self.max_retries:
+                        backoff = _get_backoff_time(attempt)
+                        logger.warning(
+                            f"Rate limited on {path}. Retrying in {backoff:.2f}s "
+                            f"(attempt {attempt + 1}/{self.max_retries + 1})"
+                        )
+                        await asyncio.sleep(backoff)
+                        continue
+                    else:
+                        retry_after = response.headers.get("retry-after")
+                        raise RateLimitError(
+                            "Rate limit exceeded",
+                            retry_after=float(retry_after) if retry_after else None,
+                            status_code=429,
+                            response_text=response.text,
+                        )
+
+                if 500 <= response.status_code < 600:
+                    if attempt < self.max_retries:
+                        backoff = _get_backoff_time(attempt)
+                        logger.warning(
+                            f"Server error on {path}: {response.status_code}. "
+                            f"Retrying in {backoff:.2f}s "
+                            f"(attempt {attempt + 1}/{self.max_retries + 1})"
+                        )
+                        await asyncio.sleep(backoff)
+                        continue
+                    else:
+                        raise APIError(
+                            f"Server error",
+                            status_code=response.status_code,
+                            response_text=response.text,
+                        )
+
+                # Raise for other HTTP errors
+                response.raise_for_status()
+                return response.json()
+
+            except httpx.TimeoutException as e:
+                raise TimeoutError(f"Request timeout: {e}")
+            except httpx.ConnectError as e:
+                if attempt < self.max_retries:
+                    backoff = _get_backoff_time(attempt)
+                    logger.warning(
+                        f"Connection error on {path}. "
+                        f"Retrying in {backoff:.2f}s "
+                        f"(attempt {attempt + 1}/{self.max_retries + 1})"
+                    )
+                    await asyncio.sleep(backoff)
+                    last_exception = e
+                    continue
+                else:
+                    raise ConnectionError(f"Connection failed: {e}")
+            except httpx.RequestError as e:
+                logger.error(f"Request error: {e}")
+                raise
+
+        # Should not reach here, but for type safety
+        if last_exception:
+            raise ConnectionError(f"Connection failed after {self.max_retries + 1} retries: {last_exception}")
+        raise RuntimeError("Unexpected error in retry loop")
 
     async def optimize(self, messages: List[Dict], **kwargs) -> OptimizedResponse:
         """Async version of optimize()."""
@@ -427,6 +641,16 @@ class AsyncChatCompletions:
         return sync_cc._parse_response(data)
 
     async def _stream(self, payload: Dict) -> AsyncIterator[ChatCompletionChunk]:
+        """Stream chat completions asynchronously.
+
+        Yields ChatCompletionChunk objects as they arrive from the server.
+
+        Args:
+            payload: Request payload.
+
+        Yields:
+            ChatCompletionChunk objects.
+        """
         async with self._client._client.stream(
             "POST",
             f"{self._client.base_url}/chat/completions",
@@ -446,6 +670,8 @@ class AsyncChatCompletions:
                             content=chunk.get("choices", [{}])[0]
                             .get("delta", {})
                             .get("content"),
+                            finish_reason=chunk.get("choices", [{}])[0]
+                            .get("finish_reason"),
                         )
                     except json.JSONDecodeError:
                         continue

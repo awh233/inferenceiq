@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="inferenceiq",
-    version="0.1.0",
+    version="0.2.0",
     description="InferenceIQ - AI inference cost optimization. Drop-in replacement for OpenAI SDK.",
     long_description=open("README.md").read() if __import__("os").path.exists("README.md") else "",
     long_description_content_type="text/markdown",
