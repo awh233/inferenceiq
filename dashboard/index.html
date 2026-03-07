@@ -1970,9 +1970,15 @@
             const target = document.getElementById(screenName + '-screen');
             if (target) {
                 target.classList.add('active');
+                // Hide nav on dashboard, show on other screens
+                const nav = document.getElementById('nav');
                 if (screenName === 'dashboard') {
+                    nav.style.display = 'none';
                     setTimeout(() => { initCharts(); }, 100);
+                } else {
+                    nav.style.display = '';
                 }
+                window.scrollTo(0, 0);
             }
         }
 
@@ -2000,8 +2006,8 @@
 
         // Intersection Observer for Reveal Animation
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.05,
+            rootMargin: '0px 0px -20px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
