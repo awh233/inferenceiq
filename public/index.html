@@ -625,14 +625,104 @@
         @media (max-width: 1024px) {
             #nav {
                 padding: 0 24px;
+                height: auto;
+                flex-wrap: wrap;
             }
 
             .nav-center {
                 display: none;
             }
 
+            .nav-right {
+                display: none;
+            }
+
             .hamburger {
                 display: flex;
+            }
+        }
+
+        /* Mobile nav link styling */
+        #nav.mobile-open .nav-link {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        #nav.mobile-open .nav-link::after {
+            display: none;
+        }
+
+        #nav.mobile-open .nav-login {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        #nav.mobile-open .btn {
+            width: 100%;
+            min-height: 44px;
+            font-size: 15px;
+        }
+
+        #nav.mobile-open .nav-shortcut {
+            display: none;
+        }
+
+        #nav.mobile-open .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Features dropdown on mobile */
+        #nav.mobile-open .features-dropdown {
+            width: 100%;
+        }
+
+        #nav.mobile-open .dropdown-menu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+            background: var(--bg-card);
+            margin-top: 8px;
+            min-width: unset;
+            display: none;
+        }
+
+        #nav.mobile-open .dropdown-menu.active {
+            display: block;
+        }
+
+        #nav.mobile-open .features-dropdown:hover .dropdown-menu {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            #nav {
+                padding: 0 16px;
+            }
+
+            #nav.mobile-open {
+                padding: 12px 16px;
+            }
+
+            .hamburger {
+                width: 20px;
+                height: 20px;
+                gap: 5px;
+            }
+
+            .hamburger span {
+                height: 2px;
             }
         }
 
@@ -3676,7 +3766,7 @@
 
         @media (max-width: 768px) {
             .footer-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 32px;
             }
 
@@ -3688,6 +3778,18 @@
 
             .footer-socials {
                 justify-content: center;
+            }
+
+            .newsletter-input-wrapper {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                width: 100%;
+            }
+
+            .newsletter-button {
+                width: 100%;
             }
 
             footer {
@@ -3726,6 +3828,11 @@
                 width: 100%;
             }
 
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
             .footer-header {
                 flex-direction: column;
                 gap: 32px;
@@ -3734,6 +3841,28 @@
 
             .footer-newsletter {
                 max-width: 100%;
+            }
+
+            .newsletter-input-wrapper {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .newsletter-input {
+                width: 100%;
+            }
+
+            .newsletter-button {
+                width: 100%;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .footer-copyright {
+                text-align: center;
             }
 
             footer {
@@ -6925,20 +7054,53 @@
 
     function setupHamburgerMenu() {
         const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
-            const nav = document.getElementById('nav');
             nav.classList.toggle('mobile-open');
         });
 
         // Close menu when nav links are clicked
-        const navLinks = document.querySelectorAll('.nav-link, .nav-login, .nav-right .btn');
+        const navLinks = document.querySelectorAll('.nav-link, .nav-login');
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                document.getElementById('nav').classList.remove('mobile-open');
+            link.addEventListener('click', (e) => {
+                // Don't close if it's a features dropdown toggle
+                if (link.closest('.features-dropdown')) {
+                    e.preventDefault();
+                    toggleMobileDropdown(link.closest('.features-dropdown'));
+                } else {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('mobile-open');
+                }
             });
         });
+
+        // Close menu when nav buttons are clicked
+        const navButtons = document.querySelectorAll('#nav.mobile-open .btn');
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                nav.classList.remove('mobile-open');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                if (nav.classList.contains('mobile-open')) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('mobile-open');
+                }
+            }
+        });
+    }
+
+    function toggleMobileDropdown(dropdownEl) {
+        const dropdownMenu = dropdownEl.querySelector('.dropdown-menu');
+        if (dropdownMenu) {
+            dropdownMenu.classList.toggle('active');
+        }
     }
 
     function handleSidebarClick(element) {

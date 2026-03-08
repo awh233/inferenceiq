@@ -452,16 +452,78 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html"><div class="nav-mark">IQ</div>InferenceIQ</a>
-  <div class="nav-links">
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="https://awh233.github.io/inferenceiq">Docs</a>
-    <a href="blog.html">Blog</a>
-    <a href="changelog.html">Changelog</a>
-    <button class="cta-sm">Get Started</button>
-  </div>
+<nav id="nav">
+    <div class="nav-logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <svg class="nav-logomark" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 2L18 15H6Z" fill="currentColor" opacity="0.8"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.4"/>
+        </svg>
+        InferenceIQ
+    </div>
+    <div class="nav-center">
+        <div class="features-dropdown">
+            <div class="dropdown-trigger nav-link active" style="cursor: pointer;">
+                Features
+                <i data-lucide="chevron-down" class="icon-small"></i>
+            </div>
+            <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                    <div class="dropdown-item">
+                        <i data-lucide="route" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Intelligent Routing</div>
+                            <div class="dropdown-item-description">Route to cheapest provider automatically</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="bar-chart-3" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Cost Analytics</div>
+                            <div class="dropdown-item-description">Real-time cost tracking dashboard</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="shield-check" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Auto-failover</div>
+                            <div class="dropdown-item-description">Automatic provider failover</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="layers" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Multi-provider</div>
+                            <div class="dropdown-item-description">Connect 10+ providers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="pricing.html" class="nav-link" style="cursor: pointer;">Pricing</a>
+        <a href="docs.html" class="nav-link" style="cursor: pointer;">Docs</a>
+        <a href="blog.html" class="nav-link" style="cursor: pointer;">Blog</a>
+        <a href="status.html" class="nav-link nav-status" style="cursor: pointer;">
+            <span class="nav-status-dot"></span>
+            <span>Operational</span>
+        </a>
+        <a href="changelog.html" class="nav-link" style="cursor: pointer;">Changelog</a>
+    </div>
+    <div class="nav-right">
+        <div class="nav-shortcut" onclick="openCommandPalette()">
+            <span>⌘</span><span>K</span>
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+            <i data-lucide="sun" class="icon-small"></i>
+        </button>
+        <a class="nav-login" onclick="window.location.href='index.html'" style="cursor: pointer;">Sign In</a>
+        <button class="btn btn-primary" onclick="window.location.href='index.html'" style="cursor: pointer;">Start Free Trial</button>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </nav>
 
 <main style="padding-top:64px">
@@ -573,7 +635,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
         <div class="footer-bottom">
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <div class="footer-copyright">
-                    Copyright © 2025 InferenceIQ. All rights reserved.
+                    Copyright © 2026 InferenceIQ. All rights reserved.
                 </div>
                 <div style="font-size: 13px; color: var(--text-tertiary);">
                     Built with ❤️ in San Francisco
