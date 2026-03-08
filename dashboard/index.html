@@ -105,9 +105,9 @@
             left: 0;
             right: 0;
             height: 64px;
-            background: rgba(9, 9, 11, 0.7);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -118,7 +118,7 @@
 
         nav.scrolled {
             background: rgba(9, 9, 11, 0.95);
-            border-bottom-color: rgba(16, 185, 129, 0.2);
+            border-bottom-color: rgba(255, 255, 255, 0.1);
         }
 
         .nav-logo {
@@ -180,19 +180,19 @@
         .btn-primary:hover {
             background: var(--primary-light);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--white);
-            border: 1px solid var(--gray-700);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .btn-secondary:hover {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
         }
 
         .menu-toggle {
@@ -219,15 +219,29 @@
         .hero::before {
             content: '';
             position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16,185,129,0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background-image:
-                linear-gradient(90deg, rgba(16,185,129,0.1) 1px, transparent 1px),
-                linear-gradient(rgba(16,185,129,0.1) 1px, transparent 1px);
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 80px 80px;
             pointer-events: none;
+            z-index: 0;
             opacity: 0.5;
         }
 
@@ -235,6 +249,7 @@
             flex: 1;
             max-width: 600px;
             z-index: 10;
+            position: relative;
         }
 
         .hero-badge {
@@ -242,8 +257,8 @@
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 24px;
             color: var(--primary-light);
             font-size: 12px;
@@ -253,19 +268,15 @@
             animation: fadeInUp 0.8s ease 0.2s forwards;
         }
 
-        .hero-badge::before {
-            content: '✨';
-            font-size: 14px;
-        }
-
         h1 {
-            font-size: 56px;
+            font-size: clamp(3rem, 5vw, 4.5rem);
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 24px;
             color: var(--white);
             opacity: 0;
             animation: fadeInUp 0.8s ease 0.3s forwards;
+            letter-spacing: -0.03em;
         }
 
         h1 .gradient-text {
@@ -282,6 +293,7 @@
             margin-bottom: 32px;
             opacity: 0;
             animation: fadeInUp 0.8s ease 0.4s forwards;
+            max-width: 560px;
         }
 
         .hero-buttons {
@@ -307,19 +319,20 @@
             height: 500px;
             opacity: 0;
             animation: fadeIn 0.8s ease 0.6s forwards;
+            z-index: 10;
         }
 
         .dashboard-mockup {
             width: 100%;
             max-width: 400px;
             background: rgba(31, 41, 55, 0.4);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 24px;
             backdrop-filter: blur(10px);
             position: relative;
-            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.1);
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 80px rgba(16, 185, 129, 0.1), 0 0 40px rgba(6, 182, 212, 0.05);
+            animation: float 6s ease-in-out infinite;
         }
 
         .dashboard-header {
@@ -328,7 +341,7 @@
             gap: 12px;
             margin-bottom: 24px;
             padding-bottom: 16px;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .dashboard-icon {
@@ -361,8 +374,8 @@
         }
 
         .stat-card {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 16px;
             text-align: center;
@@ -370,15 +383,14 @@
         }
 
         .stat-card:hover {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
         .stat-value {
             font-size: 24px;
             font-weight: 700;
-            color: var(--primary-light);
+            color: var(--white);
             font-family: 'JetBrains Mono', monospace;
             margin-bottom: 4px;
         }
@@ -395,7 +407,7 @@
             position: relative;
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .chart-bars {
@@ -433,7 +445,7 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-6px); }
         }
 
         @keyframes fadeInUp {
@@ -452,10 +464,29 @@
             to { opacity: 1; }
         }
 
+        /* Section Label */
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
         /* Personas Section */
         .personas-section {
-            padding: 80px 40px;
-            background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%);
+            padding: 120px 40px;
+        }
+
+        .personas-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .personas-section .section-title {
+            margin-bottom: 0;
         }
 
         .personas-grid {
@@ -467,8 +498,8 @@
         }
 
         .persona-card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 32px;
             cursor: pointer;
@@ -482,10 +513,9 @@
         .persona-card:nth-child(3) { animation-delay: 0.3s; }
 
         .persona-card:hover {
-            background: rgba(31, 41, 55, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .persona-icon {
@@ -508,10 +538,10 @@
 
         /* Metrics Section */
         .metrics-section {
-            padding: 60px 40px;
-            background: rgba(16, 185, 129, 0.05);
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            padding: 120px 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .metrics-grid {
@@ -536,10 +566,7 @@
         .metric-value {
             font-size: 48px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--white);
             font-family: 'JetBrains Mono', monospace;
             margin-bottom: 8px;
             min-height: 60px;
@@ -558,9 +585,9 @@
         /* Marquee */
         .marquee-section {
             padding: 60px 40px;
-            background: rgba(16, 185, 129, 0.02);
+            background: rgba(255, 255, 255, 0.01);
             overflow: hidden;
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .marquee-label {
@@ -586,14 +613,15 @@
             white-space: nowrap;
             font-size: 14px;
             font-weight: 500;
-            color: var(--gray-500);
-            opacity: 0.6;
+            color: var(--gray-600);
+            opacity: 0.8;
             transition: opacity 0.3s;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .marquee-item:hover {
             opacity: 1;
-            color: var(--primary);
+            color: var(--gray-500);
         }
 
         @keyframes marquee {
@@ -603,17 +631,22 @@
 
         /* How It Works */
         .how-it-works {
-            padding: 80px 40px;
+            padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .how-it-works-header {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
         .section-title {
             font-size: 42px;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 60px;
             color: var(--white);
+            letter-spacing: -0.02em;
         }
 
         .steps-container {
@@ -624,8 +657,8 @@
         }
 
         .step-card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 40px 32px;
             text-align: center;
@@ -640,24 +673,25 @@
         .step-card:nth-child(3) { animation-delay: 0.3s; }
 
         .step-card:hover {
-            background: rgba(31, 41, 55, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .step-number {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
             font-weight: 700;
-            color: var(--black);
+            color: var(--primary);
             margin: 0 auto 24px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .step-card h3 {
@@ -675,7 +709,7 @@
 
         /* Integration Section */
         .integration-section {
-            padding: 80px 40px;
+            padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
@@ -689,6 +723,7 @@
             font-weight: 700;
             margin-bottom: 24px;
             color: var(--white);
+            letter-spacing: -0.02em;
         }
 
         .integration-content p {
@@ -721,7 +756,7 @@
 
         .terminal {
             background: rgba(9, 9, 11, 0.8);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 24px;
             font-family: 'JetBrains Mono', monospace;
@@ -767,8 +802,7 @@
 
         /* Platform Section */
         .platform-section {
-            padding: 80px 40px;
-            background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%);
+            padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -784,8 +818,8 @@
         }
 
         .bento-card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 40px;
             position: relative;
@@ -802,10 +836,9 @@
         .bento-card:nth-child(5) { animation-delay: 0.5s; }
 
         .bento-card:hover {
-            background: rgba(31, 41, 55, 0.8);
-            border-color: var(--primary);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .bento-card::before {
@@ -815,7 +848,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent);
             pointer-events: none;
         }
 
@@ -844,7 +877,7 @@
 
         /* Comparison Section */
         .comparison-section {
-            padding: 80px 40px;
+            padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -857,15 +890,15 @@
         }
 
         .comparison-card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 40px;
             opacity: 0;
             animation: fadeInUp 0.8s ease forwards;
         }
 
-        .comparison-card:nth-child(1) { animation-delay: 0.1s; border-color: rgba(244, 63, 94, 0.3); }
+        .comparison-card:nth-child(1) { animation-delay: 0.1s; background: rgba(244, 63, 94, 0.05); }
         .comparison-card:nth-child(2) { animation-delay: 0.2s; border-color: var(--primary); background: rgba(16, 185, 129, 0.05); }
 
         .comparison-card h3 {
@@ -902,8 +935,7 @@
 
         /* Pricing Section */
         .pricing-section {
-            padding: 80px 40px;
-            background: linear-gradient(180deg, rgba(16,185,129,0.05) 0%, transparent 100%);
+            padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -916,8 +948,8 @@
         }
 
         .pricing-card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 40px;
             position: relative;
@@ -929,12 +961,12 @@
         }
 
         .pricing-card:nth-child(1) { animation-delay: 0.1s; }
-        .pricing-card:nth-child(2) { animation-delay: 0.2s; border-color: var(--primary); background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(31, 41, 55, 0.5)); }
+        .pricing-card:nth-child(2) { animation-delay: 0.2s; border-color: var(--primary); }
         .pricing-card:nth-child(3) { animation-delay: 0.3s; }
 
         .pricing-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .pricing-badge {
@@ -969,7 +1001,7 @@
             color: var(--gray-500);
             margin-bottom: 24px;
             padding-bottom: 24px;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .pricing-features {
@@ -999,15 +1031,30 @@
 
         /* CTA Section */
         .cta-section {
-            padding: 80px 40px;
+            padding: 120px 40px;
             text-align: center;
-            background: rgba(16, 185, 129, 0.05);
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(16,185,129,0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .cta-content {
             max-width: 600px;
             margin: 0 auto;
+            position: relative;
+            z-index: 10;
         }
 
         .cta-content h2 {
@@ -1017,6 +1064,7 @@
             color: var(--white);
             opacity: 0;
             animation: fadeInUp 0.8s ease 0.1s forwards;
+            letter-spacing: -0.02em;
         }
 
         .cta-content p {
@@ -1035,7 +1083,7 @@
         /* Footer */
         footer {
             background: rgba(16, 16, 20, 0.8);
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding: 60px 40px 40px;
         }
 
@@ -1049,10 +1097,10 @@
         }
 
         .footer-col h4 {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             margin-bottom: 16px;
-            color: var(--white);
+            color: var(--gray-400);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -1066,8 +1114,8 @@
         }
 
         .footer-col ul li a {
-            font-size: 14px;
-            color: var(--gray-400);
+            font-size: 13px;
+            color: var(--gray-500);
             text-decoration: none;
             transition: color 0.3s;
         }
@@ -1077,7 +1125,7 @@
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 40px;
             display: flex;
             justify-content: space-between;
@@ -1087,14 +1135,14 @@
         }
 
         .footer-copyright {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--gray-500);
         }
 
         /* Login Screen */
         .login-card {
             background: rgba(31, 41, 55, 0.8);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
             padding: 60px 40px;
             width: 100%;
@@ -1133,7 +1181,7 @@
             width: 100%;
             padding: 12px 16px;
             background: rgba(9, 9, 11, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 8px;
             color: var(--white);
             font-family: 'Inter', sans-serif;
@@ -1157,7 +1205,7 @@
         .dashboard-sidebar {
             width: 240px;
             background: rgba(16, 16, 20, 0.8);
-            border-right: 1px solid rgba(16, 185, 129, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
             padding: 24px;
             overflow-y: auto;
         }
@@ -1222,7 +1270,7 @@
 
         .stat-box {
             background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 24px;
         }
@@ -1238,7 +1286,7 @@
         .stat-box .value {
             font-size: 28px;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--white);
         }
 
         .dashboard-charts {
@@ -1250,7 +1298,7 @@
 
         .chart-container {
             background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 24px;
         }
@@ -1264,7 +1312,7 @@
 
         .activity-table {
             background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             overflow: hidden;
         }
@@ -1283,7 +1331,7 @@
         }
 
         th {
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(255, 255, 255, 0.02);
             padding: 12px 24px;
             text-align: left;
             font-size: 12px;
@@ -1291,18 +1339,18 @@
             color: var(--gray-500);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         td {
             padding: 16px 24px;
             font-size: 14px;
             color: var(--gray-400);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         tr:hover {
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(255, 255, 255, 0.03);
         }
 
         /* Responsive */
@@ -1354,7 +1402,7 @@
                 right: 0;
                 flex-direction: column;
                 background: rgba(9, 9, 11, 0.95);
-                border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
                 padding: 20px;
                 gap: 0;
             }
@@ -1546,6 +1594,10 @@
 
         <!-- Personas Section -->
         <section class="personas-section">
+            <div class="personas-header">
+                <div class="section-label">WHO IT'S FOR</div>
+                <h2 class="section-title">Built for teams that scale</h2>
+            </div>
             <div class="personas-grid">
                 <div class="persona-card">
                     <div class="persona-icon">🏢</div>
@@ -1591,49 +1643,52 @@
         <section class="marquee-section">
             <div class="marquee-label">Trusted by</div>
             <div class="marquee-container">
-                <div class="marquee-item">🎯 Stripe</div>
-                <div class="marquee-item">📝 Notion</div>
-                <div class="marquee-item">⚡ Vercel</div>
-                <div class="marquee-item">💳 Ramp</div>
-                <div class="marquee-item">📊 Scale AI</div>
-                <div class="marquee-item">🧠 Anthropic</div>
-                <div class="marquee-item">🔮 Cohere</div>
-                <div class="marquee-item">⭐ Mistral</div>
-                <div class="marquee-item">🔄 Replicate</div>
-                <div class="marquee-item">🎪 Modal</div>
-                <div class="marquee-item">🤝 Together AI</div>
-                <div class="marquee-item">📈 Anyscale</div>
-                <div class="marquee-item">🎯 Stripe</div>
-                <div class="marquee-item">📝 Notion</div>
-                <div class="marquee-item">⚡ Vercel</div>
-                <div class="marquee-item">💳 Ramp</div>
-                <div class="marquee-item">📊 Scale AI</div>
-                <div class="marquee-item">🧠 Anthropic</div>
-                <div class="marquee-item">🔮 Cohere</div>
-                <div class="marquee-item">⭐ Mistral</div>
-                <div class="marquee-item">🔄 Replicate</div>
-                <div class="marquee-item">🎪 Modal</div>
-                <div class="marquee-item">🤝 Together AI</div>
-                <div class="marquee-item">📈 Anyscale</div>
+                <div class="marquee-item">Stripe</div>
+                <div class="marquee-item">Notion</div>
+                <div class="marquee-item">Vercel</div>
+                <div class="marquee-item">Ramp</div>
+                <div class="marquee-item">Scale AI</div>
+                <div class="marquee-item">Anthropic</div>
+                <div class="marquee-item">Cohere</div>
+                <div class="marquee-item">Mistral</div>
+                <div class="marquee-item">Replicate</div>
+                <div class="marquee-item">Modal</div>
+                <div class="marquee-item">Together AI</div>
+                <div class="marquee-item">Anyscale</div>
+                <div class="marquee-item">Stripe</div>
+                <div class="marquee-item">Notion</div>
+                <div class="marquee-item">Vercel</div>
+                <div class="marquee-item">Ramp</div>
+                <div class="marquee-item">Scale AI</div>
+                <div class="marquee-item">Anthropic</div>
+                <div class="marquee-item">Cohere</div>
+                <div class="marquee-item">Mistral</div>
+                <div class="marquee-item">Replicate</div>
+                <div class="marquee-item">Modal</div>
+                <div class="marquee-item">Together AI</div>
+                <div class="marquee-item">Anyscale</div>
             </div>
         </section>
 
         <!-- How It Works -->
         <section class="how-it-works" id="how-it-works">
-            <h2 class="section-title">How It Works</h2>
+            <div class="how-it-works-header">
+                <div class="section-label">HOW IT WORKS</div>
+                <h2 class="section-title">Get started in 3 simple steps</h2>
+            </div>
             <div class="steps-container">
                 <div class="step-card">
-                    <div class="step-number">1</div>
+                    <div class="step-number">01</div>
                     <h3>Connect Your Providers</h3>
                     <p>Link your OpenAI, Anthropic, Google, and AWS accounts. We handle the integration in minutes.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">2</div>
+                    <div class="step-number">02</div>
                     <h3>Set Optimization Policies</h3>
                     <p>Define your cost targets and performance thresholds. Our AI learns your patterns instantly.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">3</div>
+                    <div class="step-number">03</div>
                     <h3>Watch Costs Drop</h3>
                     <p>Sit back and watch real-time dashboards show your savings grow every single day.</p>
                 </div>
@@ -2135,7 +2190,7 @@ const response = await client.chat.completions.create({
                             y: {
                                 beginAtZero: true,
                                 grid: {
-                                    color: 'rgba(16, 185, 129, 0.1)'
+                                    color: 'rgba(255, 255, 255, 0.06)'
                                 },
                                 ticks: {
                                     color: '#a1a1aa'
