@@ -865,7 +865,7 @@
         .trust-bar {
             border-top: 1px solid var(--border-light);
             border-bottom: 1px solid var(--border-light);
-            padding: 80px 40px;
+            padding: 60px 40px;
             background: rgba(255, 255, 255, 0.005);
         }
 
@@ -877,6 +877,19 @@
             color: var(--text-muted);
             text-align: center;
             margin-bottom: 50px;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .trust-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         .trust-logos {
@@ -886,21 +899,41 @@
             align-items: center;
             flex-wrap: wrap;
             overflow: hidden;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .trust-logos::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         .trust-logo {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--text-muted);
-            opacity: 0.45;
+            opacity: 0.6;
             white-space: nowrap;
             transition: all 0.3s ease;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.05em;
             padding: 8px 0;
+            animation: fade-in 0.6s ease forwards;
         }
 
+        .trust-logo:nth-child(1) { animation-delay: 0.1s; }
+        .trust-logo:nth-child(2) { animation-delay: 0.15s; }
+        .trust-logo:nth-child(3) { animation-delay: 0.2s; }
+        .trust-logo:nth-child(4) { animation-delay: 0.25s; }
+
         .trust-logo:hover {
-            opacity: 0.85;
+            opacity: 1;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {
@@ -925,29 +958,35 @@
             letter-spacing: 0.2em;
             color: var(--accent);
             margin-bottom: 20px;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         .section-title {
             font-size: clamp(2.2rem, 4.5vw, 4.2rem);
-            font-weight: 400;
+            font-weight: 600;
             letter-spacing: -0.03em;
             line-height: 1.1;
-            color: var(--text-primary);
+            color: #ffffff;
             margin-bottom: 24px;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         .section-subtitle {
             font-size: 18px;
             font-weight: 400;
-            color: var(--text-secondary);
+            color: #a1a1aa;
             line-height: 1.7;
             margin-bottom: 80px;
             max-width: 620px;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         /* PERSONAS SECTION */
         .personas {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1018,7 +1057,7 @@
             background: var(--bg-elevated);
             border-top: 1px solid var(--border-light);
             border-bottom: 1px solid var(--border-light);
-            padding: 120px 40px;
+            padding: 80px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1129,7 +1168,7 @@
 
         /* HOW IT WORKS SECTION */
         .how-it-works {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1220,7 +1259,7 @@
 
         /* INTEGRATION SECTION */
         .integration {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1371,7 +1410,7 @@
 
         /* PLATFORM FEATURES - BENTO GRID */
         .platform {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1588,7 +1627,7 @@
 
         /* COMPARISON SECTION */
         .comparison {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1685,7 +1724,7 @@
 
         /* TESTIMONIALS SECTION */
         .testimonials {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1769,7 +1808,7 @@
 
         /* PRICING SECTION */
         .pricing {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1907,7 +1946,7 @@
 
         /* CTA SECTION */
         .cta {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
             text-align: center;
@@ -1969,7 +2008,7 @@
 
         /* DEVELOPERS SECTION - CODE TABS */
         .developers {
-            padding: 140px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -4852,7 +4891,10 @@
     function animateCounter(element, targetText, duration = 2000) {
         // Parse the target: extract numeric value and preserve suffix/prefix
         const match = targetText.match(/^([<>]?)(\d+\.?\d*)(.*?)$/);
-        if (!match) { element.textContent = targetText; return; }
+        if (!match) {
+            element.textContent = targetText;
+            return;
+        }
 
         const prefix = match[1] || '';
         const targetNum = parseFloat(match[2]);
@@ -4870,13 +4912,15 @@
             const eased = 1 - Math.pow(1 - progress, 3);
             current = targetNum * eased;
 
-            if (progress >= 1) {
-                element.textContent = prefix + (hasDecimal ? targetNum.toFixed(decimalPlaces) : Math.round(targetNum)) + suffix;
-                return;
-            }
+            const displayValue = hasDecimal ? current.toFixed(decimalPlaces) : Math.round(current);
+            element.textContent = prefix + displayValue + suffix;
 
-            element.textContent = prefix + (hasDecimal ? current.toFixed(decimalPlaces) : Math.round(current)) + suffix;
-            requestAnimationFrame(update);
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                // Force exact final value at completion
+                element.textContent = targetText;
+            }
         }
         requestAnimationFrame(update);
     }
@@ -4886,10 +4930,11 @@
         const metricItems = document.querySelectorAll('.metric-number');
         let animated = false;
 
-        // Store original text and set initial display to "0" equivalent
+        // Store original text as data-target
         metricItems.forEach(metric => {
             const text = metric.textContent.trim();
             metric.setAttribute('data-target', text);
+            metric.setAttribute('data-animated', 'false');
         });
 
         const observer = new IntersectionObserver(function(entries) {
@@ -4898,19 +4943,33 @@
                     animated = true;
                     metricItems.forEach(metric => {
                         const targetText = metric.getAttribute('data-target');
-                        if (targetText) {
-                            animateCounter(metric, targetText);
+                        if (targetText && metric.getAttribute('data-animated') !== 'true') {
+                            metric.setAttribute('data-animated', 'true');
+                            animateCounter(metric, targetText, 2000);
                         }
                     });
-                    observer.disconnect();
+                    // Don't disconnect - allow fallback safety net
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.05 });
 
         const metricsBar = document.querySelector('.metrics-bar');
         if (metricsBar) {
             observer.observe(metricsBar);
         }
+
+        // Safety net: if animations haven't run after 3 seconds, force them
+        setTimeout(() => {
+            metricItems.forEach(metric => {
+                if (metric.getAttribute('data-animated') !== 'true') {
+                    const targetText = metric.getAttribute('data-target');
+                    if (targetText) {
+                        metric.textContent = targetText;
+                        metric.setAttribute('data-animated', 'true');
+                    }
+                }
+            });
+        }, 3000);
     }
 
     let costChartInstance = null;
@@ -5108,7 +5167,7 @@
 
     function initScrollAnimations() {
         const observerOptions = {
-            threshold: 0.1,
+            threshold: 0.05,
             rootMargin: '0px 0px -50px 0px'
         };
 
@@ -5130,6 +5189,15 @@
             el.classList.add('fade-in');
             observer.observe(el);
         });
+
+        // Safety net: after 2 seconds, force all fade-in elements to be visible
+        setTimeout(() => {
+            fadeInElements.forEach(el => {
+                if (!el.classList.contains('visible')) {
+                    el.classList.add('visible');
+                }
+            });
+        }, 2000);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
