@@ -929,8 +929,8 @@
 
         .section-title {
             font-size: clamp(2.2rem, 4.5vw, 4.2rem);
-            font-weight: 300;
-            letter-spacing: -0.04em;
+            font-weight: 400;
+            letter-spacing: -0.03em;
             line-height: 1.1;
             color: var(--text-primary);
             margin-bottom: 24px;
@@ -4849,29 +4849,36 @@
     }
 
     // ANIMATED COUNTERS FOR METRICS
-    function animateCounter(element, target, duration = 2000) {
+    function animateCounter(element, targetText, duration = 2000) {
+        // Parse the target: extract numeric value and preserve suffix/prefix
+        const match = targetText.match(/^([<>]?)(\d+\.?\d*)(.*?)$/);
+        if (!match) { element.textContent = targetText; return; }
+
+        const prefix = match[1] || '';
+        const targetNum = parseFloat(match[2]);
+        const suffix = match[3] || '';
+        const hasDecimal = match[2].includes('.');
+        const decimalPlaces = hasDecimal ? match[2].split('.')[1].length : 0;
+
         let current = 0;
-        const increment = target / (duration / 16);
-        const originalText = element.textContent;
+        const startTime = performance.now();
 
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
+        function update(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            current = targetNum * eased;
+
+            if (progress >= 1) {
+                element.textContent = prefix + (hasDecimal ? targetNum.toFixed(decimalPlaces) : Math.round(targetNum)) + suffix;
+                return;
             }
 
-            // Format the number
-            if (originalText.includes('%')) {
-                element.textContent = Math.floor(current) + '%';
-            } else if (originalText.includes('K')) {
-                element.textContent = (current / 1000).toFixed(0) + 'K+';
-            } else if (originalText.includes('M')) {
-                element.textContent = (current / 1000000).toFixed(0) + 'M+';
-            } else {
-                element.textContent = Math.floor(current).toLocaleString();
-            }
-        }, 16);
+            element.textContent = prefix + (hasDecimal ? current.toFixed(decimalPlaces) : Math.round(current)) + suffix;
+            requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
     }
 
     // Initialize counter animations when metrics section scrolls into view
@@ -4879,26 +4886,26 @@
         const metricItems = document.querySelectorAll('.metric-number');
         let animated = false;
 
-        const observerOptions = {
-            threshold: 0.3
-        };
+        // Store original text and set initial display to "0" equivalent
+        metricItems.forEach(metric => {
+            const text = metric.textContent.trim();
+            metric.setAttribute('data-target', text);
+        });
 
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !animated) {
                     animated = true;
                     metricItems.forEach(metric => {
-                        const text = metric.getAttribute('data-target') || metric.textContent;
-                        const targetValue = parseInt(text.replace(/[^0-9]/g, ''));
-                        if (!isNaN(targetValue)) {
-                            metric.setAttribute('data-target', text);
-                            animateCounter(metric, targetValue);
+                        const targetText = metric.getAttribute('data-target');
+                        if (targetText) {
+                            animateCounter(metric, targetText);
                         }
                     });
                     observer.disconnect();
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.2 });
 
         const metricsBar = document.querySelector('.metrics-bar');
         if (metricsBar) {
@@ -5114,8 +5121,9 @@
         }, observerOptions);
 
         const fadeInElements = document.querySelectorAll(
-            '.section-label, .section-title, .persona-card, .metric-item, ' +
-            '.step, .bento-item, .comparison-card, .testimonial-card, .pricing-card'
+            '.section-label, .section-title, .section-subtitle, .persona-card, .metric-item, ' +
+            '.step, .bento-item, .comparison-card, .testimonial-card, .pricing-card, ' +
+            '.faq-item, .update-entry, .cta-content, .developers-code'
         );
 
         fadeInElements.forEach(el => {
