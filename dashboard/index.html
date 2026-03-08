@@ -55,8 +55,8 @@
             --border-light: rgba(0,0,0,0.03);
             --text-primary: #111827;
             --text-secondary: #6b7280;
-            --text-tertiary: #9ca3af;
-            --text-muted: #d1d5db;
+            --text-tertiary: #6b7280;
+            --text-muted: #9ca3af;
         }
 
         body.light-mode .mockup-window {
@@ -642,6 +642,43 @@
         }
 
         /* HERO SECTION */
+        /* TRUST BAR */
+        .trust-bar {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .trust-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+            margin-bottom: 32px;
+        }
+
+        .trust-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .trust-logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-muted);
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+            letter-spacing: -0.02em;
+        }
+
+        .trust-logo:hover {
+            opacity: 1;
+            color: var(--text-primary);
+        }
+
         .hero {
             position: relative;
             min-height: 100vh;
@@ -651,6 +688,19 @@
             padding: 120px 40px 40px 40px;
             margin-top: 0;
             overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .hero-glow {
@@ -684,7 +734,7 @@
 
         .hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 80px;
@@ -1354,6 +1404,85 @@
             z-index: 2;
         }
 
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            padding: 100px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(16, 185, 129, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-stars {
+            color: #f59e0b;
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0a0a0a;
+        }
+
+        .testimonial-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .testimonial-role {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
         .personas-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1373,8 +1502,8 @@
         }
 
         .persona-card:nth-child(1) { animation-delay: 0s; }
-        .persona-card:nth-child(2) { animation-delay: 0s; }
-        .persona-card:nth-child(3) { animation-delay: 0s; }
+        .persona-card:nth-child(2) { animation-delay: 0.1s; }
+        .persona-card:nth-child(3) { animation-delay: 0.2s; }
 
         .persona-card:hover {
             border-color: rgba(16, 185, 129, 0.2);
@@ -1441,14 +1570,17 @@
         }
 
         .metric-item:nth-child(1) { animation-delay: 0s; }
-        .metric-item:nth-child(2) { animation-delay: 0s; }
-        .metric-item:nth-child(3) { animation-delay: 0s; }
-        .metric-item:nth-child(4) { animation-delay: 0s; }
+        .metric-item:nth-child(2) { animation-delay: 0.1s; }
+        .metric-item:nth-child(3) { animation-delay: 0.2s; }
+        .metric-item:nth-child(4) { animation-delay: 0.3s; }
 
         .metric-number {
             font-size: clamp(2.8rem, 5vw, 4rem);
             font-weight: 700;
-            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 12px;
             line-height: 1;
             animation: metric-fade 0.8s ease-out forwards;
@@ -1569,8 +1701,12 @@
         }
 
         .step:nth-child(1) { animation-delay: 0s; }
-        .step:nth-child(2) { animation-delay: 0s; }
-        .step:nth-child(3) { animation-delay: 0s; }
+        .step:nth-child(2) { animation-delay: 0.1s; }
+        .step:nth-child(3) { animation-delay: 0.2s; }
+
+        .step:hover {
+            transform: translateY(-4px);
+        }
 
         .step-number {
             font-size: 72px;
@@ -1874,7 +2010,9 @@
         }
 
         .bento-item:hover {
-            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(16, 185, 129, 0.05);
         }
 
         .bento-item:nth-child(1) {
@@ -1882,10 +2020,10 @@
             animation-delay: 0s;
         }
 
-        .bento-item:nth-child(2) { animation-delay: 0s; }
-        .bento-item:nth-child(3) { animation-delay: 0s; }
-        .bento-item:nth-child(4) { animation-delay: 0s; }
-        .bento-item:nth-child(5) { animation-delay: 0s; }
+        .bento-item:nth-child(2) { animation-delay: 0.1s; }
+        .bento-item:nth-child(3) { animation-delay: 0.2s; }
+        .bento-item:nth-child(4) { animation-delay: 0.3s; }
+        .bento-item:nth-child(5) { animation-delay: 0.4s; }
 
         .bento-icon {
             color: var(--accent);
@@ -1919,6 +2057,33 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* BENTO VIZ ANIMATIONS */
+        .bento-viz svg rect {
+            animation: barPulse 3s ease-in-out infinite;
+        }
+        .bento-viz svg rect:nth-child(2) { animation-delay: 0.2s; }
+        .bento-viz svg rect:nth-child(3) { animation-delay: 0.4s; }
+        .bento-viz svg rect:nth-child(4) { animation-delay: 0.6s; }
+        .bento-viz svg rect:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes barPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .bento-viz svg circle {
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        .bento-viz svg circle:nth-child(1) { animation-delay: 0s; }
+        .bento-viz svg circle:nth-child(2) { animation-delay: 0.3s; }
+        .bento-viz svg circle:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
 
         .viz-node {
             width: 44px;
@@ -2165,10 +2330,12 @@
         }
 
         .comparison-card:nth-child(1) { animation-delay: 0s; }
-        .comparison-card:nth-child(2) { animation-delay: 0s; }
+        .comparison-card:nth-child(2) { animation-delay: 0.1s; }
 
         .comparison-card:hover:not(.with-feature) {
-            border-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(16, 185, 129, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(16, 185, 129, 0.05);
         }
 
         .comparison-card.with-feature:hover {
@@ -2297,8 +2464,8 @@
         }
 
         .testimonial-card:nth-child(1) { animation-delay: 0s; }
-        .testimonial-card:nth-child(2) { animation-delay: 0s; }
-        .testimonial-card:nth-child(3) { animation-delay: 0s; }
+        .testimonial-card:nth-child(2) { animation-delay: 0.1s; }
+        .testimonial-card:nth-child(3) { animation-delay: 0.2s; }
 
         .stars {
             display: flex;
@@ -2645,18 +2812,22 @@
         }
 
         .pricing-card:nth-child(1) { animation-delay: 0s; }
-        .pricing-card:nth-child(2) { animation-delay: 0s; }
-        .pricing-card:nth-child(3) { animation-delay: 0s; }
+        .pricing-card:nth-child(2) { animation-delay: 0.1s; }
+        .pricing-card:nth-child(3) { animation-delay: 0.2s; }
 
         .pricing-card:hover:not(.featured) {
-            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(16, 185, 129, 0.05);
         }
 
         .pricing-card.featured {
-            border: 1.5px solid rgba(16, 185, 129, 0.3);
-            background: rgba(16, 185, 129, 0.04);
-            transform: none;
+            border: none;
+            background: linear-gradient(var(--bg-elevated), var(--bg-elevated)) padding-box,
+                        linear-gradient(135deg, var(--accent), var(--accent-light), var(--cyan), var(--accent)) border-box;
+            border: 1px solid transparent;
             position: relative;
+            transform: none;
         }
 
         .pricing-card.featured::before {
@@ -2934,13 +3105,13 @@
         }
 
         .faq-item:nth-child(1) { animation-delay: 0s; }
-        .faq-item:nth-child(2) { animation-delay: 0s; }
-        .faq-item:nth-child(3) { animation-delay: 0s; }
-        .faq-item:nth-child(4) { animation-delay: 0s; }
-        .faq-item:nth-child(5) { animation-delay: 0s; }
-        .faq-item:nth-child(6) { animation-delay: 0s; }
-        .faq-item:nth-child(7) { animation-delay: 0s; }
-        .faq-item:nth-child(8) { animation-delay: 0s; }
+        .faq-item:nth-child(2) { animation-delay: 0.1s; }
+        .faq-item:nth-child(3) { animation-delay: 0.2s; }
+        .faq-item:nth-child(4) { animation-delay: 0.3s; }
+        .faq-item:nth-child(5) { animation-delay: 0.4s; }
+        .faq-item:nth-child(6) { animation-delay: 0.5s; }
+        .faq-item:nth-child(7) { animation-delay: 0.6s; }
+        .faq-item:nth-child(8) { animation-delay: 0.7s; }
 
         .faq-header {
             padding: 24px 28px;
@@ -3138,9 +3309,9 @@
         }
 
         .update-item:nth-child(1) { animation-delay: 0s; }
-        .update-item:nth-child(2) { animation-delay: 0s; }
-        .update-item:nth-child(3) { animation-delay: 0s; }
-        .update-item:nth-child(4) { animation-delay: 0s; }
+        .update-item:nth-child(2) { animation-delay: 0.1s; }
+        .update-item:nth-child(3) { animation-delay: 0.2s; }
+        .update-item:nth-child(4) { animation-delay: 0.3s; }
 
         .update-date {
             font-size: 14px;
@@ -3210,13 +3381,9 @@
 
         /* SECTION DIVIDERS */
         .section-divider {
-            display: none;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(16,185,129,0.2), transparent);
-            max-width: 600px;
-            margin: 0 auto;
-            margin-top: 80px;
-            margin-bottom: 80px;
+            height: 100px;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 50%, var(--bg) 100%);
+            border: none;
         }
 
         /* STICKY TRIAL BAR */
@@ -4675,14 +4842,14 @@
             position: fixed;
             bottom: 24px;
             left: 24px;
-            background: rgba(17, 17, 17, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px 24px;
-            z-index: 9997;
-            max-width: 320px;
-            backdrop-filter: blur(10px);
-            animation: slideUp 0.3s ease forwards;
+            max-width: 380px;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            animation: slideUp 0.4s ease-out;
         }
 
         .cookie-banner p {
@@ -4739,6 +4906,25 @@
                 right: 16px;
                 left: 16px;
                 max-width: none;
+            }
+        }
+
+        /* RESPONSIVE TESTIMONIALS AND TRUST BAR */
+        @media (max-width: 768px) {
+            .trust-logos {
+                gap: 24px;
+            }
+            .trust-logo {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .trust-logos {
+                gap: 16px;
+            }
+            .trust-logo {
+                font-size: 14px;
             }
         }
     </style>
@@ -4991,6 +5177,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <section class="trust-bar">
+        <div class="container" style="text-align: center;">
+            <p class="trust-label">Trusted by teams building with</p>
+            <div class="trust-logos">
+                <div class="trust-logo">OpenAI</div>
+                <div class="trust-logo">Anthropic</div>
+                <div class="trust-logo">Google</div>
+                <div class="trust-logo">Meta</div>
+                <div class="trust-logo">Mistral</div>
+                <div class="trust-logo">Cohere</div>
             </div>
         </div>
     </section>
@@ -5558,6 +5759,48 @@
         </div>
     </section>
 
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-label">WHAT TEAMS SAY</div>
+            <h2 class="section-title">Loved by engineering teams</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"We switched to InferenceIQ and cut our monthly AI spend from $12K to $3.2K. The routing is completely transparent — same quality, fraction of the cost."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SK</div>
+                        <div>
+                            <div class="testimonial-name">Sarah Kim</div>
+                            <div class="testimonial-role">CTO, NeuralStack</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The automatic failover saved us during the OpenAI outage last month. Our users didn't even notice. InferenceIQ just routed to Anthropic seamlessly."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MR</div>
+                        <div>
+                            <div class="testimonial-name">Marcus Rivera</div>
+                            <div class="testimonial-role">Lead Engineer, Cortex AI</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Integration took literally 5 minutes. We just swapped our OpenAI import for InferenceIQ and everything worked. The dashboard analytics are a huge bonus."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JL</div>
+                        <div>
+                            <div class="testimonial-name">James Liu</div>
+                            <div class="testimonial-role">Founder, Synthwave Labs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <div class="section-divider"></div>
 
     <!-- STANDALONE ROI CALCULATOR SECTION -->
@@ -6275,9 +6518,26 @@
         setupHamburgerMenu();
         initCodeCopyButtons();
         switchScreen('landing');
+
+        // Initialize animations
         setTimeout(() => {
+            initScrollAnimations();
+            initActiveNavLinkObserver();
             initCounterAnimations();
+            initMagneticButtons();
+            initComparisonReveal();
+            initStaggeredReveal();
+            initCodeTyping();
+            initAdvancedParallax();
+            initThemeToggle();
+            initStickyBar();
         }, 500);
+
+        // Load Chart.js and cookie banner
+        setTimeout(() => {
+            loadChartJS();
+            initCookieBanner();
+        }, 600);
     });
 
     function switchScreen(screenName) {
@@ -6851,27 +7111,7 @@
         }, 2000);
     }
 
-    function initParallax() {
-        // Removed - parallax causes jank
-    }
 
-    function initScrollProgressBar() {
-        // Removed - progress bar is visual clutter
-    }
-
-    function initTypewriterEffect() {
-        // Removed - static headline is cleaner
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-            initScrollAnimations();
-            initActiveNavLinkObserver();
-            initParallax();
-            initScrollProgressBar();
-            initTypewriterEffect();
-        }, 100);
-    });
 
     const originalSwitchScreen = switchScreen;
     switchScreen = function(screenName) {
@@ -6880,7 +7120,6 @@
             setTimeout(() => {
                 initScrollAnimations();
                 initActiveNavLinkObserver();
-                initParallax();
                 initStickyBar();
             }, 200);
         }
@@ -7065,8 +7304,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
         }
 
         .command-modal {
@@ -7109,7 +7349,8 @@
             border-left: 3px solid transparent;
         }
 
-        .command-item:hover {
+        .command-item:hover,
+        .command-item.highlighted {
             background: var(--bg-card);
             color: var(--accent);
             border-left-color: var(--accent);
@@ -7145,80 +7386,6 @@
         observer.observe(heroSection);
     }
 
-    // ANIMATED COUNT-UP FOR STATS
-    function initStatsCountUp() {
-        const metricsSection = document.querySelector('.metrics-bar');
-        if (!metricsSection) return;
-
-        let hasAnimated = false;
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !hasAnimated) {
-                    hasAnimated = true;
-                    animateMetrics();
-                }
-            });
-        }, { threshold: 0.2 });
-
-        observer.observe(metricsSection);
-    }
-
-    function animateMetrics() {
-        const metrics = [
-            { element: document.querySelectorAll('.metric-number')[0], target: 73, suffix: '%' },
-            { element: document.querySelectorAll('.metric-number')[1], target: 50, suffix: 'ms' },
-            { element: document.querySelectorAll('.metric-number')[2], target: 99.97, suffix: '%' },
-            { element: document.querySelectorAll('.metric-number')[3], target: 5, suffix: 'min' }
-        ];
-
-        metrics.forEach(metric => {
-            if (!metric.element) return;
-
-            let current = 0;
-            const target = metric.target;
-            const duration = 2000;
-            const startTime = performance.now();
-
-            function animate(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-
-                // Easing function for smooth animation
-                const easeProgress = progress < 0.5
-                    ? 2 * progress * progress
-                    : -1 + (4 - 2 * progress) * progress;
-
-                current = target * easeProgress;
-
-                if (metric.target === 99.97) {
-                    metric.element.textContent = current.toFixed(2) + metric.suffix;
-                } else if (metric.target === 5) {
-                    metric.element.textContent = Math.round(current) + metric.suffix;
-                } else {
-                    metric.element.textContent = Math.round(current) + metric.suffix;
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                }
-            }
-
-            requestAnimationFrame(animate);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-            initMagneticButtons();
-            initComparisonReveal();
-            initStaggeredReveal();
-            initCodeTyping();
-            initAdvancedParallax();
-            initThemeToggle();
-            initStickyBar();
-            initStatsCountUp();
-        }, 500);
-    });
 
     // THEME TOGGLE FUNCTIONALITY
     let isDarkMode = true;
@@ -7370,10 +7537,6 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        loadChartJS();
-        initCookieBanner();
-    });
 </script>
 
 </body>
