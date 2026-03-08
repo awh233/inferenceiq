@@ -341,6 +341,35 @@
             transform: translateX(4px);
         }
 
+        /* ANNOUNCEMENT BAR */
+        .announcement-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,182,212,0.05) 100%);
+            border-bottom: 1px solid rgba(16,185,129,0.1);
+            padding: 10px 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            z-index: 100;
+        }
+
+        .announcement-bar span {
+            font-weight: 500;
+        }
+
+        .announcement-bar a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .announcement-bar a:hover {
+            color: var(--accent-light);
+        }
+
         .hamburger {
             display: none;
             width: 24px;
@@ -419,7 +448,7 @@
         /* HERO SECTION */
         .hero {
             position: relative;
-            padding: 200px 40px 120px 40px;
+            padding: 100px 40px 60px 40px;
             margin-top: 72px;
             overflow: hidden;
         }
@@ -852,7 +881,7 @@
 
         @media (max-width: 768px) {
             .hero {
-                padding: 100px 24px 80px 24px;
+                padding: 60px 24px 50px 24px;
             }
 
             .hero-headline {
@@ -936,6 +965,9 @@
         }
 
         .trust-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 14px;
             font-weight: 600;
             color: var(--text-muted);
@@ -945,6 +977,11 @@
             letter-spacing: 0.05em;
             padding: 8px 0;
             flex-shrink: 0;
+        }
+
+        .trust-logo svg {
+            flex-shrink: 0;
+            color: var(--text-tertiary);
         }
 
         .trust-logo:hover {
@@ -1002,7 +1039,7 @@
 
         /* PERSONAS SECTION */
         .personas {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1185,7 +1222,7 @@
 
         /* HOW IT WORKS SECTION */
         .how-it-works {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1276,7 +1313,7 @@
 
         /* INTEGRATION SECTION */
         .integration {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1471,7 +1508,7 @@
 
         /* PLATFORM FEATURES - BENTO GRID */
         .platform {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1688,7 +1725,7 @@
 
         /* COMPARISON SECTION */
         .comparison {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1787,7 +1824,7 @@
 
         /* TESTIMONIALS SECTION */
         .testimonials {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1885,7 +1922,7 @@
 
         /* PRICING SECTION */
         .pricing {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2096,7 +2133,7 @@
 
         @media (max-width: 768px) {
             .cta {
-                padding: 100px 24px;
+                padding: 60px 24px;
             }
 
             .cta-title {
@@ -2106,7 +2143,7 @@
 
         /* DEVELOPERS SECTION - CODE TABS */
         .developers {
-            padding: 100px 40px;
+            padding: 70px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2181,7 +2218,7 @@
 
         /* FAQ SECTION */
         .faq {
-            padding: 140px 40px;
+            padding: 80px 40px;
             position: relative;
             z-index: 2;
             background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.02) 100%);
@@ -2280,7 +2317,7 @@
 
         /* ENHANCED CTA BANNER */
         .cta-enhanced {
-            padding: 140px 40px;
+            padding: 80px 40px;
             position: relative;
             z-index: 2;
             overflow: hidden;
@@ -2386,7 +2423,7 @@
 
         /* UPDATES/CHANGELOG TIMELINE */
         .updates {
-            padding: 140px 40px;
+            padding: 80px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2611,7 +2648,7 @@
         footer {
             background: var(--bg-elevated);
             border-top: 1px solid var(--border-light);
-            padding: 100px 40px 50px 40px;
+            padding: 70px 40px 50px 40px;
             position: relative;
             z-index: 2;
         }
@@ -3882,7 +3919,7 @@
 
         /* CHANGELOG SECTION */
         .changelog {
-            padding: 140px 40px;
+            padding: 80px 40px;
             position: relative;
             z-index: 2;
             text-align: center;
@@ -3897,6 +3934,12 @@
 </head>
 <body>
 
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+    <span>🚀 New: Multi-region routing is now available</span>
+    <a href="#features" style="cursor: pointer;">Learn more →</a>
+</div>
+
 <!-- NAVIGATION -->
 <nav id="nav">
     <div class="nav-logo" onclick="scrollToSection('landing')" style="cursor: pointer;">
@@ -3907,6 +3950,8 @@
         <a onclick="scrollToSection('features')" class="nav-link" style="cursor: pointer;">Features</a>
         <a onclick="scrollToSection('pricing')" class="nav-link" style="cursor: pointer;">Pricing</a>
         <a href="docs.html" class="nav-link" style="cursor: pointer;">Docs</a>
+        <a href="blog.html" class="nav-link" style="cursor: pointer;">Blog</a>
+        <a href="status.html" class="nav-link" style="cursor: pointer;">Status</a>
         <a onclick="scrollToSection('changelog')" class="nav-link" style="cursor: pointer;">Changelog</a>
     </div>
     <div class="nav-right">
@@ -4081,18 +4126,86 @@
     <section class="trust-bar">
         <div class="trust-label">Trusted by leading teams</div>
         <div class="trust-logos">
-            <div class="trust-logo">Stripe</div>
-            <div class="trust-logo">Vercel</div>
-            <div class="trust-logo">Notion</div>
-            <div class="trust-logo">Linear</div>
-            <div class="trust-logo">Figma</div>
-            <div class="trust-logo">OpenAI</div>
-            <div class="trust-logo">Stripe</div>
-            <div class="trust-logo">Vercel</div>
-            <div class="trust-logo">Notion</div>
-            <div class="trust-logo">Linear</div>
-            <div class="trust-logo">Figma</div>
-            <div class="trust-logo">OpenAI</div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Stripe</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2L2 18H18L10 2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+                <span>Vercel</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="10" cy="10" r="3" fill="currentColor"/>
+                </svg>
+                <span>Notion</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 10L8 15L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Linear</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="10" cy="10" r="2" fill="currentColor"/>
+                </svg>
+                <span>Figma</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M10 6V10L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>OpenAI</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Stripe</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2L2 18H18L10 2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+                <span>Vercel</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="10" cy="10" r="3" fill="currentColor"/>
+                </svg>
+                <span>Notion</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 10L8 15L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Linear</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="10" cy="10" r="2" fill="currentColor"/>
+                </svg>
+                <span>Figma</span>
+            </div>
+            <div class="trust-logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M10 6V10L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>OpenAI</span>
+            </div>
         </div>
     </section>
 
@@ -4919,6 +5032,7 @@
                         <li><a onclick="scrollToSection('pricing')" style="cursor: pointer;">Pricing</a></li>
                         <li><a href="docs.html">Documentation</a></li>
                         <li><a href="api.html">API Reference</a></li>
+                        <li><a href="status.html">Status</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
