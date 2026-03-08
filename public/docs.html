@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security - InferenceIQ</title>
+    <title>Documentation - InferenceIQ</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {--bg: #0a0a0a; --bg-elevated: #111111; --bg-card: rgba(255,255,255,0.03); --bg-card-hover: rgba(255,255,255,0.05); --border: rgba(255,255,255,0.08); --border-light: rgba(255,255,255,0.03); --text-primary: #fafafa; --text-secondary: #a1a1aa; --text-tertiary: #71717a; --text-muted: #52525b; --accent: #10b981; --accent-light: #34d399; --accent-glow: rgba(16,185,129,0.15);}
+        :root {--bg: #0a0a0a; --bg-elevated: #111111; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --border-light: rgba(255,255,255,0.03); --text-primary: #fafafa; --text-secondary: #a1a1aa; --text-tertiary: #71717a; --text-muted: #52525b; --accent: #10b981; --accent-light: #34d399; --accent-glow: rgba(16,185,129,0.15);}
         * {margin: 0; padding: 0; box-sizing: border-box;}
         html {scroll-behavior: smooth;}
         html, body {width: 100%; min-height: 100%; margin: 0; padding: 0;}
@@ -16,9 +16,6 @@
         a {color: inherit; text-decoration: none;}
         button {border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
         .icon-small {width: 20px; height: 20px; stroke-width: 1.5;}
-        .icon-large {width: 48px; height: 48px; stroke-width: 1;}
-        .container {width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 40px;}
-        @media (max-width: 768px) {.container {padding: 0 24px;}}
         #nav {position: fixed; top: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; z-index: 1000; transition: all 0.3s ease;}
         #nav.scrolled {border-bottom-color: var(--border);}
         .nav-logo {display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em;}
@@ -44,28 +41,18 @@
         #nav.mobile-open .nav-right {width: 100%; flex-direction: column; gap: 12px;}
         @media (max-width: 1024px) {#nav {padding: 0 24px;} .nav-center {display: none;} .hamburger {display: flex;}}
         main {margin-top: 72px; position: relative; z-index: 2;}
-        .hero {padding: 120px 40px; text-align: center;}
-        .hero h1 {font-size: 56px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em;}
-        .hero p {font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;}
-        section {padding: 100px 40px; border-bottom: 1px solid var(--border-light);}
-        section h2 {font-size: 36px; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.02em;}
-        .section-content {max-width: 1200px; margin: 0 auto; padding: 0 40px;}
-        .badges-grid {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 80px;}
-        .badge-card {padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-align: center; transition: all 0.3s ease;}
-        .badge-card:hover {background: var(--bg-card-hover); border-color: var(--accent);}
-        .badge-icon {display: flex; justify-content: center; margin-bottom: 12px; color: var(--accent);}
-        .badge-card h3 {font-size: 16px; font-weight: 700; color: var(--text-primary);}
-        .features-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 40px;}
-        .feature-item {padding: 32px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s ease;}
-        .feature-item:hover {background: var(--bg-card-hover); border-color: var(--accent); transform: translateY(-2px);}
-        .feature-item h3 {font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 12px;}
-        .feature-item p {font-size: 14px; color: var(--text-secondary); line-height: 1.6;}
-        .cta-download {text-align: center; margin-top: 60px; padding: 40px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;}
-        .cta-download h3 {font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px;}
-        .cta-download p {font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;}
-        .download-link {display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--accent); color: #000; border-radius: 8px; font-weight: 700; transition: all 0.3s ease;}
-        .download-link:hover {background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);}
-        @media (max-width: 768px) {.badges-grid {grid-template-columns: repeat(2, 1fr);} .features-grid {grid-template-columns: 1fr;} section {padding: 80px 24px;} .hero {padding: 80px 24px;} .hero h1 {font-size: 36px;}}
+        .docs-hero {padding: 100px 40px; text-align: center; background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, transparent 100%);}
+        .docs-hero h1 {font-size: 48px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em;}
+        .docs-hero p {font-size: 18px; color: var(--text-secondary); margin-bottom: 30px;}
+        .docs-grid {display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 40px;}
+        .doc-card {padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s ease;}
+        .doc-card:hover {background: rgba(255,255,255,0.05); border-color: var(--accent); transform: translateY(-2px);}
+        .doc-card h3 {font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
+        .doc-card p {font-size: 13px; color: var(--text-secondary); line-height: 1.6;}
+        .doc-card a {display: inline-flex; align-items: center; gap: 4px; color: var(--accent); font-weight: 600; margin-top: 12px; transition: all 0.3s ease;}
+        .doc-card a:hover {transform: translateX(4px);}
+        @media (max-width: 1024px) {.docs-grid {grid-template-columns: repeat(2, 1fr);}}
+        @media (max-width: 768px) {.docs-grid {grid-template-columns: 1fr;} .docs-hero {padding: 60px 24px;} .docs-hero h1 {font-size: 32px;}}
         footer {background: var(--bg-elevated); border-top: 1px solid var(--border-light); padding: 100px 40px 50px 40px; position: relative; z-index: 2;}
         footer::before {content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, var(--accent-glow) 50%, transparent 100%);}
         .footer-content {max-width: 1200px; margin: 0 auto;}
@@ -111,81 +98,67 @@
 </nav>
 
 <main>
-    <section class="hero">
+    <section class="docs-hero">
         <div class="container">
-            <h1>Security at InferenceIQ</h1>
-            <p>Enterprise-grade security for your AI infrastructure</p>
+            <h1>Documentation</h1>
+            <p>Everything you need to get started with InferenceIQ</p>
         </div>
     </section>
 
-    <section>
-        <div class="section-content">
-            <h2>Compliance & Certifications</h2>
-            <div class="badges-grid">
-                <div class="badge-card">
-                    <div class="badge-icon"><i data-lucide="shield-check" class="icon-large"></i></div>
-                    <h3>SOC 2 Type II</h3>
-                </div>
-                <div class="badge-card">
-                    <div class="badge-icon"><i data-lucide="lock" class="icon-large"></i></div>
-                    <h3>GDPR</h3>
-                </div>
-                <div class="badge-card">
-                    <div class="badge-icon"><i data-lucide="heart" class="icon-large"></i></div>
-                    <h3>HIPAA Ready</h3>
-                </div>
-                <div class="badge-card">
-                    <div class="badge-icon"><i data-lucide="badge" class="icon-large"></i></div>
-                    <h3>ISO 27001</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="section-content">
-            <h2>Security Features</h2>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h3><i data-lucide="lock" class="icon-small"></i> End-to-End Encryption</h3>
-                    <p>All data in transit is encrypted using TLS 1.3. Data at rest is secured with AES-256 encryption.</p>
-                </div>
-                <div class="feature-item">
-                    <h3><i data-lucide="users" class="icon-small"></i> Role-Based Access Control</h3>
-                    <p>Granular RBAC with customizable roles and permissions. Enforce principle of least privilege across your organization.</p>
-                </div>
-                <div class="feature-item">
-                    <h3><i data-lucide="activity" class="icon-small"></i> Audit Logging</h3>
-                    <p>Comprehensive audit logs for all API calls, configuration changes, and user actions. Available for 90+ days.</p>
-                </div>
-                <div class="feature-item">
-                    <h3><i data-lucide="globe" class="icon-small"></i> Data Residency</h3>
-                    <p>Choose where your data is stored. Options include US, EU, and APAC regions to meet regulatory requirements.</p>
-                </div>
-                <div class="feature-item">
-                    <h3><i data-lucide="shield" class="icon-small"></i> Penetration Testing</h3>
-                    <p>Third-party penetration testing conducted annually. Security assessments available upon request.</p>
-                </div>
-                <div class="feature-item">
-                    <h3><i data-lucide="zap" class="icon-small"></i> Bug Bounty Program</h3>
-                    <p>Responsible disclosure program. We reward security researchers for discovering and reporting vulnerabilities.</p>
-                </div>
+    <section style="padding: 80px 40px;">
+        <div class="docs-grid">
+            <div class="doc-card">
+                <h3><i data-lucide="book-open" class="icon-small"></i> Getting Started</h3>
+                <p>Learn the basics of InferenceIQ. Set up your first project and make your first API call in just a few minutes.</p>
+                <a href="#">Read guide <i data-lucide="arrow-right" class="icon-small"></i></a>
             </div>
 
-            <div class="cta-download">
-                <h3>Security Whitepaper</h3>
-                <p>Learn more about our security architecture and practices</p>
-                <a href="#" class="download-link">
-                    Download Whitepaper
-                    <i data-lucide="download" class="icon-small"></i>
-                </a>
+            <div class="doc-card">
+                <h3><i data-lucide="zap" class="icon-small"></i> Quick Start</h3>
+                <p>Get up and running with step-by-step instructions. Choose your preferred language and follow along.</p>
+                <a href="#">Start building <i data-lucide="arrow-right" class="icon-small"></i></a>
             </div>
 
-            <div style="text-align: center; margin-top: 60px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;">
-                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Security Questions?</p>
-                <p style="font-size: 16px; font-weight: 600; color: var(--text-primary);">
-                    <a href="mailto:security@inferenceiq.com" style="color: var(--accent); transition: color 0.3s ease;">security@inferenceiq.com</a>
-                </p>
+            <div class="doc-card">
+                <h3><i data-lucide="code" class="icon-small"></i> API Reference</h3>
+                <p>Complete API documentation with examples. Explore endpoints, parameters, and response formats.</p>
+                <a href="api.html">View API <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="doc-card">
+                <h3><i data-lucide="key" class="icon-small"></i> Authentication</h3>
+                <p>Learn how to authenticate requests using API keys and manage your credentials securely.</p>
+                <a href="#">Learn more <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="doc-card">
+                <h3><i data-lucide="layers" class="icon-small"></i> Models & Routing</h3>
+                <p>Understand how intelligent routing works and how to optimize for your specific use case.</p>
+                <a href="#">Explore models <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="doc-card">
+                <h3><i data-lucide="shield-check" class="icon-small"></i> Best Practices</h3>
+                <p>Recommendations for security, performance, and reliability when building with InferenceIQ.</p>
+                <a href="#">Best practices <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="doc-card">
+                <h3><i data-lucide="message-circle" class="icon-small"></i> SDK Guides</h3>
+                <p>Language-specific guides for Python, JavaScript, Go, and more. Choose your favorite language.</p>
+                <a href="#">SDKs <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="doc-card">
+                <h3><i data-lucide="bar-chart" class="icon-small"></i> Monitoring</h3>
+                <p>Track usage, monitor costs, and analyze performance with our built-in analytics dashboard.</p>
+                <a href="#">View docs <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="doc-card">
+                <h3><i data-lucide="help-circle" class="icon-small"></i> FAQ</h3>
+                <p>Common questions and answers. Find solutions to the most frequently asked questions.</p>
+                <a href="#">Read FAQ <i data-lucide="arrow-right" class="icon-small"></i></a>
             </div>
         </div>
     </section>

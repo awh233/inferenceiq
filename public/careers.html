@@ -1,175 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Careers — InferenceIQ</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2322c55e'/><text x='16' y='22' font-size='16' font-weight='bold' fill='white' text-anchor='middle' font-family='system-ui'>IQ</text></svg>">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#050507;--bg2:#09090b;--surface:#111114;--surface2:#18181b;
-  --border:rgba(255,255,255,.06);--border-h:rgba(255,255,255,.12);
-  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
-  --green:#22c55e;--green-dim:rgba(34,197,94,.15);--green-border:rgba(34,197,94,.25);
-  --blue:#3b82f6;--radius:10px;--radius-lg:16px;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-::selection{background:rgba(34,197,94,.25)}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - InferenceIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-card-hover: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.08);
+            --border-light: rgba(255,255,255,0.03);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --text-muted: #52525b;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-glow: rgba(16,185,129,0.15);
+        }
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,7,.8);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;color:var(--text);transition:.2s}
-.nav-logo:hover{color:var(--green)}
-.nav-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a{padding:8px 16px;font-size:14px;color:var(--text2);text-decoration:none;border-radius:8px;transition:.15s}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
-.cta-sm{padding:8px 20px;background:var(--green);color:#fff;font-weight:600;font-size:14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .1s,box-shadow .15s}
-.cta-sm:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.page-header{padding:140px 32px 60px;text-align:center;max-width:900px;margin:0 auto}
-.page-title{font-size:clamp(36px,6vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+        html { scroll-behavior: smooth; }
 
-.jobs-grid{display:grid;grid-template-columns:1fr;gap:24px;padding:60px 32px;max-width:900px;margin:0 auto}
-.job-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:border-color .2s}
-.job-card:hover{border-color:var(--border-h)}
-.job-title{font-size:18px;font-weight:600;margin-bottom:8px}
-.job-meta{display:flex;gap:16px;margin-bottom:16px;font-size:13px;color:var(--text2)}
-.job-desc{font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.6}
-.job-reqs{font-size:13px;color:var(--text2);margin-bottom:16px}
-.job-reqs strong{color:var(--text)}
-.apply-btn{display:inline-block;padding:10px 20px;background:var(--green);color:#fff;font-weight:600;font-size:13px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .1s,box-shadow .15s}
-.apply-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-.footer{border-top:1px solid var(--border);padding:40px 32px;background:var(--bg2)}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
-.footer-col h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:12px}
-.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:8px;transition:.15s}
-.footer-col a:hover{color:var(--text)}
-.footer-col-brand{grid-column:1}
-.footer-col-brand .logo{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:600}
-.footer-copy{text-align:center;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);grid-column:1/-1}
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
 
-@media(max-width:768px){
-  .page-header{padding:120px 20px 40px}
-  .jobs-grid{padding:60px 20px}
-  .footer-inner{grid-template-columns:1fr 1fr;gap:20px}
-}
-@media(max-width:480px){
-  .nav-links a{display:none}
-  .page-title{font-size:32px}
-  .job-title{font-size:16px}
-  .job-meta{flex-direction:column;gap:8px}
-  .footer-inner{grid-template-columns:1fr;gap:16px}
-}
-</style>
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 50%),
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        input { font-family: 'Inter', sans-serif; }
+
+        .icon-small { width: 20px; height: 20px; stroke-width: 1.5; }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) { .container { padding: 0 24px; } }
+
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #nav.scrolled { border-bottom-color: var(--border); }
+
+        .nav-logo { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+
+        .nav-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+        .nav-center { display: flex; gap: 40px; align-items: center; }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover::after { width: 100%; }
+
+        .nav-right { display: flex; align-items: center; gap: 24px; }
+
+        .nav-login {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-login:hover { color: var(--text-primary); }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            padding: 11px 24px;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);
+        }
+
+        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .hamburger span { width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s ease; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(10px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-10px); }
+
+        #nav.mobile-open { flex-direction: column; align-items: flex-start; height: auto; padding: 16px 24px; gap: 16px; }
+        #nav.mobile-open .nav-center { width: 100%; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+        #nav.mobile-open .nav-right { width: 100%; flex-direction: column; gap: 12px; }
+
+        @media (max-width: 1024px) { #nav { padding: 0 24px; } .nav-center { display: none; } .hamburger { display: flex; } }
+
+        main { margin-top: 72px; position: relative; z-index: 2; }
+
+        .hero { padding: 120px 40px; text-align: center; }
+        .hero h1 { font-size: 56px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
+        .hero p { font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+        section { padding: 100px 40px; border-bottom: 1px solid var(--border-light); }
+        section h2 { font-size: 36px; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.02em; }
+
+        .section-content { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+        .perks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-bottom: 80px; }
+
+        .perk-card {
+            padding: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .perk-card:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+
+        .perk-card h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+        .perk-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        .jobs-section h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-top: 60px; margin-bottom: 30px; display: flex; align-items: center; gap: 12px; }
+        .jobs-section h3::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 2px; }
+
+        .job-card {
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .job-card:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+
+        .job-info h4 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .job-tag {
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--accent-glow);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .job-location { font-size: 13px; color: var(--text-tertiary); display: flex; align-items: center; gap: 4px; }
+
+        .job-card a { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--accent); white-space: nowrap; transition: all 0.3s ease; }
+        .job-card a:hover { transform: translateX(4px); }
+
+        .no-role-section { padding: 40px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-align: center; margin-top: 60px; }
+        .no-role-section h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; border: none; margin-top: 0; }
+        .no-role-section p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+
+        .email-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--accent); transition: all 0.3s ease; }
+        .email-link:hover { transform: translateX(4px); }
+
+        @media (max-width: 1024px) { .perks-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        @media (max-width: 768px) {
+            section { padding: 80px 24px; }
+            section h2 { font-size: 28px; }
+            .perks-grid { grid-template-columns: 1fr; }
+            .job-card { flex-direction: column; }
+            .hero { padding: 80px 24px; }
+            .hero h1 { font-size: 36px; }
+        }
+
+        footer {
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border-light);
+            padding: 100px 40px 50px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-glow) 50%, transparent 100%);
+        }
+
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+
+        .footer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 60px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .footer-logo { flex: 1; }
+        .footer-tagline { font-size: 14px; color: var(--text-secondary); margin-top: 12px; line-height: 1.6; max-width: 300px; }
+        .footer-newsletter { flex: 1; max-width: 300px; }
+
+        .newsletter-input-wrapper { display: flex; gap: 8px; }
+
+        .newsletter-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input::placeholder { color: var(--text-muted); }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .newsletter-button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background: var(--accent-light);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 60px; margin-bottom: 80px; }
+
+        .footer-column h3 { font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 0.12em; }
+
+        .footer-column ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+
+        .footer-column a { font-size: 14px; color: var(--text-tertiary); transition: color 0.3s ease; }
+        .footer-column a:hover { color: var(--text-secondary); }
+
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid var(--border-light); }
+
+        .footer-copyright { font-size: 13px; color: var(--text-muted); }
+
+        .footer-socials { display: flex; gap: 20px; }
+
+        .footer-social { color: var(--text-tertiary); transition: all 0.3s ease; cursor: pointer; }
+        .footer-social:hover { color: var(--accent); transform: translateY(-2px); }
+
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; } footer { padding: 80px 40px 40px 40px; } }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 24px; text-align: center; }
+            .footer-socials { justify-content: center; }
+            footer { padding: 60px 24px 40px 24px; }
+            .footer-header { flex-direction: column; gap: 40px; }
+        }
+    </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html"><div class="nav-mark">IQ</div>InferenceIQ</a>
-  <div class="nav-links">
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="https://awh233.github.io/inferenceiq">Docs</a>
-    <a href="blog.html">Blog</a>
-    <a href="changelog.html">Changelog</a>
-    <button class="cta-sm">Get Started</button>
-  </div>
+
+<nav id="nav">
+    <div class="nav-logo">
+        <div class="nav-dot"></div>
+        InferenceIQ
+    </div>
+    <div class="nav-center">
+        <a href="index.html#features" class="nav-link">Features</a>
+        <a href="index.html#pricing" class="nav-link">Pricing</a>
+        <a href="docs.html" class="nav-link">Docs</a>
+        <a href="index.html#changelog" class="nav-link">Changelog</a>
+    </div>
+    <div class="nav-right">
+        <a class="nav-login" href="index.html">Sign In</a>
+        <button class="btn btn-primary">Start Free Trial</button>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </nav>
 
-<main style="padding-top:64px">
-<div class="page-header">
-  <h1 class="page-title">We're Hiring</h1>
-  <p style="font-size:18px;color:var(--text2)">Join our team and help make AI affordable for everyone</p>
-</div>
+<main>
+    <section class="hero">
+        <div class="container">
+            <h1>Join the team</h1>
+            <p>Help us make AI inference faster, cheaper, and more reliable</p>
+        </div>
+    </section>
 
-<section class="jobs-grid">
-  <div class="job-card">
-    <div class="job-title">Senior Backend Engineer</div>
-    <div class="job-meta">
-      <span>Full-time • San Francisco, CA</span>
-      <span>Remote OK</span>
-    </div>
-    <div class="job-desc">We're looking for an experienced backend engineer to help build our high-performance inference optimization platform. You'll work on API design, optimization algorithms, and infrastructure at scale.</div>
-    <div class="job-reqs"><strong>Requirements:</strong> 7+ years backend experience, expertise in Python or Go, experience with distributed systems</div>
-    <a href="mailto:careers@inferenceiq.com?subject=Senior%20Backend%20Engineer" class="apply-btn">Apply Now</a>
-  </div>
+    <section>
+        <div class="section-content">
+            <h2>Why Join InferenceIQ</h2>
+            <div class="perks-grid">
+                <div class="perk-card">
+                    <h3><i data-lucide="globe" class="icon-small"></i> Remote-First</h3>
+                    <p>Work from anywhere in the world. Our fully distributed team spans multiple timezones, giving you flexibility to build your ideal work environment.</p>
+                </div>
+                <div class="perk-card">
+                    <h3><i data-lucide="trending-up" class="icon-small"></i> Competitive Equity</h3>
+                    <p>Own part of the company. We believe in aligning incentives with our team, so you share in our success as we grow.</p>
+                </div>
+                <div class="perk-card">
+                    <h3><i data-lucide="calendar" class="icon-small"></i> Unlimited PTO</h3>
+                    <p>We trust our team to manage their own time. Take the vacation you need to recharge and do your best work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <div class="job-card">
-    <div class="job-title">ML Engineer</div>
-    <div class="job-meta">
-      <span>Full-time • San Francisco, CA</span>
-      <span>Remote OK</span>
-    </div>
-    <div class="job-desc">Help us build smarter routing and caching algorithms. You'll work on semantic understanding, cost optimization, and machine learning models that power InferenceIQ.</div>
-    <div class="job-reqs"><strong>Requirements:</strong> 5+ years ML experience, strong Python skills, experience with LLMs or transformers</div>
-    <a href="mailto:careers@inferenceiq.com?subject=ML%20Engineer" class="apply-btn">Apply Now</a>
-  </div>
+    <section class="jobs-section">
+        <div class="section-content">
+            <h2>Open Positions</h2>
 
-  <div class="job-card">
-    <div class="job-title">Head of Sales</div>
-    <div class="job-meta">
-      <span>Full-time • San Francisco, CA</span>
-      <span>Remote OK</span>
-    </div>
-    <div class="job-desc">Lead our go-to-market strategy and build our sales team from the ground up. You'll own enterprise partnerships and help companies optimize their AI infrastructure.</div>
-    <div class="job-reqs"><strong>Requirements:</strong> 10+ years SaaS sales experience, track record building sales teams, enterprise selling expertise</div>
-    <a href="mailto:careers@inferenceiq.com?subject=Head%20of%20Sales" class="apply-btn">Apply Now</a>
-  </div>
+            <h3>Engineering</h3>
 
-  <div class="job-card">
-    <div class="job-title">Developer Advocate</div>
-    <div class="job-meta">
-      <span>Full-time • San Francisco, CA</span>
-      <span>Remote OK</span>
-    </div>
-    <div class="job-desc">Connect with our developer community, create tutorials and content, and help teams get the most out of InferenceIQ. You'll be the voice of our product to developers worldwide.</div>
-    <div class="job-reqs"><strong>Requirements:</strong> 3+ years developer experience, strong communication skills, experience with API design</div>
-    <a href="mailto:careers@inferenceiq.com?subject=Developer%20Advocate" class="apply-btn">Apply Now</a>
-  </div>
-</section>
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>Senior Backend Engineer</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Engineering</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> Remote</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>ML Infrastructure Engineer</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Engineering</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> San Francisco, CA</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>Frontend Engineer</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Engineering</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> Remote</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <h3>Product</h3>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>Senior Product Manager</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Product</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> San Francisco, CA</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <h3>Sales</h3>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>Enterprise Account Executive</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Sales</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> San Francisco, CA</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>Solutions Engineer</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Sales</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> Remote</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <h3>Marketing</h3>
+
+            <div class="job-card">
+                <div class="job-info">
+                    <h4>Content Marketing Manager</h4>
+                    <div class="job-meta">
+                        <span class="job-tag">Marketing</span>
+                        <span class="job-location"><i data-lucide="map-pin" class="icon-small"></i> Remote</span>
+                        <span class="job-location">Full-time</span>
+                    </div>
+                </div>
+                <a href="#">Apply <i data-lucide="arrow-right" class="icon-small"></i></a>
+            </div>
+
+            <div class="no-role-section">
+                <h3>Don't see your role?</h3>
+                <p>We're always looking for talented people. If you think you'd be a great fit, let us know.</p>
+                <a href="mailto:careers@inferenceiq.com" class="email-link">
+                    careers@inferenceiq.com
+                    <i data-lucide="arrow-right" class="icon-small"></i>
+                </a>
+            </div>
+        </div>
+    </section>
 </main>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-col footer-col-brand">
-      <div class="logo"><div class="nav-mark" style="width:28px;height:28px;font-size:11px">IQ</div>InferenceIQ</div>
-      <p style="font-size:12px;color:var(--text3);line-height:1.6">Cut AI inference costs 40% without sacrificing quality. Transparent, instant, automatic.</p>
+<footer>
+    <div class="footer-content">
+        <div class="footer-header">
+            <div class="footer-logo">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                    <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                </div>
+                <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+            </div>
+
+            <div class="footer-newsletter">
+                <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                <div class="newsletter-input-wrapper">
+                    <input type="email" class="newsletter-input" placeholder="your@email.com">
+                    <button class="newsletter-button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="api.html">API Reference</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Developers</h3>
+                <ul>
+                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                    <li><a href="docs.html">Documentation</a></li>
+                    <li><a href="#">SDKs</a></li>
+                    <li><a href="#">Status Page</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="#">Compliance</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                Copyright © 2025 InferenceIQ. All rights reserved.
+            </div>
+            <div class="footer-socials">
+                <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
+                <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
+                <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
+            </div>
+        </div>
     </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <a href="features.html">Features</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="index.html">Dashboard</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Docs</a>
-      <a href="https://pypi.org/project/inferenceiq/">SDK</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="careers.html">Careers</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h4>Resources</h4>
-      <a href="https://awh233.github.io/inferenceiq">Documentation</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Reference</a>
-      <a href="status.html">Status</a>
-      <a href="changelog.html">Changelog</a>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="security.html">Security</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
-  </div>
-  <div class="footer-copy">© 2026 InferenceIQ Inc. All rights reserved.</div>
 </footer>
+
+<script>
+    lucide.createIcons();
+
+    document.getElementById('hamburger').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.getElementById('nav').classList.toggle('mobile-open');
+    });
+
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('nav');
+        if (window.scrollY > 0) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    document.querySelectorAll('.nav-link, .nav-login').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('hamburger').classList.remove('active');
+            document.getElementById('nav').classList.remove('mobile-open');
+        });
+    });
+</script>
+
 </body>
 </html>

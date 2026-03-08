@@ -1,188 +1,1047 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About — InferenceIQ</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2322c55e'/><text x='16' y='22' font-size='16' font-weight='bold' fill='white' text-anchor='middle' font-family='system-ui'>IQ</text></svg>">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#050507;--bg2:#09090b;--surface:#111114;--surface2:#18181b;
-  --border:rgba(255,255,255,.06);--border-h:rgba(255,255,255,.12);
-  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
-  --green:#22c55e;--green-dim:rgba(34,197,94,.15);--green-border:rgba(34,197,94,.25);
-  --blue:#3b82f6;--radius:10px;--radius-lg:16px;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-::selection{background:rgba(34,197,94,.25)}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - InferenceIQ</title>
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,7,.8);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;color:var(--text);transition:.2s}
-.nav-logo:hover{color:var(--green)}
-.nav-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a{padding:8px 16px;font-size:14px;color:var(--text2);text-decoration:none;border-radius:8px;transition:.15s}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
-.cta-sm{padding:8px 20px;background:var(--green);color:#fff;font-weight:600;font-size:14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .1s,box-shadow .15s}
-.cta-sm:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-.page-header{padding:140px 32px 60px;text-align:center;max-width:900px;margin:0 auto}
-.page-title{font-size:clamp(36px,6vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
-.section{padding:60px 32px;max-width:900px;margin:0 auto}
-.section h2{font-size:32px;font-weight:700;margin-bottom:24px}
-.section p{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:16px}
+    <style>
+        /* ROOT VARIABLES */
+        :root {
+            --bg: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-card-hover: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.08);
+            --border-light: rgba(255,255,255,0.03);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --text-muted: #52525b;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-glow: rgba(16,185,129,0.15);
+        }
 
-.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;padding:60px 32px;max-width:900px;margin:0 auto}
-.team-member{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center}
-.team-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));margin:0 auto 16px;display:grid;place-items:center;font-size:32px}
-.team-name{font-size:16px;font-weight:600;margin-bottom:4px}
-.team-role{font-size:13px;color:var(--text2);margin-bottom:12px}
-.team-bio{font-size:13px;color:var(--text3);line-height:1.6}
+        /* BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:60px 32px;max-width:1000px;margin:0 auto}
-.value-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center}
-.value-icon{font-size:32px;margin-bottom:12px}
-.value-name{font-size:16px;font-weight:600;margin-bottom:8px}
-.value-desc{font-size:13px;color:var(--text2);line-height:1.6}
+        html {
+            scroll-behavior: smooth;
+        }
 
-.footer{border-top:1px solid var(--border);padding:40px 32px;background:var(--bg2)}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
-.footer-col h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:12px}
-.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:8px;transition:.15s}
-.footer-col a:hover{color:var(--text)}
-.footer-col-brand{grid-column:1}
-.footer-col-brand .logo{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:600}
-.footer-copy{text-align:center;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);grid-column:1/-1}
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-@media(max-width:768px){
-  .team-grid{grid-template-columns:1fr;gap:16px}
-  .values-grid{grid-template-columns:1fr;gap:16px}
-  .page-header{padding:120px 20px 40px}
-  .section{padding:40px 20px}
-  .footer-inner{grid-template-columns:1fr 1fr;gap:20px}
-}
-@media(max-width:480px){
-  .nav-links a{display:none}
-  .page-title{font-size:32px}
-  .section h2{font-size:24px}
-  .footer-inner{grid-template-columns:1fr;gap:16px}
-}
-</style>
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 50%),
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ICON STYLING */
+        .icon-small {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
+        }
+
+        .icon-large {
+            width: 48px;
+            height: 48px;
+            stroke-width: 1;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        /* NAVIGATION */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #nav.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-login {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-login:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            padding: 11px 24px;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-10px);
+        }
+
+        #nav.mobile-open {
+            flex-direction: column;
+            align-items: flex-start;
+            height: auto;
+            padding: 16px 24px;
+            gap: 16px;
+        }
+
+        #nav.mobile-open .nav-center {
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        #nav.mobile-open .nav-right {
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (max-width: 1024px) {
+            #nav {
+                padding: 0 24px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* MAIN CONTENT */
+        main {
+            margin-top: 72px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 120px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 24px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+
+        /* SECTION STYLES */
+        section {
+            padding: 100px 40px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        section p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .section-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* MISSION SECTION */
+        .mission-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .mission-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 1.8;
+        }
+
+        /* STORY SECTION */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .story-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .story-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .story-item p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* TEAM SECTION */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-glow);
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .avatar.accent1 { background: linear-gradient(135deg, #10b981, #34d399); }
+        .avatar.accent2 { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .avatar.accent3 { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .avatar.accent4 { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .avatar.accent5 { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+        .avatar.accent6 { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+
+        .team-member h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .team-member .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .team-member p {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* VALUES SECTION */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            padding: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .value-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .value-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .cta-link:hover {
+            transform: translateX(4px);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border-light);
+            padding: 100px 40px 50px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                var(--accent-glow) 50%,
+                transparent 100%);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 60px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .footer-logo {
+            flex: 1;
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer-newsletter {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .newsletter-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .newsletter-button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background: var(--accent-light);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 0.12em;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .footer-column a {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-social {
+            color: var(--text-tertiary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-social:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+            footer {
+                padding: 80px 40px 40px 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 24px;
+            }
+
+            section h2 {
+                font-size: 28px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+
+            .footer-socials {
+                justify-content: center;
+            }
+
+            footer {
+                padding: 60px 24px 40px 24px;
+            }
+
+            .footer-header {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html"><div class="nav-mark">IQ</div>InferenceIQ</a>
-  <div class="nav-links">
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="https://awh233.github.io/inferenceiq">Docs</a>
-    <a href="blog.html">Blog</a>
-    <a href="changelog.html">Changelog</a>
-    <button class="cta-sm">Get Started</button>
-  </div>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+    <div class="nav-logo">
+        <div class="nav-dot"></div>
+        InferenceIQ
+    </div>
+    <div class="nav-center">
+        <a href="index.html#features" class="nav-link">Features</a>
+        <a href="index.html#pricing" class="nav-link">Pricing</a>
+        <a href="docs.html" class="nav-link">Docs</a>
+        <a href="index.html#changelog" class="nav-link">Changelog</a>
+    </div>
+    <div class="nav-right">
+        <a class="nav-login" href="index.html">Sign In</a>
+        <button class="btn btn-primary">Start Free Trial</button>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </nav>
 
-<main style="padding-top:64px">
-<div class="page-header">
-  <h1 class="page-title">Our Mission</h1>
-  <p style="font-size:18px;color:var(--text2);max-width:700px;margin:0 auto">Making AI accessible and affordable for every team, everywhere</p>
-</div>
+<!-- MAIN CONTENT -->
+<main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <h1>Building the future of AI infrastructure</h1>
+            <p>Making intelligent inference accessible to every team</p>
+        </div>
+    </section>
 
-<section class="section">
-  <h2>Our Story</h2>
-  <p>InferenceIQ was born from a simple observation: teams were spending thousands monthly on AI inference while optimizing inefficiently. We realized that with better routing, caching, and batch processing, we could cut costs by 40% without sacrificing quality.</p>
-  <p>Founded in 2025, we set out to build the infrastructure layer that every AI team needs—invisible, automatic, and incredibly effective. Today, we're helping companies optimize billions of tokens monthly.</p>
-</section>
+    <!-- MISSION SECTION -->
+    <section>
+        <div class="section-content">
+            <h2>Our Mission</h2>
+            <div class="mission-text">
+                Our mission is to make AI inference accessible, affordable, and reliable for every team.
+            </div>
+            <div class="mission-description">
+                We believe that advanced AI inference shouldn't be limited to companies with massive budgets. Today, many teams waste significant resources on inefficient inference pipelines. InferenceIQ was founded to democratize access to the best inference routing technology, enabling startups and enterprises alike to optimize their AI operations.
+            </div>
+        </div>
+    </section>
 
-<section class="section">
-  <h2>Company Values</h2>
-</section>
+    <!-- STORY SECTION -->
+    <section>
+        <div class="section-content">
+            <h2>Our Story</h2>
+            <div class="story-grid">
+                <div class="story-item">
+                    <h3>Founded in 2024</h3>
+                    <p>InferenceIQ was founded by a team of AI infrastructure experts who saw firsthand the challenges teams face when deploying inference at scale. We spent years working at leading AI companies and decided to build the solution we always wanted.</p>
+                </div>
+                <div class="story-item">
+                    <h3>Based in San Francisco</h3>
+                    <p>We're headquartered in San Francisco, at the heart of the AI innovation ecosystem. Our location allows us to stay close to customers, top talent, and the latest research in large language models and inference optimization.</p>
+                </div>
+                <div class="story-item">
+                    <h3>Backed by Top-Tier Investors</h3>
+                    <p>We're fortunate to be backed by leading venture capital firms and angel investors who share our vision. Their support enables us to invest in R&D and build the best product in the market.</p>
+                </div>
+                <div class="story-item">
+                    <h3>Growing Fast</h3>
+                    <p>From day one, we've focused on building a product that solves real problems. Our customers report 40-70% reductions in inference costs and 99.9% uptime with our platform. We're scaling rapidly to meet demand.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="values-grid">
-  <div class="value-card">
-    <div class="value-icon">💡</div>
-    <div class="value-name">Transparency</div>
-    <div class="value-desc">We believe you should know exactly where your money goes and how much you're saving on every request.</div>
-  </div>
-  <div class="value-card">
-    <div class="value-icon">⚡</div>
-    <div class="value-name">Efficiency</div>
-    <div class="value-desc">We obsess over optimizing every inference request. Faster, cheaper, better—always with zero code changes.</div>
-  </div>
-  <div class="value-card">
-    <div class="value-icon">🤝</div>
-    <div class="value-name">Partnership</div>
-    <div class="value-desc">Your success is our success. We partner with you to find the best optimization strategy for your unique workload.</div>
-  </div>
-</div>
+    <!-- TEAM SECTION -->
+    <section>
+        <div class="section-content">
+            <h2>Meet the Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="avatar accent1">AR</div>
+                    <h3>Alex Rivera</h3>
+                    <div class="title">CEO & Co-founder</div>
+                    <p>Former Senior Engineer at Anthropic. Built distributed systems for inference at scale. Stanford CS PhD.</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar accent2">SK</div>
+                    <h3>Sarah Kim</h3>
+                    <div class="title">CTO & Co-founder</div>
+                    <p>Previously at OpenAI leading infrastructure. Expertise in ML systems and GPU optimization. MIT grad.</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar accent3">JC</div>
+                    <h3>James Chen</h3>
+                    <div class="title">VP Engineering</div>
+                    <p>10+ years building backend systems. Led teams at Google on large-scale data infrastructure.</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar accent4">MP</div>
+                    <h3>Maya Patel</h3>
+                    <div class="title">Head of Product</div>
+                    <p>Ex-Notion, ex-Figma product manager. Passionate about building tools that developers love.</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar accent5">DO</div>
+                    <h3>David O'Brien</h3>
+                    <div class="title">Head of Sales</div>
+                    <p>Built sales at Stripe from early days. Deep expertise in B2B SaaS and enterprise growth.</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar accent6">LZ</div>
+                    <h3>Lisa Zhang</h3>
+                    <div class="title">Lead ML Engineer</div>
+                    <p>PhD in Machine Learning. Published research on model optimization and inference efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="section">
-  <h2>Our Team</h2>
-</section>
-
-<div class="team-grid">
-  <div class="team-member">
-    <div class="team-avatar">👨‍💼</div>
-    <div class="team-name">Drew Hutton</div>
-    <div class="team-role">Founder & CEO</div>
-    <div class="team-bio">L7 PMT at Amazon with 12+ years building infrastructure at scale. Led cost optimization initiatives saving billions in cloud compute.</div>
-  </div>
-  <div class="team-member">
-    <div class="team-avatar">👨‍💻</div>
-    <div class="team-name">Engineering Team</div>
-    <div class="team-role">ML & Backend Engineers</div>
-    <div class="team-bio">Former engineers from Anthropic, OpenAI, and Google. World-class team focused on making AI inference smarter and cheaper.</div>
-  </div>
-</div>
-
-<section class="section" style="background:linear-gradient(180deg,rgba(34,197,94,.02),transparent);margin:60px 0;padding:60px 32px;">
-  <h2>Backed By</h2>
-  <p style="margin-bottom:0">We're proud to be backed by leading venture capitalists and angel investors who believe in our mission to make AI affordable.</p>
-</section>
-
+    <!-- VALUES SECTION -->
+    <section>
+        <div class="section-content">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <h3>
+                        <i data-lucide="shield-check" class="icon-small"></i>
+                        Reliability First
+                    </h3>
+                    <p>We build systems our customers can depend on. 99.9% uptime SLA isn't negotiable—it's our minimum standard. Every decision is made with reliability in mind.</p>
+                </div>
+                <div class="value-card">
+                    <h3>
+                        <i data-lucide="users" class="icon-small"></i>
+                        Customer Obsessed
+                    </h3>
+                    <p>We listen deeply to our customers and let their needs drive our roadmap. Your success is our success, and we measure ourselves by the value we create for you.</p>
+                </div>
+                <div class="value-card">
+                    <h3>
+                        <i data-lucide="zap" class="icon-small"></i>
+                        Move Fast
+                    </h3>
+                    <p>We iterate quickly and aren't afraid to fail. Speed and learning go hand in hand. We ship faster than our competitors because we trust our instincts and verify with data.</p>
+                </div>
+                <div class="value-card">
+                    <h3>
+                        <i data-lucide="unlock" class="icon-small"></i>
+                        Open by Default
+                    </h3>
+                    <p>We believe in transparency. Open documentation, transparent pricing, and honest communication. No hidden fees, no surprises. We're building in public.</p>
+                </div>
+            </div>
+            <div class="cta-section">
+                <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 20px;">Interested in joining our mission?</p>
+                <a href="careers.html" class="cta-link">
+                    View Open Positions
+                    <i data-lucide="arrow-right" class="icon-small"></i>
+                </a>
+            </div>
+        </div>
+    </section>
 </main>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-col footer-col-brand">
-      <div class="logo"><div class="nav-mark" style="width:28px;height:28px;font-size:11px">IQ</div>InferenceIQ</div>
-      <p style="font-size:12px;color:var(--text3);line-height:1.6">Cut AI inference costs 40% without sacrificing quality. Transparent, instant, automatic.</p>
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <!-- Footer Header with Logo and Tagline -->
+        <div class="footer-header">
+            <div class="footer-logo">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                    <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                </div>
+                <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div class="footer-newsletter">
+                <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                <div class="newsletter-input-wrapper">
+                    <input type="email" class="newsletter-input" placeholder="your@email.com">
+                    <button class="newsletter-button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="api.html">API Reference</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Developers</h3>
+                <ul>
+                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                    <li><a href="docs.html">Documentation</a></li>
+                    <li><a href="#">SDKs</a></li>
+                    <li><a href="#">Status Page</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="#">Compliance</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                Copyright © 2025 InferenceIQ. All rights reserved.
+            </div>
+            <div class="footer-socials">
+                <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
+                <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
+                <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
+            </div>
+        </div>
     </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <a href="features.html">Features</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="index.html">Dashboard</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Docs</a>
-      <a href="https://pypi.org/project/inferenceiq/">SDK</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="careers.html">Careers</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h4>Resources</h4>
-      <a href="https://awh233.github.io/inferenceiq">Documentation</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Reference</a>
-      <a href="status.html">Status</a>
-      <a href="changelog.html">Changelog</a>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="security.html">Security</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
-  </div>
-  <div class="footer-copy">© 2026 InferenceIQ Inc. All rights reserved.</div>
 </footer>
+
+<script>
+    lucide.createIcons();
+
+    // Hamburger menu toggle
+    document.getElementById('hamburger').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.getElementById('nav').classList.toggle('mobile-open');
+    });
+
+    // Scroll behavior for nav
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('nav');
+        if (window.scrollY > 0) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-link, .nav-login').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('hamburger').classList.remove('active');
+            document.getElementById('nav').classList.remove('mobile-open');
+        });
+    });
+</script>
+
 </body>
 </html>

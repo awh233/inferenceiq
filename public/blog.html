@@ -1,168 +1,1043 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog — InferenceIQ</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2322c55e'/><text x='16' y='22' font-size='16' font-weight='bold' fill='white' text-anchor='middle' font-family='system-ui'>IQ</text></svg>">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#050507;--bg2:#09090b;--surface:#111114;--surface2:#18181b;
-  --border:rgba(255,255,255,.06);--border-h:rgba(255,255,255,.12);
-  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
-  --green:#22c55e;--green-dim:rgba(34,197,94,.15);--green-border:rgba(34,197,94,.25);
-  --blue:#3b82f6;--radius:10px;--radius-lg:16px;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-::selection{background:rgba(34,197,94,.25)}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - InferenceIQ</title>
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,7,.8);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;color:var(--text);transition:.2s}
-.nav-logo:hover{color:var(--green)}
-.nav-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a{padding:8px 16px;font-size:14px;color:var(--text2);text-decoration:none;border-radius:8px;transition:.15s}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
-.cta-sm{padding:8px 20px;background:var(--green);color:#fff;font-weight:600;font-size:14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .1s,box-shadow .15s}
-.cta-sm:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-.page-header{padding:140px 32px 60px;text-align:center;max-width:900px;margin:0 auto}
-.page-title{font-size:clamp(36px,6vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+    <style>
+        /* ROOT VARIABLES */
+        :root {
+            --bg: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-card-hover: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.08);
+            --border-light: rgba(255,255,255,0.03);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --text-muted: #52525b;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-glow: rgba(16,185,129,0.15);
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            --cyan: #06b6d4;
+        }
 
-.blog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;padding:60px 32px;max-width:1000px;margin:0 auto}
-.blog-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:border-color .2s,box-shadow .2s,transform .2s;cursor:pointer}
-.blog-card:hover{border-color:var(--border-h);box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateY(-2px)}
-.blog-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text3);margin-bottom:12px}
-.blog-tag{background:var(--green-dim);color:var(--green);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:500}
-.blog-title{font-size:18px;font-weight:600;margin-bottom:12px}
-.blog-excerpt{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:16px}
-.blog-more{font-size:13px;color:var(--green);font-weight:500;display:flex;align-items:center;gap:6px}
+        /* BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.footer{border-top:1px solid var(--border);padding:40px 32px;background:var(--bg2)}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
-.footer-col h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:12px}
-.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:8px;transition:.15s}
-.footer-col a:hover{color:var(--text)}
-.footer-col-brand{grid-column:1}
-.footer-col-brand .logo{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:600}
-.footer-copy{text-align:center;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);grid-column:1/-1}
+        html {
+            scroll-behavior: smooth;
+        }
 
-@media(max-width:768px){
-  .blog-grid{grid-template-columns:1fr;gap:16px;padding:60px 20px}
-  .page-header{padding:120px 20px 40px}
-  .footer-inner{grid-template-columns:1fr 1fr;gap:20px}
-}
-@media(max-width:480px){
-  .nav-links a{display:none}
-  .page-title{font-size:32px}
-  .blog-title{font-size:16px}
-  .footer-inner{grid-template-columns:1fr;gap:16px}
-}
-</style>
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 50%),
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ICON STYLING */
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke-width: 1.5;
+            color: currentColor;
+        }
+
+        .icon-small {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
+        }
+
+        .icon-large {
+            width: 48px;
+            height: 48px;
+            stroke-width: 1;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        /* NAVIGATION */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #nav.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-login {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-login:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            padding: 11px 24px;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.08);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+        }
+
+        .hamburger {
+            display: none;
+            width: 24px;
+            height: 24px;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(12px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-12px);
+        }
+
+        #nav.mobile-open {
+            flex-direction: column;
+            align-items: flex-start;
+            height: auto;
+            padding: 16px 24px;
+            gap: 16px;
+        }
+
+        #nav.mobile-open .nav-center {
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+            display: flex !important;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        #nav.mobile-open .nav-right {
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            #nav {
+                padding: 0 24px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* HERO */
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* FILTERS */
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 80px;
+            padding: 0 40px;
+        }
+
+        .filter-tag {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .filter-tag.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* BLOG GRID */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            margin-top: 60px;
+            padding: 0 40px;
+        }
+
+        .blog-featured {
+            grid-column: 1;
+        }
+
+        .blog-grid-posts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .blog-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .blog-card:hover::before {
+            opacity: 1;
+        }
+
+        .blog-featured .blog-card {
+            padding: 48px;
+            padding-bottom: 40px;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .tag-case-study {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .tag-guide {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .tag-update {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        .tag-engineering {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .tag-industry {
+            background: rgba(244, 63, 94, 0.2);
+            color: #fb7185;
+            border: 1px solid rgba(244, 63, 94, 0.4);
+        }
+
+        .tag-analysis {
+            background: rgba(6, 182, 212, 0.2);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .blog-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .blog-featured .blog-title {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .blog-excerpt {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .blog-featured .blog-excerpt {
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .blog-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .blog-date {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .blog-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .blog-link:hover {
+            color: var(--accent-light);
+            transform: translateX(4px);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border-light);
+            padding: 100px 40px 50px 40px;
+            position: relative;
+            z-index: 2;
+            margin-top: 120px;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right,
+                transparent 0%,
+                rgba(16, 185, 129, 0.3) 50%,
+                rgba(16, 185, 129, 0.2) 80%,
+                transparent 100%);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 80px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .footer-logo {
+            flex: 1;
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer-newsletter {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .newsletter-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .newsletter-button {
+            padding: 10px 16px;
+            background: var(--accent);
+            color: #000;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background: var(--accent-light);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .footer-column a {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-column a:hover {
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 48px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-social {
+            color: var(--text-tertiary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-social:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .blog-grid-posts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+            footer {
+                padding: 80px 40px 40px 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #nav {
+                padding: 0 24px;
+            }
+
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 60px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .filters {
+                padding: 0 24px;
+                margin-top: 60px;
+            }
+
+            .blog-grid {
+                padding: 0 24px;
+            }
+
+            .blog-grid-posts {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-featured .blog-card {
+                padding: 32px;
+            }
+
+            .blog-featured .blog-title {
+                font-size: 24px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+
+            .footer-socials {
+                justify-content: center;
+            }
+
+            footer {
+                padding: 60px 24px 40px 24px;
+                margin-top: 80px;
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html"><div class="nav-mark">IQ</div>InferenceIQ</a>
-  <div class="nav-links">
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="https://awh233.github.io/inferenceiq">Docs</a>
-    <a href="blog.html">Blog</a>
-    <a href="changelog.html">Changelog</a>
-    <button class="cta-sm">Get Started</button>
-  </div>
-</nav>
+    <!-- NAVIGATION -->
+    <nav id="nav">
+        <div class="nav-logo">
+            <span class="nav-dot"></span>
+            <span>InferenceIQ</span>
+        </div>
+        <div class="nav-center">
+            <a class="nav-link" href="index.html#features">Features</a>
+            <a class="nav-link" href="index.html#pricing">Pricing</a>
+            <a class="nav-link" href="docs.html">Docs</a>
+            <a class="nav-link" href="index.html#changelog">Changelog</a>
+        </div>
+        <div class="nav-right">
+            <a class="nav-login" href="#">Sign In</a>
+            <button class="btn btn-primary">Start Free Trial</button>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
 
-<main style="padding-top:64px">
-<div class="page-header">
-  <h1 class="page-title">Blog</h1>
-  <p style="font-size:18px;color:var(--text2)">Latest insights on AI optimization and cost reduction</p>
-</div>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">InferenceIQ Blog</h1>
+            <p class="hero-subtitle">Engineering insights, product updates, and AI infrastructure best practices</p>
+        </div>
 
-<section class="blog-grid">
-  <div class="blog-card">
-    <div class="blog-meta">
-      <span class="blog-tag">Product</span>
-      <span>Mar 7, 2026</span>
-    </div>
-    <div class="blog-title">Introducing InferenceIQ: Cut AI Costs 40%</div>
-    <div class="blog-excerpt">Today we're excited to announce InferenceIQ, the easiest way to optimize AI inference costs without sacrificing quality. Built for teams shipping AI-powered features.</div>
-    <div class="blog-more">Read more →</div>
-  </div>
+        <!-- FILTERS -->
+        <div class="filters">
+            <button class="filter-tag active" onclick="filterPosts('all')">All</button>
+            <button class="filter-tag" onclick="filterPosts('engineering')">Engineering</button>
+            <button class="filter-tag" onclick="filterPosts('product')">Product</button>
+            <button class="filter-tag" onclick="filterPosts('case-study')">Case Study</button>
+            <button class="filter-tag" onclick="filterPosts('guide')">Guide</button>
+            <button class="filter-tag" onclick="filterPosts('industry')">Industry</button>
+        </div>
+    </section>
 
-  <div class="blog-card">
-    <div class="blog-meta">
-      <span class="blog-tag">Engineering</span>
-      <span>Mar 5, 2026</span>
-    </div>
-    <div class="blog-title">How Semantic Caching Saves $10K/Month</div>
-    <div class="blog-excerpt">Discover how our semantic caching layer detects similar prompts and returns cached results instantly. Learn how one customer reduced costs by $10K monthly.</div>
-    <div class="blog-more">Read more →</div>
-  </div>
+    <!-- BLOG GRID -->
+    <section class="container" style="padding: 0;">
+        <div class="blog-grid">
+            <!-- FEATURED POST -->
+            <div class="blog-featured">
+                <div class="blog-card" data-category="case-study">
+                    <span class="blog-tag tag-case-study">Case Study</span>
+                    <h2 class="blog-title">How We Reduced Inference Costs by 73% for TechCorp</h2>
+                    <p class="blog-excerpt">TechCorp was spending $500K annually on AI inference across multiple providers. By implementing InferenceIQ's intelligent routing and cost optimization strategies, they reduced their monthly bill by $30K without compromising model quality or latency. Learn how we analyzed their workloads and configured the perfect provider mix.</p>
+                    <div class="blog-footer">
+                        <span class="blog-date">March 15, 2025</span>
+                        <a class="blog-link">Read case study <span>→</span></a>
+                    </div>
+                </div>
+            </div>
 
-  <div class="blog-card">
-    <div class="blog-meta">
-      <span class="blog-tag">Comparison</span>
-      <span>Mar 1, 2026</span>
-    </div>
-    <div class="blog-title">GPT-4o vs Claude: When to Use Which Model</div>
-    <div class="blog-excerpt">A practical guide to choosing between OpenAI's GPT-4o and Anthropic's Claude. We break down cost, quality, and latency across 15 benchmark tasks.</div>
-    <div class="blog-more">Read more →</div>
-  </div>
+            <!-- POSTS GRID -->
+            <div class="blog-grid-posts">
+                <!-- POST 2 -->
+                <div class="blog-card" data-category="guide">
+                    <span class="blog-tag tag-guide">Guide</span>
+                    <h3 class="blog-title">Understanding AI Provider Pricing: A Complete Guide</h3>
+                    <p class="blog-excerpt">Pricing models vary wildly across AI providers. This comprehensive guide breaks down token-based pricing, rate limiting, volume discounts, and hidden costs. We'll help you understand what you're really paying for and how to negotiate better rates.</p>
+                    <div class="blog-footer">
+                        <span class="blog-date">February 28, 2025</span>
+                        <a class="blog-link">Read more <span>→</span></a>
+                    </div>
+                </div>
 
-  <div class="blog-card">
-    <div class="blog-meta">
-      <span class="blog-tag">Insights</span>
-      <span>Feb 25, 2026</span>
-    </div>
-    <div class="blog-title">The Hidden Cost of AI: Why Most Teams Overpay 3x</div>
-    <div class="blog-excerpt">Most teams spend 3x more on AI inference than they need to. We analyzed 200+ companies and found the same optimization mistakes repeated everywhere.</div>
-    <div class="blog-more">Read more →</div>
-  </div>
-</section>
-</main>
+                <!-- POST 3 -->
+                <div class="blog-card" data-category="product">
+                    <span class="blog-tag tag-update">Product Update</span>
+                    <h3 class="blog-title">Introducing Advanced Routing Algorithms</h3>
+                    <p class="blog-excerpt">We've upgraded our routing engine with machine learning-based provider selection. The new algorithms predict provider performance and optimize for your specific latency and cost requirements in real-time. Early users see 15% additional cost savings.</p>
+                    <div class="blog-footer">
+                        <span class="blog-date">February 14, 2025</span>
+                        <a class="blog-link">Read more <span>→</span></a>
+                    </div>
+                </div>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-col footer-col-brand">
-      <div class="logo"><div class="nav-mark" style="width:28px;height:28px;font-size:11px">IQ</div>InferenceIQ</div>
-      <p style="font-size:12px;color:var(--text3);line-height:1.6">Cut AI inference costs 40% without sacrificing quality. Transparent, instant, automatic.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <a href="features.html">Features</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="index.html">Dashboard</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Docs</a>
-      <a href="https://pypi.org/project/inferenceiq/">SDK</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="careers.html">Careers</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h4>Resources</h4>
-      <a href="https://awh233.github.io/inferenceiq">Documentation</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Reference</a>
-      <a href="status.html">Status</a>
-      <a href="changelog.html">Changelog</a>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="security.html">Security</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
-  </div>
-  <div class="footer-copy">© 2026 InferenceIQ Inc. All rights reserved.</div>
-</footer>
+                <!-- POST 4 -->
+                <div class="blog-card" data-category="engineering">
+                    <span class="blog-tag tag-engineering">Engineering</span>
+                    <h3 class="blog-title">Building Reliable AI Systems with Automatic Failover</h3>
+                    <p class="blog-excerpt">Designing fault-tolerant AI systems is challenging. This technical deep dive covers our automatic failover mechanisms, health check strategies, and how we maintain sub-100ms latency even during provider outages. Essential reading for infrastructure engineers.</p>
+                    <div class="blog-footer">
+                        <span class="blog-date">January 30, 2025</span>
+                        <a class="blog-link">Read more <span>→</span></a>
+                    </div>
+                </div>
+
+                <!-- POST 5 -->
+                <div class="blog-card" data-category="industry">
+                    <span class="blog-tag tag-industry">Industry</span>
+                    <h3 class="blog-title">The Hidden Costs of AI Inference at Scale</h3>
+                    <p class="blog-excerpt">AI inference costs go beyond API charges. We analyzed 50+ companies and found hidden expenses: latency-induced retries, idle capacity, multi-provider overhead, and compliance costs. Most companies waste 40-60% of their AI budget on preventable inefficiencies.</p>
+                    <div class="blog-footer">
+                        <span class="blog-date">January 18, 2025</span>
+                        <a class="blog-link">Read more <span>→</span></a>
+                    </div>
+                </div>
+
+                <!-- POST 6 -->
+                <div class="blog-card" data-category="analysis">
+                    <span class="blog-tag tag-analysis">Analysis</span>
+                    <h3 class="blog-title">InferenceIQ vs. Building Your Own Router: Total Cost Analysis</h3>
+                    <p class="blog-excerpt">Thinking about building your own routing layer? We compared the total cost of ownership. Including development, maintenance, infrastructure, and opportunity cost, building in-house costs 3-5x more than using InferenceIQ. See the detailed breakdown and decision framework.</p>
+                    <div class="blog-footer">
+                        <span class="blog-date">December 22, 2024</span>
+                        <a class="blog-link">Read more <span>→</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-header">
+                <div class="footer-logo">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                        <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                    </div>
+                    <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+                </div>
+
+                <div class="footer-newsletter">
+                    <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                    <div class="newsletter-input-wrapper">
+                        <input type="email" class="newsletter-input" placeholder="your@email.com">
+                        <button class="newsletter-button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                        <li><a href="#">SDKs</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="status.html">Status Page</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    Copyright © 2025 InferenceIQ. All rights reserved.
+                </div>
+                <div class="footer-socials">
+                    <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
+                    <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
+                    <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 0) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            nav.classList.toggle('mobile-open');
+        });
+
+        // Filter functionality
+        function filterPosts(category) {
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.blog-card').forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.style.transition = 'opacity 0.3s ease';
+            card.style.opacity = '1';
+        });
+    </script>
 </body>
 </html>
