@@ -589,27 +589,23 @@
             margin-bottom: 12px;
         }
 
-        .hero-headline .gradient-text {
+        .hero-accent-line {
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
             background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 600;
-            display: block;
-            position: relative;
-            margin-top: 8px;
+            margin-bottom: 24px;
+            animation: fade-in-up 0.6s ease 0.25s both;
         }
 
-        .gradient-text::after {
-            display: none;
-        }
-
-        @keyframes blink {
-            display: none;
-        }
-
-        @keyframes typewriter {
-            display: none;
+        @media (max-width: 768px) {
+            .hero-accent-line {
+                font-size: 32px;
+            }
         }
 
         .hero-subtitle {
@@ -623,10 +619,11 @@
 
         .hero-buttons {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             animation: fade-in-up 0.6s ease 0.45s both;
             flex-wrap: wrap;
-            flex-direction: column;
+            flex-direction: row;
+            align-items: center;
         }
 
         .hero-social-proof {
@@ -4370,10 +4367,11 @@
                         <span class="hero-badge-text">73% Average Cost Reduction</span>
                     </div>
                     <h1 class="hero-headline">
-                        Cut inference costs<br>with <span class="gradient-text">intelligent routing</span>
+                        Stop overpaying<br>for AI inference
                     </h1>
+                    <p class="hero-accent-line">Save 73% automatically.</p>
                     <p class="hero-subtitle">
-                        Automatically route requests to the cheapest provider without sacrificing quality. Save thousands every month while maintaining zero latency impact.
+                        Route every request to the cheapest provider. Same quality, same speed, fraction of the cost.
                     </p>
                     <div class="hero-buttons">
                         <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')" style="cursor: pointer;">
@@ -6433,85 +6431,15 @@
     }
 
     function initParallax() {
-        const heroGlow = document.querySelector('.hero-glow');
-        if (!heroGlow) return;
-
-        window.addEventListener('scroll', function() {
-            requestAnimationFrame(function() {
-                const scrollY = window.scrollY;
-                heroGlow.style.transform = `translateX(-50%) translateY(${scrollY * 0.3}px)`;
-            });
-        });
+        // Removed - parallax causes jank
     }
 
     function initScrollProgressBar() {
-        window.addEventListener('scroll', function() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-
-            document.documentElement.style.setProperty('--scroll-progress', scrollPercent + '%');
-
-            // Update pseudo-element width
-            const html = document.documentElement;
-            const style = html.getAttribute('style') || '';
-            const progressBarStyle = document.createElement('style');
-            progressBarStyle.innerHTML = `html::before { width: ${scrollPercent}%; }`;
-
-            // Remove old style if exists
-            const oldStyle = document.querySelector('style[data-scroll-progress]');
-            if (oldStyle) oldStyle.remove();
-
-            progressBarStyle.setAttribute('data-scroll-progress', 'true');
-            document.head.appendChild(progressBarStyle);
-        });
+        // Removed - progress bar is visual clutter
     }
 
     function initTypewriterEffect() {
-        const gradientText = document.querySelector('.gradient-text');
-        if (!gradientText) return;
-
-        const phrases = [
-            'intelligent routing',
-            'smart caching',
-            'auto-scaling',
-            'cost optimization'
-        ];
-
-        let currentIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-
-        function typeEffect() {
-            const currentPhrase = phrases[currentIndex];
-
-            if (isDeleting) {
-                charIndex--;
-            } else {
-                charIndex++;
-            }
-
-            gradientText.textContent = currentPhrase.substring(0, charIndex);
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                setTimeout(() => {
-                    isDeleting = true;
-                    typeEffect();
-                }, 2000); // Pause before deleting
-                return;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                currentIndex = (currentIndex + 1) % phrases.length;
-                setTimeout(() => {
-                    typeEffect();
-                }, 500); // Pause before typing new phrase
-                return;
-            }
-
-            setTimeout(typeEffect, isDeleting ? 30 : 50);
-        }
-
-        typeEffect();
+        // Removed - static headline is cleaner
     }
 
     function initStickyBar() {
@@ -6573,31 +6501,8 @@
         if (feeEl) feeEl.textContent = '$' + ourFee.toLocaleString();
     }
 
-    // UPGRADE 11: MAGNETIC CURSOR EFFECT
-    function initMagneticButtons() {
-        const buttons = document.querySelectorAll('.btn-lg-primary');
-        buttons.forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                const distance = Math.sqrt(x * x + y * y);
-
-                if (distance < 100) {
-                    const strength = 1 - (distance / 100);
-                    const moveX = (x / distance) * strength * 4;
-                    const moveY = (y / distance) * strength * 4;
-                    btn.style.transform = `translateX(${moveX}px) translateY(${moveY}px)`;
-                } else {
-                    btn.style.transform = 'translateX(0) translateY(0)';
-                }
-            });
-
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translateX(0) translateY(0)';
-            });
-        });
-    }
+    // Magnetic buttons removed - causes twitchy behavior
+    function initMagneticButtons() { }
 
     // UPGRADE 8: COMPARISON GRID ANIMATION
     function initComparisonReveal() {
@@ -6624,61 +6529,14 @@
         observer.observe(grid);
     }
 
-    // UPGRADE 12: ENHANCED STAGGER OBSERVER
-    function initStaggeredReveal() {
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-            const children = section.querySelectorAll('[class*="item"], [class*="card"]');
-            if (children.length > 0) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const items = entry.target.querySelectorAll('[class*="item"], [class*="card"]');
-                            items.forEach((item, idx) => {
-                                item.style.transitionDelay = (idx * 80) + 'ms';
-                            });
-                        }
-                    });
-                }, { threshold: 0.05 });
+    // Staggered reveal removed - causes domino twitchiness
+    function initStaggeredReveal() { }
 
-                observer.observe(section);
-            }
-        });
-    }
+    // Code typing removed - static code blocks are cleaner
+    function initCodeTyping() { }
 
-    // UPGRADE 13: CODE TYPING ANIMATION
-    function initCodeTyping() {
-        const codeBlocks = document.querySelectorAll('.code-block');
-        codeBlocks.forEach(block => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const lines = entry.target.querySelectorAll('.code-line');
-                        lines.forEach((line, idx) => {
-                            line.style.animation = `code-type 0.5s ease forwards`;
-                            line.style.animationDelay = (idx * 200) + 'ms';
-                        });
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            observer.observe(block);
-        });
-    }
-
-    // UPGRADE 15: PARALLAX SCROLLING
-    function initAdvancedParallax() {
-        const heroGlow = document.querySelector('.hero-glow');
-        const dotGrid = document.querySelector('body::before');
-
-        window.addEventListener('scroll', () => {
-            if (heroGlow) {
-                const scrollY = window.scrollY;
-                heroGlow.style.transform = `translateX(-50%) translateY(${scrollY * 0.3}px)`;
-            }
-        });
-    }
+    // Advanced parallax removed - causes jank
+    function initAdvancedParallax() { }
 
     // UPGRADE 17: COMMAND PALETTE
     let commandPaletteOpen = false;
