@@ -90,6 +90,14 @@
             opacity: 1;
         }
 
+        #login-screen.active {
+            display: flex;
+        }
+
+        #dashboard-screen.active {
+            display: flex;
+        }
+
         a {
             color: inherit;
             text-decoration: none;
@@ -245,6 +253,7 @@
         .btn-primary:hover {
             background: var(--accent-light);
             transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
         }
 
         .btn-secondary {
@@ -256,6 +265,8 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
+            background: rgba(16, 185, 129, 0.05);
+            transform: translateY(-1px);
         }
 
         .btn-ghost {
@@ -436,7 +447,8 @@
         .btn-lg-primary:hover {
             background: var(--accent-light);
             transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.25);
+            letter-spacing: 0.5px;
         }
 
         .btn-lg-secondary {
@@ -448,7 +460,9 @@
         .btn-lg-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(16, 185, 129, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.15);
         }
 
         /* HERO MOCKUP */
@@ -561,6 +575,42 @@
         .mockup-main {
             padding: 24px;
             overflow: hidden;
+        }
+
+        .mockup-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 8px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .sparkline {
+            display: inline-flex;
+            gap: 1px;
+            align-items: flex-end;
+            margin-top: 4px;
+        }
+
+        .sparkline-bar {
+            width: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            opacity: 0.7;
         }
 
         .mockup-stats {
@@ -721,16 +771,20 @@
         }
 
         .trust-logo {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-muted);
-            opacity: 0.5;
+            opacity: 0.6;
             white-space: nowrap;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+            padding: 8px 16px;
+            border-radius: 6px;
         }
 
         .trust-logo:hover {
-            opacity: 0.8;
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         @media (max-width: 768px) {
@@ -777,7 +831,7 @@
 
         /* PERSONAS SECTION */
         .personas {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -904,6 +958,53 @@
             }
         }
 
+        /* SCROLL ANIMATIONS */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* PULSING ANIMATION FOR STATUS INDICATORS */
+        @keyframes pulse-glow {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+            }
+            50% {
+                opacity: 0.6;
+                box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+            }
+        }
+
+        .pulse-indicator {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* GRADIENT DIVIDERS */
+        .gradient-divider {
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(16, 185, 129, 0.3) 25%,
+                rgba(16, 185, 129, 0.5) 50%,
+                rgba(16, 185, 129, 0.3) 75%,
+                transparent 100%);
+            margin: 60px 0;
+            position: relative;
+        }
+
+        /* DOT PATTERN BACKGROUND */
+        .dot-pattern {
+            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
         @media (max-width: 1024px) {
             .metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -931,7 +1032,7 @@
 
         /* HOW IT WORKS SECTION */
         .how-it-works {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1022,7 +1123,7 @@
 
         /* INTEGRATION SECTION */
         .integration {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1173,7 +1274,7 @@
 
         /* PLATFORM FEATURES - BENTO GRID */
         .platform {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1241,6 +1342,8 @@
             gap: 8px;
             min-height: 100px;
             margin-top: 16px;
+            position: relative;
+            overflow: hidden;
         }
 
         .viz-node {
@@ -1254,12 +1357,111 @@
             justify-content: center;
             font-size: 10px;
             color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .viz-node:hover {
+            border-color: var(--accent-light);
+            background: rgba(16, 185, 129, 0.1);
+            transform: scale(1.1);
         }
 
         .viz-arrow {
             color: var(--accent);
             opacity: 0.5;
             animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* BENTO VIZ ENHANCEMENTS */
+        .viz-bars {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            justify-content: center;
+            height: 80px;
+            width: 100%;
+        }
+
+        .viz-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--accent), var(--accent-light));
+            border-radius: 4px 4px 0 0;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .viz-bar:hover {
+            opacity: 1;
+            transform: scaleY(1.1);
+        }
+
+        .viz-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .viz-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            transition: all 0.3s ease;
+        }
+
+        .viz-dot:hover {
+            transform: scale(1.15);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .viz-gauge {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .viz-gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 6px;
+            width: 72%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .viz-status {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .viz-status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .viz-status-dot.active {
+            background: var(--accent);
+        }
+
+        .viz-status-dot.inactive {
+            background: var(--rose);
+            animation: none;
+            opacity: 0.5;
         }
 
         @keyframes pulse {
@@ -1293,7 +1495,7 @@
 
         /* COMPARISON SECTION */
         .comparison {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1312,10 +1514,23 @@
             padding: 40px;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .comparison-card:nth-child(1) { animation-delay: 0.1s; }
         .comparison-card:nth-child(2) { animation-delay: 0.2s; }
+
+        .comparison-card:hover:not(.with-feature) {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+
+        .comparison-card.with-feature:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.08);
+            transform: translateY(-4px);
+        }
 
         .comparison-card.with-feature {
             border-color: rgba(16, 185, 129, 0.2);
@@ -1377,7 +1592,7 @@
 
         /* TESTIMONIALS SECTION */
         .testimonials {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1398,11 +1613,18 @@
             animation: fade-in-up 0.6s ease forwards;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
         .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
         .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .testimonial-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
 
         .stars {
             display: flex;
@@ -1412,6 +1634,7 @@
 
         .star {
             color: var(--amber);
+            fill: var(--amber);
         }
 
         .testimonial-text {
@@ -1453,7 +1676,7 @@
 
         /* PRICING SECTION */
         .pricing {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1482,10 +1705,23 @@
         .pricing-card:nth-child(2) { animation-delay: 0.2s; }
         .pricing-card:nth-child(3) { animation-delay: 0.3s; }
 
+        .pricing-card:hover:not(.featured) {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+
         .pricing-card.featured {
             border-color: var(--accent);
             background: rgba(16, 185, 129, 0.05);
             transform: scale(1.02);
+        }
+
+        .pricing-card.featured:hover {
+            border-color: var(--accent-light);
+            background: rgba(16, 185, 129, 0.1);
+            transform: scale(1.025) translateY(-4px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
         }
 
         .pricing-badge {
@@ -1576,7 +1812,7 @@
 
         /* CTA SECTION */
         .cta {
-            padding: 120px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
             text-align: center;
@@ -1644,6 +1880,21 @@
             z-index: 2;
         }
 
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(16, 185, 129, 0.3) 20%,
+                rgba(16, 185, 129, 0.5) 50%,
+                rgba(16, 185, 129, 0.3) 80%,
+                transparent 100%);
+        }
+
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -1702,12 +1953,20 @@
 
         .footer-social {
             color: var(--text-muted);
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
         }
 
         .footer-social:hover {
             color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateY(-2px);
         }
 
         @media (max-width: 1024px) {
@@ -2254,6 +2513,10 @@
                                 </div>
                             </div>
                             <div class="mockup-main">
+                                <div class="mockup-status">
+                                    <span class="status-indicator"></span>
+                                    Status: All Systems Operational
+                                </div>
                                 <div class="mockup-stats">
                                     <div class="stat-card">
                                         <div class="stat-label">Total Requests</div>
@@ -2264,6 +2527,13 @@
                                             <div class="chart-bar"></div>
                                             <div class="chart-bar active"></div>
                                             <div class="chart-bar"></div>
+                                        </div>
+                                        <div class="sparkline">
+                                            <div class="sparkline-bar" style="height: 8px;"></div>
+                                            <div class="sparkline-bar" style="height: 5px;"></div>
+                                            <div class="sparkline-bar" style="height: 9px;"></div>
+                                            <div class="sparkline-bar" style="height: 6px;"></div>
+                                            <div class="sparkline-bar" style="height: 10px;"></div>
                                         </div>
                                     </div>
                                     <div class="stat-card">
@@ -2276,6 +2546,13 @@
                                             <div class="chart-bar active"></div>
                                             <div class="chart-bar active"></div>
                                         </div>
+                                        <div class="sparkline">
+                                            <div class="sparkline-bar" style="height: 4px;"></div>
+                                            <div class="sparkline-bar" style="height: 7px;"></div>
+                                            <div class="sparkline-bar" style="height: 9px;"></div>
+                                            <div class="sparkline-bar" style="height: 10px;"></div>
+                                            <div class="sparkline-bar" style="height: 8px;"></div>
+                                        </div>
                                     </div>
                                     <div class="stat-card">
                                         <div class="stat-label">Avg Latency</div>
@@ -2287,6 +2564,13 @@
                                             <div class="chart-bar active"></div>
                                             <div class="chart-bar"></div>
                                         </div>
+                                        <div class="sparkline">
+                                            <div class="sparkline-bar" style="height: 6px;"></div>
+                                            <div class="sparkline-bar" style="height: 4px;"></div>
+                                            <div class="sparkline-bar" style="height: 5px;"></div>
+                                            <div class="sparkline-bar" style="height: 3px;"></div>
+                                            <div class="sparkline-bar" style="height: 5px;"></div>
+                                        </div>
                                     </div>
                                     <div class="stat-card">
                                         <div class="stat-label">Uptime</div>
@@ -2297,6 +2581,13 @@
                                             <div class="chart-bar active"></div>
                                             <div class="chart-bar active"></div>
                                             <div class="chart-bar active"></div>
+                                        </div>
+                                        <div class="sparkline">
+                                            <div class="sparkline-bar" style="height: 10px;"></div>
+                                            <div class="sparkline-bar" style="height: 10px;"></div>
+                                            <div class="sparkline-bar" style="height: 9px;"></div>
+                                            <div class="sparkline-bar" style="height: 10px;"></div>
+                                            <div class="sparkline-bar" style="height: 10px;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -2571,21 +2862,55 @@
                     <i data-lucide="bar-chart-3" class="icon bento-icon"></i>
                     <h3 class="bento-title">Cost Analytics</h3>
                     <p class="bento-description">Detailed breakdown by model, provider, and time period. Identify spending patterns and optimization opportunities instantly.</p>
+                    <div class="bento-viz">
+                        <div class="viz-bars">
+                            <div class="viz-bar" style="height: 35%;"></div>
+                            <div class="viz-bar" style="height: 55%;"></div>
+                            <div class="viz-bar" style="height: 42%;"></div>
+                            <div class="viz-bar" style="height: 70%;"></div>
+                            <div class="viz-bar" style="height: 48%;"></div>
+                            <div class="viz-bar" style="height: 65%;"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="bento-item">
                     <i data-lucide="layers" class="icon bento-icon"></i>
                     <h3 class="bento-title">Multi-Provider Support</h3>
                     <p class="bento-description">OpenAI, Anthropic, Cohere, Mistral, Together AI, Azure, AWS, GCP, and more. Mix and match for optimal results.</p>
+                    <div class="bento-viz">
+                        <div class="viz-dots">
+                            <div class="viz-dot" style="background: rgba(59, 130, 246, 0.2); border-color: rgb(59, 130, 246);">A</div>
+                            <div class="viz-dot" style="background: rgba(16, 185, 129, 0.2); border-color: rgb(16, 185, 129);">G</div>
+                            <div class="viz-dot" style="background: rgba(139, 92, 246, 0.2); border-color: rgb(139, 92, 246);">M</div>
+                            <div class="viz-dot" style="background: rgba(245, 158, 11, 0.2); border-color: rgb(245, 158, 11);">O</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="bento-item">
                     <i data-lucide="shield" class="icon bento-icon"></i>
                     <h3 class="bento-title">Rate Limiting</h3>
                     <p class="bento-description">Automatic rate limiting, burst protection, and quota management across all providers with configurable thresholds.</p>
+                    <div class="bento-viz">
+                        <div style="width: 100%;">
+                            <div class="viz-gauge">
+                                <div class="viz-gauge-fill" style="width: 72%;"></div>
+                            </div>
+                            <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 8px; text-align: center;">720/1000 reqs</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="bento-item">
                     <i data-lucide="repeat" class="icon bento-icon"></i>
                     <h3 class="bento-title">Model Fallbacks</h3>
                     <p class="bento-description">Define fallback chains so requests automatically retry with alternative models if the primary fails or is rate limited.</p>
+                    <div class="bento-viz">
+                        <div class="viz-status">
+                            <div class="viz-status-dot active"></div>
+                            <div class="viz-status-dot active"></div>
+                            <div class="viz-status-dot inactive"></div>
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-left: 8px;">2/3 Active</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3204,6 +3529,47 @@
     function scrollToSection(sectionId) {
         console.log('Scrolling to section:', sectionId);
     }
+
+    // INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
+    function initScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements that should fade in on scroll
+        const fadeInElements = document.querySelectorAll(
+            '.section-label, .section-title, .persona-card, .metric-item, ' +
+            '.step, .bento-item, .comparison-card, .testimonial-card, .pricing-card'
+        );
+
+        fadeInElements.forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+    }
+
+    // Initialize scroll animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initScrollAnimations, 100);
+    });
+
+    // Re-initialize on screen switch
+    const originalSwitchScreen = switchScreen;
+    switchScreen = function(screenName) {
+        originalSwitchScreen(screenName);
+        if (screenName === 'landing') {
+            setTimeout(initScrollAnimations, 200);
+        }
+    };
 </script>
 
 </body>
