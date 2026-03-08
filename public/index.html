@@ -2158,6 +2158,8 @@ const response = await client.chat.completions.create({
         }
 
         // Chart initialization for dashboard
+        let costChartInstance = null;
+        let providerChartInstance = null;
         function initCharts() {
             setTimeout(() => {
                 const costCtx = document.getElementById('costChart');
@@ -2165,7 +2167,11 @@ const response = await client.chat.completions.create({
 
                 if (!costCtx || !providerCtx) return;
 
-                new Chart(costCtx, {
+                // Destroy existing charts before recreating
+                if (costChartInstance) { costChartInstance.destroy(); costChartInstance = null; }
+                if (providerChartInstance) { providerChartInstance.destroy(); providerChartInstance = null; }
+
+                costChartInstance = new Chart(costCtx, {
                     type: 'line',
                     data: {
                         labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
@@ -2208,7 +2214,7 @@ const response = await client.chat.completions.create({
                     }
                 });
 
-                new Chart(providerCtx, {
+                providerChartInstance = new Chart(providerCtx, {
                     type: 'doughnut',
                     data: {
                         labels: ['OpenAI', 'Anthropic', 'Google', 'AWS'],
