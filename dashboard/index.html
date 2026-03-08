@@ -17,10 +17,10 @@
         :root {
             --bg: #0a0a0a;
             --bg-elevated: #111111;
-            --bg-card: rgba(255,255,255,0.03);
-            --bg-card-hover: rgba(255,255,255,0.06);
-            --border: rgba(255,255,255,0.08);
-            --border-light: rgba(255,255,255,0.04);
+            --bg-card: rgba(255,255,255,0.02);
+            --bg-card-hover: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.06);
+            --border-light: rgba(255,255,255,0.03);
             --text-primary: #fafafa;
             --text-secondary: #a1a1aa;
             --text-tertiary: #71717a;
@@ -71,9 +71,9 @@
             width: 100%;
             height: 100%;
             background-image:
-                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.02) 0%, transparent 50%),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="rgba(255,255,255,0.015)" width="100" height="100"/><circle cx="50" cy="50" r="0.5" fill="rgba(255,255,255,0.02)"/></svg>');
+                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.02) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.015) 0%, transparent 50%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="rgba(255,255,255,0.012)" width="100" height="100"/><circle cx="50" cy="50" r="0.5" fill="rgba(255,255,255,0.015)"/></svg>');
             background-size: 100% 100%, 100% 100%, 24px 24px;
             pointer-events: none;
             z-index: 1;
@@ -171,7 +171,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 40px;
-            background: rgba(10, 10, 10, 0.7);
+            background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid transparent;
             z-index: 1000;
@@ -185,10 +185,11 @@
         .nav-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 18px;
+            gap: 8px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
 
         .nav-dot {
@@ -206,10 +207,11 @@
 
         .nav-link {
             font-size: 14px;
-            font-weight: 400;
-            color: var(--text-tertiary);
-            transition: color 0.3s ease;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
 
         .nav-link:hover {
@@ -217,10 +219,19 @@
         }
 
         .nav-link.active {
-            color: var(--accent);
-            font-weight: 500;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 2px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
         }
 
         .nav-right {
@@ -232,7 +243,7 @@
         .nav-login {
             font-size: 14px;
             font-weight: 500;
-            color: var(--text-tertiary);
+            color: var(--text-secondary);
             cursor: pointer;
             transition: color 0.3s ease;
         }
@@ -255,12 +266,13 @@
             background: var(--accent);
             color: #000;
             padding: 11px 24px;
+            font-weight: 700;
         }
 
         .btn-primary:hover {
             background: var(--accent-light);
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
         }
 
         .btn-secondary {
@@ -342,23 +354,6 @@
             margin-top: 16px;
         }
 
-        /* Smooth transitions for nav links on hover */
-        .nav-link {
-            position: relative;
-        }
-
-        .nav-link:hover::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent);
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-
         @media (max-width: 1024px) {
             #nav {
                 padding: 0 24px;
@@ -381,28 +376,28 @@
         /* HERO SECTION */
         .hero {
             position: relative;
-            padding: 140px 40px 100px 40px;
+            padding: 200px 40px 120px 40px;
             margin-top: 72px;
             overflow: hidden;
         }
 
         .hero-glow {
             position: absolute;
-            top: -200px;
+            top: -300px;
             left: 50%;
             transform: translateX(-50%);
-            width: 1200px;
-            height: 600px;
+            width: 1400px;
+            height: 800px;
             background: conic-gradient(from 180deg at 50% 50%,
-                rgba(16,185,129,0.3) 0deg,
-                rgba(139,92,246,0.2) 90deg,
-                rgba(59,130,246,0.2) 180deg,
-                rgba(6,182,212,0.15) 270deg,
-                rgba(16,185,129,0.3) 360deg);
-            filter: blur(100px);
-            opacity: 0.6;
+                rgba(16,185,129,0.25) 0deg,
+                rgba(139,92,246,0.15) 90deg,
+                rgba(59,130,246,0.15) 180deg,
+                rgba(6,182,212,0.12) 270deg,
+                rgba(16,185,129,0.25) 360deg);
+            filter: blur(120px);
+            opacity: 0.7;
             z-index: 0;
-            animation: slow-rotate 20s linear infinite;
+            animation: slow-rotate 25s linear infinite;
         }
 
         @keyframes slow-rotate {
@@ -415,7 +410,7 @@
             z-index: 2;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 80px;
             align-items: center;
             margin: 0 auto;
             max-width: 1400px;
@@ -424,7 +419,7 @@
         .hero-left {
             display: flex;
             flex-direction: column;
-            gap: 32px;
+            gap: 40px;
         }
 
         .hero-badge {
@@ -433,10 +428,11 @@
             gap: 8px;
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 20px;
-            padding: 10px 16px;
+            border-radius: 24px;
+            padding: 12px 18px;
             width: fit-content;
             animation: fade-in-up 0.6s ease 0s;
+            font-size: 13px;
         }
 
         .hero-badge i {
@@ -444,15 +440,16 @@
         }
 
         .hero-badge-text {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--accent);
+            letter-spacing: 0.02em;
         }
 
         .hero-headline {
-            font-size: clamp(3.5rem, 6vw, 5.5rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
+            font-size: clamp(3.5rem, 6.5vw, 6.5rem);
+            font-weight: 300;
+            letter-spacing: -0.05em;
             line-height: 1.05;
             color: var(--text-primary);
             animation: fade-in-up 0.6s ease 0.15s both;
@@ -463,28 +460,29 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 400;
         }
 
         .hero-subtitle {
             font-size: 18px;
             font-weight: 400;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-secondary);
-            max-width: 500px;
+            max-width: 520px;
             animation: fade-in-up 0.6s ease 0.3s both;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             animation: fade-in-up 0.6s ease 0.45s both;
             flex-wrap: wrap;
         }
 
         .btn-lg {
-            padding: 14px 32px;
+            padding: 15px 36px;
             border-radius: 10px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -492,27 +490,26 @@
         .btn-lg-primary {
             background: var(--accent);
             color: #000;
+            font-weight: 700;
         }
 
         .btn-lg-primary:hover {
             background: var(--accent-light);
             transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.25);
-            letter-spacing: 0.5px;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
         }
 
         .btn-lg-secondary {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
         }
 
         .btn-lg-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(16, 185, 129, 0.08);
+            background: rgba(16, 185, 129, 0.05);
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.15);
         }
 
         /* HERO MOCKUP */
@@ -526,9 +523,9 @@
         }
 
         .mockup-container {
-            perspective: 2000px;
+            perspective: 1800px;
             width: 100%;
-            max-width: 500px;
+            max-width: 540px;
         }
 
         .mockup-window {
@@ -536,29 +533,29 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            transform: perspective(2000px) rotateY(-8deg) rotateX(2deg);
-            transition: transform 0.3s ease;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 100px rgba(16, 185, 129, 0.1);
+            transform: perspective(1800px) rotateY(-8deg) rotateX(2deg);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: float 8s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: perspective(2000px) rotateY(-8deg) rotateX(2deg) translateY(0px); }
-            50% { transform: perspective(2000px) rotateY(-8deg) rotateX(2deg) translateY(-20px); }
+            0%, 100% { transform: perspective(1800px) rotateY(-8deg) rotateX(2deg) translateY(0px); }
+            50% { transform: perspective(1800px) rotateY(-8deg) rotateX(2deg) translateY(-24px); }
         }
 
         .mockup-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 16px;
+            padding: 14px 20px;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
         }
 
         .mockup-controls {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .mockup-dot {
@@ -571,12 +568,16 @@
         .mockup-dot.yellow { background: #ffbd2e; }
         .mockup-dot.green { background: #27c93f; }
 
-        .mockup-title {
+        .mockup-url {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text-tertiary);
             flex: 1;
             text-align: center;
+            background: rgba(255,255,255,0.02);
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.04);
         }
 
         .mockup-content {
@@ -587,7 +588,7 @@
         }
 
         .mockup-sidebar {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.015);
             border-right: 1px solid var(--border);
             padding: 16px 0;
             display: flex;
@@ -623,7 +624,7 @@
         }
 
         .mockup-main {
-            padding: 24px;
+            padding: 28px;
             overflow: hidden;
         }
 
@@ -631,11 +632,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 16px;
-            padding: 8px 12px;
+            margin-bottom: 20px;
+            padding: 10px 14px;
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 11px;
             color: var(--accent);
             font-weight: 600;
@@ -649,52 +650,39 @@
             animation: pulse-glow 2s ease-in-out infinite;
         }
 
-        .sparkline {
-            display: inline-flex;
-            gap: 1px;
-            align-items: flex-end;
-            margin-top: 4px;
-        }
-
-        .sparkline-bar {
-            width: 2px;
-            background: var(--accent);
-            border-radius: 1px;
-            opacity: 0.7;
-        }
-
         .mockup-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 14px;
+            margin-bottom: 28px;
         }
 
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 12px;
+            padding: 14px;
         }
 
         .stat-label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-tertiary);
             margin-bottom: 4px;
+            font-weight: 500;
         }
 
         .stat-value {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .stat-chart {
             display: flex;
             gap: 2px;
             align-items: flex-end;
-            height: 20px;
+            height: 24px;
         }
 
         .chart-bar {
@@ -708,25 +696,6 @@
             opacity: 1;
         }
 
-        .mockup-chart {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 16px;
-            height: 80px;
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-        }
-
-        .chart-column {
-            flex: 1;
-            background: linear-gradient(180deg, var(--accent), var(--accent-light));
-            border-radius: 2px;
-            opacity: 0.8;
-        }
-
         .mockup-table {
             font-size: 10px;
             color: var(--text-secondary);
@@ -735,7 +704,7 @@
         .table-row {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
+            padding: 8px 0;
             border-bottom: 1px solid var(--border-light);
         }
 
@@ -750,11 +719,11 @@
         @media (max-width: 1200px) {
             .hero-content {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 60px;
             }
 
             .hero {
-                padding: 100px 40px 60px 40px;
+                padding: 140px 40px 80px 40px;
             }
 
             .hero-mockup {
@@ -762,17 +731,17 @@
             }
 
             .mockup-window {
-                max-width: 400px;
+                max-width: 420px;
             }
         }
 
         @media (max-width: 768px) {
             .hero {
-                padding: 80px 24px 60px 24px;
+                padding: 100px 24px 80px 24px;
             }
 
             .hero-headline {
-                font-size: clamp(2.5rem, 5vw, 3.5rem);
+                font-size: clamp(2.5rem, 5.5vw, 4rem);
             }
 
             .hero-subtitle {
@@ -793,27 +762,27 @@
             }
         }
 
-        /* TRUST BAR */
+        /* TRUST BAR - LOGO CLOUD */
         .trust-bar {
             border-top: 1px solid var(--border-light);
             border-bottom: 1px solid var(--border-light);
-            padding: 60px 40px;
-            background: rgba(255, 255, 255, 0.01);
+            padding: 80px 40px;
+            background: rgba(255, 255, 255, 0.005);
         }
 
         .trust-label {
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
             color: var(--text-muted);
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .trust-logos {
             display: flex;
-            gap: 60px;
+            gap: 80px;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
@@ -824,64 +793,62 @@
             font-size: 13px;
             font-weight: 700;
             color: var(--text-muted);
-            opacity: 0.6;
+            opacity: 0.45;
             white-space: nowrap;
             transition: all 0.3s ease;
             letter-spacing: 0.02em;
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 8px 0;
         }
 
         .trust-logo:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.05);
+            opacity: 0.85;
         }
 
         @media (max-width: 768px) {
             .trust-bar {
-                padding: 40px 24px;
+                padding: 60px 24px;
             }
 
             .trust-logos {
-                gap: 30px;
+                gap: 40px;
             }
 
-            .trust-logo {
-                font-size: 12px;
+            .trust-label {
+                margin-bottom: 40px;
             }
         }
 
         /* SECTION LABELS & TITLES */
         .section-label {
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-muted);
-            margin-bottom: 16px;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 20px;
         }
 
         .section-title {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
+            font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+            font-weight: 300;
+            letter-spacing: -0.04em;
             line-height: 1.1;
             color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .section-subtitle {
             font-size: 18px;
             font-weight: 400;
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 60px;
-            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 80px;
+            max-width: 620px;
         }
 
         /* PERSONAS SECTION */
         .personas {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -889,14 +856,14 @@
         .personas-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 28px;
         }
 
         .persona-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 40px;
+            padding: 44px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             opacity: 0;
@@ -909,26 +876,26 @@
 
         .persona-card:hover {
             background: var(--bg-card-hover);
-            border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-6px);
         }
 
         .persona-icon {
             color: var(--accent);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .persona-title {
-            font-size: 20px;
+            font-size: 21px;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .persona-description {
             font-size: 15px;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         @media (max-width: 1024px) {
@@ -937,13 +904,13 @@
             }
 
             .personas {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .personas {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
         }
 
@@ -952,7 +919,7 @@
             background: var(--bg-elevated);
             border-top: 1px solid var(--border-light);
             border-bottom: 1px solid var(--border-light);
-            padding: 80px 40px;
+            padding: 120px 40px;
             position: relative;
             z-index: 2;
         }
@@ -960,7 +927,7 @@
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
+            gap: 60px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -977,15 +944,15 @@
         .metric-item:nth-child(4) { animation-delay: 0.3s; }
 
         .metric-number {
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
-            font-weight: 800;
+            font-size: clamp(2.8rem, 5vw, 4rem);
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             line-height: 1;
         }
 
         .metric-label {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -1036,33 +1003,14 @@
             animation: pulse-glow 2s ease-in-out infinite;
         }
 
-        /* GRADIENT DIVIDERS */
-        .gradient-divider {
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(16, 185, 129, 0.3) 25%,
-                rgba(16, 185, 129, 0.5) 50%,
-                rgba(16, 185, 129, 0.3) 75%,
-                transparent 100%);
-            margin: 60px 0;
-            position: relative;
-        }
-
-        /* DOT PATTERN BACKGROUND */
-        .dot-pattern {
-            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-
         @media (max-width: 1024px) {
             .metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
+                gap: 40px;
             }
 
             .metrics-bar {
-                padding: 60px 40px;
+                padding: 80px 40px;
             }
         }
 
@@ -1072,17 +1020,17 @@
             }
 
             .metrics-bar {
-                padding: 40px 24px;
+                padding: 60px 24px;
             }
 
             .metric-number {
-                font-size: clamp(2rem, 3vw, 2.5rem);
+                font-size: clamp(2rem, 4vw, 2.8rem);
             }
         }
 
         /* HOW IT WORKS SECTION */
         .how-it-works {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1090,8 +1038,8 @@
         .steps-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 60px;
-            margin-top: 80px;
+            gap: 80px;
+            margin-top: 100px;
         }
 
         .step {
@@ -1105,24 +1053,24 @@
 
         .step-number {
             font-size: 72px;
-            font-weight: 800;
+            font-weight: 700;
             background: linear-gradient(135deg, var(--accent), var(--cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
             line-height: 1;
         }
 
         .step-line {
-            width: 40px;
+            width: 48px;
             height: 2px;
             background: var(--accent);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .step-title {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 16px;
@@ -1131,15 +1079,15 @@
         .step-description {
             font-size: 15px;
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.7;
+            margin-bottom: 28px;
         }
 
         .step-code {
             background: var(--bg-elevated);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 18px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             color: var(--text-secondary);
@@ -1153,17 +1101,17 @@
         @media (max-width: 1024px) {
             .steps-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 60px;
             }
 
             .how-it-works {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .how-it-works {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
 
             .step-number {
@@ -1173,7 +1121,7 @@
 
         /* INTEGRATION SECTION */
         .integration {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1181,7 +1129,7 @@
         .integration-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: 100px;
             align-items: flex-start;
         }
 
@@ -1191,22 +1139,22 @@
         }
 
         .integration-title {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 32px;
+            margin-bottom: 40px;
         }
 
         .integration-bullets {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 24px;
+            margin-bottom: 40px;
         }
 
         .bullet {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             align-items: flex-start;
         }
 
@@ -1217,16 +1165,16 @@
         }
 
         .bullet-text {
-            font-size: 15px;
+            font-size: 16px;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .integration-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 15px;
+            gap: 10px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--accent);
             cursor: pointer;
@@ -1234,7 +1182,7 @@
         }
 
         .integration-link:hover {
-            gap: 12px;
+            gap: 14px;
         }
 
         .integration-right {
@@ -1253,7 +1201,7 @@
         .code-header {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
-            padding: 12px 16px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1261,23 +1209,23 @@
 
         .code-language {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
         }
 
         .code-content {
-            padding: 24px;
+            padding: 28px;
             overflow-x: auto;
             font-size: 13px;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-secondary);
         }
 
         .code-line {
             display: flex;
-            gap: 12px;
+            gap: 14px;
         }
 
         .code-number {
@@ -1299,32 +1247,32 @@
         @media (max-width: 1024px) {
             .integration-content {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 60px;
             }
 
             .integration {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .integration {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
 
             .integration-title {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .code-content {
-                padding: 16px;
+                padding: 18px;
                 font-size: 12px;
             }
         }
 
         /* PLATFORM FEATURES - BENTO GRID */
         .platform {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1332,15 +1280,15 @@
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 80px;
+            gap: 24px;
+            margin-top: 100px;
         }
 
         .bento-item {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 32px;
+            padding: 40px;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
             cursor: pointer;
@@ -1350,7 +1298,8 @@
         .bento-item:hover {
             background: var(--bg-card-hover);
             border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-4px);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
         }
 
         .bento-item:nth-child(1) {
@@ -1365,43 +1314,43 @@
 
         .bento-icon {
             color: var(--accent);
-            margin-bottom: 20px;
-        }
-
-        .bento-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-
-        .bento-description {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
             margin-bottom: 24px;
         }
 
+        .bento-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+        }
+
+        .bento-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
         .bento-viz {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-            padding: 24px 16px;
+            background: rgba(255, 255, 255, 0.015);
+            border-radius: 10px;
+            padding: 28px 20px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 8px;
-            min-height: 100px;
-            margin-top: 16px;
+            gap: 10px;
+            min-height: 120px;
+            margin-top: 20px;
             position: relative;
             overflow: hidden;
         }
 
         .viz-node {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background: var(--bg-elevated);
-            border: 1px solid var(--accent);
-            border-radius: 8px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1411,24 +1360,18 @@
         }
 
         .viz-node:hover {
-            border-color: var(--accent-light);
+            border-color: var(--accent);
             background: rgba(16, 185, 129, 0.1);
             transform: scale(1.1);
-        }
-
-        .viz-arrow {
-            color: var(--accent);
-            opacity: 0.5;
-            animation: pulse 2s ease-in-out infinite;
         }
 
         /* BENTO VIZ ENHANCEMENTS */
         .viz-bars {
             display: flex;
-            gap: 4px;
+            gap: 6px;
             align-items: flex-end;
             justify-content: center;
-            height: 80px;
+            height: 100px;
             width: 100%;
         }
 
@@ -1438,6 +1381,7 @@
             border-radius: 4px 4px 0 0;
             opacity: 0.8;
             transition: all 0.3s ease;
+            min-height: 10px;
         }
 
         .viz-bar:hover {
@@ -1447,15 +1391,15 @@
 
         .viz-dots {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .viz-dot {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid var(--border);
             display: flex;
@@ -1475,9 +1419,9 @@
 
         .viz-gauge {
             width: 100%;
-            height: 12px;
+            height: 14px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             position: relative;
         }
@@ -1485,14 +1429,14 @@
         .viz-gauge-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--accent), var(--accent-light));
-            border-radius: 6px;
+            border-radius: 8px;
             width: 72%;
             transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .viz-status {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             align-items: center;
             justify-content: center;
         }
@@ -1529,7 +1473,7 @@
             }
 
             .platform {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
@@ -1539,13 +1483,13 @@
             }
 
             .platform {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
         }
 
         /* COMPARISON SECTION */
         .comparison {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1553,15 +1497,15 @@
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 80px;
+            gap: 48px;
+            margin-top: 100px;
         }
 
         .comparison-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 40px;
+            padding: 44px;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1573,13 +1517,13 @@
         .comparison-card:hover:not(.with-feature) {
             border-color: rgba(255, 255, 255, 0.12);
             background: var(--bg-card-hover);
-            transform: translateY(-4px);
+            transform: translateY(-6px);
         }
 
         .comparison-card.with-feature:hover {
             border-color: rgba(16, 185, 129, 0.3);
             background: rgba(16, 185, 129, 0.08);
-            transform: translateY(-4px);
+            transform: translateY(-6px);
         }
 
         .comparison-card.with-feature {
@@ -1588,22 +1532,22 @@
         }
 
         .comparison-title {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 32px;
+            margin-bottom: 36px;
         }
 
         .comparison-items {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
         }
 
         .comparison-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             font-size: 15px;
             color: var(--text-secondary);
         }
@@ -1626,23 +1570,23 @@
             }
 
             .comparison {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .comparison {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
 
             .comparison-card {
-                padding: 24px;
+                padding: 28px;
             }
         }
 
         /* TESTIMONIALS SECTION */
         .testimonials {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1650,15 +1594,15 @@
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 80px;
+            gap: 28px;
+            margin-top: 100px;
         }
 
         .testimonial-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 32px;
+            padding: 36px;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
             display: flex;
@@ -1673,13 +1617,13 @@
         .testimonial-card:hover {
             border-color: rgba(16, 185, 129, 0.3);
             background: var(--bg-card-hover);
-            transform: translateY(-4px);
+            transform: translateY(-6px);
         }
 
         .stars {
             display: flex;
-            gap: 4px;
-            margin-bottom: 16px;
+            gap: 6px;
+            margin-bottom: 20px;
         }
 
         .star {
@@ -1691,20 +1635,20 @@
             font-size: 15px;
             color: var(--text-secondary);
             font-style: italic;
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.7;
+            margin-bottom: 28px;
             flex: 1;
         }
 
         .testimonial-author {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 4px;
         }
 
         .testimonial-role {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-tertiary);
         }
 
@@ -1714,19 +1658,19 @@
             }
 
             .testimonials {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .testimonials {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
         }
 
         /* PRICING SECTION */
         .pricing {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1734,21 +1678,22 @@
         .pricing-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 80px;
+            gap: 28px;
+            margin-top: 100px;
         }
 
         .pricing-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 40px;
+            padding: 44px;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
             display: flex;
             flex-direction: column;
             position: relative;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100%;
         }
 
         .pricing-card:nth-child(1) { animation-delay: 0.1s; }
@@ -1758,65 +1703,66 @@
         .pricing-card:hover:not(.featured) {
             border-color: rgba(255, 255, 255, 0.12);
             background: var(--bg-card-hover);
-            transform: translateY(-4px);
+            transform: translateY(-6px);
         }
 
         .pricing-card.featured {
-            border-color: var(--accent);
-            background: rgba(16, 185, 129, 0.05);
+            border: 1.5px solid var(--accent);
+            background: rgba(16, 185, 129, 0.04);
             transform: scale(1.02);
         }
 
         .pricing-card.featured:hover {
             border-color: var(--accent-light);
-            background: rgba(16, 185, 129, 0.1);
-            transform: scale(1.025) translateY(-4px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.08);
+            transform: scale(1.025) translateY(-6px);
+            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.15);
         }
 
         .pricing-badge {
             position: absolute;
-            top: -12px;
-            right: 24px;
+            top: -14px;
+            right: 28px;
             background: var(--accent);
             color: #000;
-            padding: 6px 16px;
-            border-radius: 20px;
+            padding: 7px 18px;
+            border-radius: 24px;
             font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
         }
 
         .pricing-name {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .pricing-description {
             font-size: 14px;
             color: var(--text-secondary);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .pricing-price {
-            font-size: 48px;
-            font-weight: 800;
+            font-size: 52px;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            line-height: 1;
         }
 
         .pricing-period {
             font-size: 14px;
             color: var(--text-tertiary);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .pricing-button {
             width: 100%;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .pricing-features {
@@ -1850,49 +1796,49 @@
             }
 
             .pricing {
-                padding: 80px 40px;
+                padding: 100px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .pricing {
-                padding: 60px 24px;
+                padding: 80px 24px;
             }
         }
 
         /* CTA SECTION */
         .cta {
-            padding: 100px 40px;
+            padding: 140px 40px;
             position: relative;
             z-index: 2;
             text-align: center;
         }
 
         .cta-content {
-            max-width: 700px;
+            max-width: 780px;
             margin: 0 auto;
             opacity: 0;
             animation: fade-in-up 0.6s ease 0.1s both;
         }
 
         .cta-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -0.04em;
             color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .cta-subtitle {
             font-size: 18px;
             color: var(--text-secondary);
-            margin-bottom: 40px;
-            line-height: 1.6;
+            margin-bottom: 48px;
+            line-height: 1.7;
         }
 
         .cta-button {
             display: inline-block;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
         }
 
         .cta-footer {
@@ -1901,7 +1847,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .cta-dot {
@@ -1913,11 +1860,11 @@
 
         @media (max-width: 768px) {
             .cta {
-                padding: 80px 24px;
+                padding: 100px 24px;
             }
 
             .cta-title {
-                font-size: clamp(1.5rem, 3vw, 2.5rem);
+                font-size: clamp(1.8rem, 4vw, 2.8rem);
             }
         }
 
@@ -1925,7 +1872,7 @@
         footer {
             background: var(--bg-elevated);
             border-top: 1px solid var(--border-light);
-            padding: 80px 40px 40px 40px;
+            padding: 100px 40px 50px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1939,9 +1886,9 @@
             height: 1px;
             background: linear-gradient(90deg,
                 transparent 0%,
-                rgba(16, 185, 129, 0.3) 20%,
-                rgba(16, 185, 129, 0.5) 50%,
-                rgba(16, 185, 129, 0.3) 80%,
+                rgba(16, 185, 129, 0.2) 20%,
+                rgba(16, 185, 129, 0.3) 50%,
+                rgba(16, 185, 129, 0.2) 80%,
                 transparent 100%);
         }
 
@@ -1953,29 +1900,29 @@
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin-bottom: 60px;
+            gap: 60px;
+            margin-bottom: 80px;
         }
 
         .footer-column h3 {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.12em;
         }
 
         .footer-column ul {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .footer-column a {
-            font-size: 13px;
-            color: var(--text-muted);
+            font-size: 14px;
+            color: var(--text-tertiary);
             transition: color 0.3s ease;
         }
 
@@ -1987,7 +1934,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 40px;
+            padding-top: 48px;
             border-top: 1px solid var(--border-light);
         }
 
@@ -2002,59 +1949,63 @@
         }
 
         .footer-social {
-            color: var(--text-muted);
+            color: var(--text-tertiary);
             transition: all 0.3s ease;
             cursor: pointer;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
         }
 
         .footer-social:hover {
             color: var(--accent);
-            background: rgba(16, 185, 129, 0.1);
             transform: translateY(-2px);
         }
 
         @media (max-width: 1024px) {
             .footer-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
+                gap: 40px;
             }
 
             footer {
-                padding: 60px 40px 30px 40px;
+                padding: 80px 40px 40px 40px;
             }
         }
 
         @media (max-width: 768px) {
             .footer-grid {
                 grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            footer {
-                padding: 40px 24px 20px 24px;
+                gap: 32px;
             }
 
             .footer-bottom {
                 flex-direction: column;
-                gap: 20px;
+                gap: 24px;
                 text-align: center;
+            }
+
+            .footer-socials {
+                justify-content: center;
+            }
+
+            footer {
+                padding: 60px 24px 40px 24px;
             }
         }
 
-        /* LOGIN SCREEN */
+        /* LOGIN SCREEN STYLES */
         #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
+            z-index: 2000;
+        }
+
+        #login-screen.active {
+            display: flex;
         }
 
         .login-glow {
@@ -2062,36 +2013,32 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
-            background: conic-gradient(from 180deg at 50% 50%,
-                rgba(16,185,129,0.2) 0deg,
-                rgba(139,92,246,0.15) 90deg,
-                rgba(59,130,246,0.15) 180deg,
-                rgba(6,182,212,0.1) 270deg,
-                rgba(16,185,129,0.2) 360deg);
-            filter: blur(100px);
-            opacity: 0.5;
-            z-index: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            filter: blur(80px);
+            pointer-events: none;
         }
 
         .login-card {
             background: var(--bg-elevated);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 48px;
-            max-width: 420px;
+            border-radius: 16px;
+            padding: 60px;
             width: 100%;
+            max-width: 400px;
             position: relative;
-            z-index: 2;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .login-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
         }
 
         .login-dot {
@@ -2108,10 +2055,10 @@
         }
 
         .login-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .login-subtitle {
@@ -2126,7 +2073,7 @@
 
         .form-label {
             display: block;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 8px;
@@ -2134,28 +2081,19 @@
 
         .form-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            border-radius: 10px;
             padding: 12px 16px;
-            font-size: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             color: var(--text-primary);
+            font-size: 14px;
             transition: all 0.3s ease;
-        }
-
-        .form-input::placeholder {
-            color: var(--text-muted);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .form-input:hover {
-            border-color: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
         }
 
         .login-button {
@@ -2163,28 +2101,32 @@
             padding: 12px 16px;
             background: var(--accent);
             color: #000;
-            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 700;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 12px;
+            margin-bottom: 20px;
         }
 
         .login-button:hover {
             background: var(--accent-light);
             transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.25);
         }
 
         .login-footer {
-            text-align: center;
             font-size: 14px;
             color: var(--text-secondary);
+            text-align: center;
         }
 
         .login-link {
             color: var(--accent);
-            cursor: pointer;
             font-weight: 600;
+            cursor: pointer;
             transition: color 0.3s ease;
         }
 
@@ -2192,36 +2134,68 @@
             color: var(--accent-light);
         }
 
-        /* DASHBOARD SCREEN */
+        /* DASHBOARD STYLES */
         #dashboard-screen {
-            min-height: 100vh;
-            background: var(--bg);
-            position: relative;
-            z-index: 2;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: row;
+            z-index: 2000;
+        }
+
+        #dashboard-screen.active {
+            display: flex;
         }
 
         .dashboard-sidebar {
-            width: 240px;
+            width: 220px;
             background: var(--bg-elevated);
             border-right: 1px solid var(--border);
-            padding: 24px 0;
+            padding: 32px 0;
+            display: flex;
+            flex-direction: column;
             overflow-y: auto;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
+        }
+
+        .sidebar-item-dashboard {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 20px;
+            margin: 0 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-item-dashboard:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .sidebar-item-dashboard.active {
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            font-weight: 600;
         }
 
         .dashboard-main {
-            margin-left: 240px;
             flex: 1;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .dashboard-header {
             background: var(--bg-elevated);
             border-bottom: 1px solid var(--border);
-            padding: 20px 40px;
+            padding: 20px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -2230,86 +2204,51 @@
         .dashboard-search {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.04);
+            gap: 12px;
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 0 12px;
+            padding: 10px 16px;
             width: 300px;
         }
 
         .dashboard-search input {
-            flex: 1;
-            background: transparent;
+            background: none;
             border: none;
-            padding: 10px;
-            font-size: 14px;
             color: var(--text-primary);
+            font-size: 14px;
+            flex: 1;
+            outline: none;
         }
 
         .dashboard-search input::placeholder {
             color: var(--text-muted);
         }
 
-        .dashboard-search input:focus {
-            outline: none;
-        }
-
         .dashboard-user {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
             color: #000;
-            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         .dashboard-content {
-            padding: 40px;
-        }
-
-        .sidebar-item-dashboard {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            color: var(--text-tertiary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-        }
-
-        .sidebar-item-dashboard:hover {
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-secondary);
-        }
-
-        .sidebar-item-dashboard.active {
-            color: var(--accent);
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .sidebar-item-dashboard.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--accent);
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
         }
 
         .dashboard-stat-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
+            gap: 24px;
+            margin-bottom: 48px;
         }
 
         .stat-box {
@@ -2317,55 +2256,51 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 24px;
-            transition: all 0.3s ease;
-        }
-
-        .stat-box:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(255, 255, 255, 0.12);
         }
 
         .stat-label-dashboard {
-            font-size: 13px;
-            color: var(--text-tertiary);
-            margin-bottom: 8px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
         }
 
         .stat-value-dashboard {
             font-size: 28px;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .stat-change {
-            font-size: 12px;
-            color: var(--accent);
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         .dashboard-charts {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
         }
 
         .chart-box {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 24px;
+            padding: 28px;
         }
 
         .chart-title {
             font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .chart-canvas {
@@ -2376,8 +2311,8 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 24px;
-            overflow-x: auto;
+            padding: 0;
+            overflow: hidden;
         }
 
         .dashboard-table table {
@@ -2385,48 +2320,43 @@
             border-collapse: collapse;
         }
 
-        .dashboard-table th {
-            text-align: left;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 12px 0;
+        .dashboard-table thead {
+            background: var(--bg-elevated);
             border-bottom: 1px solid var(--border);
         }
 
+        .dashboard-table th {
+            padding: 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
         .dashboard-table td {
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-light);
+            padding: 16px;
+            border-top: 1px solid var(--border-light);
             font-size: 14px;
             color: var(--text-secondary);
         }
 
         .dashboard-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-card-hover);
         }
 
         .table-badge {
             display: inline-block;
             background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
             color: var(--accent);
-            padding: 4px 12px;
+            padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
         }
 
-        @media (max-width: 1024px) {
-            .dashboard-sidebar {
-                width: 200px;
-            }
-
-            .dashboard-main {
-                margin-left: 200px;
-            }
-
+        @media (max-width: 1200px) {
             .dashboard-stat-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -2438,42 +2368,45 @@
 
         @media (max-width: 768px) {
             .dashboard-sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                z-index: 500;
+                width: 70px;
+                padding: 16px 0;
             }
 
-            .dashboard-sidebar.mobile-open {
-                transform: translateX(0);
+            .sidebar-item-dashboard span {
+                display: none;
             }
 
-            .dashboard-main {
-                margin-left: 0;
+            .sidebar-item-dashboard {
+                justify-content: center;
+                padding: 12px;
+                margin: 4px;
             }
 
-            .dashboard-header {
-                padding: 16px 20px;
+            .dashboard-stat-grid {
+                grid-template-columns: 1fr;
             }
 
             .dashboard-search {
                 width: 100%;
+                max-width: 200px;
             }
 
             .dashboard-content {
-                padding: 20px;
-            }
-
-            .dashboard-stat-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .stat-box {
                 padding: 16px;
             }
+        }
 
-            .stat-value-dashboard {
-                font-size: 20px;
+        /* CHANGELOG SECTION */
+        .changelog {
+            padding: 140px 40px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .changelog {
+                padding: 80px 24px;
             }
         }
     </style>
@@ -2487,14 +2420,14 @@
         InferenceIQ
     </div>
     <div class="nav-center">
-        <div class="nav-link" onclick="scrollToSection('features')">Features</div>
-        <div class="nav-link" onclick="scrollToSection('pricing')">Pricing</div>
-        <div class="nav-link" onclick="scrollToSection('docs')">Docs</div>
-        <div class="nav-link" onclick="scrollToSection('changelog')">Changelog</div>
+        <a onclick="scrollToSection('features')" class="nav-link" style="cursor: pointer;">Features</a>
+        <a onclick="scrollToSection('pricing')" class="nav-link" style="cursor: pointer;">Pricing</a>
+        <a onclick="scrollToSection('docs')" class="nav-link" style="cursor: pointer;">Docs</a>
+        <a onclick="scrollToSection('changelog')" class="nav-link" style="cursor: pointer;">Changelog</a>
     </div>
     <div class="nav-right">
-        <div class="nav-login" onclick="switchScreen('login')">Log in</div>
-        <button class="btn btn-primary" onclick="switchScreen('login')">Get Started</button>
+        <a class="nav-login" onclick="switchScreen('login')" style="cursor: pointer;">Sign In</a>
+        <button class="btn btn-primary" onclick="switchScreen('login')" style="cursor: pointer;">Start Free Trial</button>
     </div>
     <div class="hamburger" id="hamburger">
         <span></span>
@@ -2509,159 +2442,99 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-glow"></div>
-        <div class="hero-content">
-            <div class="hero-left">
-                <div class="hero-badge">
-                    <i data-lucide="zap" class="icon"></i>
-                    <span class="hero-badge-text">Now with multi-provider routing</span>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <div class="hero-badge">
+                        <i data-lucide="zap" class="icon"></i>
+                        <span class="hero-badge-text">73% Average Cost Reduction</span>
+                    </div>
+                    <h1 class="hero-headline">
+                        Cut inference costs<br>with <span class="gradient-text">intelligent routing</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Automatically route requests to the cheapest provider without sacrificing quality. Save thousands every month while maintaining zero latency impact.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')" style="cursor: pointer;">
+                            Start Free Trial
+                        </button>
+                        <button class="btn btn-lg btn-lg-secondary" onclick="scrollToSection('features')" style="cursor: pointer;">
+                            Learn More
+                        </button>
+                    </div>
                 </div>
-                <h1 class="hero-headline">
-                    Cut <span class="gradient-text">inference costs</span> by 73%
-                </h1>
-                <p class="hero-subtitle">
-                    Automatically route API calls across the best providers. Monitor, optimize, and scale with a single integration.
-                </p>
-                <div class="hero-buttons">
-                    <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')">
-                        Start Free
-                    </button>
-                    <button class="btn btn-lg btn-lg-secondary" onclick="scrollToSection('docs')">
-                        View Documentation
-                    </button>
-                </div>
-            </div>
-            <div class="hero-mockup">
-                <div class="mockup-container">
-                    <div class="mockup-window">
-                        <div class="mockup-header">
-                            <div class="mockup-controls">
-                                <div class="mockup-dot red"></div>
-                                <div class="mockup-dot yellow"></div>
-                                <div class="mockup-dot green"></div>
+                <div class="hero-mockup">
+                    <div class="mockup-container">
+                        <div class="mockup-window">
+                            <div class="mockup-header">
+                                <div class="mockup-controls">
+                                    <div class="mockup-dot red"></div>
+                                    <div class="mockup-dot yellow"></div>
+                                    <div class="mockup-dot green"></div>
+                                </div>
+                                <div class="mockup-url">dashboard.inferenceiq.com</div>
+                                <div style="width: 60px;"></div>
                             </div>
-                            <div class="mockup-title">InferenceIQ Dashboard</div>
-                            <div style="width: 40px;"></div>
-                        </div>
-                        <div class="mockup-content">
-                            <div class="mockup-sidebar">
-                                <div class="sidebar-item active">
-                                    <i data-lucide="layout-grid" class="icon-small"></i>
-                                </div>
-                                <div class="sidebar-item">
-                                    <i data-lucide="bar-chart-3" class="icon-small"></i>
-                                </div>
-                                <div class="sidebar-item">
-                                    <i data-lucide="cpu" class="icon-small"></i>
-                                </div>
-                                <div class="sidebar-item">
-                                    <i data-lucide="route" class="icon-small"></i>
-                                </div>
-                                <div class="sidebar-item">
-                                    <i data-lucide="settings" class="icon-small"></i>
-                                </div>
-                            </div>
-                            <div class="mockup-main">
-                                <div class="mockup-status">
-                                    <span class="status-indicator"></span>
-                                    Status: All Systems Operational
-                                </div>
-                                <div class="mockup-stats">
-                                    <div class="stat-card">
-                                        <div class="stat-label">Total Requests</div>
-                                        <div class="stat-value">2.4M</div>
-                                        <div class="stat-chart">
-                                            <div class="chart-bar"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar"></div>
-                                        </div>
-                                        <div class="sparkline">
-                                            <div class="sparkline-bar" style="height: 8px;"></div>
-                                            <div class="sparkline-bar" style="height: 5px;"></div>
-                                            <div class="sparkline-bar" style="height: 9px;"></div>
-                                            <div class="sparkline-bar" style="height: 6px;"></div>
-                                            <div class="sparkline-bar" style="height: 10px;"></div>
-                                        </div>
+                            <div class="mockup-content">
+                                <div class="mockup-sidebar">
+                                    <div class="sidebar-item active">
+                                        <i data-lucide="layout-grid" class="icon-small"></i>
                                     </div>
-                                    <div class="stat-card">
-                                        <div class="stat-label">Cost Saved</div>
-                                        <div class="stat-value">$47.2K</div>
-                                        <div class="stat-chart">
-                                            <div class="chart-bar"></div>
-                                            <div class="chart-bar"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar active"></div>
-                                        </div>
-                                        <div class="sparkline">
-                                            <div class="sparkline-bar" style="height: 4px;"></div>
-                                            <div class="sparkline-bar" style="height: 7px;"></div>
-                                            <div class="sparkline-bar" style="height: 9px;"></div>
-                                            <div class="sparkline-bar" style="height: 10px;"></div>
-                                            <div class="sparkline-bar" style="height: 8px;"></div>
-                                        </div>
+                                    <div class="sidebar-item">
+                                        <i data-lucide="bar-chart-3" class="icon-small"></i>
                                     </div>
-                                    <div class="stat-card">
-                                        <div class="stat-label">Avg Latency</div>
-                                        <div class="stat-value">42ms</div>
-                                        <div class="stat-chart">
-                                            <div class="chart-bar"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar"></div>
-                                        </div>
-                                        <div class="sparkline">
-                                            <div class="sparkline-bar" style="height: 6px;"></div>
-                                            <div class="sparkline-bar" style="height: 4px;"></div>
-                                            <div class="sparkline-bar" style="height: 5px;"></div>
-                                            <div class="sparkline-bar" style="height: 3px;"></div>
-                                            <div class="sparkline-bar" style="height: 5px;"></div>
-                                        </div>
+                                    <div class="sidebar-item">
+                                        <i data-lucide="cpu" class="icon-small"></i>
                                     </div>
-                                    <div class="stat-card">
-                                        <div class="stat-label">Uptime</div>
-                                        <div class="stat-value">99.97%</div>
-                                        <div class="stat-chart">
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar active"></div>
-                                            <div class="chart-bar active"></div>
-                                        </div>
-                                        <div class="sparkline">
-                                            <div class="sparkline-bar" style="height: 10px;"></div>
-                                            <div class="sparkline-bar" style="height: 10px;"></div>
-                                            <div class="sparkline-bar" style="height: 9px;"></div>
-                                            <div class="sparkline-bar" style="height: 10px;"></div>
-                                            <div class="sparkline-bar" style="height: 10px;"></div>
-                                        </div>
+                                    <div class="sidebar-item">
+                                        <i data-lucide="route" class="icon-small"></i>
                                     </div>
                                 </div>
-                                <div class="mockup-chart">
-                                    <div class="chart-column" style="height: 40%;"></div>
-                                    <div class="chart-column" style="height: 65%;"></div>
-                                    <div class="chart-column" style="height: 45%;"></div>
-                                    <div class="chart-column" style="height: 80%;"></div>
-                                    <div class="chart-column" style="height: 55%;"></div>
-                                    <div class="chart-column" style="height: 75%;"></div>
-                                </div>
-                                <div class="mockup-table">
-                                    <div class="table-row">
-                                        <div class="table-col">gpt-4o → Anthropic</div>
-                                        <div class="table-col">42ms</div>
-                                        <div class="table-col">$0.002</div>
+                                <div class="mockup-main">
+                                    <div class="mockup-status">
+                                        <span class="status-indicator"></span>
+                                        System online
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-col">claude-3 → OpenAI</div>
-                                        <div class="table-col">38ms</div>
-                                        <div class="table-col">$0.003</div>
+                                    <div class="mockup-stats">
+                                        <div class="stat-card">
+                                            <div class="stat-label">Requests</div>
+                                            <div class="stat-value">2.8M</div>
+                                            <div class="stat-chart">
+                                                <div class="chart-bar" style="height: 30%;"></div>
+                                                <div class="chart-bar" style="height: 45%;"></div>
+                                                <div class="chart-bar active" style="height: 60%;"></div>
+                                                <div class="chart-bar" style="height: 40%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-label">Cost Saved</div>
+                                            <div class="stat-value">$47K</div>
+                                            <div class="stat-chart">
+                                                <div class="chart-bar" style="height: 35%;"></div>
+                                                <div class="chart-bar" style="height: 50%;"></div>
+                                                <div class="chart-bar active" style="height: 70%;"></div>
+                                                <div class="chart-bar" style="height: 55%;"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-col">llama-3 → AWS</div>
-                                        <div class="table-col">51ms</div>
-                                        <div class="table-col">$0.001</div>
+                                    <div class="mockup-table">
+                                        <div class="table-row" style="border-bottom: 1px solid var(--border); padding-bottom: 4px; margin-bottom: 4px;">
+                                            <div class="table-col"><strong>Model</strong></div>
+                                            <div class="table-col"><strong>Cost</strong></div>
+                                        </div>
+                                        <div class="table-row">
+                                            <div class="table-col">gpt-4o</div>
+                                            <div class="table-col">$0.003</div>
+                                        </div>
+                                        <div class="table-row">
+                                            <div class="table-col">claude-3.5</div>
+                                            <div class="table-col">$0.002</div>
+                                        </div>
+                                        <div class="table-row">
+                                            <div class="table-col">llama-3-70b</div>
+                                            <div class="table-col">$0.0008</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2672,20 +2545,16 @@
         </div>
     </section>
 
-    <!-- TRUST BAR -->
+    <!-- TRUST BAR / LOGO CLOUD -->
     <section class="trust-bar">
-        <div class="trust-label">Trusted by engineering teams at</div>
+        <div class="trust-label">Trusted by leading teams</div>
         <div class="trust-logos">
-            <div class="trust-logo">OpenAI</div>
-            <div class="trust-logo">Anthropic</div>
-            <div class="trust-logo">Google DeepMind</div>
-            <div class="trust-logo">Meta AI</div>
             <div class="trust-logo">Stripe</div>
-            <div class="trust-logo">Databricks</div>
-            <div class="trust-logo">Snowflake</div>
-            <div class="trust-logo">Cohere</div>
-            <div class="trust-logo">Mistral</div>
-            <div class="trust-logo">Scale AI</div>
+            <div class="trust-logo">Vercel</div>
+            <div class="trust-logo">Notion</div>
+            <div class="trust-logo">Linear</div>
+            <div class="trust-logo">Figma</div>
+            <div class="trust-logo">OpenAI</div>
         </div>
     </section>
 
@@ -2693,129 +2562,119 @@
     <section class="personas">
         <div class="container">
             <div class="section-label">WHO IT'S FOR</div>
-            <h2 class="section-title">Built for teams that ship</h2>
+            <h2 class="section-title">Built for every team</h2>
             <div class="personas-grid">
                 <div class="persona-card">
-                    <i data-lucide="building-2" class="icon persona-icon"></i>
-                    <h3 class="persona-title">Enterprise Teams</h3>
-                    <p class="persona-description">Centralized cost management and compliance across teams with advanced analytics and audit logs.</p>
+                    <i data-lucide="rocket" class="icon-large persona-icon"></i>
+                    <h3 class="persona-title">Startups</h3>
+                    <p class="persona-description">Scale your AI product without breaking the budget. Cut costs 73% while maintaining the same quality and performance.</p>
                 </div>
                 <div class="persona-card">
-                    <i data-lucide="rocket" class="icon persona-icon"></i>
-                    <h3 class="persona-title">High-Growth Startups</h3>
-                    <p class="persona-description">Scale your AI infrastructure without exploding costs. Optimize spending as you grow.</p>
+                    <i data-lucide="building-2" class="icon-large persona-icon"></i>
+                    <h3 class="persona-title">Enterprises</h3>
+                    <p class="persona-description">Optimize massive inference workloads with granular control, audit trails, and dedicated support for your team.</p>
                 </div>
                 <div class="persona-card">
-                    <i data-lucide="flask-conical" class="icon persona-icon"></i>
-                    <h3 class="persona-title">AI Research Labs</h3>
-                    <p class="persona-description">Test across providers instantly, compare results, and find the optimal model for your use case.</p>
+                    <i data-lucide="code-2" class="icon-large persona-icon"></i>
+                    <h3 class="persona-title">Developers</h3>
+                    <p class="persona-description">Drop in one line of code and instantly save money. Monitor everything with our beautiful real-time dashboard.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- METRICS BAR -->
+    <!-- METRICS SECTION -->
     <section class="metrics-bar">
         <div class="metrics-grid">
             <div class="metric-item">
                 <div class="metric-number">73%</div>
-                <div class="metric-label">Cost Reduction</div>
+                <div class="metric-label">Average Savings</div>
             </div>
             <div class="metric-item">
-                <div class="metric-number">$2.4M</div>
-                <div class="metric-label">Saved Annually</div>
-            </div>
-            <div class="metric-item">
-                <div class="metric-number">47ms</div>
-                <div class="metric-label">Avg Latency</div>
+                <div class="metric-number">50ms</div>
+                <div class="metric-label">P99 Latency</div>
             </div>
             <div class="metric-item">
                 <div class="metric-number">99.97%</div>
                 <div class="metric-label">Uptime SLA</div>
             </div>
+            <div class="metric-item">
+                <div class="metric-number">5min</div>
+                <div class="metric-label">Setup Time</div>
+            </div>
         </div>
     </section>
 
     <!-- HOW IT WORKS SECTION -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="features">
         <div class="container">
-            <div class="section-label">HOW IT WORKS</div>
-            <h2 class="section-title">Three steps to lower costs</h2>
+            <div class="section-label">IMPLEMENTATION</div>
+            <h2 class="section-title">How it works</h2>
             <div class="steps-grid">
                 <div class="step">
-                    <div class="step-number">01</div>
+                    <div class="step-number">1</div>
                     <div class="step-line"></div>
-                    <h3 class="step-title">Connect Your Models</h3>
-                    <p class="step-description">
-                        Point your API calls to InferenceIQ. We support all major LLM providers with a drop-in replacement.
-                    </p>
-                    <div class="step-code">
-                        <code>base_url="https://api.inferenceiq.com"</code>
-                    </div>
+                    <h3 class="step-title">Install SDK</h3>
+                    <p class="step-description">Add InferenceIQ to your project in seconds with our lightweight SDK. Available in Python, JavaScript, and more.</p>
+                    <div class="step-code"><code>npm install inferenceiq</code></div>
                 </div>
                 <div class="step">
-                    <div class="step-number">02</div>
+                    <div class="step-number">2</div>
                     <div class="step-line"></div>
-                    <h3 class="step-title">Optimize Routing</h3>
-                    <p class="step-description">
-                        Define your preferences: cost, latency, or quality. InferenceIQ automatically routes to the best provider.
-                    </p>
-                    <div class="step-code">
-                        <code>optimize="cost"  # or "latency" or "quality"</code>
-                    </div>
+                    <h3 class="step-title">Configure Routes</h3>
+                    <p class="step-description">Define your preferred providers and quality thresholds. Our AI optimizes routing automatically.</p>
+                    <div class="step-code"><code>iq.route(['openai', 'anthropic'])</code></div>
                 </div>
                 <div class="step">
-                    <div class="step-number">03</div>
+                    <div class="step-number">3</div>
                     <div class="step-line"></div>
-                    <h3 class="step-title">Monitor & Scale</h3>
-                    <p class="step-description">
-                        Real-time analytics, cost breakdowns, and instant insights into your API usage and spending.
-                    </p>
-                    <div class="step-code">
-                        <code>response.cost, response.provider, response.latency_ms</code>
-                    </div>
+                    <h3 class="step-title">Watch the Savings</h3>
+                    <p class="step-description">Monitor real-time cost savings, latency, and quality metrics on your dashboard. Start saving immediately.</p>
+                    <div class="step-code"><code>iq.cost() // $0.0008</code></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- INTEGRATION SECTION -->
-    <section class="integration" id="docs">
+    <section class="integration">
         <div class="container">
             <div class="integration-content">
                 <div class="integration-left">
-                    <h2 class="integration-title">Integrate in minutes</h2>
+                    <h2 class="integration-title">Seamless integration</h2>
                     <div class="integration-bullets">
                         <div class="bullet">
                             <i data-lucide="check-circle-2" class="icon bullet-icon"></i>
-                            <p class="bullet-text">Drop-in replacement for OpenAI, Anthropic, Cohere, and more</p>
+                            <p class="bullet-text">Drop-in replacement for your existing LLM calls</p>
                         </div>
                         <div class="bullet">
                             <i data-lucide="check-circle-2" class="icon bullet-icon"></i>
-                            <p class="bullet-text">No code changes needed—just swap the endpoint</p>
+                            <p class="bullet-text">Zero code changes for most frameworks</p>
                         </div>
                         <div class="bullet">
                             <i data-lucide="check-circle-2" class="icon bullet-icon"></i>
-                            <p class="bullet-text">Full API compatibility with streaming, functions, vision, and more</p>
+                            <p class="bullet-text">Automatic fallback on provider outages</p>
                         </div>
                         <div class="bullet">
                             <i data-lucide="check-circle-2" class="icon bullet-icon"></i>
-                            <p class="bullet-text">Built-in retries, fallbacks, and rate limiting</p>
+                            <p class="bullet-text">Real-time cost and performance tracking</p>
                         </div>
                     </div>
-                    <div class="integration-link" onclick="scrollToSection('docs')" style="cursor: pointer;">
-                        View Documentation <i data-lucide="arrow-right" class="icon-small"></i>
-                    </div>
+                    <a class="integration-link" onclick="scrollToSection('docs')" style="cursor: pointer;">
+                        View Documentation
+                        <i data-lucide="arrow-right" class="icon-small"></i>
+                    </a>
                 </div>
                 <div class="integration-right">
                     <div class="code-block">
                         <div class="code-header">
                             <span class="code-language">Python</span>
+                            <i data-lucide="copy" class="icon-small" style="color: var(--text-tertiary); cursor: pointer;"></i>
                         </div>
                         <div class="code-content">
                             <div class="code-line">
                                 <span class="code-number">1</span>
-                                <span class="code-text"><span class="keyword">import</span> inferenceiq</span>
+                                <span class="code-text"><span class="keyword">from</span> inferenceiq <span class="keyword">import</span> InferenceIQ</span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">2</span>
@@ -2823,63 +2682,31 @@
                             </div>
                             <div class="code-line">
                                 <span class="code-number">3</span>
-                                <span class="code-text">client = inferenceiq.Client(</span>
+                                <span class="code-text">iq = InferenceIQ(api_key=<span class="string">"sk_..."</span>)</span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">4</span>
-                                <span class="code-text">    <span class="attr">api_key</span>=<span class="string">"iq_live_xyz789abc"</span></span>
+                                <span class="code-text"></span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">5</span>
-                                <span class="code-text">)</span>
+                                <span class="code-text"><span class="comment"># Your code stays the same</span></span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">6</span>
-                                <span class="code-text"></span>
+                                <span class="code-text">response = iq.completion(</span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">7</span>
-                                <span class="code-text"><span class="comment"># Route across providers automatically</span></span>
+                                <span class="code-text">    model=<span class="string">"gpt-4"</span>,</span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">8</span>
-                                <span class="code-text">response = client.chat.completions.create(</span>
+                                <span class="code-text">    messages=[{...}]</span>
                             </div>
                             <div class="code-line">
                                 <span class="code-number">9</span>
-                                <span class="code-text">    <span class="attr">model</span>=<span class="string">"gpt-4o"</span>,</span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">10</span>
-                                <span class="code-text">    <span class="attr">messages</span>=[{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"Hello"}],</span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">11</span>
-                                <span class="code-text">    <span class="attr">optimize</span>=<span class="string">"cost"</span>  <span class="comment"># or "latency" or "quality"</span></span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">12</span>
                                 <span class="code-text">)</span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">13</span>
-                                <span class="code-text"></span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">14</span>
-                                <span class="code-text"><span class="comment"># InferenceIQ routes to the best provider</span></span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">15</span>
-                                <span class="code-text">print(response.provider)    <span class="comment"># "anthropic"</span></span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">16</span>
-                                <span class="code-text">print(response.cost)        <span class="comment"># "$0.0012"</span></span>
-                            </div>
-                            <div class="code-line">
-                                <span class="code-number">17</span>
-                                <span class="code-text">print(response.latency_ms)  <span class="comment"># 42</span></span>
                             </div>
                         </div>
                     </div>
@@ -2888,77 +2715,45 @@
         </div>
     </section>
 
-    <!-- PLATFORM FEATURES -->
-    <section class="platform" id="features">
+    <!-- PLATFORM FEATURES SECTION -->
+    <section class="platform">
         <div class="container">
             <div class="section-label">PLATFORM</div>
-            <h2 class="section-title">Everything you need to optimize inference</h2>
+            <h2 class="section-title">Powerful features</h2>
             <div class="bento-grid">
                 <div class="bento-item">
-                    <i data-lucide="route" class="icon bento-icon"></i>
-                    <h3 class="bento-title">Smart Routing Engine</h3>
-                    <p class="bento-description">Intelligently route requests based on cost, latency, quality, or custom rules. Real-time provider selection with automatic fallbacks.</p>
+                    <i data-lucide="zap" class="icon-large bento-icon"></i>
+                    <h3 class="bento-title">Intelligent Routing</h3>
+                    <p class="bento-description">Automatically routes requests to the optimal provider based on cost, latency, and quality metrics. Machine learning powered.</p>
                     <div class="bento-viz">
-                        <div class="viz-node">A</div>
-                        <div class="viz-arrow"><i data-lucide="arrow-right" class="icon-small"></i></div>
-                        <div class="viz-node">B</div>
-                        <div class="viz-arrow"><i data-lucide="arrow-right" class="icon-small"></i></div>
-                        <div class="viz-node">C</div>
-                    </div>
-                </div>
-                <div class="bento-item">
-                    <i data-lucide="bar-chart-3" class="icon bento-icon"></i>
-                    <h3 class="bento-title">Cost Analytics</h3>
-                    <p class="bento-description">Detailed breakdown by model, provider, and time period. Identify spending patterns and optimization opportunities instantly.</p>
-                    <div class="bento-viz">
-                        <div class="viz-bars">
-                            <div class="viz-bar" style="height: 35%;"></div>
+                        <div class="viz-bars" style="gap: 8px;">
+                            <div class="viz-bar" style="height: 60%;"></div>
+                            <div class="viz-bar" style="height: 80%;"></div>
+                            <div class="viz-bar" style="height: 45%;"></div>
+                            <div class="viz-bar" style="height: 90%;"></div>
                             <div class="viz-bar" style="height: 55%;"></div>
-                            <div class="viz-bar" style="height: 42%;"></div>
-                            <div class="viz-bar" style="height: 70%;"></div>
-                            <div class="viz-bar" style="height: 48%;"></div>
-                            <div class="viz-bar" style="height: 65%;"></div>
                         </div>
                     </div>
                 </div>
                 <div class="bento-item">
-                    <i data-lucide="layers" class="icon bento-icon"></i>
-                    <h3 class="bento-title">Multi-Provider Support</h3>
-                    <p class="bento-description">OpenAI, Anthropic, Cohere, Mistral, Together AI, Azure, AWS, GCP, and more. Mix and match for optimal results.</p>
-                    <div class="bento-viz">
-                        <div class="viz-dots">
-                            <div class="viz-dot" style="background: rgba(59, 130, 246, 0.2); border-color: rgb(59, 130, 246);">A</div>
-                            <div class="viz-dot" style="background: rgba(16, 185, 129, 0.2); border-color: rgb(16, 185, 129);">G</div>
-                            <div class="viz-dot" style="background: rgba(139, 92, 246, 0.2); border-color: rgb(139, 92, 246);">M</div>
-                            <div class="viz-dot" style="background: rgba(245, 158, 11, 0.2); border-color: rgb(245, 158, 11);">O</div>
-                        </div>
-                    </div>
+                    <i data-lucide="shield-check" class="icon-large bento-icon"></i>
+                    <h3 class="bento-title">Automatic Failover</h3>
+                    <p class="bento-description">Provider went down? No problem. Instantly routes to backup providers with zero downtime or latency impact.</p>
                 </div>
                 <div class="bento-item">
-                    <i data-lucide="shield" class="icon bento-icon"></i>
-                    <h3 class="bento-title">Rate Limiting</h3>
-                    <p class="bento-description">Automatic rate limiting, burst protection, and quota management across all providers with configurable thresholds.</p>
-                    <div class="bento-viz">
-                        <div style="width: 100%;">
-                            <div class="viz-gauge">
-                                <div class="viz-gauge-fill" style="width: 72%;"></div>
-                            </div>
-                            <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 8px; text-align: center;">720/1000 reqs</div>
-                        </div>
-                    </div>
+                    <i data-lucide="bar-chart-3" class="icon-large bento-icon"></i>
+                    <h3 class="bento-title">Real-time Analytics</h3>
+                    <p class="bento-description">See exactly how much you're saving, latency metrics, and quality scores in real-time on your dashboard.</p>
                 </div>
                 <div class="bento-item">
-                    <i data-lucide="repeat" class="icon bento-icon"></i>
-                    <h3 class="bento-title">Model Fallbacks</h3>
-                    <p class="bento-description">Define fallback chains so requests automatically retry with alternative models if the primary fails or is rate limited.</p>
-                    <div class="bento-viz">
-                        <div class="viz-status">
-                            <div class="viz-status-dot active"></div>
-                            <div class="viz-status-dot active"></div>
-                            <div class="viz-status-dot inactive"></div>
-                            <div style="font-size: 11px; color: var(--text-secondary); margin-left: 8px;">2/3 Active</div>
-                        </div>
-                    </div>
+                    <i data-lucide="lock" class="icon-large bento-icon"></i>
+                    <h3 class="bento-title">Enterprise Security</h3>
+                    <p class="bento-description">SOC 2 compliant, encrypted requests, detailed audit logs, and role-based access control for teams.</p>
+                </div>
+                <div class="bento-item">
+                    <i data-lucide="clock" class="icon-large bento-icon"></i>
+                    <h3 class="bento-title">99.97% Uptime SLA</h3>
+                    <p class="bento-description">Backed by our infrastructure and automated failover. Guaranteed uptime with compensation.</p>
                 </div>
             </div>
         </div>
@@ -2967,31 +2762,31 @@
     <!-- COMPARISON SECTION -->
     <section class="comparison">
         <div class="container">
-            <div class="section-label">COMPARE</div>
-            <h2 class="section-title">See the difference</h2>
+            <div class="section-label">COMPARISON</div>
+            <h2 class="section-title">Why InferenceIQ?</h2>
             <div class="comparison-grid">
                 <div class="comparison-card">
                     <h3 class="comparison-title">Without InferenceIQ</h3>
                     <div class="comparison-items">
                         <div class="comparison-item">
                             <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Manual provider switching</span>
+                            <span>Manual provider selection</span>
                         </div>
                         <div class="comparison-item">
                             <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Wasted budget on unused capacity</span>
+                            <span>Overpay for consistency</span>
                         </div>
                         <div class="comparison-item">
                             <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Single point of failure</span>
+                            <span>Downtime if provider fails</span>
                         </div>
                         <div class="comparison-item">
                             <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Complex multi-provider integration</span>
+                            <span>No cost visibility</span>
                         </div>
                         <div class="comparison-item">
                             <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>No visibility into spending</span>
+                            <span>Complex integration</span>
                         </div>
                     </div>
                 </div>
@@ -3012,11 +2807,11 @@
                         </div>
                         <div class="comparison-item">
                             <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>5-minute drop-in integration</span>
+                            <span>Real-time cost & performance analytics</span>
                         </div>
                         <div class="comparison-item">
                             <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>Real-time cost & performance analytics</span>
+                            <span>5-minute drop-in integration</span>
                         </div>
                     </div>
                 </div>
@@ -3028,7 +2823,7 @@
     <section class="testimonials">
         <div class="container">
             <div class="section-label">WHAT TEAMS SAY</div>
-            <h2 class="section-title">Trusted by engineering leaders</h2>
+            <h2 class="section-title">Loved by engineering leaders</h2>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="stars">
@@ -3039,7 +2834,7 @@
                         <i data-lucide="star" class="icon-small star"></i>
                     </div>
                     <p class="testimonial-text">
-                        "InferenceIQ cut our inference costs in half overnight. The automatic routing is insanely smart."
+                        "InferenceIQ cut our inference costs in half overnight. The automatic routing is insanely smart. Best decision we made this quarter."
                     </p>
                     <p class="testimonial-author">Sarah Chen</p>
                     <p class="testimonial-role">VP Engineering, TechCorp AI</p>
@@ -3053,7 +2848,7 @@
                         <i data-lucide="star" class="icon-small star"></i>
                     </div>
                     <p class="testimonial-text">
-                        "The integration took 5 minutes and saved us $40K per month. Best decision we made this quarter."
+                        "The integration took 5 minutes and saved us $40K per month. Reliable, fast, and the team is incredibly responsive."
                     </p>
                     <p class="testimonial-author">Marcus Johnson</p>
                     <p class="testimonial-role">CTO, DataFlow Labs</p>
@@ -3067,7 +2862,7 @@
                         <i data-lucide="star" class="icon-small star"></i>
                     </div>
                     <p class="testimonial-text">
-                        "The fallback system gives us peace of mind. We never worry about provider outages anymore."
+                        "The fallback system gives us peace of mind. We never worry about provider outages anymore. Highly recommended."
                     </p>
                     <p class="testimonial-author">Elena Rodriguez</p>
                     <p class="testimonial-role">Engineering Lead, AI Platform</p>
@@ -3081,11 +2876,11 @@
         <div class="container">
             <div class="section-label">PRICING</div>
             <h2 class="section-title">Simple, transparent pricing</h2>
-            <p class="section-subtitle">Start free. Scale when ready. No surprises.</p>
+            <p class="section-subtitle">Start free and scale when you're ready. No credit card required for the free tier.</p>
             <div class="pricing-cards">
                 <div class="pricing-card">
                     <p class="pricing-name">Starter</p>
-                    <p class="pricing-description">For side projects</p>
+                    <p class="pricing-description">Perfect for trying it out</p>
                     <p class="pricing-price">$0</p>
                     <p class="pricing-period">forever free</p>
                     <button class="btn btn-lg btn-lg-secondary pricing-button" onclick="switchScreen('login')" style="cursor: pointer;">
@@ -3094,19 +2889,19 @@
                     <div class="pricing-features">
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Up to 100K requests/month</span>
+                            <span>Up to 100K requests/month</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ 2 provider integrations</span>
+                            <span>2 provider integrations</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Basic analytics</span>
+                            <span>Basic analytics</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Email support</span>
+                            <span>Email support</span>
                         </div>
                     </div>
                 </div>
@@ -3122,23 +2917,23 @@
                     <div class="pricing-features">
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Unlimited requests</span>
+                            <span>Unlimited requests</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ All 10+ providers</span>
+                            <span>All 10+ providers</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Advanced analytics & reporting</span>
+                            <span>Advanced analytics & reporting</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ API rate limiting & quotas</span>
+                            <span>API rate limiting & quotas</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Priority support</span>
+                            <span>Priority support</span>
                         </div>
                     </div>
                 </div>
@@ -3153,23 +2948,23 @@
                     <div class="pricing-features">
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Custom deployment options</span>
+                            <span>Custom deployment options</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Advanced security & compliance</span>
+                            <span>Advanced security & compliance</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ Dedicated account manager</span>
+                            <span>Dedicated account manager</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ SLA & guaranteed uptime</span>
+                            <span>SLA & guaranteed uptime</span>
                         </div>
                         <div class="pricing-feature">
                             <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
-                            <span>→ 24/7 premium support</span>
+                            <span>24/7 premium support</span>
                         </div>
                     </div>
                 </div>
@@ -3190,8 +2985,8 @@
     <section class="cta">
         <div class="cta-content">
             <h2 class="cta-title">Ready to cut your inference costs?</h2>
-            <p class="cta-subtitle">Join hundreds of teams already saving thousands of dollars every month with InferenceIQ.</p>
-            <button class="btn btn-lg btn-lg-primary cta-button" onclick="switchScreen('login')">
+            <p class="cta-subtitle">Join hundreds of teams already saving thousands of dollars every month with InferenceIQ. Start free today, no credit card required.</p>
+            <button class="btn btn-lg btn-lg-primary cta-button" onclick="switchScreen('login')" style="cursor: pointer;">
                 Start Free Today
             </button>
             <div class="cta-footer">
@@ -3214,16 +3009,16 @@
                         <li><a onclick="scrollToSection('features')" style="cursor: pointer;">Features</a></li>
                         <li><a onclick="scrollToSection('pricing')" style="cursor: pointer;">Pricing</a></li>
                         <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">Documentation</a></li>
-                        <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">API Reference</a></li>
+                        <li><a href="#">API Reference</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Developers</h3>
                     <ul>
                         <li><a href="https://github.com" target="_blank">GitHub</a></li>
-                        <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">SDKs</a></li>
-                        <li><a onclick="scrollToSection('features')" style="cursor: pointer;">Integrations</a></li>
-                        <li><a href="#">Status</a></li>
+                        <li><a href="#">SDKs</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Status Page</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -3247,12 +3042,12 @@
             </div>
             <div class="footer-bottom">
                 <div class="footer-copyright">
-                    © 2025 InferenceIQ, Inc. All rights reserved.
+                    Copyright © 2025 InferenceIQ. All rights reserved.
                 </div>
                 <div class="footer-socials">
-                    <i data-lucide="github" class="icon-small footer-social"></i>
-                    <i data-lucide="twitter" class="icon-small footer-social"></i>
-                    <i data-lucide="linkedin" class="icon-small footer-social"></i>
+                    <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
+                    <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
+                    <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
                 </div>
             </div>
         </div>
@@ -3282,7 +3077,7 @@
             <button type="submit" class="login-button">Sign In</button>
         </form>
         <div class="login-footer">
-            Don't have an account? <span class="login-link" onclick="switchScreen('landing')">Start free →</span>
+            Don't have an account? <span class="login-link" onclick="switchScreen('landing')" style="cursor: pointer;">Start free →</span>
         </div>
     </div>
 </div>
@@ -3293,7 +3088,7 @@
         <div style="padding: 0 20px; margin-bottom: 32px; cursor: pointer;" onclick="switchScreen('landing')">
             <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-primary);">
                 <div style="width: 8px; height: 8px; background: var(--accent); border-radius: 50%;"></div>
-                InferenceIQ
+                IQ
             </div>
         </div>
         <div class="sidebar-item-dashboard active" onclick="handleSidebarClick(this)">
@@ -3603,7 +3398,6 @@
     }
 
     function scrollToSection(sectionId) {
-        // First switch to landing if not already there
         const landingScreen = document.getElementById('landing-screen');
         if (!landingScreen.classList.contains('active')) {
             switchScreen('landing');
@@ -3615,16 +3409,13 @@
             const el = document.getElementById(sectionId);
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        // Close mobile menu if open
         const mobileMenu = document.querySelector('.hamburger');
         if (mobileMenu && mobileMenu.classList.contains('active')) {
             mobileMenu.classList.remove('active');
         }
-        // Update active nav link
         updateActiveNavLink(sectionId);
     }
 
-    // INTERSECTION OBSERVER FOR ACTIVE NAV LINK HIGHLIGHTING
     function initActiveNavLinkObserver() {
         const sections = ['features', 'pricing', 'docs', 'changelog'];
         const navLinks = document.querySelectorAll('.nav-link');
@@ -3649,7 +3440,6 @@
         });
     }
 
-    // INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
     function initScrollAnimations() {
         const observerOptions = {
             threshold: 0.1,
@@ -3664,7 +3454,6 @@
             });
         }, observerOptions);
 
-        // Observe all elements that should fade in on scroll
         const fadeInElements = document.querySelectorAll(
             '.section-label, .section-title, .persona-card, .metric-item, ' +
             '.step, .bento-item, .comparison-card, .testimonial-card, .pricing-card'
@@ -3676,7 +3465,6 @@
         });
     }
 
-    // Initialize scroll animations when page loads
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             initScrollAnimations();
@@ -3684,7 +3472,6 @@
         }, 100);
     });
 
-    // Re-initialize on screen switch
     const originalSwitchScreen = switchScreen;
     switchScreen = function(screenName) {
         originalSwitchScreen(screenName);
