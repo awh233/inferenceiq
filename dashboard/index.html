@@ -214,8 +214,29 @@
             position: relative;
         }
 
+        .nav-link {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            transition: width 0.3s ease;
+        }
+
         .nav-link:hover {
             color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .nav-link.active {
@@ -232,6 +253,7 @@
             height: 2px;
             background: var(--accent);
             border-radius: 1px;
+            width: 100%;
         }
 
         .nav-right {
@@ -271,8 +293,12 @@
 
         .btn-primary:hover {
             background: var(--accent-light);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
         }
 
         .btn-secondary {
@@ -284,8 +310,13 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(16, 185, 129, 0.08);
             transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
         }
 
         .btn-ghost {
@@ -296,6 +327,7 @@
 
         .btn-ghost:hover {
             color: var(--accent);
+            transform: translateX(4px);
         }
 
         .hamburger {
@@ -582,64 +614,77 @@
 
         .mockup-content {
             display: grid;
-            grid-template-columns: 60px 1fr;
+            grid-template-columns: 80px 1fr;
             gap: 0;
-            min-height: 500px;
+            min-height: 520px;
         }
 
         .mockup-sidebar {
-            background: rgba(255, 255, 255, 0.015);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
             border-right: 1px solid var(--border);
-            padding: 16px 0;
+            padding: 20px 8px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
         }
 
         .sidebar-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 40px;
+            width: 64px;
+            height: 50px;
             color: var(--text-tertiary);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            font-size: 11px;
+            font-size: 10px;
+            border-radius: 8px;
+            margin: 0 4px;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--text-secondary);
         }
 
         .sidebar-item.active {
             color: var(--accent);
+            background: rgba(16, 185, 129, 0.12);
         }
 
         .sidebar-item.active::before {
             content: '';
             position: absolute;
             left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
             background: var(--accent);
+            border-radius: 1px;
         }
 
         .mockup-main {
-            padding: 28px;
+            padding: 32px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
         .mockup-status {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 20px;
-            padding: 10px 14px;
+            padding: 10px 16px;
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.2);
             border-radius: 8px;
             font-size: 11px;
             color: var(--accent);
             font-weight: 600;
+            width: fit-content;
         }
 
         .status-indicator {
@@ -652,60 +697,102 @@
 
         .mockup-stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
         }
 
         .stat-card {
-            background: var(--bg-card);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(16, 185, 129, 0.02) 100%);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
+            border-radius: 12px;
+            padding: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.04);
+            transform: translateY(-2px);
         }
 
         .stat-label {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-tertiary);
-            margin-bottom: 4px;
-            font-weight: 500;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .stat-value {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 8px;
+            line-height: 1.2;
         }
 
         .stat-chart {
             display: flex;
             gap: 2px;
             align-items: flex-end;
-            height: 24px;
+            height: 28px;
         }
 
         .chart-bar {
             flex: 1;
-            background: var(--accent);
+            background: linear-gradient(180deg, var(--accent), var(--accent-light));
             border-radius: 2px;
-            opacity: 0.7;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+        }
+
+        .chart-bar:hover {
+            opacity: 1;
+            transform: scaleY(1.1);
         }
 
         .chart-bar.active {
             opacity: 1;
         }
 
+        .mockup-chart {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            height: 140px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 8px;
+        }
+
+        .mockup-chart-bar {
+            width: 100%;
+            background: linear-gradient(180deg, var(--accent), rgba(16, 185, 129, 0.4));
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .mockup-chart-bar:hover {
+            background: linear-gradient(180deg, var(--accent-light), var(--accent));
+            transform: scaleY(1.1);
+        }
+
         .mockup-table {
-            font-size: 10px;
+            font-size: 11px;
             color: var(--text-secondary);
+            flex: 1;
         }
 
         .table-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr;
+            gap: 12px;
+            padding: 10px 0;
             border-bottom: 1px solid var(--border-light);
+            align-items: center;
         }
 
         .table-row:last-child {
@@ -713,7 +800,19 @@
         }
 
         .table-col {
-            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .table-col.provider {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .table-col.cost {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         @media (max-width: 1200px) {
@@ -1868,6 +1967,423 @@
             }
         }
 
+        /* DEVELOPERS SECTION - CODE TABS */
+        .developers {
+            padding: 140px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border);
+            margin-top: 80px;
+            max-width: 100%;
+        }
+
+        .code-tab {
+            padding: 16px 28px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .code-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .code-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .code-block-tabs {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+        }
+
+        .code-content-tab {
+            display: none;
+            padding: 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            overflow-x: auto;
+        }
+
+        .code-content-tab.active {
+            display: block;
+            animation: fade-in 0.3s ease;
+        }
+
+        .code-line-tab {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .code-number-tab {
+            color: var(--text-muted);
+            flex-shrink: 0;
+            user-select: none;
+            min-width: 24px;
+            text-align: right;
+        }
+
+        /* FAQ SECTION */
+        .faq {
+            padding: 140px 40px;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.02) 100%);
+        }
+
+        .faq-container {
+            max-width: 780px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fade-in-up 0.6s ease forwards;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0s; }
+        .faq-item:nth-child(2) { animation-delay: 0.05s; }
+        .faq-item:nth-child(3) { animation-delay: 0.1s; }
+        .faq-item:nth-child(4) { animation-delay: 0.15s; }
+        .faq-item:nth-child(5) { animation-delay: 0.2s; }
+        .faq-item:nth-child(6) { animation-delay: 0.25s; }
+        .faq-item:nth-child(7) { animation-delay: 0.3s; }
+        .faq-item:nth-child(8) { animation-delay: 0.35s; }
+
+        .faq-header {
+            padding: 24px 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .faq-header:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .faq-question {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .faq-toggle {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 24px 28px;
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+            animation: fade-in 0.3s ease;
+        }
+
+        .faq-item.open {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.05);
+        }
+
+        /* ENHANCED CTA BANNER */
+        .cta-enhanced {
+            padding: 140px 40px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .cta-banner {
+            position: relative;
+            background: linear-gradient(135deg,
+                rgba(16, 185, 129, 0.1) 0%,
+                rgba(6, 182, 212, 0.05) 50%,
+                rgba(139, 92, 246, 0.08) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 80px 60px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float-slow 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float-slow-reverse 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -40px); }
+        }
+
+        @keyframes float-slow-reverse {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, 30px); }
+        }
+
+        .cta-banner-content {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: fade-in-up 0.6s ease 0.1s both;
+        }
+
+        .cta-banner-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -0.04em;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .cta-banner-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-banner-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* UPDATES/CHANGELOG TIMELINE */
+        .updates {
+            padding: 140px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .updates-timeline {
+            max-width: 800px;
+            margin: 100px auto 0;
+            position: relative;
+        }
+
+        .update-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 60px;
+            align-items: flex-start;
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fade-in-up 0.6s ease forwards;
+        }
+
+        .update-item:nth-child(1) { animation-delay: 0.1s; }
+        .update-item:nth-child(2) { animation-delay: 0.2s; }
+        .update-item:nth-child(3) { animation-delay: 0.3s; }
+        .update-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .update-date {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .update-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .update-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+
+        .update-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .update-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .update-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .update-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* COUNTER ANIMATION */
+        .counter {
+            display: inline-block;
+        }
+
+        /* CARD GLOW EFFECT */
+        .card-hover-glow {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .card-hover-glow:hover {
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .faq {
+                padding: 100px 40px;
+            }
+
+            .developers {
+                padding: 100px 40px;
+            }
+
+            .updates {
+                padding: 100px 40px;
+            }
+
+            .cta-enhanced {
+                padding: 100px 40px;
+            }
+
+            .cta-banner {
+                padding: 60px 40px;
+            }
+
+            .update-item {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .faq {
+                padding: 80px 24px;
+            }
+
+            .developers {
+                padding: 80px 24px;
+            }
+
+            .updates {
+                padding: 80px 24px;
+            }
+
+            .cta-enhanced {
+                padding: 80px 24px;
+            }
+
+            .cta-banner {
+                padding: 40px 24px;
+            }
+
+            .cta-banner-title {
+                font-size: clamp(1.8rem, 4vw, 2.8rem);
+            }
+
+            .cta-banner-buttons {
+                flex-direction: column;
+            }
+
+            .code-tabs {
+                overflow-x: auto;
+            }
+
+            .code-tab {
+                white-space: nowrap;
+            }
+        }
+
         /* FOOTER */
         footer {
             background: var(--bg-elevated);
@@ -2494,17 +3010,18 @@
                                 <div class="mockup-main">
                                     <div class="mockup-status">
                                         <span class="status-indicator"></span>
-                                        System online
+                                        All systems operational
                                     </div>
+
                                     <div class="mockup-stats">
                                         <div class="stat-card">
-                                            <div class="stat-label">Requests</div>
-                                            <div class="stat-value">2.8M</div>
+                                            <div class="stat-label">Total Cost</div>
+                                            <div class="stat-value">$2,847</div>
                                             <div class="stat-chart">
-                                                <div class="chart-bar" style="height: 30%;"></div>
-                                                <div class="chart-bar" style="height: 45%;"></div>
-                                                <div class="chart-bar active" style="height: 60%;"></div>
+                                                <div class="chart-bar" style="height: 25%;"></div>
                                                 <div class="chart-bar" style="height: 40%;"></div>
+                                                <div class="chart-bar" style="height: 55%;"></div>
+                                                <div class="chart-bar active" style="height: 70%;"></div>
                                             </div>
                                         </div>
                                         <div class="stat-card">
@@ -2513,27 +3030,66 @@
                                             <div class="stat-chart">
                                                 <div class="chart-bar" style="height: 35%;"></div>
                                                 <div class="chart-bar" style="height: 50%;"></div>
-                                                <div class="chart-bar active" style="height: 70%;"></div>
+                                                <div class="chart-bar active" style="height: 80%;"></div>
+                                                <div class="chart-bar" style="height: 60%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-label">Avg Latency</div>
+                                            <div class="stat-value">42ms</div>
+                                            <div class="stat-chart">
+                                                <div class="chart-bar" style="height: 60%;"></div>
+                                                <div class="chart-bar" style="height: 45%;"></div>
+                                                <div class="chart-bar active" style="height: 50%;"></div>
                                                 <div class="chart-bar" style="height: 55%;"></div>
                                             </div>
                                         </div>
+                                        <div class="stat-card">
+                                            <div class="stat-label">Uptime</div>
+                                            <div class="stat-value">99.97%</div>
+                                            <div class="stat-chart">
+                                                <div class="chart-bar" style="height: 95%;"></div>
+                                                <div class="chart-bar" style="height: 98%;"></div>
+                                                <div class="chart-bar active" style="height: 100%;"></div>
+                                                <div class="chart-bar" style="height: 97%;"></div>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <div class="mockup-chart">
+                                        <div class="mockup-chart-bar" style="height: 35%;"></div>
+                                        <div class="mockup-chart-bar" style="height: 52%;"></div>
+                                        <div class="mockup-chart-bar" style="height: 38%;"></div>
+                                        <div class="mockup-chart-bar" style="height: 68%;"></div>
+                                        <div class="mockup-chart-bar" style="height: 45%;"></div>
+                                        <div class="mockup-chart-bar" style="height: 72%;"></div>
+                                        <div class="mockup-chart-bar active" style="height: 58%;"></div>
+                                    </div>
+
                                     <div class="mockup-table">
-                                        <div class="table-row" style="border-bottom: 1px solid var(--border); padding-bottom: 4px; margin-bottom: 4px;">
-                                            <div class="table-col"><strong>Model</strong></div>
-                                            <div class="table-col"><strong>Cost</strong></div>
+                                        <div class="table-row" style="font-weight: 700; padding-bottom: 8px; margin-bottom: 8px; color: var(--text-primary);">
+                                            <div class="table-col">Model</div>
+                                            <div class="table-col provider">Provider</div>
+                                            <div class="table-col">Latency</div>
+                                            <div class="table-col cost">Cost/1K</div>
                                         </div>
                                         <div class="table-row">
                                             <div class="table-col">gpt-4o</div>
-                                            <div class="table-col">$0.003</div>
+                                            <div class="table-col provider">OpenAI</div>
+                                            <div class="table-col">38ms</div>
+                                            <div class="table-col cost">$0.0032</div>
                                         </div>
                                         <div class="table-row">
                                             <div class="table-col">claude-3.5</div>
-                                            <div class="table-col">$0.002</div>
+                                            <div class="table-col provider">Anthropic</div>
+                                            <div class="table-col">42ms</div>
+                                            <div class="table-col cost">$0.0015</div>
                                         </div>
                                         <div class="table-row">
                                             <div class="table-col">llama-3-70b</div>
-                                            <div class="table-col">$0.0008</div>
+                                            <div class="table-col provider">Together</div>
+                                            <div class="table-col">51ms</div>
+                                            <div class="table-col cost">$0.0008</div>
                                         </div>
                                     </div>
                                 </div>
@@ -2871,6 +3427,259 @@
         </div>
     </section>
 
+    <!-- DEVELOPERS SECTION - CODE TABS -->
+    <section class="developers" id="developers">
+        <div class="container">
+            <div class="section-label">DEVELOPERS</div>
+            <h2 class="section-title">Choose your language</h2>
+            <p class="section-subtitle">Simple, unified API across Python, JavaScript, and Go. Just a few lines of code to integrate.</p>
+
+            <div class="code-tabs">
+                <button class="code-tab active" onclick="switchCodeTab(event, 'python')">Python</button>
+                <button class="code-tab" onclick="switchCodeTab(event, 'javascript')">JavaScript</button>
+                <button class="code-tab" onclick="switchCodeTab(event, 'go')">Go</button>
+            </div>
+
+            <div class="code-block-tabs">
+                <div class="code-content-tab active" id="python">
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">1</span>
+                        <span><span class="keyword">from</span> inferenceiq <span class="keyword">import</span> Client</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">2</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">3</span>
+                        <span>client = Client(api_key=<span class="string">"your-api-key"</span>)</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">4</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">5</span>
+                        <span>response = client.completions.create(</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">6</span>
+                        <span>    model=<span class="string">"gpt-4o"</span>,</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">7</span>
+                        <span>    messages=[</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">8</span>
+                        <span>        {<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: prompt}</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">9</span>
+                        <span>    ]</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">10</span>
+                        <span>)</span>
+                    </div>
+                </div>
+
+                <div class="code-content-tab" id="javascript">
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">1</span>
+                        <span><span class="keyword">import</span> { InferenceIQ } <span class="keyword">from</span> <span class="string">"@inferenceiq/sdk"</span>;</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">2</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">3</span>
+                        <span><span class="keyword">const</span> client = <span class="keyword">new</span> InferenceIQ({</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">4</span>
+                        <span>    apiKey: <span class="string">"your-api-key"</span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">5</span>
+                        <span>});</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">6</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">7</span>
+                        <span><span class="keyword">const</span> response = <span class="keyword">await</span> client.completions.create({</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">8</span>
+                        <span>    model: <span class="string">"gpt-4o"</span>,</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">9</span>
+                        <span>    messages: [{ role: <span class="string">"user"</span>, content: prompt }]</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">10</span>
+                        <span>});</span>
+                    </div>
+                </div>
+
+                <div class="code-content-tab" id="go">
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">1</span>
+                        <span><span class="keyword">package</span> main</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">2</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">3</span>
+                        <span><span class="keyword">import</span> <span class="string">"github.com/inferenceiq/go-sdk"</span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">4</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">5</span>
+                        <span>client := sdk.NewClient(apiKey)</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">6</span>
+                        <span></span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">7</span>
+                        <span>resp, err := client.Completions.Create(ctx, &sdk.CompletionRequest{</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">8</span>
+                        <span>    Model: <span class="string">"gpt-4o"</span>,</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">9</span>
+                        <span>    Messages: []sdk.Message{{Role: <span class="string">"user"</span>, Content: prompt}},</span>
+                    </div>
+                    <div class="code-line-tab">
+                        <span class="code-number-tab">10</span>
+                        <span>})</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Frequently asked questions</h2>
+            <p class="section-subtitle">Everything you need to know about InferenceIQ</p>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">How does InferenceIQ reduce costs?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        InferenceIQ uses intelligent routing and load balancing to distribute requests across multiple AI providers. Our algorithms automatically choose the most cost-effective provider for each request type while maintaining quality and latency requirements.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">How is my data secured?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        We employ enterprise-grade security with SOC 2 Type II compliance, end-to-end encryption, and HIPAA support. All data is encrypted in transit and at rest. We never store or cache your requests, and you have full control over data residency.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">How long does integration take?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        Most teams complete integration in 5-15 minutes. Replace your existing API endpoint with InferenceIQ's, configure your preferred providers, and you're done. We provide SDKs for Python, JavaScript, Go, and REST API.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">What if a provider goes down?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        Our automatic failover system instantly switches to backup providers if one goes down. You maintain 99.97% uptime SLA without manual intervention. Configure primary and fallback providers, and we handle the rest.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">Can I use my existing provider accounts?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! You can connect any OpenAI, Anthropic, Mistral, Together AI, or other provider account. We don't require you to change providers or create new accounts. Your API keys stay secure with us.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">How does pricing work?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        Our Starter plan is free forever with 100K requests/month. Professional ($299/month) offers unlimited requests. Enterprise plans include custom features and dedicated support. You only pay for what InferenceIQ adds, not the underlying provider costs.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">Do you offer SLA guarantees?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        Professional and Enterprise plans include our 99.97% uptime SLA. Enterprise plans include additional guarantees including response time SLAs and dedicated infrastructure options.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header" onclick="toggleFAQ(this)">
+                        <p class="faq-question">Can I see analytics on my usage?</p>
+                        <div class="faq-toggle">
+                            <i data-lucide="plus" class="icon-small"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Our real-time dashboard shows cost trends, latency metrics, provider performance, error rates, and more. Export reports and set up alerts to track your savings and performance in real-time.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- PRICING SECTION -->
     <section class="pricing" id="pricing">
         <div class="container">
@@ -2981,20 +3790,79 @@
         </div>
     </section>
 
-    <!-- CTA SECTION -->
-    <section class="cta">
-        <div class="cta-content">
-            <h2 class="cta-title">Ready to cut your inference costs?</h2>
-            <p class="cta-subtitle">Join hundreds of teams already saving thousands of dollars every month with InferenceIQ. Start free today, no credit card required.</p>
-            <button class="btn btn-lg btn-lg-primary cta-button" onclick="switchScreen('login')" style="cursor: pointer;">
-                Start Free Today
-            </button>
-            <div class="cta-footer">
-                <span>No credit card required</span>
-                <span class="cta-dot"></span>
-                <span>Free tier available</span>
-                <span class="cta-dot"></span>
-                <span>SOC 2 compliant</span>
+    <!-- UPDATES/CHANGELOG SECTION -->
+    <section class="updates" id="updates">
+        <div class="container">
+            <div class="section-label">UPDATES</div>
+            <h2 class="section-title">Recent product updates</h2>
+            <p class="section-subtitle">Stay in the loop with our latest features and improvements</p>
+
+            <div class="updates-timeline">
+                <div class="update-item">
+                    <div class="update-date">March 2025</div>
+                    <div class="update-card">
+                        <h3 class="update-title">Advanced Routing Algorithms</h3>
+                        <p class="update-description">Introducing ML-powered request routing that learns from your usage patterns to maximize cost savings and minimize latency. 15% additional savings for early adopters.</p>
+                        <div class="update-tags">
+                            <span class="update-tag">Feature</span>
+                            <span class="update-tag">Performance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="update-item">
+                    <div class="update-date">February 2025</div>
+                    <div class="update-card">
+                        <h3 class="update-title">Real-time Alerting & Webhooks</h3>
+                        <p class="update-description">Get instant notifications when your costs spike, providers fail, or latency exceeds thresholds. Webhooks for seamless integration with your monitoring stack.</p>
+                        <div class="update-tags">
+                            <span class="update-tag">Feature</span>
+                            <span class="update-tag">Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="update-item">
+                    <div class="update-date">January 2025</div>
+                    <div class="update-card">
+                        <h3 class="update-title">Enhanced Dashboard & Analytics</h3>
+                        <p class="update-description">Completely redesigned dashboard with deeper insights into cost trends, provider performance, and optimization opportunities. Exportable reports for financial teams.</p>
+                        <div class="update-tags">
+                            <span class="update-tag">Enhancement</span>
+                            <span class="update-tag">Analytics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="update-item">
+                    <div class="update-date">December 2024</div>
+                    <div class="update-card">
+                        <h3 class="update-title">Multi-region Support</h3>
+                        <p class="update-description">Deploy InferenceIQ in US, EU, and APAC regions with data residency controls. Perfect for enterprises with compliance requirements.</p>
+                        <div class="update-tags">
+                            <span class="update-tag">Feature</span>
+                            <span class="update-tag">Enterprise</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENHANCED CTA BANNER -->
+    <section class="cta-enhanced">
+        <div class="cta-banner">
+            <div class="cta-banner-content">
+                <h2 class="cta-banner-title">Ready to cut inference costs by <span style="background: linear-gradient(135deg, #10b981, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">73%</span>?</h2>
+                <p class="cta-banner-subtitle">Join hundreds of teams already saving thousands of dollars every month with InferenceIQ. Start free today, no credit card required.</p>
+                <div class="cta-banner-buttons">
+                    <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')" style="cursor: pointer;">
+                        Start Free Trial
+                    </button>
+                    <button class="btn btn-lg btn-lg-secondary" onclick="alert('Contact form would open here')" style="cursor: pointer;">
+                        Talk to Sales
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -3225,6 +4093,9 @@
         setupScrollNavigation();
         setupHamburgerMenu();
         switchScreen('landing');
+        setTimeout(() => {
+            initCounterAnimations();
+        }, 500);
     });
 
     function switchScreen(screenName) {
@@ -3251,6 +4122,106 @@
     function handleLogin(event) {
         event.preventDefault();
         switchScreen('dashboard');
+    }
+
+    // CODE TAB SWITCHING
+    function switchCodeTab(event, tabName) {
+        event.preventDefault();
+
+        // Hide all code content tabs
+        const codeContents = document.querySelectorAll('.code-content-tab');
+        codeContents.forEach(tab => tab.classList.remove('active'));
+
+        // Remove active class from all buttons
+        const codeTabs = document.querySelectorAll('.code-tab');
+        codeTabs.forEach(tab => tab.classList.remove('active'));
+
+        // Show selected tab
+        const selectedContent = document.getElementById(tabName);
+        if (selectedContent) {
+            selectedContent.classList.add('active');
+        }
+
+        // Activate clicked button
+        event.target.classList.add('active');
+    }
+
+    // FAQ TOGGLE
+    function toggleFAQ(element) {
+        const faqItem = element.parentElement;
+        const isOpen = faqItem.classList.contains('open');
+
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-item').forEach(item => {
+            if (item !== faqItem) {
+                item.classList.remove('open');
+            }
+        });
+
+        // Toggle current item
+        if (isOpen) {
+            faqItem.classList.remove('open');
+        } else {
+            faqItem.classList.add('open');
+        }
+    }
+
+    // ANIMATED COUNTERS FOR METRICS
+    function animateCounter(element, target, duration = 2000) {
+        let current = 0;
+        const increment = target / (duration / 16);
+        const originalText = element.textContent;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+
+            // Format the number
+            if (originalText.includes('%')) {
+                element.textContent = Math.floor(current) + '%';
+            } else if (originalText.includes('K')) {
+                element.textContent = (current / 1000).toFixed(0) + 'K+';
+            } else if (originalText.includes('M')) {
+                element.textContent = (current / 1000000).toFixed(0) + 'M+';
+            } else {
+                element.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 16);
+    }
+
+    // Initialize counter animations when metrics section scrolls into view
+    function initCounterAnimations() {
+        const metricItems = document.querySelectorAll('.metric-number');
+        let animated = false;
+
+        const observerOptions = {
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    animated = true;
+                    metricItems.forEach(metric => {
+                        const text = metric.getAttribute('data-target') || metric.textContent;
+                        const targetValue = parseInt(text.replace(/[^0-9]/g, ''));
+                        if (!isNaN(targetValue)) {
+                            metric.setAttribute('data-target', text);
+                            animateCounter(metric, targetValue);
+                        }
+                    });
+                    observer.disconnect();
+                }
+            });
+        }, observerOptions);
+
+        const metricsBar = document.querySelector('.metrics-bar');
+        if (metricsBar) {
+            observer.observe(metricsBar);
+        }
     }
 
     let costChartInstance = null;
