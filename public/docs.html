@@ -4,254 +4,931 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation - InferenceIQ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {--bg: #0a0a0a; --bg-elevated: #111111; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --border-light: rgba(255,255,255,0.03); --text-primary: #fafafa; --text-secondary: #a1a1aa; --text-tertiary: #71717a; --text-muted: #52525b; --accent: #10b981; --accent-light: #34d399; --accent-glow: rgba(16,185,129,0.15);}
-        * {margin: 0; padding: 0; box-sizing: border-box;}
-        html {scroll-behavior: smooth;}
-        html, body {width: 100%; min-height: 100%; margin: 0; padding: 0;}
-        body {background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; position: relative;}
-        body::before {content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 50%, rgba(16,185,129,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 50%), radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 100% 100%, 24px 24px; pointer-events: none; z-index: 1;}
-        a {color: inherit; text-decoration: none;}
-        button {border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
-        .icon-small {width: 20px; height: 20px; stroke-width: 1.5;}
-        #nav {position: fixed; top: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; z-index: 1000; transition: all 0.3s ease;}
-        #nav.scrolled {border-bottom-color: var(--border);}
-        .nav-logo {display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em;}
-        .nav-dot {width: 8px; height: 8px; background: var(--accent); border-radius: 50%;}
-        .nav-center {display: flex; gap: 40px; align-items: center;}
-        .nav-link {font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: all 0.3s ease; cursor: pointer; position: relative;}
-        .nav-link::after {content: ''; position: absolute; bottom: -8px; left: 0; width: 0; height: 2px; background: var(--accent); border-radius: 1px; transition: width 0.3s ease;}
-        .nav-link:hover {color: var(--text-primary);}
-        .nav-link:hover::after {width: 100%;}
-        .nav-right {display: flex; align-items: center; gap: 24px;}
-        .nav-login {font-size: 14px; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: color 0.3s ease;}
-        .nav-login:hover {color: var(--text-primary);}
-        .btn {padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; cursor: pointer;}
-        .btn-primary {background: var(--accent); color: #000; padding: 11px 24px; font-weight: 700;}
-        .btn-primary:hover {background: var(--accent-light); transform: scale(1.02) translateY(-2px); box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);}
-        .hamburger {display: none; flex-direction: column; gap: 6px; cursor: pointer;}
-        .hamburger span {width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s ease;}
-        .hamburger.active span:nth-child(1) {transform: rotate(45deg) translateY(10px);}
-        .hamburger.active span:nth-child(2) {opacity: 0;}
-        .hamburger.active span:nth-child(3) {transform: rotate(-45deg) translateY(-10px);}
-        #nav.mobile-open {flex-direction: column; align-items: flex-start; height: auto; padding: 16px 24px; gap: 16px;}
-        #nav.mobile-open .nav-center {width: 100%; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 16px;}
-        #nav.mobile-open .nav-right {width: 100%; flex-direction: column; gap: 12px;}
-        @media (max-width: 1024px) {#nav {padding: 0 24px;} .nav-center {display: none;} .hamburger {display: flex;}}
-        main {margin-top: 72px; position: relative; z-index: 2;}
-        .docs-hero {padding: 100px 40px; text-align: center; background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, transparent 100%);}
-        .docs-hero h1 {font-size: 48px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em;}
-        .docs-hero p {font-size: 18px; color: var(--text-secondary); margin-bottom: 30px;}
-        .docs-grid {display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 40px;}
-        .doc-card {padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s ease;}
-        .doc-card:hover {background: rgba(255,255,255,0.05); border-color: var(--accent); transform: translateY(-2px);}
-        .doc-card h3 {font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
-        .doc-card p {font-size: 13px; color: var(--text-secondary); line-height: 1.6;}
-        .doc-card a {display: inline-flex; align-items: center; gap: 4px; color: var(--accent); font-weight: 600; margin-top: 12px; transition: all 0.3s ease;}
-        .doc-card a:hover {transform: translateX(4px);}
-        @media (max-width: 1024px) {.docs-grid {grid-template-columns: repeat(2, 1fr);}}
-        @media (max-width: 768px) {.docs-grid {grid-template-columns: 1fr;} .docs-hero {padding: 60px 24px;} .docs-hero h1 {font-size: 32px;}}
-        footer {background: var(--bg-elevated); border-top: 1px solid var(--border-light); padding: 100px 40px 50px 40px; position: relative; z-index: 2;}
-        footer::before {content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, var(--accent-glow) 50%, transparent 100%);}
-        .footer-content {max-width: 1200px; margin: 0 auto;}
-        .footer-header {display: flex; justify-content: space-between; align-items: flex-start; gap: 60px; padding-bottom: 60px; border-bottom: 1px solid var(--border-light);}
-        .footer-logo {flex: 1;}
-        .footer-tagline {font-size: 14px; color: var(--text-secondary); margin-top: 12px; line-height: 1.6; max-width: 300px;}
-        .footer-newsletter {flex: 1; max-width: 300px;}
-        .newsletter-input-wrapper {display: flex; gap: 8px;}
-        .newsletter-input {flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-size: 14px; color: var(--text-primary); transition: all 0.3s ease;}
-        .newsletter-input::placeholder {color: var(--text-muted);}
-        .newsletter-input:focus {outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);}
-        .newsletter-button {background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.3s ease;}
-        .newsletter-button:hover {background: var(--accent-light); box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);}
-        .footer-grid {display: grid; grid-template-columns: repeat(4, 1fr); gap: 60px; margin-bottom: 80px;}
-        .footer-column h3 {font-size: 12px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 0.12em;}
-        .footer-column ul {list-style: none; display: flex; flex-direction: column; gap: 14px;}
-        .footer-column a {font-size: 14px; color: var(--text-tertiary); transition: color 0.3s ease;}
-        .footer-column a:hover {color: var(--text-secondary);}
-        .footer-bottom {display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid var(--border-light);}
-        .footer-copyright {font-size: 13px; color: var(--text-muted);}
-        .footer-socials {display: flex; gap: 20px;}
-        .footer-social {color: var(--text-tertiary); transition: all 0.3s ease; cursor: pointer;}
-        .footer-social:hover {color: var(--accent); transform: translateY(-2px);}
-        @media (max-width: 1024px) {.footer-grid {grid-template-columns: repeat(2, 1fr); gap: 40px;} footer {padding: 80px 40px 40px 40px;}}
-        @media (max-width: 768px) {.footer-grid {grid-template-columns: 1fr; gap: 32px;} .footer-bottom {flex-direction: column; gap: 24px; text-align: center;} .footer-socials {justify-content: center;} footer {padding: 60px 24px 40px 24px;} .footer-header {flex-direction: column; gap: 40px;}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-elevated: #141414;
+            --bg-hover: #1a1a1a;
+            --text-primary: #fafafa;
+            --text-secondary: #b4b4b4;
+            --text-tertiary: #808080;
+            --accent: #10b981;
+            --accent-light: rgba(16, 185, 129, 0.1);
+            --border: #262626;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+            margin-top: 64px;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            cursor: pointer;
+        }
+
+        .nav-logomark {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+            display: inline-block;
+            animation: logo-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes logo-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex: 1;
+            margin-left: 60px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-left: auto;
+        }
+
+        .nav-login {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-login:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background: #06a373;
+            transform: translateY(-2px);
+        }
+
+        /* DOCS LAYOUT */
+        .docs-sidebar {
+            width: 280px;
+            background: var(--bg-elevated);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(100vh - 64px);
+            position: sticky;
+            top: 64px;
+        }
+
+        .docs-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 24px;
+        }
+
+        .docs-search input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            flex: 1;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .docs-search input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .docs-nav-section {
+            margin-bottom: 24px;
+        }
+
+        .docs-nav-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .docs-nav-item {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .docs-nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .docs-nav-item.active {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .docs-main {
+            flex: 1;
+            padding: 48px;
+            max-width: 900px;
+            overflow-y: auto;
+            max-height: calc(100vh - 64px);
+        }
+
+        .docs-content h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .docs-content h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+
+        .docs-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+
+        .docs-content p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .docs-content a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .docs-content a:hover {
+            color: #06a373;
+            text-decoration: underline;
+        }
+
+        .code-block {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .code-block code {
+            color: var(--text-primary);
+        }
+
+        .code-copy {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .code-copy:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-tab {
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .code-content {
+            display: none;
+        }
+
+        .code-content.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        table th {
+            background: var(--bg-hover);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .table-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--accent-light);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border);
+            padding: 48px 32px;
+            margin-top: 80px;
+            clear: both;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-newsletter {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .newsletter-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 12px;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .newsletter-button {
+            padding: 10px 16px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .newsletter-button:hover {
+            background: #06a373;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-social {
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .footer-social:hover {
+            color: var(--accent);
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 16px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .docs-container {
+                flex-direction: column;
+                margin-top: 56px;
+            }
+
+            .docs-sidebar {
+                width: 100%;
+                max-height: none;
+                border-bottom: 1px solid var(--border);
+                border-right: none;
+                position: static;
+            }
+
+            .docs-main {
+                padding: 32px 16px;
+                max-height: none;
+            }
+
+            .docs-content h1 {
+                font-size: 28px;
+            }
+
+            .docs-content h2 {
+                font-size: 22px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-
-<nav id="nav">
-    <div class="nav-logo"><div class="nav-dot"></div>InferenceIQ</div>
-    <div class="nav-center">
-        <a href="index.html#features" class="nav-link">Features</a>
-        <a href="index.html#pricing" class="nav-link">Pricing</a>
-        <a href="docs.html" class="nav-link">Docs</a>
-        <a href="index.html#changelog" class="nav-link">Changelog</a>
-    </div>
-    <div class="nav-right">
-        <a class="nav-login" href="index.html">Sign In</a>
-        <button class="btn btn-primary">Start Free Trial</button>
-    </div>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-</nav>
-
-<main>
-    <section class="docs-hero">
-        <div class="container">
-            <h1>Documentation</h1>
-            <p>Everything you need to get started with InferenceIQ</p>
+    <!-- NAV -->
+    <nav id="nav">
+        <div class="nav-logo" onclick="window.location.href='index.html'">
+            <svg class="nav-logomark" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 2L18 15H6Z" fill="currentColor" opacity="0.8"/>
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.4"/>
+            </svg>
+            InferenceIQ
         </div>
-    </section>
+        <div class="nav-center">
+            <a href="index.html" class="nav-link">Features</a>
+            <a href="index.html" class="nav-link">Pricing</a>
+            <a href="docs.html" class="nav-link active">Docs</a>
+            <a href="blog.html" class="nav-link">Blog</a>
+            <a href="status.html" class="nav-link">Status</a>
+            <a href="changelog.html" class="nav-link">Changelog</a>
+        </div>
+        <div class="nav-right">
+            <a class="nav-login" onclick="alert('Sign in coming soon')" style="cursor: pointer;">Sign In</a>
+            <button class="btn btn-primary" onclick="alert('Start free trial coming soon')" style="cursor: pointer;">Start Free Trial</button>
+        </div>
+    </nav>
 
-    <section style="padding: 80px 40px;">
-        <div class="docs-grid">
-            <div class="doc-card">
-                <h3><i data-lucide="book-open" class="icon-small"></i> Getting Started</h3>
-                <p>Learn the basics of InferenceIQ. Set up your first project and make your first API call in just a few minutes.</p>
-                <a href="#">Read guide <i data-lucide="arrow-right" class="icon-small"></i></a>
+    <!-- DOCS LAYOUT -->
+    <div class="docs-container">
+        <!-- SIDEBAR -->
+        <div class="docs-sidebar">
+            <div class="docs-search">
+                <span>🔍</span>
+                <input type="text" placeholder="Search docs...">
             </div>
 
-            <div class="doc-card">
-                <h3><i data-lucide="zap" class="icon-small"></i> Quick Start</h3>
-                <p>Get up and running with step-by-step instructions. Choose your preferred language and follow along.</p>
-                <a href="#">Start building <i data-lucide="arrow-right" class="icon-small"></i></a>
+            <div class="docs-nav-section">
+                <div class="docs-nav-label">Getting Started</div>
+                <div class="docs-nav-item active" onclick="scrollToSection('quickstart')">Quick Start</div>
+                <div class="docs-nav-item" onclick="scrollToSection('installation')">Installation</div>
+                <div class="docs-nav-item" onclick="scrollToSection('basic-usage')">Basic Usage</div>
             </div>
 
-            <div class="doc-card">
-                <h3><i data-lucide="code" class="icon-small"></i> API Reference</h3>
-                <p>Complete API documentation with examples. Explore endpoints, parameters, and response formats.</p>
-                <a href="api.html">View API <i data-lucide="arrow-right" class="icon-small"></i></a>
+            <div class="docs-nav-section">
+                <div class="docs-nav-label">Configuration</div>
+                <div class="docs-nav-item" onclick="scrollToSection('config')">Configuration</div>
+                <div class="docs-nav-item" onclick="scrollToSection('providers')">Providers</div>
+                <div class="docs-nav-item" onclick="scrollToSection('routing')">Routing Rules</div>
             </div>
 
-            <div class="doc-card">
-                <h3><i data-lucide="key" class="icon-small"></i> Authentication</h3>
-                <p>Learn how to authenticate requests using API keys and manage your credentials securely.</p>
-                <a href="#">Learn more <i data-lucide="arrow-right" class="icon-small"></i></a>
+            <div class="docs-nav-section">
+                <div class="docs-nav-label">API Reference</div>
+                <div class="docs-nav-item" onclick="scrollToSection('endpoints')">Endpoints</div>
+                <div class="docs-nav-item" onclick="scrollToSection('authentication')">Authentication</div>
+                <div class="docs-nav-item" onclick="scrollToSection('errors')">Error Handling</div>
             </div>
 
-            <div class="doc-card">
-                <h3><i data-lucide="layers" class="icon-small"></i> Models & Routing</h3>
-                <p>Understand how intelligent routing works and how to optimize for your specific use case.</p>
-                <a href="#">Explore models <i data-lucide="arrow-right" class="icon-small"></i></a>
+            <div class="docs-nav-section">
+                <div class="docs-nav-label">SDKs</div>
+                <div class="docs-nav-item" onclick="scrollToSection('python')">Python SDK</div>
+                <div class="docs-nav-item" onclick="scrollToSection('node')">Node.js SDK</div>
+                <div class="docs-nav-item" onclick="scrollToSection('rest')">REST API</div>
             </div>
 
-            <div class="doc-card">
-                <h3><i data-lucide="shield-check" class="icon-small"></i> Best Practices</h3>
-                <p>Recommendations for security, performance, and reliability when building with InferenceIQ.</p>
-                <a href="#">Best practices <i data-lucide="arrow-right" class="icon-small"></i></a>
-            </div>
-
-            <div class="doc-card">
-                <h3><i data-lucide="message-circle" class="icon-small"></i> SDK Guides</h3>
-                <p>Language-specific guides for Python, JavaScript, Go, and more. Choose your favorite language.</p>
-                <a href="#">SDKs <i data-lucide="arrow-right" class="icon-small"></i></a>
-            </div>
-
-            <div class="doc-card">
-                <h3><i data-lucide="bar-chart" class="icon-small"></i> Monitoring</h3>
-                <p>Track usage, monitor costs, and analyze performance with our built-in analytics dashboard.</p>
-                <a href="#">View docs <i data-lucide="arrow-right" class="icon-small"></i></a>
-            </div>
-
-            <div class="doc-card">
-                <h3><i data-lucide="help-circle" class="icon-small"></i> FAQ</h3>
-                <p>Common questions and answers. Find solutions to the most frequently asked questions.</p>
-                <a href="#">Read FAQ <i data-lucide="arrow-right" class="icon-small"></i></a>
+            <div class="docs-nav-section">
+                <div class="docs-nav-label">Resources</div>
+                <div class="docs-nav-item" onclick="scrollToSection('guides')">Guides</div>
+                <div class="docs-nav-item" onclick="scrollToSection('faq')">FAQ</div>
+                <div class="docs-nav-item" onclick="scrollToSection('support')">Support</div>
             </div>
         </div>
-    </section>
-</main>
 
-<footer>
-    <div class="footer-content">
-        <div class="footer-header">
-            <div class="footer-logo">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
-                    <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+        <!-- MAIN CONTENT -->
+        <div class="docs-main">
+            <div class="docs-content">
+                <h1 id="quickstart">Quick Start</h1>
+                <p class="intro-text">
+                    Get up and running with InferenceIQ in 5 minutes. Start routing your inference requests to save 73% on costs automatically.
+                </p>
+
+                <h2 id="installation">Installation</h2>
+                <p>Install InferenceIQ using your package manager:</p>
+
+                <div class="code-tabs">
+                    <button class="code-tab active" onclick="switchTab(event, 'python')">Python</button>
+                    <button class="code-tab" onclick="switchTab(event, 'node')">Node.js</button>
                 </div>
-                <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
-            </div>
-            <div class="footer-newsletter">
-                <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
-                <div class="newsletter-input-wrapper">
-                    <input type="email" class="newsletter-input" placeholder="your@email.com">
-                    <button class="newsletter-button">Subscribe</button>
+
+                <div class="code-block">
+                    <div class="code-copy" onclick="copyCode(event)">Copy</div>
+                    <div id="python" class="code-content active">
+                        <pre><code>pip install inferenceiq</code></pre>
+                    </div>
+                    <div id="node" class="code-content">
+                        <pre><code>npm install inferenceiq</code></pre>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h3>Product</h3>
-                <ul>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
-                    <li><a href="security.html">Security</a></li>
-                    <li><a href="api.html">API Reference</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Developers</h3>
-                <ul>
-                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
-                    <li><a href="docs.html">Documentation</a></li>
-                    <li><a href="#">SDKs</a></li>
-                    <li><a href="#">Status Page</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Company</h3>
-                <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="careers.html">Careers</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="privacy.html">Privacy</a></li>
-                    <li><a href="terms.html">Terms</a></li>
-                    <li><a href="#">Compliance</a></li>
-                    <li><a href="#">Cookies</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-copyright">Copyright © 2025 InferenceIQ. All rights reserved.</div>
-            <div class="footer-socials">
-                <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
-                <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
-                <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
+
+                <h2 id="basic-usage">Basic Usage</h2>
+                <p>Initialize the client and make your first inference request:</p>
+
+                <div class="code-tabs">
+                    <button class="code-tab active" onclick="switchTab(event, 'python2')">Python</button>
+                    <button class="code-tab" onclick="switchTab(event, 'node2')">Node.js</button>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-copy" onclick="copyCode(event)">Copy</div>
+                    <div id="python2" class="code-content active">
+                        <pre><code>from inferenceiq import InferenceIQ
+
+iq = InferenceIQ(api_key="your-api-key")
+
+response = iq.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "user", "content": "What is AI?"}
+    ]
+)
+
+print(response.choices[0].message.content)</code></pre>
+                    </div>
+                    <div id="node2" class="code-content">
+                        <pre><code>const { InferenceIQ } = require('inferenceiq');
+
+const iq = new InferenceIQ({
+    apiKey: 'your-api-key'
+});
+
+const response = await iq.chat.completions.create({
+    model: 'gpt-4',
+    messages: [
+        { role: 'user', content: 'What is AI?' }
+    ]
+});
+
+console.log(response.choices[0].message.content);</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="config">Configuration</h2>
+                <p>Configure routing preferences and provider settings:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td>string</td>
+                            <td>Required</td>
+                            <td>Your InferenceIQ API key</td>
+                        </tr>
+                        <tr>
+                            <td><code>strategy</code></td>
+                            <td>string</td>
+                            <td>"cost"</td>
+                            <td>Routing strategy: "cost", "latency", or "balanced"</td>
+                        </tr>
+                        <tr>
+                            <td><code>fallback</code></td>
+                            <td>string</td>
+                            <td>null</td>
+                            <td>Provider to fallback to if primary fails</td>
+                        </tr>
+                        <tr>
+                            <td><code>timeout</code></td>
+                            <td>number</td>
+                            <td>30000</td>
+                            <td>Request timeout in milliseconds</td>
+                        </tr>
+                        <tr>
+                            <td><code>cache</code></td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Enable response caching</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 id="endpoints">API Endpoints</h2>
+                <p>Available REST endpoints for inference requests:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>POST</td>
+                            <td><code>/v1/chat/completions</code></td>
+                            <td><span class="table-badge">Stable</span></td>
+                        </tr>
+                        <tr>
+                            <td>POST</td>
+                            <td><code>/v1/completions</code></td>
+                            <td><span class="table-badge">Stable</span></td>
+                        </tr>
+                        <tr>
+                            <td>POST</td>
+                            <td><code>/v1/embeddings</code></td>
+                            <td><span class="table-badge">Stable</span></td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td><code>/v1/models</code></td>
+                            <td><span class="table-badge">Stable</span></td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td><code>/v1/usage</code></td>
+                            <td><span class="table-badge">Beta</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 id="faq">FAQ</h2>
+                <h3>How does InferenceIQ save money?</h3>
+                <p>InferenceIQ routes each request to the cheapest provider that meets your quality requirements. With intelligent routing, you save 73% on average without sacrificing performance or quality.</p>
+
+                <h3>Is my data secure?</h3>
+                <p>Yes. We never store your prompts or completions. All data is encrypted in transit (TLS 1.3) and we comply with SOC 2 Type II, GDPR, and HIPAA.</p>
+
+                <h3>What providers are supported?</h3>
+                <p>We support OpenAI, Anthropic, Google Cloud, Together, Hugging Face, AWS Bedrock, and 15+ other providers. New providers are added regularly.</p>
+
+                <h3>Can I customize routing behavior?</h3>
+                <p>Yes! You can set custom routing rules based on model, latency requirements, cost thresholds, and more. See our Routing Rules guide for details.</p>
             </div>
         </div>
     </div>
-</footer>
 
-<script>
-    lucide.createIcons();
-    document.getElementById('hamburger').addEventListener('click', function() {
-        this.classList.toggle('active');
-        document.getElementById('nav').classList.toggle('mobile-open');
-    });
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('nav');
-        if (window.scrollY > 0) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-header">
+                <div class="footer-logo">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                        <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                    </div>
+                    <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+                </div>
+                <div class="footer-newsletter">
+                    <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                    <div class="newsletter-input-wrapper">
+                        <input type="email" class="newsletter-input" placeholder="your@email.com">
+                        <button class="newsletter-button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="index.html">Features</a></li>
+                        <li><a href="index.html">Pricing</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="status.html">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><a href="https://github.com/inferenceiq" target="_blank">GitHub</a></li>
+                        <li><a href="docs.html">SDKs</a></li>
+                        <li><a href="docs.html">Integrations</a></li>
+                        <li><a href="status.html">Status Page</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="index.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="index.html">Careers</a></li>
+                        <li><a href="index.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="index.html">Privacy</a></li>
+                        <li><a href="index.html">Terms</a></li>
+                        <li><a href="security.html">Security</a></li>
+                        <li><a href="security.html">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="footer-copyright">
+                        Copyright © 2025 InferenceIQ. All rights reserved.
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-tertiary);">
+                        Built with ❤️ in San Francisco
+                    </div>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://github.com" target="_blank" class="footer-social">⚙️</a>
+                    <a href="https://twitter.com" target="_blank" class="footer-social">𝕏</a>
+                    <a href="https://linkedin.com" target="_blank" class="footer-social">in</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(e, tabName) {
+            e.preventDefault();
+            const tabs = e.target.parentElement.querySelectorAll('.code-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            e.target.classList.add('active');
+
+            const contents = e.target.parentElement.parentElement.querySelectorAll('.code-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
         }
-    });
-    document.querySelectorAll('.nav-link, .nav-login').forEach(link => {
-        link.addEventListener('click', () => {
-            document.getElementById('hamburger').classList.remove('active');
-            document.getElementById('nav').classList.remove('mobile-open');
-        });
-    });
-</script>
 
+        function copyCode(e) {
+            const codeBlock = e.target.parentElement;
+            const code = codeBlock.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
 </body>
 </html>

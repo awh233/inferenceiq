@@ -9,8 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js for dashboard -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <!-- Meta Tags -->
     <meta name="description" content="InferenceIQ — Cut AI inference costs by 73% with intelligent routing. Automatic failover, real-time analytics, and 99.97% uptime SLA.">
@@ -44,6 +42,19 @@
             --amber: #f59e0b;
             --rose: #f43f5e;
             --cyan: #06b6d4;
+        }
+
+        body.light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --bg-card: rgba(0,0,0,0.02);
+            --bg-card-hover: rgba(0,0,0,0.05);
+            --border: rgba(0,0,0,0.06);
+            --border-light: rgba(0,0,0,0.03);
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --text-tertiary: #9ca3af;
+            --text-muted: #d1d5db;
         }
 
         /* BASE STYLES */
@@ -258,6 +269,87 @@
             width: 100%;
         }
 
+        /* MEGA DROPDOWN FOR FEATURES */
+        .features-dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 12px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            min-width: 450px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .features-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .dropdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .dropdown-item-icon {
+            flex-shrink: 0;
+            color: var(--accent);
+            margin-top: 2px;
+        }
+
+        .dropdown-item-content {
+            flex: 1;
+        }
+
+        .dropdown-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .dropdown-item-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
         .nav-status {
             display: flex !important;
             align-items: center;
@@ -300,6 +392,26 @@
             gap: 24px;
         }
 
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+        }
+
         .nav-shortcut {
             display: flex;
             gap: 4px;
@@ -340,6 +452,18 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid transparent;
             cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .btn-primary {
@@ -1209,7 +1333,7 @@
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 16px;
             padding: 36px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
@@ -1221,6 +1345,8 @@
 
         .persona-card:hover {
             border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.1);
         }
 
         .persona-icon {
@@ -2202,11 +2328,174 @@
             }
         }
 
+        /* ROI CALCULATOR SECTION */
+        .roi-calculator-section {
+            padding: 160px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .roi-calculator-card {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fade-in-up 0.6s ease 0.1s both;
+        }
+
+        .roi-calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .roi-calc-item {
+            text-align: center;
+        }
+
+        .roi-calc-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .roi-calc-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 768px) {
+            .roi-calculator-card {
+                padding: 40px 24px;
+            }
+
+            .roi-calculator-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
         /* PRICING SECTION */
         .pricing {
             padding: 160px 40px;
             position: relative;
             z-index: 2;
+        }
+
+        /* PRICING COMPARISON TABLE */
+        .pricing-comparison-table {
+            margin-top: 100px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .pricing-table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 0;
+            padding: 24px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .pricing-table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 0;
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+        .pricing-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-table-row:hover {
+            background: rgba(16, 185, 129, 0.03);
+        }
+
+        .pricing-table-feature {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .pricing-table-cell {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-table-check {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pricing-table-check i {
+            color: var(--accent);
+        }
+
+        @media (max-width: 1024px) {
+            .pricing-table-header,
+            .pricing-table-row {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pricing-table-header,
+            .pricing-table-row {
+                grid-template-columns: 2fr 1fr;
+                gap: 12px;
+            }
+
+            .pricing-table-header {
+                display: none;
+            }
+
+            .pricing-table-row {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                border: 1px solid var(--border);
+                margin-bottom: 12px;
+                border-radius: 12px;
+            }
+
+            .pricing-table-feature {
+                font-weight: 600;
+                margin-bottom: 12px;
+            }
+
+            .pricing-table-cell {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+                padding: 8px 0;
+                border-top: 1px solid var(--border-light);
+            }
+
+            .pricing-table-cell::before {
+                content: attr(data-label);
+                font-weight: 500;
+                color: var(--text-muted);
+                margin-right: 12px;
+            }
         }
 
         .pricing-calculator {
@@ -4321,7 +4610,44 @@
         InferenceIQ
     </div>
     <div class="nav-center">
-        <a onclick="scrollToSection('features')" class="nav-link" style="cursor: pointer;">Features</a>
+        <div class="features-dropdown">
+            <div class="dropdown-trigger nav-link" style="cursor: pointer;">
+                Features
+                <i data-lucide="chevron-down" class="icon-small"></i>
+            </div>
+            <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                    <div class="dropdown-item">
+                        <i data-lucide="route" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Intelligent Routing</div>
+                            <div class="dropdown-item-description">Route to cheapest provider automatically</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="bar-chart-3" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Cost Analytics</div>
+                            <div class="dropdown-item-description">Real-time cost tracking dashboard</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="shield-check" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Auto-failover</div>
+                            <div class="dropdown-item-description">Automatic provider failover</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="layers" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Multi-provider</div>
+                            <div class="dropdown-item-description">Connect 10+ providers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <a onclick="scrollToSection('pricing')" class="nav-link" style="cursor: pointer;">Pricing</a>
         <a href="docs.html" class="nav-link" style="cursor: pointer;">Docs</a>
         <a href="blog.html" class="nav-link" style="cursor: pointer;">Blog</a>
@@ -4335,6 +4661,9 @@
         <div class="nav-shortcut" onclick="openCommandPalette()">
             <span>⌘</span><span>K</span>
         </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+            <i data-lucide="sun" class="icon-small"></i>
+        </button>
         <a class="nav-login" onclick="switchScreen('login')" style="cursor: pointer;">Sign In</a>
         <button class="btn btn-primary" onclick="switchScreen('login')" style="cursor: pointer;">Start Free Trial</button>
     </div>
@@ -4362,10 +4691,6 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-left">
-                    <div class="hero-badge">
-                        <i data-lucide="zap" class="icon"></i>
-                        <span class="hero-badge-text">73% Average Cost Reduction</span>
-                    </div>
                     <h1 class="hero-headline">
                         Stop overpaying<br>for AI inference
                     </h1>
@@ -4380,16 +4705,6 @@
                         <button class="btn btn-lg btn-lg-secondary" onclick="scrollToSection('features')" style="cursor: pointer;">
                             Learn More
                         </button>
-                    </div>
-                    <div class="hero-social-proof">
-                        <div class="avatar-stack">
-                            <div class="avatar" style="background: linear-gradient(135deg, #10b981, #06b6d4); border-color: var(--bg);">A</div>
-                            <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #06b6d4); border-color: var(--bg);">R</div>
-                            <div class="avatar" style="background: linear-gradient(135deg, #f59e0b, #f43f5e); border-color: var(--bg);">M</div>
-                            <div class="avatar" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-color: var(--bg);">T</div>
-                            <div class="avatar" style="background: linear-gradient(135deg, #06b6d4, #10b981); border-color: var(--bg);">S</div>
-                        </div>
-                        <span class="social-proof-text">Join 2,400+ teams saving on inference costs</span>
                     </div>
                 </div>
                 <div class="hero-mockup">
@@ -4513,94 +4828,6 @@
         </div>
     </section>
 
-    <!-- TRUST BAR / LOGO CLOUD -->
-    <section class="trust-bar">
-        <div class="trust-label">Trusted by leading teams</div>
-        <div class="trust-logos">
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Stripe</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 2L2 18H18L10 2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                </svg>
-                <span>Vercel</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <circle cx="10" cy="10" r="3" fill="currentColor"/>
-                </svg>
-                <span>Notion</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 10L8 15L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Linear</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <circle cx="10" cy="10" r="2" fill="currentColor"/>
-                </svg>
-                <span>Figma</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M10 6V10L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span>OpenAI</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Stripe</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 2L2 18H18L10 2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                </svg>
-                <span>Vercel</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <circle cx="10" cy="10" r="3" fill="currentColor"/>
-                </svg>
-                <span>Notion</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 10L8 15L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Linear</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <circle cx="10" cy="10" r="2" fill="currentColor"/>
-                </svg>
-                <span>Figma</span>
-            </div>
-            <div class="trust-logo">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M10 6V10L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span>OpenAI</span>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
 
     <!-- PERSONAS SECTION -->
     <section class="personas">
@@ -4629,12 +4856,16 @@
 
     <div class="section-divider"></div>
 
-    <!-- METRICS SECTION -->
+    <!-- METRICS SECTION - PRODUCT CAPABILITIES -->
     <section class="metrics-bar">
+        <div class="container" style="text-align: center; margin-bottom: 40px;">
+            <div class="section-label" style="justify-content: center;">OUR CAPABILITIES</div>
+            <h2 class="section-title">Built for performance</h2>
+        </div>
         <div class="metrics-grid">
             <div class="metric-item">
                 <div class="metric-number">73%</div>
-                <div class="metric-label">Average Savings</div>
+                <div class="metric-label">Cost Reduction Potential</div>
             </div>
             <div class="metric-item">
                 <div class="metric-number">50ms</div>
@@ -4906,70 +5137,6 @@
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- TESTIMONIALS SECTION -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-label">WHAT TEAMS SAY</div>
-            <h2 class="section-title">Loved by engineering leaders</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-metric">68%</div>
-                    <div class="stars">
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                    </div>
-                    <p class="testimonial-text">
-                        "InferenceIQ cut our inference costs in half overnight. The automatic routing is insanely smart. Best decision we made this quarter."
-                    </p>
-                    <div class="testimonial-avatar" style="background: linear-gradient(135deg, #10b981, #06b6d4)">SC</div>
-                    <p class="testimonial-author">Sarah Chen</p>
-                    <p class="testimonial-role">VP Engineering, TechCorp AI</p>
-                    <a href="#" style="color: var(--accent); font-size: 13px; margin-top: 12px; display: inline-block;">Read case study →</a>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-metric">$40K/mo</div>
-                    <div class="stars">
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                    </div>
-                    <p class="testimonial-text">
-                        "The integration took 5 minutes and saved us $40K per month. Reliable, fast, and the team is incredibly responsive."
-                    </p>
-                    <div class="testimonial-avatar" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6)">MJ</div>
-                    <p class="testimonial-author">Marcus Johnson</p>
-                    <p class="testimonial-role">CTO, DataFlow Labs</p>
-                    <a href="#" style="color: var(--accent); font-size: 13px; margin-top: 12px; display: inline-block;">Read case study →</a>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-metric">99.97%</div>
-                    <div class="stars">
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                        <i data-lucide="star" class="icon-small star"></i>
-                    </div>
-                    <p class="testimonial-text">
-                        "The fallback system gives us peace of mind. We never worry about provider outages anymore. Highly recommended."
-                    </p>
-                    <div class="testimonial-avatar" style="background: linear-gradient(135deg, #f59e0b, #f43f5e)">ER</div>
-                    <p class="testimonial-author">Elena Rodriguez</p>
-                    <p class="testimonial-role">Engineering Lead, AI Platform</p>
-                    <a href="#" style="color: var(--accent); font-size: 13px; margin-top: 12px; display: inline-block;">Read case study →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
 
     <!-- DEVELOPERS SECTION - CODE TABS -->
     <section class="developers" id="developers">
@@ -5226,23 +5393,53 @@
 
     <div class="section-divider"></div>
 
+    <!-- STANDALONE ROI CALCULATOR SECTION -->
+    <section class="roi-calculator-section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 class="section-title">Calculate your savings</h2>
+                <p class="section-subtitle" style="margin-bottom: 0;">See how much you can save with intelligent routing</p>
+            </div>
+
+            <div class="roi-calculator-card">
+                <div class="calc-slider-row">
+                    <span class="calc-range-label">100K</span>
+                    <input type="range" class="calc-slider" id="roiSlider" min="100000" max="50000000" value="1000000" step="100000" oninput="updateROICalc(this.value)">
+                    <span class="calc-range-label">50M</span>
+                </div>
+
+                <div class="roi-calculator-grid">
+                    <div class="roi-calc-item">
+                        <div class="roi-calc-label">Requests/month</div>
+                        <div class="roi-calc-value"><span id="roi-requests">1M</span></div>
+                    </div>
+                    <div class="roi-calc-item">
+                        <div class="roi-calc-label">Current Estimated Spend</div>
+                        <div class="roi-calc-value"><span id="roi-current-spend">$3,065</span></div>
+                    </div>
+                    <div class="roi-calc-item">
+                        <div class="roi-calc-label">InferenceIQ Cost</div>
+                        <div class="roi-calc-value"><span id="roi-iq-cost">$614</span></div>
+                    </div>
+                    <div class="roi-calc-item">
+                        <div class="roi-calc-label">Your Savings (73%)</div>
+                        <div class="roi-calc-value" style="color: var(--accent);"><span id="roi-savings">$2,451</span></div>
+                    </div>
+                </div>
+
+                <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')" style="cursor: pointer; margin-top: 40px; width: 100%;">
+                    Start Saving Today
+                </button>
+            </div>
+        </div>
+    </section>
+
     <!-- PRICING SECTION -->
     <section class="pricing" id="pricing">
         <div class="container">
             <div class="section-label">PRICING</div>
             <h2 class="section-title">Simple, transparent pricing</h2>
             <p class="section-subtitle">We take 20% of the money we save you. If we don't save you anything, you pay nothing.</p>
-
-            <div class="pricing-calculator">
-                <div class="calc-label">Estimate your savings</div>
-                <div class="calc-slider-row">
-                    <span class="calc-range-label">100K</span>
-                    <input type="range" class="calc-slider" min="100000" max="10000000" value="1000000" step="100000" oninput="updatePricingCalc(this.value)">
-                    <span class="calc-range-label">10M</span>
-                </div>
-                <div class="calc-value"><span id="calc-requests">1M</span> requests/month</div>
-                <div class="calc-savings">Your net savings: <strong id="calc-savings-amount">$2,453</strong>/month <span style="color: var(--text-muted); font-size: 13px;">(after our 20% fee of <span id="calc-fee-amount">$614</span>)</span></div>
-            </div>
 
             <div class="pricing-cards">
                 <div class="pricing-card">
@@ -5358,6 +5555,63 @@
                             <span>24/7 premium support</span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="pricing-comparison-table">
+                <div class="pricing-table-header">
+                    <div>Feature</div>
+                    <div>Starter</div>
+                    <div>Growth</div>
+                    <div>Enterprise</div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">Requests/month</div>
+                    <div class="pricing-table-cell">100K</div>
+                    <div class="pricing-table-cell">Unlimited</div>
+                    <div class="pricing-table-cell">Custom</div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">Providers</div>
+                    <div class="pricing-table-cell">Up to 2</div>
+                    <div class="pricing-table-cell">All 10+</div>
+                    <div class="pricing-table-cell">Dedicated</div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">Analytics</div>
+                    <div class="pricing-table-cell">Basic</div>
+                    <div class="pricing-table-cell">Advanced</div>
+                    <div class="pricing-table-cell">Custom</div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">Support</div>
+                    <div class="pricing-table-cell">Email</div>
+                    <div class="pricing-table-cell">Priority</div>
+                    <div class="pricing-table-cell">Dedicated</div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">SLA</div>
+                    <div class="pricing-table-cell" style="color: var(--text-muted);">—</div>
+                    <div class="pricing-table-cell"><span class="pricing-table-check"><i data-lucide="check" class="icon-small"></i></span></div>
+                    <div class="pricing-table-cell"><span class="pricing-table-check"><i data-lucide="check" class="icon-small"></i></span> 99.99%</div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">SSO/SAML</div>
+                    <div class="pricing-table-cell" style="color: var(--text-muted);">—</div>
+                    <div class="pricing-table-cell" style="color: var(--text-muted);">—</div>
+                    <div class="pricing-table-cell"><span class="pricing-table-check"><i data-lucide="check" class="icon-small"></i></span></div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">Custom Contracts</div>
+                    <div class="pricing-table-cell" style="color: var(--text-muted);">—</div>
+                    <div class="pricing-table-cell" style="color: var(--text-muted);">—</div>
+                    <div class="pricing-table-cell"><span class="pricing-table-check"><i data-lucide="check" class="icon-small"></i></span></div>
+                </div>
+                <div class="pricing-table-row">
+                    <div class="pricing-table-feature">Audit Logs</div>
+                    <div class="pricing-table-cell" style="color: var(--text-muted);">—</div>
+                    <div class="pricing-table-cell"><span class="pricing-table-check"><i data-lucide="check" class="icon-small"></i></span></div>
+                    <div class="pricing-table-cell"><span class="pricing-table-check"><i data-lucide="check" class="icon-small"></i></span></div>
                 </div>
             </div>
         </div>
@@ -6721,7 +6975,94 @@
             initStaggeredReveal();
             initCodeTyping();
             initAdvancedParallax();
+            initThemeToggle();
         }, 500);
+    });
+
+    // THEME TOGGLE FUNCTIONALITY
+    let isDarkMode = true;
+
+    function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
+
+        if (isDarkMode) {
+            body.classList.remove('light-mode');
+            themeToggle.innerHTML = '<i data-lucide="sun" class="icon-small"></i>';
+        } else {
+            body.classList.add('light-mode');
+            themeToggle.innerHTML = '<i data-lucide="moon" class="icon-small"></i>';
+        }
+
+        // Re-initialize Lucide icons after DOM change
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    }
+
+    function initThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            // Initialize with correct icon
+            isDarkMode = !document.body.classList.contains('light-mode');
+            updateThemeIcon();
+        }
+    }
+
+    function updateThemeIcon() {
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.innerHTML = isDarkMode ? '<i data-lucide="sun" class="icon-small"></i>' : '<i data-lucide="moon" class="icon-small"></i>';
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+    }
+
+    // ROI CALCULATOR FUNCTIONALITY
+    function updateROICalc(val) {
+        const value = parseFloat(val);
+
+        // Calculate based on $0.0042 per request average cost
+        const currentSpend = Math.round(value * 0.0042);
+        const savings73 = Math.round(currentSpend * 0.73);
+        const ourFee = Math.round(savings73 * 0.20);
+        const netSavings = savings73 - ourFee;
+
+        // Format display values
+        let displayValue = (value / 1000000).toFixed(1);
+        if (displayValue === '0.1') displayValue = '100K';
+        else if (value >= 1000000) {
+            displayValue = (value / 1000000).toFixed(1);
+            if (displayValue.endsWith('.0')) displayValue = displayValue.slice(0, -2) + 'M';
+            else displayValue += 'M';
+        } else {
+            displayValue = (value / 1000).toFixed(0) + 'K';
+        }
+
+        // Update display elements
+        const requestsEl = document.getElementById('roi-requests');
+        const currentSpendEl = document.getElementById('roi-current-spend');
+        const iqCostEl = document.getElementById('roi-iq-cost');
+        const savingsEl = document.getElementById('roi-savings');
+
+        if (requestsEl) requestsEl.textContent = displayValue;
+        if (currentSpendEl) currentSpendEl.textContent = '$' + currentSpend.toLocaleString();
+        if (iqCostEl) iqCostEl.textContent = '$' + ourFee.toLocaleString();
+        if (savingsEl) savingsEl.textContent = '$' + netSavings.toLocaleString();
+    }
+
+    // Load Chart.js after page load
+    function loadChartJS() {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+        script.defer = true;
+        document.body.appendChild(script);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadChartJS();
     });
 </script>
 

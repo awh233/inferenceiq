@@ -1,196 +1,726 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Changelog — InferenceIQ</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2322c55e'/><text x='16' y='22' font-size='16' font-weight='bold' fill='white' text-anchor='middle' font-family='system-ui'>IQ</text></svg>">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#050507;--bg2:#09090b;--surface:#111114;--surface2:#18181b;
-  --border:rgba(255,255,255,.06);--border-h:rgba(255,255,255,.12);
-  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
-  --green:#22c55e;--green-dim:rgba(34,197,94,.15);--green-border:rgba(34,197,94,.25);
-  --blue:#3b82f6;--radius:10px;--radius-lg:16px;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-::selection{background:rgba(34,197,94,.25)}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - InferenceIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,7,.8);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;color:var(--text);transition:.2s}
-.nav-logo:hover{color:var(--green)}
-.nav-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a{padding:8px 16px;font-size:14px;color:var(--text2);text-decoration:none;border-radius:8px;transition:.15s}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
-.cta-sm{padding:8px 20px;background:var(--green);color:#fff;font-weight:600;font-size:14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:transform .1s,box-shadow .15s}
-.cta-sm:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-elevated: #141414;
+            --bg-hover: #1a1a1a;
+            --text-primary: #fafafa;
+            --text-secondary: #b4b4b4;
+            --text-tertiary: #808080;
+            --accent: #10b981;
+            --accent-light: rgba(16, 185, 129, 0.1);
+            --border: #262626;
+        }
 
-.page-header{padding:140px 32px 60px;text-align:center;max-width:900px;margin:0 auto}
-.page-title{font-size:clamp(36px,6vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
 
-.changelog-section{padding:60px 32px;max-width:900px;margin:0 auto}
-.changelog-item{margin-bottom:48px}
-.version{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px}
-.version-badge{background:var(--green-dim);color:var(--green);padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;font-family:monospace}
-.release-date{font-size:12px;color:var(--text3)}
-.changelog-title{font-size:20px;font-weight:600;margin-bottom:12px}
-.changelog-description{font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.6}
-.features-list{list-style:none;padding-left:0;margin-bottom:16px}
-.features-list li{font-size:14px;color:var(--text2);padding-left:24px;position:relative;margin-bottom:8px}
-.features-list li::before{content:'→';position:absolute;left:0;color:var(--green);font-weight:600}
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 1000;
+        }
 
-.footer{border-top:1px solid var(--border);padding:40px 32px;background:var(--bg2)}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
-.footer-col h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:12px}
-.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:8px;transition:.15s}
-.footer-col a:hover{color:var(--text)}
-.footer-col-brand{grid-column:1}
-.footer-col-brand .logo{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:600}
-.footer-copy{text-align:center;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);grid-column:1/-1}
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
 
-@media(max-width:768px){
-  .page-header{padding:120px 20px 40px}
-  .changelog-section{padding:40px 20px}
-  .footer-inner{grid-template-columns:1fr 1fr;gap:20px}
-}
-@media(max-width:480px){
-  .nav-links a{display:none}
-  .page-title{font-size:32px}
-  .changelog-title{font-size:18px}
-  .footer-inner{grid-template-columns:1fr;gap:16px}
-}
-</style>
+        .nav-logomark {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+            animation: logo-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes logo-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex: 1;
+            margin-left: 60px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-left: auto;
+        }
+
+        .nav-login {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-login:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background: #06a373;
+            transform: translateY(-2px);
+        }
+
+        /* MAIN */
+        main {
+            margin-top: 64px;
+            padding: 48px 32px;
+        }
+
+        .changelog-header {
+            max-width: 1200px;
+            margin: 0 auto 64px;
+            text-align: center;
+        }
+
+        .changelog-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .changelog-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-entry {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 40px;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: 87px;
+            top: 0;
+            bottom: -48px;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-entry:last-child::before {
+            display: none;
+        }
+
+        .timeline-date {
+            position: relative;
+            padding-top: 4px;
+        }
+
+        .timeline-date::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-date-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .timeline-content {
+            padding-top: 4px;
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--accent-light);
+            color: var(--accent);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .timeline-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .timeline-items {
+            list-style: none;
+        }
+
+        .timeline-items li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 14px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .timeline-items li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 8px;
+            top: 6px;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border);
+            padding: 48px 32px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-newsletter {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .newsletter-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 12px;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .newsletter-button {
+            padding: 10px 16px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .newsletter-button:hover {
+            background: #06a373;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-social {
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .footer-social:hover {
+            color: var(--accent);
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 16px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            main {
+                padding: 32px 16px;
+            }
+
+            .changelog-header h1 {
+                font-size: 32px;
+            }
+
+            .timeline-entry {
+                grid-template-columns: 100px 1fr;
+                gap: 24px;
+            }
+
+            .timeline-entry::before {
+                left: 47px;
+            }
+
+            .timeline-date::before {
+                left: -27px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html"><div class="nav-mark">IQ</div>InferenceIQ</a>
-  <div class="nav-links">
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="https://awh233.github.io/inferenceiq">Docs</a>
-    <a href="blog.html">Blog</a>
-    <a href="changelog.html">Changelog</a>
-    <button class="cta-sm">Get Started</button>
-  </div>
-</nav>
+    <!-- NAV -->
+    <nav id="nav">
+        <div class="nav-logo" onclick="window.location.href='index.html'">
+            <svg class="nav-logomark" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 2L18 15H6Z" fill="currentColor" opacity="0.8"/>
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.4"/>
+            </svg>
+            InferenceIQ
+        </div>
+        <div class="nav-center">
+            <a href="index.html" class="nav-link">Features</a>
+            <a href="index.html" class="nav-link">Pricing</a>
+            <a href="docs.html" class="nav-link">Docs</a>
+            <a href="blog.html" class="nav-link">Blog</a>
+            <a href="status.html" class="nav-link">Status</a>
+            <a href="changelog.html" class="nav-link active">Changelog</a>
+        </div>
+        <div class="nav-right">
+            <a class="nav-login" onclick="alert('Sign in coming soon')" style="cursor: pointer;">Sign In</a>
+            <button class="btn btn-primary" onclick="alert('Start free trial coming soon')" style="cursor: pointer;">Start Free Trial</button>
+        </div>
+    </nav>
 
-<main style="padding-top:64px">
-<div class="page-header">
-  <h1 class="page-title">Changelog</h1>
-  <p style="font-size:18px;color:var(--text2)">Latest updates and improvements to InferenceIQ</p>
-</div>
+    <!-- MAIN -->
+    <main>
+        <div class="changelog-header">
+            <h1>Changelog</h1>
+            <p>Track all updates, improvements, and new features in InferenceIQ.</p>
+        </div>
 
-<section class="changelog-section">
-  <div class="changelog-item">
-    <div class="version">
-      <div class="version-badge">v2.0.0</div>
-      <div class="release-date">March 7, 2026 — Today</div>
-    </div>
-    <div class="changelog-title">Public Launch</div>
-    <div class="changelog-description">Official launch of InferenceIQ with the full platform ready for production use.</div>
-    <ul class="features-list">
-      <li>Real-time dashboard with per-request savings attribution</li>
-      <li>12 API endpoints covering all optimization features</li>
-      <li>Python SDK with 95% OpenAI compatibility</li>
-      <li>Intelligent model routing with 60% cost savings</li>
-      <li>Semantic caching with 40% token reduction</li>
-      <li>Prompt compression algorithms</li>
-      <li>Batch shifting for non-real-time workloads</li>
-      <li>Comprehensive API documentation</li>
-    </ul>
-  </div>
+        <div class="timeline">
+            <!-- v2.4.0 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">March 8, 2026</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.4.0</span>
+                    <div class="timeline-title">Multi-Region Routing & New Providers</div>
+                    <p class="timeline-description">Major release bringing intelligent multi-region routing and support for 3 new LLM providers.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Automatic multi-region request routing with latency-aware load balancing</li>
+                        <li><span class="feature-tag">Feature</span>Support for Mistral AI, Cohere, and Replicate providers</li>
+                        <li><span class="feature-tag">Improvement</span>Reduced P99 latency by 28% through improved provider selection algorithm</li>
+                        <li><span class="feature-tag">Fix</span>Fixed edge case in fallback provider logic causing occasional timeout errors</li>
+                    </ul>
+                </div>
+            </div>
 
-  <div class="changelog-item">
-    <div class="version">
-      <div class="version-badge">v1.0.0</div>
-      <div class="release-date">January 15, 2026</div>
-    </div>
-    <div class="changelog-title">Initial Release</div>
-    <div class="changelog-description">First version of InferenceIQ with core routing capabilities.</div>
-    <ul class="features-list">
-      <li>Basic intelligent model routing</li>
-      <li>OpenAI SDK integration</li>
-      <li>Simple cost tracking dashboard</li>
-      <li>5 core API endpoints</li>
-      <li>Email support</li>
-    </ul>
-  </div>
+            <!-- v2.3.2 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">February 28, 2026</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.3.2</span>
+                    <div class="timeline-title">Latency Tracking & Bug Fixes</div>
+                    <p class="timeline-description">Enhanced monitoring and stability improvements.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Real-time latency tracking dashboard for each provider</li>
+                        <li><span class="feature-tag">Improvement</span>Better error messages for authentication failures</li>
+                        <li><span class="feature-tag">Fix</span>Resolved issue with cache invalidation in concurrent requests</li>
+                        <li><span class="feature-tag">Fix</span>Fixed missing X-Request-ID headers in streaming responses</li>
+                    </ul>
+                </div>
+            </div>
 
-  <div class="changelog-item">
-    <div class="version">
-      <div class="version-badge">v0.2.0</div>
-      <div class="release-date">December 1, 2025</div>
-    </div>
-    <div class="changelog-title">SDK Improvements</div>
-    <div class="changelog-description">Beta updates to the Python SDK with improved reliability and performance.</div>
-    <ul class="features-list">
-      <li>Automatic retry logic with exponential backoff</li>
-      <li>Middleware support for custom processing</li>
-      <li>Improved error handling and logging</li>
-      <li>Connection pooling for better performance</li>
-      <li>Type hints for better IDE support</li>
-    </ul>
-  </div>
+            <!-- v2.3.0 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">February 15, 2026</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.3.0</span>
+                    <div class="timeline-title">Analytics Dashboard & Cost Forecasting</div>
+                    <p class="timeline-description">New analytics dashboard and AI-powered cost forecasting capabilities.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Comprehensive analytics dashboard with cost trends and provider comparison</li>
+                        <li><span class="feature-tag">Feature</span>Machine learning-based cost forecasting for next 30-90 days</li>
+                        <li><span class="feature-tag">Feature</span>Custom alert thresholds for cost overruns</li>
+                        <li><span class="feature-tag">Improvement</span>Faster dashboard load times with data streaming</li>
+                    </ul>
+                </div>
+            </div>
 
-  <div class="changelog-item">
-    <div class="version">
-      <div class="version-badge">v0.1.0</div>
-      <div class="release-date">October 15, 2025</div>
-    </div>
-    <div class="changelog-title">Beta Launch</div>
-    <div class="changelog-description">Initial beta release for early access partners.</div>
-    <ul class="features-list">
-      <li>Basic API for model routing</li>
-      <li>Cost tracking capabilities</li>
-      <li>Early access program</li>
-      <li>Community feedback integration</li>
-    </ul>
-  </div>
-</section>
-</main>
+            <!-- v2.2.1 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">January 30, 2026</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.2.1</span>
+                    <div class="timeline-title">Provider Failover Improvements</div>
+                    <p class="timeline-description">Enhanced reliability and failover mechanisms.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Improvement</span>Smarter failover strategy with exponential backoff</li>
+                        <li><span class="feature-tag">Improvement</span>Better handling of rate-limited providers</li>
+                        <li><span class="feature-tag">Fix</span>Fixed stuck requests in failover scenario</li>
+                    </ul>
+                </div>
+            </div>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-col footer-col-brand">
-      <div class="logo"><div class="nav-mark" style="width:28px;height:28px;font-size:11px">IQ</div>InferenceIQ</div>
-      <p style="font-size:12px;color:var(--text3);line-height:1.6">Cut AI inference costs 40% without sacrificing quality. Transparent, instant, automatic.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <a href="features.html">Features</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="index.html">Dashboard</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Docs</a>
-      <a href="https://pypi.org/project/inferenceiq/">SDK</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="careers.html">Careers</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h4>Resources</h4>
-      <a href="https://awh233.github.io/inferenceiq">Documentation</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Reference</a>
-      <a href="status.html">Status</a>
-      <a href="changelog.html">Changelog</a>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="security.html">Security</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
-  </div>
-  <div class="footer-copy">© 2026 InferenceIQ Inc. All rights reserved.</div>
-</footer>
+            <!-- v2.2.0 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">January 15, 2026</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.2.0</span>
+                    <div class="timeline-title">Python & TypeScript SDK v2.0</div>
+                    <p class="timeline-description">Major SDK release with TypeScript support and new streaming capabilities.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Official TypeScript SDK with full type safety</li>
+                        <li><span class="feature-tag">Feature</span>Streaming support in both Python and Node.js SDKs</li>
+                        <li><span class="feature-tag">Improvement</span>Python SDK now uses async/await patterns</li>
+                        <li><span class="feature-tag">Breaking</span>Deprecated synchronous methods in Python SDK</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- v2.1.0 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">December 20, 2025</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.1.0</span>
+                    <div class="timeline-title">Real-Time Alerts & Slack Integration</div>
+                    <p class="timeline-description">Monitor your costs with real-time alerts and Slack notifications.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Real-time cost alerts with configurable thresholds</li>
+                        <li><span class="feature-tag">Feature</span>Slack integration for instant notifications</li>
+                        <li><span class="feature-tag">Feature</span>Email digests with daily/weekly summaries</li>
+                        <li><span class="feature-tag">Improvement</span>Better provider health status reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- v2.0.0 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">November 1, 2025</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v2.0.0</span>
+                    <div class="timeline-title">Platform Rewrite & New API</div>
+                    <p class="timeline-description">Complete platform rewrite with new API architecture and improved performance.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Redesigned REST API with better error handling</li>
+                        <li><span class="feature-tag">Feature</span>Support for 15+ new LLM providers</li>
+                        <li><span class="feature-tag">Improvement</span>50% reduction in API latency</li>
+                        <li><span class="feature-tag">Breaking</span>v1.x API endpoints are deprecated</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- v1.5.0 -->
+            <div class="timeline-entry">
+                <div class="timeline-date">
+                    <div class="timeline-date-text">October 15, 2025</div>
+                </div>
+                <div class="timeline-content">
+                    <span class="version-badge">v1.5.0</span>
+                    <div class="timeline-title">Initial Public Beta</div>
+                    <p class="timeline-description">InferenceIQ is now in public beta! Join us in optimizing AI inference costs.</p>
+                    <ul class="timeline-items">
+                        <li><span class="feature-tag">Feature</span>Public beta launch with core routing functionality</li>
+                        <li><span class="feature-tag">Feature</span>Basic dashboard and usage analytics</li>
+                        <li><span class="feature-tag">Feature</span>Support for OpenAI, Anthropic, and Google Cloud providers</li>
+                        <li><span class="feature-tag">Feature</span>Free tier with 1M monthly inference requests</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-header">
+                <div class="footer-logo">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                        <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                    </div>
+                    <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+                </div>
+                <div class="footer-newsletter">
+                    <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                    <div class="newsletter-input-wrapper">
+                        <input type="email" class="newsletter-input" placeholder="your@email.com">
+                        <button class="newsletter-button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="index.html">Features</a></li>
+                        <li><a href="index.html">Pricing</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="status.html">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><a href="https://github.com/inferenceiq" target="_blank">GitHub</a></li>
+                        <li><a href="docs.html">SDKs</a></li>
+                        <li><a href="docs.html">Integrations</a></li>
+                        <li><a href="status.html">Status Page</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="index.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="index.html">Careers</a></li>
+                        <li><a href="index.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="index.html">Privacy</a></li>
+                        <li><a href="index.html">Terms</a></li>
+                        <li><a href="security.html">Security</a></li>
+                        <li><a href="security.html">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="footer-copyright">
+                        Copyright © 2025 InferenceIQ. All rights reserved.
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-tertiary);">
+                        Built with ❤️ in San Francisco
+                    </div>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://github.com" target="_blank" class="footer-social">⚙️</a>
+                    <a href="https://twitter.com" target="_blank" class="footer-social">𝕏</a>
+                    <a href="https://linkedin.com" target="_blank" class="footer-social">in</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

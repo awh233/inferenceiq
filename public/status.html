@@ -3,156 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Status - InferenceIQ</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
+    <title>Status - InferenceIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ROOT VARIABLES */
-        :root {
-            --bg: #0a0a0a;
-            --bg-elevated: #111111;
-            --bg-card: rgba(255,255,255,0.03);
-            --bg-card-hover: rgba(255,255,255,0.05);
-            --border: rgba(255,255,255,0.08);
-            --border-light: rgba(255,255,255,0.03);
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-tertiary: #71717a;
-            --text-muted: #52525b;
-            --accent: #10b981;
-            --accent-light: #34d399;
-            --accent-glow: rgba(16,185,129,0.15);
-            --purple: #8b5cf6;
-            --blue: #3b82f6;
-            --amber: #f59e0b;
-            --rose: #f43f5e;
-            --cyan: #06b6d4;
-        }
-
-        /* BASE STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        html, body {
-            width: 100%;
-            min-height: 100%;
-            margin: 0;
-            padding: 0;
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-elevated: #141414;
+            --bg-hover: #1a1a1a;
+            --text-primary: #fafafa;
+            --text-secondary: #b4b4b4;
+            --text-tertiary: #808080;
+            --accent: #10b981;
+            --accent-light: rgba(16, 185, 129, 0.1);
+            --border: #262626;
         }
 
         body {
-            background-color: var(--bg);
+            background: var(--bg-primary);
             color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.04) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 50%),
-                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 24px 24px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button {
-            border: none;
-            cursor: pointer;
             font-family: 'Inter', sans-serif;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
         }
 
-        input {
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* ICON STYLING */
-        .icon {
-            width: 24px;
-            height: 24px;
-            stroke-width: 1.5;
-            color: currentColor;
-        }
-
-        .icon-small {
-            width: 20px;
-            height: 20px;
-            stroke-width: 1.5;
-        }
-
-        .icon-large {
-            width: 48px;
-            height: 48px;
-            stroke-width: 1;
-        }
-
-        /* CONTAINER */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-        }
-
-        /* NAVIGATION */
-        #nav {
+        /* NAV */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 72px;
+            height: 64px;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid transparent;
+            padding: 0 32px;
             z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        #nav.scrolled {
-            border-bottom-color: var(--border);
         }
 
         .nav-logo {
@@ -162,20 +54,27 @@
             font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
-            letter-spacing: -0.02em;
+            cursor: pointer;
         }
 
-        .nav-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
+        .nav-logomark {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+            animation: logo-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes logo-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
         .nav-center {
             display: flex;
             gap: 40px;
             align-items: center;
+            flex: 1;
+            margin-left: 60px;
         }
 
         .nav-link {
@@ -185,7 +84,6 @@
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
-            display: inline-block;
         }
 
         .nav-link::after {
@@ -196,7 +94,6 @@
             width: 0;
             height: 2px;
             background: var(--accent);
-            border-radius: 1px;
             transition: width 0.3s ease;
         }
 
@@ -221,6 +118,7 @@
             display: flex;
             align-items: center;
             gap: 24px;
+            margin-left: auto;
         }
 
         .nav-login {
@@ -236,409 +134,219 @@
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 8px;
+            border: none;
+            font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .btn-primary {
             background: var(--accent);
-            color: #000;
-            padding: 11px 24px;
-            font-weight: 700;
+            color: var(--bg-primary);
         }
 
         .btn-primary:hover {
-            background: var(--accent-light);
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);
+            background: #06a373;
+            transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
+        /* MAIN */
+        main {
+            margin-top: 64px;
+            padding: 48px 32px;
         }
 
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(16, 185, 129, 0.08);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
-        }
-
-        .hamburger {
-            display: none;
-            width: 24px;
-            height: 24px;
-            flex-direction: column;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 100%;
-            height: 2px;
-            background: var(--text-primary);
-            border-radius: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translateY(12px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translateY(-12px);
-        }
-
-        #nav.mobile-open {
-            flex-direction: column;
-            align-items: flex-start;
-            height: auto;
-            padding: 16px 24px;
-            gap: 16px;
-        }
-
-        #nav.mobile-open .nav-center {
-            width: 100%;
-            flex-direction: column;
-            gap: 12px;
-            display: flex !important;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        #nav.mobile-open .nav-right {
-            width: 100%;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        @media (max-width: 1024px) {
-            #nav {
-                padding: 0 24px;
-            }
-
-            .nav-center {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-        }
-
-        /* HERO */
-        .hero {
-            padding-top: 120px;
-            padding-bottom: 60px;
+        .status-header {
+            max-width: 1200px;
+            margin: 0 auto 32px;
             text-align: center;
         }
 
-        .status-indicator {
+        .status-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .status-banner {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 24px;
+            background: var(--accent-light);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 48px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .status-dot {
+        .status-indicator {
             width: 12px;
             height: 12px;
             background: var(--accent);
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        .hero-title {
-            font-size: 48px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-subtitle {
+        .status-banner-text {
             font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.6;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        /* SERVICES GRID */
-        .services-section {
-            margin-bottom: 80px;
+        /* CONTENT */
+        .status-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .section-title {
-            font-size: 18px;
+        .status-section {
+            margin-bottom: 48px;
+        }
+
+        .status-section-title {
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 24px;
             color: var(--text-primary);
-            letter-spacing: -0.01em;
         }
 
-        .services-grid {
+        .component-list {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            gap: 12px;
         }
 
-        .service-card {
-            background: var(--bg-card);
+        .component-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--bg-elevated);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 24px;
+            border-radius: 8px;
             transition: all 0.3s ease;
         }
 
-        .service-card:hover {
+        .component-item:hover {
             border-color: var(--accent);
-            background: var(--bg-card-hover);
-            transform: translateY(-4px);
         }
 
-        .service-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .service-name {
-            font-size: 15px;
-            font-weight: 600;
+        .component-name {
+            font-weight: 500;
             color: var(--text-primary);
         }
 
-        .service-status {
+        .component-status {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 600;
+            gap: 8px;
+            font-size: 14px;
             color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
-        .status-dot-small {
+        .status-dot {
             width: 8px;
             height: 8px;
             background: var(--accent);
             border-radius: 50%;
         }
 
-        .service-details {
-            font-size: 13px;
-            color: var(--text-tertiary);
-            line-height: 1.6;
-        }
-
         /* UPTIME CHART */
         .uptime-section {
-            margin-bottom: 80px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 48px;
         }
 
-        .uptime-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .uptime-metric {
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 24px;
-        }
-
-        .uptime-stat {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .uptime-stat strong {
             color: var(--text-primary);
-            font-weight: 600;
+        }
+
+        .uptime-metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .uptime-chart {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 24px;
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(12px, 1fr));
             gap: 4px;
-            align-items: flex-end;
-            height: 120px;
         }
 
-        .uptime-bar {
-            flex: 1;
+        .uptime-day {
+            width: 12px;
+            height: 12px;
             background: var(--accent);
             border-radius: 2px;
-            min-height: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .uptime-bar:hover {
-            background: var(--accent-light);
-        }
-
-        .uptime-bar.degraded {
-            background: var(--amber);
-        }
-
-        .uptime-bar.down {
-            background: var(--rose);
-        }
-
-        .uptime-bar::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
+            opacity: 0.8;
             transition: opacity 0.3s ease;
-            margin-bottom: 8px;
         }
 
-        .uptime-bar:hover::after {
+        .uptime-day:hover {
             opacity: 1;
+        }
+
+        .uptime-day.partial {
+            opacity: 0.5;
         }
 
         /* INCIDENTS */
         .incidents-section {
-            margin-bottom: 80px;
-        }
-
-        .incident-card {
-            background: var(--bg-card);
+            background: var(--bg-elevated);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 32px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            margin-bottom: 48px;
+            text-align: center;
         }
 
-        .incident-card:hover {
-            border-color: var(--accent);
-            background: var(--bg-card-hover);
+        .incidents-empty {
+            color: var(--text-secondary);
+            padding: 40px 20px;
         }
 
-        .incident-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+        .incidents-empty-icon {
+            font-size: 48px;
             margin-bottom: 16px;
-        }
-
-        .incident-date {
-            font-size: 13px;
-            color: var(--text-tertiary);
-        }
-
-        .incident-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-
-        .incident-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-
-        .incident-description {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .incident-timeline {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-        }
-
-        .timeline-item {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .timeline-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-tertiary);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .timeline-value {
-            font-size: 13px;
-            color: var(--text-secondary);
         }
 
         /* SUBSCRIBE */
         .subscribe-section {
-            background: var(--bg-card);
+            background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-hover) 100%);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 48px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
             text-align: center;
-            margin-bottom: 80px;
         }
 
         .subscribe-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 12px;
-            color: var(--text-primary);
         }
 
-        .subscribe-subtitle {
-            font-size: 14px;
+        .subscribe-description {
             color: var(--text-secondary);
             margin-bottom: 24px;
         }
@@ -646,70 +354,49 @@
         .subscribe-form {
             display: flex;
             gap: 8px;
-            max-width: 400px;
-            margin: 0 auto;
         }
 
         .subscribe-input {
             flex: 1;
             padding: 12px 16px;
-            background: var(--bg-elevated);
+            background: var(--bg-primary);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
             color: var(--text-primary);
-            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
         }
 
         .subscribe-input::placeholder {
             color: var(--text-tertiary);
         }
 
-        .subscribe-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(16, 185, 129, 0.08);
-        }
-
         .subscribe-button {
             padding: 12px 24px;
             background: var(--accent);
-            color: #000;
-            border-radius: 8px;
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 14px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .subscribe-button:hover {
-            background: var(--accent-light);
-            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+            background: #06a373;
         }
 
         /* FOOTER */
         footer {
             background: var(--bg-elevated);
-            border-top: 1px solid var(--border-light);
-            padding: 100px 40px 50px 40px;
-            position: relative;
-            z-index: 2;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(to right,
-                transparent 0%,
-                rgba(16, 185, 129, 0.3) 50%,
-                rgba(16, 185, 129, 0.2) 80%,
-                transparent 100%);
+            border-top: 1px solid var(--border);
+            padding: 48px 32px;
+            margin-top: 80px;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -717,26 +404,26 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 80px;
-            padding-bottom: 60px;
-            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid var(--border);
         }
 
         .footer-logo {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .footer-tagline {
-            font-size: 14px;
             color: var(--text-secondary);
-            margin-top: 12px;
-            line-height: 1.6;
-            max-width: 300px;
+            font-size: 14px;
         }
 
         .footer-newsletter {
-            flex: 1;
-            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .newsletter-input-wrapper {
@@ -747,154 +434,111 @@
         .newsletter-input {
             flex: 1;
             padding: 10px 12px;
-            background: var(--bg-card);
+            background: var(--bg-hover);
             border: 1px solid var(--border);
             border-radius: 6px;
             color: var(--text-primary);
-            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
         }
 
         .newsletter-input::placeholder {
             color: var(--text-tertiary);
         }
 
-        .newsletter-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(16, 185, 129, 0.08);
-        }
-
         .newsletter-button {
             padding: 10px 16px;
             background: var(--accent);
-            color: #000;
+            color: var(--bg-primary);
+            border: none;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .newsletter-button:hover {
-            background: var(--accent-light);
-            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+            background: #06a373;
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 60px;
-            margin-bottom: 80px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
         .footer-column h3 {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
             color: var(--text-primary);
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
         }
 
         .footer-column ul {
             list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
         }
 
         .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
             font-size: 14px;
-            color: var(--text-tertiary);
-            transition: color 0.3s ease;
-            cursor: pointer;
         }
 
         .footer-column a:hover {
-            color: var(--text-secondary);
+            color: var(--accent);
         }
 
         .footer-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 48px;
-            border-top: 1px solid var(--border-light);
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
         }
 
         .footer-copyright {
-            font-size: 13px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
         .footer-socials {
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
 
         .footer-social {
             color: var(--text-tertiary);
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: color 0.2s ease;
         }
 
         .footer-social:hover {
             color: var(--accent);
-            transform: translateY(-2px);
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .subscribe-section {
-                padding: 32px;
-            }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 40px;
-            }
-
-            footer {
-                padding: 80px 40px 40px 40px;
-            }
-        }
-
+        /* MOBILE */
         @media (max-width: 768px) {
-            #nav {
-                padding: 0 24px;
+            nav {
+                padding: 0 16px;
             }
 
-            .hero {
-                padding-top: 100px;
-                padding-bottom: 50px;
+            .nav-center {
+                display: none;
             }
 
-            .hero-title {
-                font-size: 36px;
+            main {
+                padding: 32px 16px;
             }
 
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .uptime-chart {
-                height: 80px;
-            }
-
-            .incident-card {
-                padding: 24px;
-            }
-
-            .incident-timeline {
-                flex-direction: column;
-            }
-
-            .subscribe-section {
-                padding: 24px;
-                margin-bottom: 60px;
+            .status-header h1 {
+                font-size: 32px;
             }
 
             .subscribe-form {
@@ -902,368 +546,155 @@
             }
 
             .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 32px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
             }
 
             .footer-bottom {
                 flex-direction: column;
-                gap: 24px;
-                text-align: center;
-            }
-
-            .footer-socials {
-                justify-content: center;
-            }
-
-            footer {
-                padding: 60px 24px 40px 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .services-grid {
-                grid-template-columns: 1fr;
+                gap: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- NAVIGATION -->
+    <!-- NAV -->
     <nav id="nav">
-        <div class="nav-logo">
-            <span class="nav-dot"></span>
-            <span>InferenceIQ</span>
+        <div class="nav-logo" onclick="window.location.href='index.html'">
+            <svg class="nav-logomark" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 2L18 15H6Z" fill="currentColor" opacity="0.8"/>
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.4"/>
+            </svg>
+            InferenceIQ
         </div>
         <div class="nav-center">
-            <a class="nav-link" href="index.html#features">Features</a>
-            <a class="nav-link" href="index.html#pricing">Pricing</a>
-            <a class="nav-link" href="docs.html">Docs</a>
-            <a class="nav-link" href="index.html#changelog">Changelog</a>
+            <a href="index.html" class="nav-link">Features</a>
+            <a href="index.html" class="nav-link">Pricing</a>
+            <a href="docs.html" class="nav-link">Docs</a>
+            <a href="blog.html" class="nav-link">Blog</a>
+            <a href="status.html" class="nav-link active">Status</a>
+            <a href="changelog.html" class="nav-link">Changelog</a>
         </div>
         <div class="nav-right">
-            <a class="nav-login" href="#">Sign In</a>
-            <button class="btn btn-primary">Start Free Trial</button>
-        </div>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+            <a class="nav-login" onclick="alert('Sign in coming soon')" style="cursor: pointer;">Sign In</a>
+            <button class="btn btn-primary" onclick="alert('Start free trial coming soon')" style="cursor: pointer;">Start Free Trial</button>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="container">
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span style="font-size: 14px; font-weight: 600; color: var(--accent);">Operational</span>
-            </div>
-            <h1 class="hero-title">All Systems Operational</h1>
-            <p class="hero-subtitle">InferenceIQ is running smoothly with 99.97% uptime</p>
+    <!-- MAIN -->
+    <main>
+        <div class="status-header">
+            <h1>System Status</h1>
         </div>
-    </section>
 
-    <!-- SERVICES -->
-    <section class="services-section container">
-        <h2 class="section-title">Service Status</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-name">API Gateway</div>
-                    <div class="service-status">
-                        <div class="status-dot-small"></div>
-                        Operational
+        <div class="status-banner">
+            <div class="status-indicator"></div>
+            <div class="status-banner-text">All Systems Operational</div>
+        </div>
+
+        <div class="status-container">
+            <!-- COMPONENTS -->
+            <div class="status-section">
+                <h2 class="status-section-title">Components</h2>
+                <div class="component-list">
+                    <div class="component-item">
+                        <span class="component-name">API Gateway</span>
+                        <div class="component-status">
+                            <div class="status-dot"></div>
+                            Operational
+                        </div>
+                    </div>
+                    <div class="component-item">
+                        <span class="component-name">Routing Engine</span>
+                        <div class="component-status">
+                            <div class="status-dot"></div>
+                            Operational
+                        </div>
+                    </div>
+                    <div class="component-item">
+                        <span class="component-name">Analytics Pipeline</span>
+                        <div class="component-status">
+                            <div class="status-dot"></div>
+                            Operational
+                        </div>
+                    </div>
+                    <div class="component-item">
+                        <span class="component-name">Dashboard</span>
+                        <div class="component-status">
+                            <div class="status-dot"></div>
+                            Operational
+                        </div>
+                    </div>
+                    <div class="component-item">
+                        <span class="component-name">Provider Connections</span>
+                        <div class="component-status">
+                            <div class="status-dot"></div>
+                            Operational
+                        </div>
                     </div>
                 </div>
-                <div class="service-details">
-                    Avg response time: 45ms<br>
-                    Uptime: 100%
+            </div>
+
+            <!-- UPTIME -->
+            <div class="uptime-section">
+                <div class="uptime-metric">
+                    99.97% <span class="uptime-metric-label">uptime over the last 90 days</span>
+                </div>
+                <div class="uptime-chart">
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day partial"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
+                    <div class="uptime-day"></div>
                 </div>
             </div>
 
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-name">Routing Engine</div>
-                    <div class="service-status">
-                        <div class="status-dot-small"></div>
-                        Operational
-                    </div>
-                </div>
-                <div class="service-details">
-                    Avg latency: 8ms<br>
-                    Success rate: 99.99%
+            <!-- INCIDENTS -->
+            <div class="incidents-section">
+                <h2 class="status-section-title" style="text-align: left; margin-bottom: 32px;">Incident History</h2>
+                <div class="incidents-empty">
+                    <div class="incidents-empty-icon">✓</div>
+                    <div>No incidents reported</div>
                 </div>
             </div>
 
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-name">Provider Connections</div>
-                    <div class="service-status">
-                        <div class="status-dot-small"></div>
-                        Operational
-                    </div>
-                </div>
-                <div class="service-details">
-                    All providers: Connected<br>
-                    Failover ready
-                </div>
-            </div>
-
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-name">Dashboard</div>
-                    <div class="service-status">
-                        <div class="status-dot-small"></div>
-                        Operational
-                    </div>
-                </div>
-                <div class="service-details">
-                    Load time: 230ms<br>
-                    Uptime: 100%
-                </div>
-            </div>
-
-            <div class="service-card">
-                <div class="service-header">
-                    <div class="service-name">Webhooks</div>
-                    <div class="service-status">
-                        <div class="status-dot-small"></div>
-                        Operational
-                    </div>
-                </div>
-                <div class="service-details">
-                    Queue depth: Healthy<br>
-                    Delivery: 100%
+            <!-- SUBSCRIBE -->
+            <div class="subscribe-section">
+                <h2 class="subscribe-title">Get Notified</h2>
+                <p class="subscribe-description">Subscribe to receive updates when we experience incidents or maintenance.</p>
+                <div class="subscribe-form">
+                    <input type="email" class="subscribe-input" placeholder="your@email.com">
+                    <button class="subscribe-button">Subscribe</button>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- UPTIME -->
-    <section class="uptime-section container">
-        <div class="uptime-header">
-            <h2 class="section-title" style="margin-bottom: 0;">90-Day Uptime</h2>
-            <div class="uptime-stat">
-                <strong>99.97%</strong> uptime over the last 90 days
-            </div>
-        </div>
-        <div class="uptime-chart">
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 1: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 2: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 3: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 4: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 5: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 6: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 7: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 8: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 9: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 10: 100%"></div>
-            <div class="uptime-bar" style="height: 98%; background: var(--amber);" data-tooltip="Day 11: 98%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 12: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 13: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 14: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 15: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 16: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 17: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 18: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 19: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 20: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 21: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 22: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 23: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 24: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 25: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 26: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 27: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 28: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 29: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 30: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 31: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 32: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 33: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 34: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 35: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 36: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 37: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 38: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 39: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 40: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 41: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 42: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 43: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 44: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 45: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 46: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 47: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 48: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 49: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 50: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 51: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 52: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 53: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 54: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 55: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 56: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 57: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 58: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 59: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 60: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 61: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 62: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 63: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 64: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 65: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 66: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 67: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 68: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 69: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 70: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 71: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 72: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 73: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 74: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 75: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 76: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 77: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 78: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 79: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 80: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 81: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 82: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 83: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 84: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 85: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 86: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 87: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 88: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 89: 100%"></div>
-            <div class="uptime-bar" style="height: 100%; background: var(--accent);" data-tooltip="Day 90: 100%"></div>
-        </div>
-    </section>
-
-    <!-- INCIDENTS -->
-    <section class="incidents-section container">
-        <h2 class="section-title">Incident History</h2>
-
-        <div class="incident-card">
-            <div class="incident-header">
-                <div>
-                    <div class="incident-date">March 1, 2025 • 14:32 UTC</div>
-                    <h3 class="incident-title">Elevated API Latency</h3>
-                </div>
-                <div class="incident-status">
-                    <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
-                    Resolved
-                </div>
-            </div>
-            <p class="incident-description">A traffic spike on OpenAI provider caused increased latency on our API Gateway. Our auto-scaling infrastructure responded immediately, distributing load across additional instances.</p>
-            <div class="incident-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-label">Detected</div>
-                    <div class="timeline-value">14:32 UTC</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Investigating</div>
-                    <div class="timeline-value">2 min</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Identified</div>
-                    <div class="timeline-value">14:34 UTC</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Monitoring</div>
-                    <div class="timeline-value">8 min</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Resolved</div>
-                    <div class="timeline-value">14:44 UTC</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="incident-card">
-            <div class="incident-header">
-                <div>
-                    <div class="incident-date">February 15, 2025 • 09:17 UTC</div>
-                    <h3 class="incident-title">Dashboard Loading Delays</h3>
-                </div>
-                <div class="incident-status">
-                    <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
-                    Resolved
-                </div>
-            </div>
-            <p class="incident-description">Database query optimization issue caused slow dashboard loads. We identified inefficient aggregation queries and deployed a cache layer to improve performance.</p>
-            <div class="incident-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-label">Detected</div>
-                    <div class="timeline-value">09:17 UTC</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Investigating</div>
-                    <div class="timeline-value">3 min</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Identified</div>
-                    <div class="timeline-value">09:20 UTC</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Monitoring</div>
-                    <div class="timeline-value">5 min</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Resolved</div>
-                    <div class="timeline-value">09:25 UTC</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="incident-card">
-            <div class="incident-header">
-                <div>
-                    <div class="incident-date">January 28, 2025 • 16:42 UTC</div>
-                    <h3 class="incident-title">Provider Connection Timeout</h3>
-                </div>
-                <div class="incident-status">
-                    <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
-                    Resolved
-                </div>
-            </div>
-            <p class="incident-description">Temporary network routing issue between our infrastructure and Anthropic provider. The incident triggered automatic failover to alternate providers immediately, preventing user-facing impact.</p>
-            <div class="incident-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-label">Detected</div>
-                    <div class="timeline-value">16:42 UTC</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Investigating</div>
-                    <div class="timeline-value">4 min</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Identified</div>
-                    <div class="timeline-value">16:46 UTC</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Monitoring</div>
-                    <div class="timeline-value">19 min</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-label">Resolved</div>
-                    <div class="timeline-value">17:05 UTC</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SUBSCRIBE -->
-    <section class="subscribe-section container">
-        <h2 class="subscribe-title">Get Status Updates</h2>
-        <p class="subscribe-subtitle">Subscribe to get notified of any service disruptions or maintenance</p>
-        <form class="subscribe-form" onsubmit="return handleSubscribe(event)">
-            <input type="email" class="subscribe-input" placeholder="your@email.com" required>
-            <button type="submit" class="subscribe-button">Subscribe</button>
-        </form>
-    </section>
+    </main>
 
     <!-- FOOTER -->
     <footer>
@@ -1276,7 +707,6 @@
                     </div>
                     <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
                 </div>
-
                 <div class="footer-newsletter">
                     <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
                     <div class="newsletter-input-wrapper">
@@ -1290,86 +720,57 @@
                 <div class="footer-column">
                     <h3>Product</h3>
                     <ul>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html">Features</a></li>
+                        <li><a href="index.html">Pricing</a></li>
                         <li><a href="docs.html">Documentation</a></li>
-                        <li><a href="#">API Reference</a></li>
+                        <li><a href="status.html">Status</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Developers</h3>
                     <ul>
-                        <li><a href="https://github.com" target="_blank">GitHub</a></li>
-                        <li><a href="#">SDKs</a></li>
-                        <li><a href="#">Integrations</a></li>
+                        <li><a href="https://github.com/inferenceiq" target="_blank">GitHub</a></li>
+                        <li><a href="docs.html">SDKs</a></li>
+                        <li><a href="docs.html">Integrations</a></li>
                         <li><a href="status.html">Status Page</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Company</h3>
                     <ul>
-                        <li><a href="#">About</a></li>
+                        <li><a href="index.html">About</a></li>
                         <li><a href="blog.html">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="index.html">Careers</a></li>
+                        <li><a href="index.html">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Legal</h3>
                     <ul>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">Compliance</a></li>
+                        <li><a href="index.html">Privacy</a></li>
+                        <li><a href="index.html">Terms</a></li>
+                        <li><a href="security.html">Security</a></li>
+                        <li><a href="security.html">Compliance</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <div class="footer-copyright">
-                    Copyright © 2025 InferenceIQ. All rights reserved.
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="footer-copyright">
+                        Copyright © 2025 InferenceIQ. All rights reserved.
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-tertiary);">
+                        Built with ❤️ in San Francisco
+                    </div>
                 </div>
                 <div class="footer-socials">
-                    <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
-                    <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
-                    <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
+                    <a href="https://github.com" target="_blank" class="footer-social">⚙️</a>
+                    <a href="https://twitter.com" target="_blank" class="footer-social">𝕏</a>
+                    <a href="https://linkedin.com" target="_blank" class="footer-social">in</a>
                 </div>
             </div>
         </div>
     </footer>
-
-    <script>
-        // Initialize Lucide Icons
-        if (window.lucide) {
-            lucide.createIcons();
-        }
-
-        // Navigation scroll effect
-        window.addEventListener('scroll', function() {
-            const nav = document.getElementById('nav');
-            if (window.scrollY > 0) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // Hamburger menu
-        const hamburger = document.getElementById('hamburger');
-        const nav = document.getElementById('nav');
-
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('mobile-open');
-        });
-
-        // Subscribe form
-        function handleSubscribe(e) {
-            e.preventDefault();
-            alert('Thank you for subscribing! You\'ll receive status updates via email.');
-            e.target.reset();
-            return false;
-        }
-    </script>
 </body>
 </html>

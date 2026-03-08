@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - InferenceIQ</title>
+    <title>404 - Page Not Found - InferenceIQ</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,12 +15,10 @@
         :root {
             --bg-primary: #0a0a0a;
             --bg-elevated: #141414;
-            --bg-hover: #1a1a1a;
             --text-primary: #fafafa;
             --text-secondary: #b4b4b4;
             --text-tertiary: #808080;
             --accent: #10b981;
-            --accent-light: rgba(16, 185, 129, 0.1);
             --border: #262626;
         }
 
@@ -29,6 +27,9 @@
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* NAV */
@@ -105,15 +106,6 @@
             width: 100%;
         }
 
-        .nav-link.active {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .nav-link.active::after {
-            width: 100%;
-        }
-
         .nav-right {
             display: flex;
             align-items: center;
@@ -156,200 +148,79 @@
 
         /* MAIN */
         main {
-            margin-top: 64px;
-            padding: 48px 32px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 64px 32px 32px;
         }
 
-        .blog-header {
-            max-width: 1200px;
-            margin: 0 auto 64px;
+        .error-container {
             text-align: center;
+            max-width: 600px;
         }
 
-        .blog-header h1 {
-            font-size: 48px;
+        .error-code {
+            font-size: 120px;
             font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
             margin-bottom: 16px;
         }
 
-        .blog-header p {
-            color: var(--text-secondary);
-            font-size: 18px;
-        }
-
-        /* FILTERS */
-        .filter-tabs {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 48px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .filter-tab {
-            padding: 10px 18px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .filter-tab:hover {
-            border-color: var(--accent);
-            color: var(--text-primary);
-        }
-
-        .filter-tab.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        /* ARTICLES */
-        .articles-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* FEATURED ARTICLE */
-        .featured-article {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 48px;
-            align-items: center;
-        }
-
-        .featured-article-content h2 {
+        .error-title {
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 16px;
         }
 
-        .featured-article-content p {
+        .error-message {
             color: var(--text-secondary);
-            margin-bottom: 20px;
             font-size: 16px;
-            line-height: 1.7;
-        }
-
-        .article-meta {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            color: var(--text-tertiary);
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .article-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .article-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            background: var(--accent-light);
-            color: var(--accent);
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .featured-article-image {
-            background: linear-gradient(135deg, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0.1) 100%);
-            border-radius: 8px;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-        }
-
-        .read-more {
-            display: inline-block;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .read-more:hover {
-            color: #06a373;
-        }
-
-        /* ARTICLES GRID */
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-        }
-
-        .article-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .article-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.1);
-        }
-
-        .article-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .article-card p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: 15px;
+            margin-bottom: 40px;
             line-height: 1.6;
         }
 
-        .article-footer {
+        .error-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
+            gap: 16px;
+            justify-content: center;
         }
 
-        .article-meta-small {
-            display: flex;
-            gap: 12px;
-            color: var(--text-tertiary);
-            font-size: 13px;
-        }
-
-        .article-category {
-            display: inline-block;
-            padding: 4px 10px;
-            background: var(--accent-light);
-            color: var(--accent);
-            border-radius: 4px;
-            font-size: 12px;
+        .btn-home {
+            padding: 12px 32px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 8px;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+        }
+
+        .btn-home:hover {
+            background: #06a373;
+            transform: translateY(-2px);
+        }
+
+        .btn-docs {
+            padding: 12px 32px;
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+        }
+
+        .btn-docs:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         /* FOOTER */
@@ -357,7 +228,7 @@
             background: var(--bg-elevated);
             border-top: 1px solid var(--border);
             padding: 48px 32px;
-            margin-top: 80px;
+            margin-top: auto;
         }
 
         .footer-content {
@@ -399,7 +270,7 @@
         .newsletter-input {
             flex: 1;
             padding: 10px 12px;
-            background: var(--bg-hover);
+            background: #1a1a1a;
             border: 1px solid var(--border);
             border-radius: 6px;
             color: var(--text-primary);
@@ -498,30 +369,16 @@
                 display: none;
             }
 
-            main {
-                padding: 32px 16px;
+            .error-code {
+                font-size: 80px;
             }
 
-            .blog-header h1 {
-                font-size: 32px;
-            }
-
-            .featured-article {
-                grid-template-columns: 1fr;
-                padding: 24px;
-            }
-
-            .featured-article-content h2 {
+            .error-title {
                 font-size: 24px;
             }
 
-            .featured-article-image {
-                height: 200px;
-            }
-
-            .articles-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
+            .error-actions {
+                flex-direction: column;
             }
 
             .footer-grid {
@@ -551,7 +408,7 @@
             <a href="index.html" class="nav-link">Features</a>
             <a href="index.html" class="nav-link">Pricing</a>
             <a href="docs.html" class="nav-link">Docs</a>
-            <a href="blog.html" class="nav-link active">Blog</a>
+            <a href="blog.html" class="nav-link">Blog</a>
             <a href="status.html" class="nav-link">Status</a>
             <a href="changelog.html" class="nav-link">Changelog</a>
         </div>
@@ -563,100 +420,15 @@
 
     <!-- MAIN -->
     <main>
-        <div class="blog-header">
-            <h1>Blog</h1>
-            <p>Insights on AI inference optimization, cost reduction, and platform scaling.</p>
-        </div>
-
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterArticles('all')">All</button>
-            <button class="filter-tab" onclick="filterArticles('engineering')">Engineering</button>
-            <button class="filter-tab" onclick="filterArticles('product')">Product</button>
-            <button class="filter-tab" onclick="filterArticles('guides')">Guides</button>
-        </div>
-
-        <div class="articles-container">
-            <!-- FEATURED ARTICLE -->
-            <div class="featured-article" data-category="product">
-                <div class="featured-article-content">
-                    <span class="article-badge">Product</span>
-                    <h2>Introducing InferenceIQ: Intelligent Inference Routing</h2>
-                    <p>We're excited to announce the launch of InferenceIQ, the platform that automatically routes your AI inference requests to the most cost-effective provider without sacrificing quality or performance. Learn how we're changing the economics of AI.</p>
-                    <div class="article-meta">
-                        <div class="article-meta-item">📅 March 1, 2026</div>
-                        <div class="article-meta-item">⏱️ 8 min read</div>
-                    </div>
-                    <a href="#" class="read-more">Read Article →</a>
-                </div>
-                <div class="featured-article-image">🚀</div>
-            </div>
-
-            <!-- ARTICLES GRID -->
-            <div class="articles-grid">
-                <!-- Article 1 -->
-                <div class="article-card" data-category="engineering">
-                    <h3>Why AI Inference Costs Are Exploding (And How to Fix It)</h3>
-                    <p>The cost of running AI inference has become a critical issue for startups and enterprises alike. We break down the economics of different LLM providers and show you how intelligent routing can save your team 73% on inference costs.</p>
-                    <div class="article-footer">
-                        <div class="article-meta-small">
-                            <span>📅 February 28, 2026</span>
-                            <span>⏱️ 10 min</span>
-                        </div>
-                        <span class="article-category">Engineering</span>
-                    </div>
-                </div>
-
-                <!-- Article 2 -->
-                <div class="article-card" data-category="engineering">
-                    <h3>How Multi-Provider Routing Reduces Costs by 73%</h3>
-                    <p>A technical deep dive into the InferenceIQ routing algorithm. We explain how we analyze real-time pricing, latency, and availability across 20+ providers to make split-second routing decisions that optimize for cost, speed, or quality.</p>
-                    <div class="article-footer">
-                        <div class="article-meta-small">
-                            <span>📅 February 21, 2026</span>
-                            <span>⏱️ 12 min</span>
-                        </div>
-                        <span class="article-category">Engineering</span>
-                    </div>
-                </div>
-
-                <!-- Article 3 -->
-                <div class="article-card" data-category="guides">
-                    <h3>Building a Cost-Optimized AI Pipeline</h3>
-                    <p>A practical guide to architecting your AI application with cost optimization in mind. We walk through real-world examples of how companies are using InferenceIQ to build scalable, cost-efficient inference pipelines with multi-region support.</p>
-                    <div class="article-footer">
-                        <div class="article-meta-small">
-                            <span>📅 February 14, 2026</span>
-                            <span>⏱️ 9 min</span>
-                        </div>
-                        <span class="article-category">Guides</span>
-                    </div>
-                </div>
-
-                <!-- Article 4 -->
-                <div class="article-card" data-category="product">
-                    <h3>The Complete Guide to LLM Provider Pricing in 2025</h3>
-                    <p>An exhaustive reference guide comparing pricing, latency, availability, and feature support across OpenAI, Anthropic, Google, Together, and 15+ other LLM providers. Updated monthly with the latest changes to pricing tiers and model availability.</p>
-                    <div class="article-footer">
-                        <div class="article-meta-small">
-                            <span>📅 February 7, 2026</span>
-                            <span>⏱️ 15 min</span>
-                        </div>
-                        <span class="article-category">Product</span>
-                    </div>
-                </div>
-
-                <!-- Article 5 -->
-                <div class="article-card" data-category="engineering">
-                    <h3>Optimizing Inference Latency Across Multiple Regions</h3>
-                    <p>Discover techniques for minimizing latency when routing requests across geographically distributed providers. We share best practices learned from running millions of inferences per day across North America, Europe, and Asia-Pacific.</p>
-                    <div class="article-footer">
-                        <div class="article-meta-small">
-                            <span>📅 January 31, 2026</span>
-                            <span>⏱️ 11 min</span>
-                        </div>
-                        <span class="article-category">Engineering</span>
-                    </div>
-                </div>
+        <div class="error-container">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+            </p>
+            <div class="error-actions">
+                <button class="btn-home" onclick="window.location.href='index.html'">Back to Home</button>
+                <button class="btn-docs" onclick="window.location.href='docs.html'">Documentation</button>
             </div>
         </div>
     </main>
@@ -737,23 +509,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        function filterArticles(category) {
-            const cards = document.querySelectorAll('[data-category]');
-            const buttons = document.querySelectorAll('.filter-tab');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
 </body>
 </html>
