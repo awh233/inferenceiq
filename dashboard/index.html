@@ -71,9 +71,9 @@
             width: 100%;
             height: 100%;
             background-image:
-                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.02) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.015) 0%, transparent 50%),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="rgba(255,255,255,0.012)" width="100" height="100"/><circle cx="50" cy="50" r="0.5" fill="rgba(255,255,255,0.015)"/></svg>');
+                radial-gradient(circle at 20% 50%, rgba(16,185,129,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 50%),
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 24px 24px;
             pointer-events: none;
             z-index: 1;
@@ -421,20 +421,25 @@
             width: 1400px;
             height: 800px;
             background: conic-gradient(from 180deg at 50% 50%,
-                rgba(16,185,129,0.25) 0deg,
-                rgba(139,92,246,0.15) 90deg,
-                rgba(59,130,246,0.15) 180deg,
-                rgba(6,182,212,0.12) 270deg,
-                rgba(16,185,129,0.25) 360deg);
+                rgba(16,185,129,0.35) 0deg,
+                rgba(139,92,246,0.25) 90deg,
+                rgba(59,130,246,0.25) 180deg,
+                rgba(6,182,212,0.22) 270deg,
+                rgba(16,185,129,0.35) 360deg);
             filter: blur(120px);
-            opacity: 0.7;
+            opacity: 0.8;
             z-index: 0;
-            animation: slow-rotate 25s linear infinite;
+            animation: aurora-glow 20s linear infinite;
         }
 
         @keyframes slow-rotate {
             from { transform: translateX(-50%) rotate(0deg); }
             to { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        @keyframes aurora-glow {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
         }
 
         .hero-content {
@@ -488,11 +493,11 @@
         }
 
         .hero-headline .gradient-text {
-            background: linear-gradient(135deg, #10b981, #06b6d4);
+            background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 400;
+            font-weight: 300;
         }
 
         .hero-subtitle {
@@ -572,8 +577,8 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: perspective(1800px) rotateY(-8deg) rotateX(2deg) translateY(0px); }
-            50% { transform: perspective(1800px) rotateY(-8deg) rotateX(2deg) translateY(-24px); }
+            0%, 100% { transform: perspective(1800px) rotateY(-8deg) rotateX(2deg) translateY(-5px); }
+            50% { transform: perspective(1800px) rotateY(-8deg) rotateX(2deg) translateY(5px); }
         }
 
         .mockup-header {
@@ -895,12 +900,12 @@
         .trust-logos {
             display: flex;
             gap: 80px;
-            justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
             overflow: hidden;
             position: relative;
             padding-bottom: 20px;
+            width: 100%;
+            animation: marquee 30s linear infinite;
         }
 
         .trust-logos::after {
@@ -914,22 +919,22 @@
             background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         .trust-logo {
             font-size: 14px;
             font-weight: 600;
             color: var(--text-muted);
             opacity: 0.6;
             white-space: nowrap;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
             letter-spacing: 0.05em;
             padding: 8px 0;
-            animation: fade-in 0.6s ease forwards;
+            flex-shrink: 0;
         }
-
-        .trust-logo:nth-child(1) { animation-delay: 0.1s; }
-        .trust-logo:nth-child(2) { animation-delay: 0.15s; }
-        .trust-logo:nth-child(3) { animation-delay: 0.2s; }
-        .trust-logo:nth-child(4) { animation-delay: 0.25s; }
 
         .trust-logo:hover {
             opacity: 1;
@@ -1002,7 +1007,7 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 44px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             cursor: pointer;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
@@ -1014,8 +1019,9 @@
 
         .persona-card:hover {
             background: var(--bg-card-hover);
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.05);
         }
 
         .persona-icon {
@@ -1430,14 +1436,14 @@
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .bento-item:hover {
             background: var(--bg-card-hover);
             border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.05);
         }
 
         .bento-item:nth-child(1) {
@@ -1646,7 +1652,7 @@
             padding: 44px;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .comparison-card:nth-child(1) { animation-delay: 0.1s; }
@@ -1655,13 +1661,15 @@
         .comparison-card:hover:not(.with-feature) {
             border-color: rgba(255, 255, 255, 0.12);
             background: var(--bg-card-hover);
-            transform: translateY(-6px);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.05);
         }
 
         .comparison-card.with-feature:hover {
             border-color: rgba(16, 185, 129, 0.3);
             background: rgba(16, 185, 129, 0.08);
-            transform: translateY(-6px);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.1);
         }
 
         .comparison-card.with-feature {
@@ -1745,7 +1753,7 @@
             animation: fade-in-up 0.6s ease forwards;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
@@ -1753,9 +1761,10 @@
         .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
 
         .testimonial-card:hover {
-            border-color: rgba(16, 185, 129, 0.3);
+            border-color: rgba(255, 255, 255, 0.12);
             background: var(--bg-card-hover);
-            transform: translateY(-6px);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.05);
         }
 
         .stars {
@@ -1788,6 +1797,19 @@
         .testimonial-role {
             font-size: 13px;
             color: var(--text-tertiary);
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 16px;
         }
 
         @media (max-width: 1024px) {
@@ -1830,7 +1852,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             min-height: 100%;
         }
 
@@ -1841,20 +1863,34 @@
         .pricing-card:hover:not(.featured) {
             border-color: rgba(255, 255, 255, 0.12);
             background: var(--bg-card-hover);
-            transform: translateY(-6px);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.05);
         }
 
         .pricing-card.featured {
             border: 1.5px solid var(--accent);
             background: rgba(16, 185, 129, 0.04);
             transform: scale(1.02);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(16,185,129,0.1), transparent);
+            border-radius: 16px 16px 0 0;
+            pointer-events: none;
         }
 
         .pricing-card.featured:hover {
             border-color: var(--accent-light);
             background: rgba(16, 185, 129, 0.08);
-            transform: scale(1.025) translateY(-6px);
-            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.15);
+            transform: scale(1.025) translateY(-4px);
+            box-shadow: 0 0 60px rgba(16,185,129,0.15);
         }
 
         .pricing-badge {
@@ -1916,6 +1952,13 @@
             gap: 12px;
             font-size: 14px;
             color: var(--text-secondary);
+        }
+
+        .pricing-checkmark {
+            color: var(--accent);
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         .pricing-feature-icon {
@@ -2102,7 +2145,13 @@
             overflow: hidden;
             opacity: 0;
             animation: fade-in-up 0.6s ease forwards;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(16,185,129,0.05);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
         .faq-item:nth-child(1) { animation-delay: 0s; }
@@ -2182,14 +2231,20 @@
         .cta-banner {
             position: relative;
             background: linear-gradient(135deg,
-                rgba(16, 185, 129, 0.1) 0%,
-                rgba(6, 182, 212, 0.05) 50%,
-                rgba(139, 92, 246, 0.08) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+                rgba(16, 185, 129, 0.15) 0%,
+                rgba(6, 182, 212, 0.08) 50%,
+                rgba(139, 92, 246, 0.12) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 20px;
             padding: 80px 60px;
             text-align: center;
             overflow: hidden;
+            animation: gradient-shift 8s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.08) 50%, rgba(139, 92, 246, 0.12) 100%); }
+            50% { background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(16, 185, 129, 0.15) 50%, rgba(6, 182, 212, 0.08) 100%); }
         }
 
         .cta-banner::before {
@@ -2238,7 +2293,7 @@
         }
 
         .cta-banner-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 300;
             letter-spacing: -0.04em;
             color: var(--text-primary);
@@ -2260,6 +2315,15 @@
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
+        }
+
+        .cta-button-primary {
+            animation: button-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes button-pulse {
+            0%, 100% { box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 20px 60px rgba(16, 185, 129, 0.5); }
         }
 
         /* UPDATES/CHANGELOG TIMELINE */
@@ -2358,6 +2422,68 @@
             box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
         }
 
+        /* SECTION DIVIDERS */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(16,185,129,0.2), transparent);
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 80px;
+            margin-bottom: 80px;
+        }
+
+        /* STICKY TRIAL BAR */
+        .sticky-trial-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1500;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(16,185,129,0.2);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            padding: 16px 40px;
+        }
+
+        .sticky-trial-bar.visible {
+            transform: translateY(0);
+        }
+
+        .sticky-trial-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .sticky-trial-content span {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .sticky-trial-btn {
+            background: var(--accent);
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sticky-trial-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
         @media (max-width: 1024px) {
             .faq {
                 padding: 100px 40px;
@@ -2450,6 +2576,71 @@
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .footer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 80px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .footer-logo {
+            flex: 1;
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer-newsletter {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .newsletter-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.1);
+        }
+
+        .newsletter-button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .newsletter-button:hover {
+            background: var(--accent-light);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
         }
 
         .footer-grid {
@@ -3560,6 +3751,14 @@
 <!-- LANDING SCREEN -->
 <div id="landing-screen" class="screen active">
 
+    <!-- STICKY TRIAL BAR -->
+    <div class="sticky-trial-bar" id="stickyBar">
+        <div class="sticky-trial-content">
+            <span>Start optimizing your inference costs today</span>
+            <button class="sticky-trial-btn" onclick="switchScreen('login')" style="cursor: pointer;">Start Free Trial</button>
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-glow"></div>
@@ -3716,8 +3915,16 @@
             <div class="trust-logo">Linear</div>
             <div class="trust-logo">Figma</div>
             <div class="trust-logo">OpenAI</div>
+            <div class="trust-logo">Stripe</div>
+            <div class="trust-logo">Vercel</div>
+            <div class="trust-logo">Notion</div>
+            <div class="trust-logo">Linear</div>
+            <div class="trust-logo">Figma</div>
+            <div class="trust-logo">OpenAI</div>
         </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <!-- PERSONAS SECTION -->
     <section class="personas">
@@ -3744,6 +3951,8 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- METRICS SECTION -->
     <section class="metrics-bar">
         <div class="metrics-grid">
@@ -3765,6 +3974,8 @@
             </div>
         </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <!-- HOW IT WORKS SECTION -->
     <section class="how-it-works" id="features">
@@ -3980,6 +4191,8 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- TESTIMONIALS SECTION -->
     <section class="testimonials">
         <div class="container">
@@ -3997,6 +4210,7 @@
                     <p class="testimonial-text">
                         "InferenceIQ cut our inference costs in half overnight. The automatic routing is insanely smart. Best decision we made this quarter."
                     </p>
+                    <div class="testimonial-avatar" style="background: linear-gradient(135deg, #10b981, #06b6d4)">SC</div>
                     <p class="testimonial-author">Sarah Chen</p>
                     <p class="testimonial-role">VP Engineering, TechCorp AI</p>
                 </div>
@@ -4011,6 +4225,7 @@
                     <p class="testimonial-text">
                         "The integration took 5 minutes and saved us $40K per month. Reliable, fast, and the team is incredibly responsive."
                     </p>
+                    <div class="testimonial-avatar" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6)">MJ</div>
                     <p class="testimonial-author">Marcus Johnson</p>
                     <p class="testimonial-role">CTO, DataFlow Labs</p>
                 </div>
@@ -4025,12 +4240,15 @@
                     <p class="testimonial-text">
                         "The fallback system gives us peace of mind. We never worry about provider outages anymore. Highly recommended."
                     </p>
+                    <div class="testimonial-avatar" style="background: linear-gradient(135deg, #f59e0b, #f43f5e)">ER</div>
                     <p class="testimonial-author">Elena Rodriguez</p>
                     <p class="testimonial-role">Engineering Lead, AI Platform</p>
                 </div>
             </div>
         </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <!-- DEVELOPERS SECTION - CODE TABS -->
     <section class="developers" id="developers">
@@ -4285,6 +4503,8 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- PRICING SECTION -->
     <section class="pricing" id="pricing">
         <div class="container">
@@ -4302,20 +4522,28 @@
                     </button>
                     <div class="pricing-features">
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Up to 100K requests/month</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>2 provider integrations</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Basic analytics</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Email support</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-checkmark">✓</span>
+                            <span>Community access</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-checkmark">✓</span>
+                            <span>Basic alerts</span>
                         </div>
                     </div>
                 </div>
@@ -4330,24 +4558,36 @@
                     </button>
                     <div class="pricing-features">
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Unlimited requests</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>All 10+ providers</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Advanced analytics & reporting</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>API rate limiting & quotas</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Priority support</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-checkmark">✓</span>
+                            <span>Custom integrations</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-checkmark">✓</span>
+                            <span>Advanced alerts & webhooks</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-checkmark">✓</span>
+                            <span>Team collaboration</span>
                         </div>
                     </div>
                 </div>
@@ -4361,23 +4601,23 @@
                     </button>
                     <div class="pricing-features">
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Custom deployment options</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Advanced security & compliance</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>Dedicated account manager</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>SLA & guaranteed uptime</span>
                         </div>
                         <div class="pricing-feature">
-                            <i data-lucide="check-circle-2" class="icon-small pricing-feature-icon"></i>
+                            <span class="pricing-checkmark">✓</span>
                             <span>24/7 premium support</span>
                         </div>
                     </div>
@@ -4385,6 +4625,8 @@
             </div>
         </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <!-- CHANGELOG SECTION -->
     <section class="changelog" id="changelog">
@@ -4454,6 +4696,8 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- ENHANCED CTA BANNER -->
     <section class="cta-enhanced">
         <div class="cta-banner">
@@ -4461,7 +4705,7 @@
                 <h2 class="cta-banner-title">Ready to cut inference costs by <span style="background: linear-gradient(135deg, #10b981, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">73%</span>?</h2>
                 <p class="cta-banner-subtitle">Join hundreds of teams already saving thousands of dollars every month with InferenceIQ. Start free today, no credit card required.</p>
                 <div class="cta-banner-buttons">
-                    <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')" style="cursor: pointer;">
+                    <button class="btn btn-lg btn-lg-primary cta-button-primary" onclick="switchScreen('login')" style="cursor: pointer;">
                         Start Free Trial
                     </button>
                     <button class="btn btn-lg btn-lg-secondary" onclick="alert('Contact form would open here')" style="cursor: pointer;">
@@ -4475,6 +4719,26 @@
     <!-- FOOTER -->
     <footer>
         <div class="footer-content">
+            <!-- Footer Header with Logo and Tagline -->
+            <div class="footer-header">
+                <div class="footer-logo">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                        <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                    </div>
+                    <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="footer-newsletter">
+                    <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                    <div class="newsletter-input-wrapper">
+                        <input type="email" class="newsletter-input" placeholder="your@email.com">
+                        <button class="newsletter-button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3>Product</h3>
@@ -5172,9 +5436,10 @@
         };
 
         const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    entry.target.style.transitionDelay = (index * 100) + 'ms';
                 }
             });
         }, observerOptions);
@@ -5200,10 +5465,38 @@
         }, 2000);
     }
 
+    function initParallax() {
+        const heroGlow = document.querySelector('.hero-glow');
+        if (!heroGlow) return;
+
+        window.addEventListener('scroll', function() {
+            requestAnimationFrame(function() {
+                const scrollY = window.scrollY;
+                heroGlow.style.transform = `translateX(-50%) translateY(${scrollY * 0.3}px)`;
+            });
+        });
+    }
+
+    function initStickyBar() {
+        const stickyBar = document.getElementById('stickyBar');
+        if (!stickyBar) return;
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            if (scrollY > 400) {
+                stickyBar.classList.add('visible');
+            } else {
+                stickyBar.classList.remove('visible');
+            }
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             initScrollAnimations();
             initActiveNavLinkObserver();
+            initParallax();
+            initStickyBar();
         }, 100);
     });
 
@@ -5214,6 +5507,8 @@
             setTimeout(() => {
                 initScrollAnimations();
                 initActiveNavLinkObserver();
+                initParallax();
+                initStickyBar();
             }, 200);
         }
     };
