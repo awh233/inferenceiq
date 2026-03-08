@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InferenceIQ - Cut Inference Costs by 73%</title>
+    <title>InferenceIQ — Cut Inference Costs by 73%</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -11,6 +11,17 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js for dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="InferenceIQ — Cut AI inference costs by 73% with intelligent routing. Automatic failover, real-time analytics, and 99.97% uptime SLA.">
+    <meta property="og:title" content="InferenceIQ — Intelligent Inference Routing">
+    <meta property="og:description" content="Cut AI inference costs by 73% with intelligent routing across providers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inferenceiq.onrender.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="InferenceIQ — Intelligent Inference Routing">
+    <meta name="twitter:description" content="Cut AI inference costs by 73% with intelligent routing across providers.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
     <style>
         /* ROOT VARIABLES */
@@ -1388,6 +1399,50 @@
         .attr { color: var(--cyan); }
         .number { color: var(--amber); }
 
+        /* Copy Button Styles */
+        .code-block {
+            position: relative;
+        }
+
+        .code-copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--accent);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .code-copy-btn:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .code-copy-btn.copied {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-light);
+        }
+
+        .code-copy-tooltip {
+            position: absolute;
+            top: -30px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none;
+            animation: fade-in-down 0.2s ease;
+        }
+
         @media (max-width: 1024px) {
             .integration-content {
                 grid-template-columns: 1fr;
@@ -2201,8 +2256,10 @@
         }
 
         .faq-answer {
-            display: none;
-            padding: 24px 28px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 28px;
             background: var(--bg-elevated);
             border-top: 1px solid var(--border);
             color: var(--text-secondary);
@@ -2211,8 +2268,9 @@
         }
 
         .faq-item.open .faq-answer {
-            display: block;
-            animation: fade-in 0.3s ease;
+            max-height: 300px;
+            padding-top: 16px;
+            padding-bottom: 24px;
         }
 
         .faq-item.open {
@@ -2737,6 +2795,85 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero {
+                padding: 80px 16px 60px 16px;
+            }
+
+            .hero-headline {
+                font-size: clamp(1.75rem, 4vw, 2.5rem);
+            }
+
+            .sticky-trial-bar {
+                padding: 12px 16px;
+            }
+
+            .sticky-trial-content {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .sticky-trial-content span {
+                font-size: 12px;
+            }
+
+            .sticky-trial-btn {
+                width: 100%;
+            }
+
+            .footer-header {
+                flex-direction: column;
+                gap: 32px;
+                margin-bottom: 48px;
+            }
+
+            .footer-newsletter {
+                max-width: 100%;
+            }
+
+            footer {
+                padding: 40px 16px 30px 16px;
+            }
+
+            .code-content {
+                padding: 16px;
+                font-size: 11px;
+            }
+
+            .code-header {
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .hero-headline {
+                font-size: 1.5rem;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: clamp(1.75rem, 5vw, 2.5rem);
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .container {
+                padding: 0 12px;
+            }
+        }
+
         /* LOGIN SCREEN STYLES */
         #login-screen {
             position: fixed;
@@ -2840,6 +2977,41 @@
             outline: none;
             border-color: var(--accent);
             background: var(--bg-card-hover);
+        }
+
+        .form-input.error {
+            border-color: var(--rose);
+            background: rgba(244, 63, 94, 0.05);
+        }
+
+        .form-error {
+            display: none;
+            font-size: 13px;
+            color: var(--rose);
+            margin-top: 6px;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-forgot {
+            font-size: 12px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-forgot:hover {
+            opacity: 0.8;
+        }
+
+        .form-toggle-password {
+            transition: color 0.3s ease;
+        }
+
+        .form-toggle-password:hover {
+            color: var(--text-primary);
         }
 
         .login-button {
@@ -3727,14 +3899,14 @@
 
 <!-- NAVIGATION -->
 <nav id="nav">
-    <div class="nav-logo">
+    <div class="nav-logo" onclick="scrollToSection('landing')" style="cursor: pointer;">
         <div class="nav-dot"></div>
         InferenceIQ
     </div>
     <div class="nav-center">
         <a onclick="scrollToSection('features')" class="nav-link" style="cursor: pointer;">Features</a>
         <a onclick="scrollToSection('pricing')" class="nav-link" style="cursor: pointer;">Pricing</a>
-        <a onclick="scrollToSection('docs')" class="nav-link" style="cursor: pointer;">Docs</a>
+        <a href="docs.html" class="nav-link" style="cursor: pointer;">Docs</a>
         <a onclick="scrollToSection('changelog')" class="nav-link" style="cursor: pointer;">Changelog</a>
     </div>
     <div class="nav-right">
@@ -4745,35 +4917,35 @@
                     <ul>
                         <li><a onclick="scrollToSection('features')" style="cursor: pointer;">Features</a></li>
                         <li><a onclick="scrollToSection('pricing')" style="cursor: pointer;">Pricing</a></li>
-                        <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">Documentation</a></li>
-                        <li><a href="#">API Reference</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="api.html">API Reference</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Developers</h3>
                     <ul>
-                        <li><a href="https://github.com" target="_blank">GitHub</a></li>
-                        <li><a href="#">SDKs</a></li>
-                        <li><a href="#">Integrations</a></li>
-                        <li><a href="#">Status Page</a></li>
+                        <li><a href="https://github.com/inferenceiq" target="_blank">GitHub</a></li>
+                        <li><a href="docs.html">SDKs</a></li>
+                        <li><a href="docs.html">Integrations</a></li>
+                        <li><a href="status.html">Status Page</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Company</h3>
                     <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Legal</h3>
                     <ul>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">Compliance</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="security.html">Security</a></li>
+                        <li><a href="security.html">Compliance</a></li>
                     </ul>
                 </div>
             </div>
@@ -4798,23 +4970,33 @@
     <div class="login-card">
         <div class="login-header">
             <div class="login-dot"></div>
-            <div class="login-logo">InferenceIQ</div>
+            <div class="login-logo" onclick="switchScreen('landing')" style="cursor: pointer;">InferenceIQ</div>
         </div>
         <h1 class="login-title">Welcome back</h1>
         <p class="login-subtitle">Sign in to your account</p>
         <form onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label class="form-label">Email Address</label>
-                <input type="email" class="form-input" placeholder="you@example.com" required>
+                <input type="email" class="form-input" id="login-email" placeholder="you@example.com" required>
+                <div class="form-error" id="email-error"></div>
             </div>
             <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-input" placeholder="••••••••" required>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                    <label class="form-label">Password</label>
+                    <a class="form-forgot" onclick="alert('Password reset functionality coming soon')" style="cursor: pointer; font-size: 13px; color: var(--accent); text-decoration: none;">Forgot Password?</a>
+                </div>
+                <div style="position: relative;">
+                    <input type="password" class="form-input" id="login-password" placeholder="••••••••" required>
+                    <button type="button" class="form-toggle-password" onclick="togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 0;">
+                        <i data-lucide="eye" class="icon-small" id="eye-icon"></i>
+                    </button>
+                </div>
+                <div class="form-error" id="password-error"></div>
             </div>
             <button type="submit" class="login-button">Sign In</button>
         </form>
         <div class="login-footer">
-            Don't have an account? <span class="login-link" onclick="switchScreen('landing')" style="cursor: pointer;">Start free →</span>
+            Don't have an account? <span class="login-link" onclick="switchScreen('landing')" style="cursor: pointer;">Create Account →</span>
         </div>
     </div>
 </div>
@@ -4830,25 +5012,29 @@
 
         <!-- Navigation Items -->
         <div class="sidebar-nav">
-            <div class="sidebar-item-dashboard active" onclick="handleSidebarClick(this)">
+            <div class="sidebar-item-dashboard active" onclick="handleSidebarClick(this)" data-panel="dashboard-panel">
                 <i data-lucide="layout-grid" class="icon-small"></i>
                 <span>Dashboard</span>
             </div>
-            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
+            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)" data-panel="analytics-panel">
                 <i data-lucide="bar-chart-3" class="icon-small"></i>
                 <span>Analytics</span>
             </div>
-            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
+            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)" data-panel="providers-panel">
                 <i data-lucide="cpu" class="icon-small"></i>
-                <span>Models</span>
+                <span>Providers</span>
             </div>
-            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
-                <i data-lucide="route" class="icon-small"></i>
-                <span>Routing</span>
-            </div>
-            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
+            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)" data-panel="settings-panel">
                 <i data-lucide="settings" class="icon-small"></i>
                 <span>Settings</span>
+            </div>
+            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)" data-panel="api-keys-panel">
+                <i data-lucide="key" class="icon-small"></i>
+                <span>API Keys</span>
+            </div>
+            <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)" data-panel="billing-panel">
+                <i data-lucide="credit-card" class="icon-small"></i>
+                <span>Billing</span>
             </div>
         </div>
 
@@ -5077,6 +5263,7 @@
         lucide.createIcons();
         setupScrollNavigation();
         setupHamburgerMenu();
+        initCodeCopyButtons();
         switchScreen('landing');
         setTimeout(() => {
             initCounterAnimations();
@@ -5088,6 +5275,15 @@
         document.getElementById(screenName + '-screen').classList.add('active');
         window.scrollTo(0, 0);
 
+        // Update page title
+        if (screenName === 'landing') {
+            document.title = 'InferenceIQ — Cut Inference Costs by 73%';
+        } else if (screenName === 'login') {
+            document.title = 'Sign In — InferenceIQ';
+        } else if (screenName === 'dashboard') {
+            document.title = 'Dashboard — InferenceIQ';
+        }
+
         const nav = document.getElementById('nav');
         if (screenName === 'dashboard' || screenName === 'login') {
             nav.style.display = 'none';
@@ -5097,6 +5293,7 @@
 
         setTimeout(() => {
             lucide.createIcons();
+            initCodeCopyButtons();
         }, 50);
 
         if (screenName === 'dashboard') {
@@ -5106,7 +5303,70 @@
 
     function handleLogin(event) {
         event.preventDefault();
-        switchScreen('dashboard');
+
+        const emailInput = document.getElementById('login-email');
+        const passwordInput = document.getElementById('login-password');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+
+        // Reset errors
+        emailError.textContent = '';
+        emailError.classList.remove('show');
+        passwordError.textContent = '';
+        passwordError.classList.remove('show');
+        emailInput.classList.remove('error');
+        passwordInput.classList.remove('error');
+
+        let isValid = true;
+
+        // Validate email
+        const email = emailInput.value.trim();
+        if (!email) {
+            emailError.textContent = 'Email is required';
+            emailError.classList.add('show');
+            emailInput.classList.add('error');
+            isValid = false;
+        } else if (!email.includes('@')) {
+            emailError.textContent = 'Please enter a valid email address';
+            emailError.classList.add('show');
+            emailInput.classList.add('error');
+            isValid = false;
+        }
+
+        // Validate password
+        const password = passwordInput.value;
+        if (!password) {
+            passwordError.textContent = 'Password is required';
+            passwordError.classList.add('show');
+            passwordInput.classList.add('error');
+            isValid = false;
+        } else if (password.length < 8) {
+            passwordError.textContent = 'Password must be at least 8 characters';
+            passwordError.classList.add('show');
+            passwordInput.classList.add('error');
+            isValid = false;
+        }
+
+        // If valid, switch to dashboard
+        if (isValid) {
+            switchScreen('dashboard');
+        }
+    }
+
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('login-password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.setAttribute('data-lucide', 'eye-off');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.setAttribute('data-lucide', 'eye');
+        }
+
+        // Recreate the Lucide icon
+        lucide.createIcons();
     }
 
     // CODE TAB SWITCHING
@@ -5149,6 +5409,45 @@
         } else {
             faqItem.classList.add('open');
         }
+    }
+
+    // CODE COPY FUNCTION
+    function initCodeCopyButtons() {
+        document.querySelectorAll('.code-block').forEach(block => {
+            // Get code text from all code lines
+            const codeContent = block.querySelector('.code-content');
+            if (!codeContent) return;
+
+            const codeText = Array.from(codeContent.querySelectorAll('.code-line'))
+                .map(line => {
+                    const textSpan = line.querySelector('.code-text');
+                    return textSpan ? textSpan.textContent : '';
+                })
+                .join('\n')
+                .trim();
+
+            // Create copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'code-copy-btn';
+            copyBtn.innerHTML = '📋 Copy';
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(codeText);
+                    copyBtn.classList.add('copied');
+                    copyBtn.innerHTML = '✓ Copied!';
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.innerHTML = '📋 Copy';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                }
+            });
+
+            block.appendChild(copyBtn);
+        });
     }
 
     // ANIMATED COUNTERS FOR METRICS
@@ -5361,6 +5660,15 @@
             const nav = document.getElementById('nav');
             nav.classList.toggle('mobile-open');
         });
+
+        // Close menu when nav links are clicked
+        const navLinks = document.querySelectorAll('.nav-link, .nav-login, .nav-right .btn');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                document.getElementById('nav').classList.remove('mobile-open');
+            });
+        });
     }
 
     function handleSidebarClick(element) {
@@ -5372,8 +5680,76 @@
 
     function toggleUserDropdown(event) {
         event.stopPropagation();
-        // Placeholder for user dropdown functionality
-        console.log('User dropdown clicked');
+        // Show a dropdown menu with Sign Out option
+        const dropdown = event.currentTarget;
+        const existingMenu = document.querySelector('.user-dropdown-menu');
+
+        if (existingMenu) {
+            existingMenu.remove();
+            return;
+        }
+
+        const menu = document.createElement('div');
+        menu.className = 'user-dropdown-menu';
+        menu.style.cssText = `
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            min-width: 180px;
+            margin-top: 8px;
+            z-index: 1001;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        `;
+
+        const userInfoDiv = document.createElement('div');
+        userInfoDiv.style.cssText = `
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-secondary);
+        `;
+        userInfoDiv.innerHTML = '<div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">John Doe</div>demo@inferenceiq.com';
+
+        const signOutBtn = document.createElement('button');
+        signOutBtn.textContent = 'Sign Out';
+        signOutBtn.style.cssText = `
+            width: 100%;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            color: var(--rose);
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        `;
+        signOutBtn.onmouseover = () => {
+            signOutBtn.style.background = 'rgba(244, 63, 94, 0.1)';
+        };
+        signOutBtn.onmouseout = () => {
+            signOutBtn.style.background = 'none';
+        };
+        signOutBtn.onclick = () => {
+            switchScreen('landing');
+            menu.remove();
+        };
+
+        menu.appendChild(userInfoDiv);
+        menu.appendChild(signOutBtn);
+        dropdown.style.position = 'relative';
+        dropdown.appendChild(menu);
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function closeMenu(e) {
+            if (!dropdown.contains(e.target) && menu) {
+                menu.remove();
+                document.removeEventListener('click', closeMenu);
+            }
+        });
     }
 
     function updateActiveNavLink(sectionId) {
