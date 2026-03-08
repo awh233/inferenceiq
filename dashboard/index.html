@@ -216,6 +216,13 @@
             color: var(--text-primary);
         }
 
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 500;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 2px;
+        }
+
         .nav-right {
             display: flex;
             align-items: center;
@@ -307,6 +314,49 @@
 
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translateY(-12px);
+        }
+
+        /* Mobile menu enhancement */
+        #nav.mobile-open {
+            flex-direction: column;
+            align-items: flex-start;
+            height: auto;
+            padding: 16px 24px;
+            gap: 16px;
+        }
+
+        #nav.mobile-open .nav-center {
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+            display: flex !important;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        #nav.mobile-open .nav-right {
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        /* Smooth transitions for nav links on hover */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
         }
 
         @media (max-width: 1024px) {
@@ -2439,8 +2489,8 @@
     <div class="nav-center">
         <div class="nav-link" onclick="scrollToSection('features')">Features</div>
         <div class="nav-link" onclick="scrollToSection('pricing')">Pricing</div>
-        <div class="nav-link">Docs</div>
-        <div class="nav-link">Changelog</div>
+        <div class="nav-link" onclick="scrollToSection('docs')">Docs</div>
+        <div class="nav-link" onclick="scrollToSection('changelog')">Changelog</div>
     </div>
     <div class="nav-right">
         <div class="nav-login" onclick="switchScreen('login')">Log in</div>
@@ -2475,7 +2525,7 @@
                     <button class="btn btn-lg btn-lg-primary" onclick="switchScreen('login')">
                         Start Free
                     </button>
-                    <button class="btn btn-lg btn-lg-secondary">
+                    <button class="btn btn-lg btn-lg-secondary" onclick="scrollToSection('docs')">
                         View Documentation
                     </button>
                 </div>
@@ -2730,7 +2780,7 @@
     </section>
 
     <!-- INTEGRATION SECTION -->
-    <section class="integration">
+    <section class="integration" id="docs">
         <div class="container">
             <div class="integration-content">
                 <div class="integration-left">
@@ -2753,7 +2803,7 @@
                             <p class="bullet-text">Built-in retries, fallbacks, and rate limiting</p>
                         </div>
                     </div>
-                    <div class="integration-link">
+                    <div class="integration-link" onclick="scrollToSection('docs')" style="cursor: pointer;">
                         View Documentation <i data-lucide="arrow-right" class="icon-small"></i>
                     </div>
                 </div>
@@ -2839,7 +2889,7 @@
     </section>
 
     <!-- PLATFORM FEATURES -->
-    <section class="platform">
+    <section class="platform" id="features">
         <div class="container">
             <div class="section-label">PLATFORM</div>
             <h2 class="section-title">Everything you need to optimize inference</h2>
@@ -3038,7 +3088,7 @@
                     <p class="pricing-description">For side projects</p>
                     <p class="pricing-price">$0</p>
                     <p class="pricing-period">forever free</p>
-                    <button class="btn btn-lg btn-lg-secondary pricing-button" onclick="switchScreen('login')">
+                    <button class="btn btn-lg btn-lg-secondary pricing-button" onclick="switchScreen('login')" style="cursor: pointer;">
                         Get Started
                     </button>
                     <div class="pricing-features">
@@ -3066,7 +3116,7 @@
                     <p class="pricing-description">For growing teams</p>
                     <p class="pricing-price">$299</p>
                     <p class="pricing-period">/month, billed monthly</p>
-                    <button class="btn btn-lg btn-lg-primary pricing-button" onclick="switchScreen('login')">
+                    <button class="btn btn-lg btn-lg-primary pricing-button" onclick="switchScreen('login')" style="cursor: pointer;">
                         Start Free Trial
                     </button>
                     <div class="pricing-features">
@@ -3097,7 +3147,7 @@
                     <p class="pricing-description">For organizations</p>
                     <p class="pricing-price">Custom</p>
                     <p class="pricing-period">tailored for you</p>
-                    <button class="btn btn-lg btn-lg-secondary pricing-button">
+                    <button class="btn btn-lg btn-lg-secondary pricing-button" onclick="switchScreen('login')" style="cursor: pointer;">
                         Contact Sales
                     </button>
                     <div class="pricing-features">
@@ -3127,6 +3177,15 @@
         </div>
     </section>
 
+    <!-- CHANGELOG SECTION -->
+    <section class="changelog" id="changelog">
+        <div class="container">
+            <div class="section-label">CHANGELOG</div>
+            <h2 class="section-title">Coming Soon</h2>
+            <p class="section-subtitle">Follow our product updates and improvements on our GitHub releases page.</p>
+        </div>
+    </section>
+
     <!-- CTA SECTION -->
     <section class="cta">
         <div class="cta-content">
@@ -3152,18 +3211,18 @@
                 <div class="footer-column">
                     <h3>Product</h3>
                     <ul>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">API Reference</a></li>
+                        <li><a onclick="scrollToSection('features')" style="cursor: pointer;">Features</a></li>
+                        <li><a onclick="scrollToSection('pricing')" style="cursor: pointer;">Pricing</a></li>
+                        <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">Documentation</a></li>
+                        <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">API Reference</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Developers</h3>
                     <ul>
-                        <li><a href="#">GitHub</a></li>
-                        <li><a href="#">SDKs</a></li>
-                        <li><a href="#">Integrations</a></li>
+                        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                        <li><a onclick="scrollToSection('docs')" style="cursor: pointer;">SDKs</a></li>
+                        <li><a onclick="scrollToSection('features')" style="cursor: pointer;">Integrations</a></li>
                         <li><a href="#">Status</a></li>
                     </ul>
                 </div>
@@ -3231,29 +3290,29 @@
 <!-- DASHBOARD SCREEN -->
 <div id="dashboard-screen" class="screen">
     <div class="dashboard-sidebar">
-        <div style="padding: 0 20px; margin-bottom: 32px;">
+        <div style="padding: 0 20px; margin-bottom: 32px; cursor: pointer;" onclick="switchScreen('landing')">
             <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-primary);">
                 <div style="width: 8px; height: 8px; background: var(--accent); border-radius: 50%;"></div>
                 InferenceIQ
             </div>
         </div>
-        <div class="sidebar-item-dashboard active">
+        <div class="sidebar-item-dashboard active" onclick="handleSidebarClick(this)">
             <i data-lucide="layout-grid" class="icon-small"></i>
             <span>Dashboard</span>
         </div>
-        <div class="sidebar-item-dashboard">
+        <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
             <i data-lucide="bar-chart-3" class="icon-small"></i>
             <span>Analytics</span>
         </div>
-        <div class="sidebar-item-dashboard">
+        <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
             <i data-lucide="cpu" class="icon-small"></i>
             <span>Models</span>
         </div>
-        <div class="sidebar-item-dashboard">
+        <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
             <i data-lucide="route" class="icon-small"></i>
             <span>Routing</span>
         </div>
-        <div class="sidebar-item-dashboard">
+        <div class="sidebar-item-dashboard" onclick="handleSidebarClick(this)">
             <i data-lucide="settings" class="icon-small"></i>
             <span>Settings</span>
         </div>
@@ -3264,7 +3323,7 @@
                 <i data-lucide="search" class="icon-small" style="color: var(--text-muted);"></i>
                 <input type="text" placeholder="Search requests, models...">
             </div>
-            <div class="dashboard-user">U</div>
+            <div class="dashboard-user" onclick="switchScreen('landing')" style="cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">U</div>
         </div>
         <div class="dashboard-content">
             <div class="dashboard-stat-grid">
@@ -3521,11 +3580,73 @@
         const hamburger = document.getElementById('hamburger');
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('mobile-open');
+        });
+    }
+
+    function handleSidebarClick(element) {
+        document.querySelectorAll('.sidebar-item-dashboard').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+
+    function updateActiveNavLink(sectionId) {
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(sectionId)) {
+                link.classList.add('active');
+            }
         });
     }
 
     function scrollToSection(sectionId) {
-        console.log('Scrolling to section:', sectionId);
+        // First switch to landing if not already there
+        const landingScreen = document.getElementById('landing-screen');
+        if (!landingScreen.classList.contains('active')) {
+            switchScreen('landing');
+            setTimeout(() => {
+                const el = document.getElementById(sectionId);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        } else {
+            const el = document.getElementById(sectionId);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        // Close mobile menu if open
+        const mobileMenu = document.querySelector('.hamburger');
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+            mobileMenu.classList.remove('active');
+        }
+        // Update active nav link
+        updateActiveNavLink(sectionId);
+    }
+
+    // INTERSECTION OBSERVER FOR ACTIVE NAV LINK HIGHLIGHTING
+    function initActiveNavLinkObserver() {
+        const sections = ['features', 'pricing', 'docs', 'changelog'];
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const sectionId = entry.target.id;
+                    const activeLink = Array.from(navLinks).find(link => {
+                        const onclick = link.getAttribute('onclick');
+                        return onclick && onclick.includes(`'${sectionId}'`);
+                    });
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3, rootMargin: '0px 0px -50% 0px' });
+
+        sections.forEach(sectionId => {
+            const el = document.getElementById(sectionId);
+            if (el) sectionObserver.observe(el);
+        });
     }
 
     // INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
@@ -3557,7 +3678,10 @@
 
     // Initialize scroll animations when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(initScrollAnimations, 100);
+        setTimeout(() => {
+            initScrollAnimations();
+            initActiveNavLinkObserver();
+        }, 100);
     });
 
     // Re-initialize on screen switch
@@ -3565,7 +3689,10 @@
     switchScreen = function(screenName) {
         originalSwitchScreen(screenName);
         if (screenName === 'landing') {
-            setTimeout(initScrollAnimations, 200);
+            setTimeout(() => {
+                initScrollAnimations();
+                initActiveNavLinkObserver();
+            }, 200);
         }
     };
 </script>
