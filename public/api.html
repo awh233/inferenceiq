@@ -16,29 +16,53 @@
         a {color: inherit; text-decoration: none;}
         button {border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
         .icon-small {width: 20px; height: 20px; stroke-width: 1.5;}
-        #nav {position: fixed; top: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; z-index: 1000; transition: all 0.3s ease;}
-        #nav.scrolled {border-bottom-color: var(--border);}
-        .nav-logo {display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em;}
+        #nav {position: fixed; top: 0; left: 0; right: 0; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; z-index: 1000; transition: border-bottom-color 0.4s ease, background 0.4s ease;}
+        #nav.scrolled {border-bottom-color: var(--border); background: rgba(10, 10, 10, 0.95);}
+        .nav-logo {display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; cursor: pointer;}
+        .nav-logomark {width: 24px; height: 24px; color: var(--accent); margin-right: 8px; display: inline-block; animation: logo-pulse 2s ease-in-out infinite;}
+        @keyframes logo-pulse {0%, 100% {opacity: 1;} 50% {opacity: 0.6;}}
         .nav-dot {width: 8px; height: 8px; background: var(--accent); border-radius: 50%;}
         .nav-center {display: flex; gap: 40px; align-items: center;}
-        .nav-link {font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: all 0.3s ease; cursor: pointer; position: relative;}
+        .features-dropdown {position: relative;}
+        .dropdown-trigger {display: flex; align-items: center; gap: 4px; cursor: pointer;}
+        .dropdown-menu {position: absolute; top: 100%; left: 0; margin-top: 12px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; padding: 24px; min-width: 450px; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);}
+        .features-dropdown:hover .dropdown-menu {opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);}
+        .dropdown-grid {display: grid; grid-template-columns: 1fr 1fr; gap: 20px;}
+        .dropdown-item {display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 8px; transition: all 0.2s ease; cursor: pointer;}
+        .dropdown-item:hover {background: rgba(16, 185, 129, 0.08);}
+        .dropdown-item-icon {flex-shrink: 0; color: var(--accent); margin-top: 2px;}
+        .dropdown-item-content {flex: 1;}
+        .dropdown-item-title {font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;}
+        .dropdown-item-description {font-size: 12px; color: var(--text-secondary); line-height: 1.5;}
+        .nav-link {font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: all 0.3s ease; cursor: pointer; position: relative; display: inline-block;}
         .nav-link::after {content: ''; position: absolute; bottom: -8px; left: 0; width: 0; height: 2px; background: var(--accent); border-radius: 1px; transition: width 0.3s ease;}
         .nav-link:hover {color: var(--text-primary);}
         .nav-link:hover::after {width: 100%;}
+        .nav-status {display: flex !important; align-items: center; gap: 6px;}
+        .nav-status-dot {width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: status-pulse 2s ease-in-out infinite;}
+        @keyframes status-pulse {0%, 100% {opacity: 1;} 50% {opacity: 0.5;}}
+        .nav-link.active {color: var(--text-primary); font-weight: 600;}
+        .nav-link.active::after {content: ''; position: absolute; bottom: -8px; left: 0; right: 0; height: 2px; background: var(--accent); border-radius: 1px; width: 100%;}
         .nav-right {display: flex; align-items: center; gap: 24px;}
+        .theme-toggle {width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--text-secondary); transition: all 0.2s ease;}
+        .theme-toggle:hover {color: var(--text-primary); border-color: var(--accent); background: var(--bg-card-hover);}
+        .nav-shortcut {display: flex; gap: 4px; align-items: center; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; font-family: 'Inter', sans-serif;}
+        .nav-shortcut:hover {border-color: var(--accent); color: var(--accent);}
         .nav-login {font-size: 14px; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: color 0.3s ease;}
         .nav-login:hover {color: var(--text-primary);}
         .btn {padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; cursor: pointer;}
-        .btn-primary {background: var(--accent); color: #000; padding: 11px 24px; font-weight: 700;}
+        .btn:active {transform: scale(0.97);}
+        .btn-primary {background: var(--accent); color: #000; padding: 11px 24px; font-weight: 700; border-radius: 100px;}
         .btn-primary:hover {background: var(--accent-light); transform: scale(1.02) translateY(-2px); box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);}
-        .hamburger {display: none; flex-direction: column; gap: 6px; cursor: pointer;}
-        .hamburger span {width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s ease;}
-        .hamburger.active span:nth-child(1) {transform: rotate(45deg) translateY(10px);}
+        .btn-primary:active {transform: scale(0.98);}
+        .hamburger {display: none; width: 24px; height: 24px; flex-direction: column; justify-content: center; gap: 6px; cursor: pointer;}
+        .hamburger span {width: 100%; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 0.3s ease;}
+        .hamburger.active span:nth-child(1) {transform: rotate(45deg) translateY(12px);}
         .hamburger.active span:nth-child(2) {opacity: 0;}
-        .hamburger.active span:nth-child(3) {transform: rotate(-45deg) translateY(-10px);}
+        .hamburger.active span:nth-child(3) {transform: rotate(-45deg) translateY(-12px);}
         #nav.mobile-open {flex-direction: column; align-items: flex-start; height: auto; padding: 16px 24px; gap: 16px;}
-        #nav.mobile-open .nav-center {width: 100%; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 16px;}
-        #nav.mobile-open .nav-right {width: 100%; flex-direction: column; gap: 12px;}
+        #nav.mobile-open .nav-center {width: 100%; flex-direction: column; gap: 12px; display: flex !important; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);}
+        #nav.mobile-open .nav-right {width: 100%; flex-direction: column; gap: 12px; margin-top: 16px;}
         @media (max-width: 1024px) {#nav {padding: 0 24px;} .nav-center {display: none;} .hamburger {display: flex;}}
         main {margin-top: 72px; position: relative; z-index: 2; display: grid; grid-template-columns: 250px 1fr;}
         .api-sidebar {background: var(--bg-elevated); border-right: 1px solid var(--border); padding: 40px 0; max-height: calc(100vh - 72px); overflow-y: auto; position: sticky; top: 72px;}
@@ -89,16 +113,71 @@
 <body>
 
 <nav id="nav">
-    <div class="nav-logo"><div class="nav-dot"></div>InferenceIQ</div>
+    <div class="nav-logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <svg class="nav-logomark" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 2L18 15H6Z" fill="currentColor" opacity="0.8"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.4"/>
+        </svg>
+        InferenceIQ
+    </div>
     <div class="nav-center">
-        <a href="index.html#features" class="nav-link">Features</a>
-        <a href="index.html#pricing" class="nav-link">Pricing</a>
-        <a href="docs.html" class="nav-link">Docs</a>
-        <a href="index.html#changelog" class="nav-link">Changelog</a>
+        <div class="features-dropdown">
+            <div class="dropdown-trigger nav-link" style="cursor: pointer;">
+                Features
+                <i data-lucide="chevron-down" class="icon-small"></i>
+            </div>
+            <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                    <div class="dropdown-item">
+                        <i data-lucide="route" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Intelligent Routing</div>
+                            <div class="dropdown-item-description">Route to cheapest provider automatically</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="bar-chart-3" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Cost Analytics</div>
+                            <div class="dropdown-item-description">Real-time cost tracking dashboard</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="shield-check" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Auto-failover</div>
+                            <div class="dropdown-item-description">Automatic provider failover</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i data-lucide="layers" class="icon dropdown-item-icon"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">Multi-provider</div>
+                            <div class="dropdown-item-description">Connect 10+ providers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="pricing.html" class="nav-link" style="cursor: pointer;">Pricing</a>
+        <a href="docs.html" class="nav-link" style="cursor: pointer;">Docs</a>
+        <a href="blog.html" class="nav-link" style="cursor: pointer;">Blog</a>
+        <a href="status.html" class="nav-link nav-status" style="cursor: pointer;">
+            <span class="nav-status-dot"></span>
+            <span>Operational</span>
+        </a>
+        <a href="index.html" class="nav-link" style="cursor: pointer;">Changelog</a>
     </div>
     <div class="nav-right">
-        <a class="nav-login" href="index.html">Sign In</a>
-        <button class="btn btn-primary">Start Free Trial</button>
+        <div class="nav-shortcut" onclick="openCommandPalette()">
+            <span>⌘</span><span>K</span>
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+            <i data-lucide="sun" class="icon-small"></i>
+        </button>
+        <a class="nav-login" onclick="window.location.href='index.html'" style="cursor: pointer;">Sign In</a>
+        <button class="btn btn-primary" onclick="window.location.href='index.html'" style="cursor: pointer;">Start Free Trial</button>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
@@ -265,28 +344,29 @@
             <div class="footer-column">
                 <h3>Product</h3>
                 <ul>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
-                    <li><a href="security.html">Security</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="docs.html">Documentation</a></li>
                     <li><a href="api.html">API Reference</a></li>
+                    <li><a href="status.html">Status</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Developers</h3>
                 <ul>
-                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
-                    <li><a href="docs.html">Documentation</a></li>
-                    <li><a href="#">SDKs</a></li>
-                    <li><a href="#">Status Page</a></li>
+                    <li><a href="https://github.com/inferenceiq" target="_blank">GitHub</a></li>
+                    <li><a href="docs.html">SDKs</a></li>
+                    <li><a href="docs.html">Integrations</a></li>
+                    <li><a href="status.html">Status Page</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Company</h3>
                 <ul>
                     <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="careers.html">Careers</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">Blog</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -294,13 +374,16 @@
                 <ul>
                     <li><a href="privacy.html">Privacy</a></li>
                     <li><a href="terms.html">Terms</a></li>
-                    <li><a href="#">Compliance</a></li>
-                    <li><a href="#">Cookies</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="compliance.html">Compliance</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="footer-copyright">Copyright © 2025 InferenceIQ. All rights reserved.</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="footer-copyright">Copyright © 2025 InferenceIQ. All rights reserved.</div>
+                <div style="font-size: 13px; color: var(--text-tertiary);">Built with ❤️ in San Francisco</div>
+            </div>
             <div class="footer-socials">
                 <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
                 <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
@@ -312,24 +395,67 @@
 
 <script>
     lucide.createIcons();
-    document.getElementById('hamburger').addEventListener('click', function() {
-        this.classList.toggle('active');
-        document.getElementById('nav').classList.toggle('mobile-open');
-    });
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('nav');
-        if (window.scrollY > 0) {
-            nav.classList.add('scrolled');
+
+    // THEME TOGGLE
+    let isDarkMode = true;
+    function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
+        if (isDarkMode) {
+            body.classList.remove('light-mode');
+            themeToggle.innerHTML = '<i data-lucide="sun" class="icon-small"></i>';
         } else {
-            nav.classList.remove('scrolled');
+            body.classList.add('light-mode');
+            themeToggle.innerHTML = '<i data-lucide="moon" class="icon-small"></i>';
         }
+        lucide.createIcons();
+    }
+
+    // COMMAND PALETTE
+    let commandPaletteOpen = false;
+    function openCommandPalette() {
+        if (commandPaletteOpen) { closeCommandPalette(); return; }
+        commandPaletteOpen = true;
+        alert('Command palette - feature placeholder');
+    }
+    function closeCommandPalette() { commandPaletteOpen = false; }
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCommandPalette(); }
+        if (e.key === 'Escape') { closeCommandPalette(); }
     });
-    document.querySelectorAll('.nav-link, .nav-login').forEach(link => {
-        link.addEventListener('click', () => {
-            document.getElementById('hamburger').classList.remove('active');
-            document.getElementById('nav').classList.remove('mobile-open');
+
+    // HAMBURGER MENU
+    function setupHamburgerMenu() {
+        const hamburger = document.getElementById('hamburger');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('mobile-open');
         });
-    });
+        const navLinks = document.querySelectorAll('.nav-link, .nav-login, .nav-right .btn');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                document.getElementById('nav').classList.remove('mobile-open');
+            });
+        });
+    }
+
+    // SCROLL NAV
+    function setupScrollNavigation() {
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 0) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    }
+
+    setupHamburgerMenu();
+    setupScrollNavigation();
 </script>
 
 </body>

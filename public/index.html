@@ -12,13 +12,15 @@
 
     <!-- Meta Tags -->
     <meta name="description" content="InferenceIQ — Cut AI inference costs by 73% with intelligent routing. Automatic failover, real-time analytics, and 99.97% uptime SLA.">
-    <meta property="og:title" content="InferenceIQ — Intelligent Inference Routing">
-    <meta property="og:description" content="Cut AI inference costs by 73% with intelligent routing across providers.">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="InferenceIQ — Cut Inference Costs by 73%">
+    <meta property="og:description" content="Stop overpaying for AI inference. Route every request to the cheapest provider. Same quality, same speed, fraction of the cost.">
+    <meta property="og:image" content="https://inferenceiq.onrender.com/og-image.png">
     <meta property="og:url" content="https://inferenceiq.onrender.com">
+    <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="InferenceIQ — Intelligent Inference Routing">
-    <meta name="twitter:description" content="Cut AI inference costs by 73% with intelligent routing across providers.">
+    <meta name="twitter:title" content="InferenceIQ — Cut Inference Costs by 73%">
+    <meta name="twitter:description" content="Stop overpaying for AI inference. Intelligent routing, auto-failover, real-time analytics.">
+    <meta name="twitter:image" content="https://inferenceiq.onrender.com/og-image.png">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
     <style>
@@ -57,11 +59,31 @@
             --text-muted: #d1d5db;
         }
 
+        body.light-mode .mockup-window {
+            background: #f3f4f6;
+            border-color: rgba(16, 185, 129, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 40px rgba(16, 185, 129, 0.08);
+        }
+
+        body.light-mode .mockup-header {
+            background: #e5e7eb;
+            border-bottom-color: rgba(0, 0, 0, 0.06);
+        }
+
         /* BASE STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         html {
@@ -88,10 +110,21 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             position: relative;
+            animation: fadeIn 0.4s ease-out;
         }
 
         body::before {
-            display: none;
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" /></filter><rect width="100" height="100" fill="rgba(255,255,255,0.03)" filter="url(%23noise)" /></svg>');
+            background-repeat: repeat;
+            pointer-events: none;
+            opacity: 0.04;
+            z-index: 1;
         }
 
         .screen {
@@ -1316,7 +1349,7 @@
 
         /* PERSONAS SECTION */
         .personas {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -1344,9 +1377,9 @@
         .persona-card:nth-child(3) { animation-delay: 0s; }
 
         .persona-card:hover {
-            border-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(16, 185, 129, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.1), 0 0 30px rgba(16, 185, 129, 0.1);
         }
 
         .persona-icon {
@@ -1518,7 +1551,7 @@
 
         /* HOW IT WORKS SECTION */
         .how-it-works {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2073,7 +2106,7 @@
 
         /* COMPARISON SECTION */
         .comparison {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2082,7 +2115,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 48px;
-            margin-top: 100px;
+            margin-top: 50px;
         }
 
         .comparison-card {
@@ -2330,7 +2363,7 @@
 
         /* ROI CALCULATOR SECTION */
         .roi-calculator-section {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2385,14 +2418,14 @@
 
         /* PRICING SECTION */
         .pricing {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
 
         /* PRICING COMPARISON TABLE */
         .pricing-comparison-table {
-            margin-top: 100px;
+            margin-top: 50px;
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--border);
@@ -2417,6 +2450,12 @@
             padding: 24px;
             border-bottom: 1px solid var(--border);
             align-items: center;
+            background: rgba(255, 255, 255, 0);
+            transition: all 0.2s ease;
+        }
+
+        .pricing-table-row:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .pricing-table-row:last-child {
@@ -2424,7 +2463,7 @@
         }
 
         .pricing-table-row:hover {
-            background: rgba(16, 185, 129, 0.03);
+            background: rgba(16, 185, 129, 0.06);
         }
 
         .pricing-table-feature {
@@ -2789,7 +2828,7 @@
 
         /* DEVELOPERS SECTION - CODE TABS */
         .developers {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
         }
@@ -2864,7 +2903,7 @@
 
         /* FAQ SECTION */
         .faq {
-            padding: 160px 40px;
+            padding: 100px 40px;
             position: relative;
             z-index: 2;
             background: var(--bg);
@@ -3181,6 +3220,17 @@
         }
 
         /* STICKY TRIAL BAR */
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         .sticky-trial-bar {
             position: fixed;
             bottom: 0;
@@ -3193,10 +3243,12 @@
             transform: translateY(100%);
             transition: transform 0.3s ease;
             padding: 16px 40px;
+            display: none;
         }
 
         .sticky-trial-bar.visible {
-            transform: translateY(0);
+            display: block;
+            animation: slideUp 0.4s ease forwards;
         }
 
         .sticky-trial-content {
@@ -4574,6 +4626,121 @@
                 padding: 80px 24px;
             }
         }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--accent);
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9998;
+            animation: slideIn 0.3s ease forwards;
+            max-width: 300px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        /* COOKIE BANNER */
+        .cookie-banner {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: rgba(17, 17, 17, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 20px 24px;
+            z-index: 9997;
+            max-width: 320px;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        .cookie-banner p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .cookie-btn {
+            flex: 1;
+            padding: 10px 16px;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-weight: 500;
+        }
+
+        .cookie-btn.accept {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .cookie-btn.accept:hover {
+            background: var(--accent-light);
+        }
+
+        .cookie-btn.decline {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cookie-btn.decline:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .cookie-banner {
+                left: 16px;
+                right: 16px;
+                max-width: none;
+            }
+
+            .toast {
+                right: 16px;
+                left: 16px;
+                max-width: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -5742,8 +5909,8 @@
                 <div class="footer-newsletter">
                     <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
                     <div class="newsletter-input-wrapper">
-                        <input type="email" class="newsletter-input" placeholder="your@email.com">
-                        <button class="newsletter-button">Subscribe</button>
+                        <input type="email" class="newsletter-input" id="newsletter-email" placeholder="your@email.com">
+                        <button class="newsletter-button" onclick="handleNewsletterSubscribe()">Subscribe</button>
                     </div>
                 </div>
             </div>
@@ -5790,7 +5957,7 @@
             <div class="footer-bottom">
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                     <div class="footer-copyright">
-                        Copyright © 2025 InferenceIQ. All rights reserved.
+                        Copyright © 2026 InferenceIQ. All rights reserved.
                     </div>
                     <div style="font-size: 13px; color: var(--text-tertiary);">
                         Built with ❤️ in San Francisco
@@ -6696,26 +6863,11 @@
         // Removed - static headline is cleaner
     }
 
-    function initStickyBar() {
-        const stickyBar = document.getElementById('stickyBar');
-        if (!stickyBar) return;
-
-        window.addEventListener('scroll', function() {
-            const scrollY = window.scrollY;
-            if (scrollY > 400) {
-                stickyBar.classList.add('visible');
-            } else {
-                stickyBar.classList.remove('visible');
-            }
-        });
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             initScrollAnimations();
             initActiveNavLinkObserver();
             initParallax();
-            initStickyBar();
             initScrollProgressBar();
             initTypewriterEffect();
         }, 100);
@@ -6810,11 +6962,14 @@
                 <div class="command-modal">
                     <input type="text" class="command-input" placeholder="Search commands..." autofocus oninput="filterCommands(this.value)">
                     <div class="command-list">
-                        <div class="command-item" onclick="scrollToSection('features'); closeCommandPalette();">Go to Features</div>
-                        <div class="command-item" onclick="scrollToSection('pricing'); closeCommandPalette();">Go to Pricing</div>
-                        <div class="command-item" onclick="scrollToSection('developers'); closeCommandPalette();">Go to Docs</div>
-                        <div class="command-item" onclick="switchScreen('dashboard'); closeCommandPalette();">Go to Dashboard</div>
-                        <div class="command-item" onclick="window.open('blog.html'); closeCommandPalette();">Go to Blog</div>
+                        <div class="command-item" onclick="scrollToSection('landing'); closeCommandPalette();">Home</div>
+                        <div class="command-item" onclick="scrollToSection('pricing'); closeCommandPalette();">Pricing</div>
+                        <div class="command-item" onclick="window.location.href='docs.html'; closeCommandPalette();">Docs</div>
+                        <div class="command-item" onclick="window.location.href='blog.html'; closeCommandPalette();">Blog</div>
+                        <div class="command-item" onclick="window.location.href='status.html'; closeCommandPalette();">Status</div>
+                        <div class="command-item" onclick="window.location.href='security.html'; closeCommandPalette();">Security</div>
+                        <div class="command-item" onclick="scrollToSection('changelog'); closeCommandPalette();">Changelog</div>
+                        <div class="command-item" onclick="switchScreen('login'); closeCommandPalette();">Sign In</div>
                     </div>
                 </div>
             `;
@@ -6968,6 +7123,90 @@
     document.head.appendChild(commandPaletteCSS);
 
     // Initialize all new features on page load
+    // STICKY CTA BAR - Show after scrolling past hero
+    function initStickyBar() {
+        const heroSection = document.querySelector('.hero');
+        const stickyBar = document.getElementById('stickyBar');
+
+        if (!heroSection || !stickyBar) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    // Hero is scrolled out of view
+                    stickyBar.classList.add('visible');
+                } else {
+                    // Hero is in view
+                    stickyBar.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(heroSection);
+    }
+
+    // ANIMATED COUNT-UP FOR STATS
+    function initStatsCountUp() {
+        const metricsSection = document.querySelector('.metrics-bar');
+        if (!metricsSection) return;
+
+        let hasAnimated = false;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasAnimated) {
+                    hasAnimated = true;
+                    animateMetrics();
+                }
+            });
+        }, { threshold: 0.2 });
+
+        observer.observe(metricsSection);
+    }
+
+    function animateMetrics() {
+        const metrics = [
+            { element: document.querySelectorAll('.metric-number')[0], target: 73, suffix: '%' },
+            { element: document.querySelectorAll('.metric-number')[1], target: 50, suffix: 'ms' },
+            { element: document.querySelectorAll('.metric-number')[2], target: 99.97, suffix: '%' },
+            { element: document.querySelectorAll('.metric-number')[3], target: 5, suffix: 'min' }
+        ];
+
+        metrics.forEach(metric => {
+            if (!metric.element) return;
+
+            let current = 0;
+            const target = metric.target;
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing function for smooth animation
+                const easeProgress = progress < 0.5
+                    ? 2 * progress * progress
+                    : -1 + (4 - 2 * progress) * progress;
+
+                current = target * easeProgress;
+
+                if (metric.target === 99.97) {
+                    metric.element.textContent = current.toFixed(2) + metric.suffix;
+                } else if (metric.target === 5) {
+                    metric.element.textContent = Math.round(current) + metric.suffix;
+                } else {
+                    metric.element.textContent = Math.round(current) + metric.suffix;
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             initMagneticButtons();
@@ -6976,6 +7215,8 @@
             initCodeTyping();
             initAdvancedParallax();
             initThemeToggle();
+            initStickyBar();
+            initStatsCountUp();
         }, 500);
     });
 
@@ -7061,8 +7302,77 @@
         document.body.appendChild(script);
     }
 
+    // TOAST NOTIFICATION
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // NEWSLETTER SUBSCRIBE
+    function handleNewsletterSubscribe() {
+        const input = document.getElementById('newsletter-email');
+        const email = input.value.trim();
+
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+            showToast('Please enter an email address');
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            showToast('Please enter a valid email address');
+            return;
+        }
+
+        showToast('Thanks! You\'ll hear from us soon.');
+        input.value = '';
+    }
+
+    // COOKIE CONSENT BANNER
+    function initCookieBanner() {
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        if (cookieConsent) return;
+
+        const banner = document.createElement('div');
+        banner.className = 'cookie-banner';
+        banner.innerHTML = `
+            <p>We use cookies to enhance your experience and analyze site traffic. By continuing to use this site, you agree to our use of cookies.</p>
+            <div class="cookie-buttons">
+                <button class="cookie-btn accept" onclick="acceptCookies()">Accept</button>
+                <button class="cookie-btn decline" onclick="declineCookies()">Decline</button>
+            </div>
+        `;
+        document.body.appendChild(banner);
+    }
+
+    function acceptCookies() {
+        localStorage.setItem('cookieConsent', 'accepted');
+        const banner = document.querySelector('.cookie-banner');
+        if (banner) {
+            banner.style.animation = 'slideOut 0.3s ease forwards';
+            setTimeout(() => banner.remove(), 300);
+        }
+    }
+
+    function declineCookies() {
+        localStorage.setItem('cookieConsent', 'declined');
+        const banner = document.querySelector('.cookie-banner');
+        if (banner) {
+            banner.style.animation = 'slideOut 0.3s ease forwards';
+            setTimeout(() => banner.remove(), 300);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         loadChartJS();
+        initCookieBanner();
     });
 </script>
 

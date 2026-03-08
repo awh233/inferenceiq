@@ -60,6 +60,395 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
   .page-title{font-size:32px}
   .footer-inner{grid-template-columns:1fr;gap:16px}
 }
+
+
+/* NAVIGATION - V23 UPDATE */
+#nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    z-index: 1000;
+    transition: border-bottom-color 0.4s ease, background 0.4s ease;
+}
+
+#nav.scrolled {
+    border-bottom-color: var(--border);
+    background: rgba(10, 10, 10, 0.95);
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    cursor: pointer;
+}
+
+.nav-logomark {
+    width: 24px;
+    height: 24px;
+    color: var(--green);
+    margin-right: 8px;
+    display: inline-block;
+    animation: logo-pulse 2s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.nav-center {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.features-dropdown {
+    position: relative;
+}
+
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-trigger::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--green);
+    border-radius: 1px;
+    transition: width 0.3s ease;
+}
+
+.dropdown-trigger:hover {
+    color: var(--text);
+}
+
+.dropdown-trigger:hover::after {
+    width: 100%;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    min-width: 450px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.features-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.dropdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dropdown-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.dropdown-item-icon {
+    flex-shrink: 0;
+    color: var(--green);
+    margin-top: 2px;
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.5;
+}
+
+.dropdown-item-content {
+    flex: 1;
+}
+
+.dropdown-item-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.dropdown-item-description {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.5;
+}
+
+.nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--green);
+    border-radius: 1px;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--text);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-status {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.nav-link.active {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--green);
+    border-radius: 1px;
+    width: 100%;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.nav-shortcut {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-shortcut:hover {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.nav-login {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-login:hover {
+    color: var(--text);
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--green);
+    color: #000;
+    padding: 11px 24px;
+    font-weight: 700;
+    border-radius: 100px;
+}
+
+.btn-primary:hover {
+    background: #34d399;
+    transform: scale(1.02) translateY(-2px);
+    box-shadow: 0 16px 32px rgba(34, 197, 94, 0.35);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.hamburger {
+    display: none;
+    width: 24px;
+    height: 24px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 2px;
+    background: var(--text);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(12px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-12px);
+}
+
+#nav.mobile-open {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 16px 24px;
+    gap: 16px;
+}
+
+#nav.mobile-open .nav-center {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    display: flex !important;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+#nav.mobile-open .nav-right {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+@media (max-width: 1024px) {
+    #nav {
+        padding: 0 24px;
+    }
+
+    .nav-center {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -120,43 +509,147 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 </section>
 </main>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-col footer-col-brand">
-      <div class="logo"><div class="nav-mark" style="width:28px;height:28px;font-size:11px">IQ</div>InferenceIQ</div>
-      <p style="font-size:12px;color:var(--text3);line-height:1.6">Cut AI inference costs 40% without sacrificing quality. Transparent, instant, automatic.</p>
+<footer>
+    <div class="footer-content">
+        <!-- Footer Header with Logo and Tagline -->
+        <div class="footer-header">
+            <div class="footer-logo">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--accent); font-size: 20px; font-weight: 700;">●</span>
+                    <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
+                </div>
+                <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div class="footer-newsletter">
+                <p style="font-size: 14px; margin-bottom: 12px; color: var(--text-secondary);">Subscribe to updates</p>
+                <div class="newsletter-input-wrapper">
+                    <input type="email" class="newsletter-input" placeholder="your@email.com">
+                    <button class="newsletter-button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="docs.html">Documentation</a></li>
+                    <li><a href="api.html">API Reference</a></li>
+                    <li><a href="status.html">Status</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Developers</h3>
+                <ul>
+                    <li><a href="https://github.com/inferenceiq" target="_blank">GitHub</a></li>
+                    <li><a href="docs.html">SDKs</a></li>
+                    <li><a href="docs.html">Integrations</a></li>
+                    <li><a href="status.html">Status Page</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="compliance.html">Compliance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="footer-copyright">
+                    Copyright © 2025 InferenceIQ. All rights reserved.
+                </div>
+                <div style="font-size: 13px; color: var(--text-tertiary);">
+                    Built with ❤️ in San Francisco
+                </div>
+            </div>
+            <div class="footer-socials">
+                <i data-lucide="github" class="icon-small footer-social" onclick="window.open('https://github.com')" style="cursor: pointer;"></i>
+                <i data-lucide="twitter" class="icon-small footer-social" onclick="window.open('https://twitter.com')" style="cursor: pointer;"></i>
+                <i data-lucide="linkedin" class="icon-small footer-social" onclick="window.open('https://linkedin.com')" style="cursor: pointer;"></i>
+            </div>
+        </div>
     </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <a href="features.html">Features</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="index.html" onclick="showScreen('login');return false">Dashboard</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Docs</a>
-      <a href="https://pypi.org/project/inferenceiq/">SDK</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="careers.html">Careers</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h4>Resources</h4>
-      <a href="https://awh233.github.io/inferenceiq">Documentation</a>
-      <a href="https://inferenceiq-api.onrender.com/docs">API Reference</a>
-      <a href="status.html">Status</a>
-      <a href="changelog.html">Changelog</a>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="security.html">Security</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
-  </div>
-  <div class="footer-copy">© 2026 InferenceIQ Inc. All rights reserved.</div>
 </footer>
+<script>
+    lucide.createIcons();
+
+    // THEME TOGGLE
+    let isDarkMode = true;
+    function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
+        if (isDarkMode) {
+            body.classList.remove('light-mode');
+            themeToggle.innerHTML = '<i data-lucide="sun" class="icon-small"></i>';
+        } else {
+            body.classList.add('light-mode');
+            themeToggle.innerHTML = '<i data-lucide="moon" class="icon-small"></i>';
+        }
+        lucide.createIcons();
+    }
+
+    // COMMAND PALETTE
+    let commandPaletteOpen = false;
+    function openCommandPalette() {
+        if (commandPaletteOpen) { closeCommandPalette(); return; }
+        commandPaletteOpen = true;
+        alert('Command palette - feature placeholder');
+    }
+    function closeCommandPalette() { commandPaletteOpen = false; }
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCommandPalette(); }
+        if (e.key === 'Escape') { closeCommandPalette(); }
+    });
+
+    // HAMBURGER MENU
+    function setupHamburgerMenu() {
+        const hamburger = document.getElementById('hamburger');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('mobile-open');
+        });
+        const navLinks = document.querySelectorAll('.nav-link, .nav-login, .nav-right .btn');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                document.getElementById('nav').classList.remove('mobile-open');
+            });
+        });
+    }
+
+    // SCROLL NAV
+    function setupScrollNavigation() {
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 0) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    }
+
+    setupHamburgerMenu();
+    setupScrollNavigation();
+</script>
 </body>
 </html>
