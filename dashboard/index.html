@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
 
     <!-- Meta Tags -->
     <meta name="description" content="InferenceIQ — Cut AI inference costs by 73% with intelligent routing. Automatic failover, real-time analytics, and 99.97% uptime SLA.">
@@ -70,6 +70,14 @@
             border-bottom-color: rgba(0, 0, 0, 0.06);
         }
 
+        body.light-mode #nav {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        body.light-mode .trust-logo svg text {
+            fill: #111827;
+        }
+
         /* BASE STYLES */
         * {
             margin: 0;
@@ -85,6 +93,32 @@
                 opacity: 1;
             }
         }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .animate-in {
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        .stagger-7 { animation-delay: 0.7s; }
+        .stagger-8 { animation-delay: 0.8s; }
 
         html {
             scroll-behavior: smooth;
@@ -508,13 +542,13 @@
         }
 
         .btn-primary:hover {
-            background: var(--accent-light);
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
         }
 
         .btn-primary:active {
             transform: scale(0.98);
+            transition: transform 0.1s ease;
         }
 
         .btn-secondary {
@@ -756,17 +790,25 @@
         }
 
         .trust-logo {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-muted);
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-            letter-spacing: -0.02em;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+            transition: opacity 0.3s ease, filter 0.3s ease;
+            filter: grayscale(100%);
+        }
+
+        .trust-logo svg {
+            width: 100%;
+            height: 100%;
+            max-width: 120px;
         }
 
         .trust-logo:hover {
             opacity: 1;
-            color: var(--text-primary);
+            filter: grayscale(0%);
         }
 
         .hero {
@@ -820,6 +862,12 @@
         @keyframes aurora-glow {
             0% { transform: translateX(-50%) rotate(0deg); }
             100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
         }
 
         .hero-content {
@@ -877,10 +925,10 @@
         }
 
         .hero-headline {
-            font-size: clamp(3.5rem, 6.5vw, 5.5rem);
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
             font-weight: 600;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
             color: var(--text-primary);
             animation: fade-in-up 0.6s ease 0.15s both;
             margin-bottom: 12px;
@@ -891,12 +939,13 @@
             font-weight: 600;
             letter-spacing: -0.03em;
             line-height: 1.2;
-            background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+            background: linear-gradient(90deg, var(--accent), var(--cyan), var(--accent));
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 24px;
-            animation: fade-in-up 0.6s ease 0.25s both;
+            animation: fade-in-up 0.6s ease 0.25s both, gradientShift 3s ease infinite;
         }
 
         @media (max-width: 768px) {
@@ -906,9 +955,9 @@
         }
 
         .hero-subtitle {
-            font-size: 16px;
+            font-size: 1.125rem;
             font-weight: 400;
-            line-height: 1.7;
+            line-height: 1.6;
             color: var(--text-secondary);
             max-width: 620px;
             animation: fade-in-up 0.6s ease 0.3s both;
@@ -1008,6 +1057,14 @@
             perspective: 1800px;
             width: 100%;
             max-width: 540px;
+        }
+
+        .network-visualization {
+            width: 100%;
+            max-width: 540px;
+            height: auto;
+            animation: fade-in-up 0.6s ease 0.7s both;
+            filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 60px rgba(16, 185, 129, 0.15));
         }
 
         .mockup-window {
@@ -1466,9 +1523,9 @@
         }
 
         .section-title {
-            font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 600;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
             line-height: 1.15;
             color: #ffffff;
             margin-bottom: 24px;
@@ -1517,9 +1574,9 @@
         }
 
         .testimonial-card:hover {
-            border-color: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .testimonial-stars {
@@ -1543,16 +1600,45 @@
         }
 
         .testimonial-avatar {
-            width: 40px;
-            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .avatar-img {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
             font-weight: 600;
-            color: #0a0a0a;
+            font-size: 0.9rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .testimonial-author-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .testimonial-author-info strong {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .testimonial-author-info span {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .testimonial-name {
@@ -1596,9 +1682,9 @@
         .persona-card:nth-child(3) { animation-delay: 0.2s; }
 
         .persona-card:hover {
-            border-color: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.1), 0 0 30px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .persona-icon {
@@ -1632,6 +1718,64 @@
         @media (max-width: 768px) {
             .personas {
                 padding: 80px 24px;
+            }
+        }
+
+        /* INTEGRATIONS GRID */
+        .integrations {
+            padding: 120px 0;
+        }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 60px;
+        }
+
+        .integration-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .integration-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.1);
+        }
+
+        .integration-icon {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .integration-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .integration-card p {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+
+        @media (max-width: 768px) {
+            .integrations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .integrations-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -2097,6 +2241,25 @@
             animation: fade-in-up 0.6s ease forwards;
             cursor: pointer;
             transition: border-color 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .bento-item:hover::before {
+            opacity: 1;
         }
 
         .bento-item:hover {
@@ -2590,16 +2753,39 @@
         }
 
         .testimonial-avatar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .avatar-img {
             width: 48px;
             height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
             font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .testimonial-author-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .testimonial-author-info strong {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .testimonial-author-info span {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
         }
 
         @media (max-width: 1024px) {
@@ -3003,6 +3189,84 @@
             color: var(--accent);
             flex-shrink: 0;
             margin-top: 2px;
+        }
+
+        .pricing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 40px 0;
+        }
+
+        .pricing-toggle-label {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            transition: color 0.3s ease;
+        }
+
+        .pricing-toggle-label.active {
+            color: var(--text-primary);
+        }
+
+        .save-badge {
+            background: rgba(16,185,129,0.15);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--border);
+            border-radius: 26px;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: var(--accent);
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+        }
+
+        .pricing-estimate {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
         }
 
         @media (max-width: 1024px) {
@@ -3751,6 +4015,31 @@
         .footer-social:hover {
             color: var(--accent);
             transform: translateY(-2px);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-tertiary);
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            border-color: rgba(16,185,129,0.3);
+            background: rgba(16,185,129,0.05);
         }
 
         @media (max-width: 1024px) {
@@ -5190,121 +5479,161 @@
                     </div>
                 </div>
                 <div class="hero-mockup">
-                    <div class="mockup-container">
-                        <div class="mockup-window">
-                            <div class="mockup-header">
-                                <div class="mockup-controls">
-                                    <div class="mockup-dot red"></div>
-                                    <div class="mockup-dot yellow"></div>
-                                    <div class="mockup-dot green"></div>
-                                </div>
-                                <div class="mockup-url">dashboard.inferenceiq.com</div>
-                                <div style="width: 60px;"></div>
-                            </div>
-                            <div class="mockup-content">
-                                <div class="mockup-sidebar">
-                                    <div class="sidebar-item active">
-                                        <i data-lucide="layout-grid" class="icon-small"></i>
-                                    </div>
-                                    <div class="sidebar-item">
-                                        <i data-lucide="bar-chart-3" class="icon-small"></i>
-                                    </div>
-                                    <div class="sidebar-item">
-                                        <i data-lucide="cpu" class="icon-small"></i>
-                                    </div>
-                                    <div class="sidebar-item">
-                                        <i data-lucide="route" class="icon-small"></i>
-                                    </div>
-                                </div>
-                                <div class="mockup-main">
-                                    <div class="mockup-status">
-                                        <span class="status-indicator"></span>
-                                        All systems operational
-                                    </div>
+                    <svg class="network-visualization" viewBox="0 0 540 520" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                            <filter id="nodeGlow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                            <style>
+                                @keyframes flowParticle {
+                                    0% { offset-distance: 0%; opacity: 1; }
+                                    100% { offset-distance: 100%; opacity: 0; }
+                                }
+                                @keyframes nodeGlowPulse {
+                                    0%, 100% { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6)); }
+                                    50% { filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.9)); }
+                                }
+                                @keyframes rotateHub {
+                                    0% { transform: rotate(0deg); }
+                                    100% { transform: rotate(360deg); }
+                                }
+                                .provider-node {
+                                    animation: nodeGlowPulse 3s ease-in-out infinite;
+                                }
+                                .hub-node {
+                                    animation: rotateHub 8s linear infinite;
+                                    transform-origin: 270px 260px;
+                                }
+                                .connection-line {
+                                    stroke: rgba(16, 185, 129, 0.3);
+                                    stroke-width: 2;
+                                    fill: none;
+                                }
+                                .active-line {
+                                    stroke: rgba(16, 185, 129, 0.6);
+                                    stroke-width: 2;
+                                    fill: none;
+                                    filter: url(#glow);
+                                    animation: lineGlow 2s ease-in-out infinite;
+                                }
+                                @keyframes lineGlow {
+                                    0%, 100% { stroke: rgba(16, 185, 129, 0.4); }
+                                    50% { stroke: rgba(16, 185, 129, 0.8); }
+                                }
+                                .particle {
+                                    fill: rgba(16, 185, 129, 0.8);
+                                    animation: flowParticle 2s linear infinite;
+                                }
+                            </style>
+                        </defs>
 
-                                    <div class="mockup-stats">
-                                        <div class="stat-card">
-                                            <div class="stat-label">Total Cost</div>
-                                            <div class="stat-value">$2,847</div>
-                                            <div class="stat-chart">
-                                                <div class="chart-bar" style="height: 25%;"></div>
-                                                <div class="chart-bar" style="height: 40%;"></div>
-                                                <div class="chart-bar" style="height: 55%;"></div>
-                                                <div class="chart-bar active" style="height: 70%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="stat-card">
-                                            <div class="stat-label">Cost Saved</div>
-                                            <div class="stat-value">$47K</div>
-                                            <div class="stat-chart">
-                                                <div class="chart-bar" style="height: 35%;"></div>
-                                                <div class="chart-bar" style="height: 50%;"></div>
-                                                <div class="chart-bar active" style="height: 80%;"></div>
-                                                <div class="chart-bar" style="height: 60%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="stat-card">
-                                            <div class="stat-label">Avg Latency</div>
-                                            <div class="stat-value">42ms</div>
-                                            <div class="stat-chart">
-                                                <div class="chart-bar" style="height: 60%;"></div>
-                                                <div class="chart-bar" style="height: 45%;"></div>
-                                                <div class="chart-bar active" style="height: 50%;"></div>
-                                                <div class="chart-bar" style="height: 55%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="stat-card">
-                                            <div class="stat-label">Uptime</div>
-                                            <div class="stat-value">99.97%</div>
-                                            <div class="stat-chart">
-                                                <div class="chart-bar" style="height: 95%;"></div>
-                                                <div class="chart-bar" style="height: 98%;"></div>
-                                                <div class="chart-bar active" style="height: 100%;"></div>
-                                                <div class="chart-bar" style="height: 97%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <!-- Background gradient -->
+                        <rect width="540" height="520" fill="rgba(10, 10, 10, 0.3)" rx="16"/>
 
-                                    <div class="mockup-chart">
-                                        <div class="mockup-chart-bar" style="height: 35%;"></div>
-                                        <div class="mockup-chart-bar" style="height: 52%;"></div>
-                                        <div class="mockup-chart-bar" style="height: 38%;"></div>
-                                        <div class="mockup-chart-bar" style="height: 68%;"></div>
-                                        <div class="mockup-chart-bar" style="height: 45%;"></div>
-                                        <div class="mockup-chart-bar" style="height: 72%;"></div>
-                                        <div class="mockup-chart-bar active" style="height: 58%;"></div>
-                                    </div>
+                        <!-- Connection lines from hub to providers -->
+                        <line class="connection-line" x1="270" y1="260" x2="100" y2="100"/>
+                        <line class="connection-line" x1="270" y1="260" x2="440" y2="100"/>
+                        <line class="connection-line" x1="270" y1="260" x2="100" y2="420"/>
+                        <line class="connection-line" x1="270" y1="260" x2="440" y2="420"/>
 
-                                    <div class="mockup-table">
-                                        <div class="table-row" style="font-weight: 700; padding-bottom: 8px; margin-bottom: 8px; color: var(--text-primary);">
-                                            <div class="table-col">Model</div>
-                                            <div class="table-col provider">Provider</div>
-                                            <div class="table-col">Latency</div>
-                                            <div class="table-col cost">Cost/1K</div>
-                                        </div>
-                                        <div class="table-row">
-                                            <div class="table-col">gpt-4o</div>
-                                            <div class="table-col provider">OpenAI</div>
-                                            <div class="table-col">38ms</div>
-                                            <div class="table-col cost">$0.0032</div>
-                                        </div>
-                                        <div class="table-row">
-                                            <div class="table-col">claude-3.5</div>
-                                            <div class="table-col provider">Anthropic</div>
-                                            <div class="table-col">42ms</div>
-                                            <div class="table-col cost">$0.0015</div>
-                                        </div>
-                                        <div class="table-row">
-                                            <div class="table-col">llama-3-70b</div>
-                                            <div class="table-col provider">Together</div>
-                                            <div class="table-col">51ms</div>
-                                            <div class="table-col cost">$0.0008</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- Active animated lines with glow -->
+                        <line class="active-line" x1="270" y1="260" x2="270" y2="80"/>
+                        <line class="active-line" x1="270" y1="260" x2="440" y2="260"/>
+
+                        <!-- Provider nodes (outer circles) -->
+                        <!-- Top left: OpenAI -->
+                        <g class="provider-node">
+                            <circle cx="100" cy="100" r="28" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
+                            <circle cx="100" cy="100" r="24" fill="rgba(10, 10, 10, 0.8)"/>
+                            <text x="100" y="108" text-anchor="middle" fill="rgba(16, 185, 129, 0.9)" font-size="11" font-weight="600" font-family="Inter, sans-serif">OAI</text>
+                        </g>
+
+                        <!-- Top right: Anthropic -->
+                        <g class="provider-node" style="animation-delay: 1s;">
+                            <circle cx="440" cy="100" r="28" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
+                            <circle cx="440" cy="100" r="24" fill="rgba(10, 10, 10, 0.8)"/>
+                            <text x="440" y="108" text-anchor="middle" fill="rgba(16, 185, 129, 0.9)" font-size="11" font-weight="600" font-family="Inter, sans-serif">ANTH</text>
+                        </g>
+
+                        <!-- Bottom left: Google -->
+                        <g class="provider-node" style="animation-delay: 0.5s;">
+                            <circle cx="100" cy="420" r="28" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
+                            <circle cx="100" cy="420" r="24" fill="rgba(10, 10, 10, 0.8)"/>
+                            <text x="100" y="428" text-anchor="middle" fill="rgba(16, 185, 129, 0.9)" font-size="11" font-weight="600" font-family="Inter, sans-serif">GCP</text>
+                        </g>
+
+                        <!-- Bottom right: Meta -->
+                        <g class="provider-node" style="animation-delay: 1.5s;">
+                            <circle cx="440" cy="420" r="28" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
+                            <circle cx="440" cy="420" r="24" fill="rgba(10, 10, 10, 0.8)"/>
+                            <text x="440" y="428" text-anchor="middle" fill="rgba(16, 185, 129, 0.9)" font-size="11" font-weight="600" font-family="Inter, sans-serif">META</text>
+                        </g>
+
+                        <!-- Top center: Mistral -->
+                        <g class="provider-node" style="animation-delay: 0.3s;">
+                            <circle cx="270" cy="80" r="28" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
+                            <circle cx="270" cy="80" r="24" fill="rgba(10, 10, 10, 0.8)"/>
+                            <text x="270" y="88" text-anchor="middle" fill="rgba(16, 185, 129, 0.9)" font-size="11" font-weight="600" font-family="Inter, sans-serif">MIR</text>
+                        </g>
+
+                        <!-- Right center: Cohere -->
+                        <g class="provider-node" style="animation-delay: 1.2s;">
+                            <circle cx="460" cy="260" r="28" fill="rgba(16, 185, 129, 0.15)" stroke="rgba(16, 185, 129, 0.6)" stroke-width="2"/>
+                            <circle cx="460" cy="260" r="24" fill="rgba(10, 10, 10, 0.8)"/>
+                            <text x="460" y="268" text-anchor="middle" fill="rgba(16, 185, 129, 0.9)" font-size="11" font-weight="600" font-family="Inter, sans-serif">COH</text>
+                        </g>
+
+                        <!-- Central hub node with rotating animation -->
+                        <g class="hub-node">
+                            <circle cx="270" cy="260" r="32" fill="rgba(16, 185, 129, 0.25)" stroke="rgba(16, 185, 129, 0.8)" stroke-width="2.5" filter="url(#nodeGlow)"/>
+                            <circle cx="270" cy="260" r="28" fill="rgba(10, 10, 10, 0.9)"/>
+                            <text x="270" y="270" text-anchor="middle" fill="rgba(16, 185, 129, 1)" font-size="13" font-weight="700" font-family="Inter, sans-serif">IQ</text>
+                        </g>
+
+                        <!-- Animated particles flowing along lines -->
+                        <g class="particle">
+                            <circle cx="270" cy="260" r="3" fill="rgba(6, 182, 212, 0.9)">
+                                <animate attributeName="cx" from="270" to="100" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="cy" from="260" to="100" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" from="1" to="0" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+
+                        <g class="particle" style="animation-delay: 0.5s;">
+                            <circle cx="270" cy="260" r="3" fill="rgba(6, 182, 212, 0.9)">
+                                <animate attributeName="cx" from="270" to="440" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="cy" from="260" to="100" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" from="1" to="0" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+
+                        <g class="particle" style="animation-delay: 1s;">
+                            <circle cx="270" cy="260" r="3" fill="rgba(6, 182, 212, 0.9)">
+                                <animate attributeName="cx" from="270" to="270" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="cy" from="260" to="80" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" from="1" to="0" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+
+                        <g class="particle" style="animation-delay: 1.5s;">
+                            <circle cx="270" cy="260" r="3" fill="rgba(6, 182, 212, 0.9)">
+                                <animate attributeName="cx" from="270" to="460" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="cy" from="260" to="260" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" from="1" to="0" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -5315,12 +5644,36 @@
         <div class="container" style="text-align: center;">
             <p class="trust-label">Trusted by teams building with</p>
             <div class="trust-logos">
-                <div class="trust-logo">OpenAI</div>
-                <div class="trust-logo">Anthropic</div>
-                <div class="trust-logo">Google</div>
-                <div class="trust-logo">Meta</div>
-                <div class="trust-logo">Mistral</div>
-                <div class="trust-logo">Cohere</div>
+                <div class="trust-logo">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="60" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="white" letter-spacing="-0.02em">OpenAI</text>
+                    </svg>
+                </div>
+                <div class="trust-logo">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="60" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" letter-spacing="-0.02em">Anthropic</text>
+                    </svg>
+                </div>
+                <div class="trust-logo">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="60" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="white" letter-spacing="-0.02em">Google</text>
+                    </svg>
+                </div>
+                <div class="trust-logo">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="60" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="white" letter-spacing="-0.02em">Meta</text>
+                    </svg>
+                </div>
+                <div class="trust-logo">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="60" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" letter-spacing="-0.02em">Mistral</text>
+                    </svg>
+                </div>
+                <div class="trust-logo">
+                    <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                        <text x="60" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="white" letter-spacing="-0.02em">Cohere</text>
+                    </svg>
+                </div>
             </div>
         </div>
     </section>
@@ -5350,36 +5703,6 @@
             </div>
         </div>
     </section>
-
-    <div class="section-divider"></div>
-
-    <!-- METRICS SECTION - PRODUCT CAPABILITIES -->
-    <section class="metrics-bar">
-        <div class="container" style="text-align: center; margin-bottom: 40px;">
-            <div class="section-label" style="justify-content: center;">OUR CAPABILITIES</div>
-            <h2 class="section-title">Built for performance</h2>
-        </div>
-        <div class="metrics-grid">
-            <div class="metric-item">
-                <div class="metric-number">73%</div>
-                <div class="metric-label">Cost Reduction Potential</div>
-            </div>
-            <div class="metric-item">
-                <div class="metric-number">50ms</div>
-                <div class="metric-label">P99 Latency</div>
-            </div>
-            <div class="metric-item">
-                <div class="metric-number">99.97%</div>
-                <div class="metric-label">Uptime SLA</div>
-            </div>
-            <div class="metric-item">
-                <div class="metric-number">5min</div>
-                <div class="metric-label">Setup Time</div>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
 
     <!-- HOW IT WORKS SECTION -->
     <section class="how-it-works" id="features">
@@ -5491,6 +5814,73 @@
         </div>
     </section>
 
+    <!-- INTEGRATIONS GRID SECTION -->
+    <section class="integrations">
+        <div class="container">
+            <div class="section-label">INTEGRATIONS</div>
+            <h2 class="section-title">Works with every major provider</h2>
+            <p class="section-subtitle">Route requests across 10+ AI providers. Add new ones in minutes.</p>
+            <div class="integrations-grid">
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729z" fill="#10b981"/></svg>
+                    </div>
+                    <h3>OpenAI</h3>
+                    <p>GPT-4o, GPT-4, GPT-3.5</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#10b981" stroke-width="1.5"/><path d="M8 12h8M12 8v8" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <h3>Anthropic</h3>
+                    <p>Claude 4, Claude 3.5, Claude 3</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>Google</h3>
+                    <p>Gemini Pro, Gemini Ultra</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z" fill="#10b981"/></svg>
+                    </div>
+                    <h3>AWS Bedrock</h3>
+                    <p>All Bedrock models</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="#10b981" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>Together AI</h3>
+                    <p>Llama, Mixtral, DBRX</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#10b981" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>Groq</h3>
+                    <p>Ultra-fast inference</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#10b981" stroke-width="1.5"/><path d="M8 12h8" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <h3>Cohere</h3>
+                    <p>Command, Embed, Rerank</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="#10b981" stroke-width="1.5"/></svg>
+                    </div>
+                    <h3>Mistral</h3>
+                    <p>Mistral Large, Medium, Small</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- PLATFORM FEATURES SECTION -->
     <section class="platform">
         <div class="container">
@@ -5568,213 +5958,6 @@
                             <div class="uptime-block" style="width: 97%; background: var(--accent);"></div>
                             <div class="uptime-block" style="width: 100%; background: var(--accent);"></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COMPARISON SECTION -->
-    <section class="comparison">
-        <div class="container">
-            <div class="section-label">COMPARISON</div>
-            <h2 class="section-title">Why InferenceIQ?</h2>
-            <div class="comparison-grid">
-                <div class="comparison-card">
-                    <h3 class="comparison-title">Without InferenceIQ</h3>
-                    <div class="comparison-items">
-                        <div class="comparison-item">
-                            <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Manual provider selection</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Overpay for consistency</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Downtime if provider fails</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>No cost visibility</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="x-circle" class="icon comparison-icon negative"></i>
-                            <span>Complex integration</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="comparison-card with-feature">
-                    <h3 class="comparison-title">With InferenceIQ</h3>
-                    <div class="comparison-items">
-                        <div class="comparison-item">
-                            <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>Automatic intelligent routing</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>73% average cost savings</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>99.97% uptime SLA with failover</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>Real-time cost & performance analytics</span>
-                        </div>
-                        <div class="comparison-item">
-                            <i data-lucide="check-circle-2" class="icon comparison-icon positive"></i>
-                            <span>5-minute drop-in integration</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- DEVELOPERS SECTION - CODE TABS -->
-    <section class="developers" id="developers">
-        <div class="container">
-            <div class="section-label">DEVELOPERS</div>
-            <h2 class="section-title">Choose your language</h2>
-            <p class="section-subtitle">Simple, unified API across Python, JavaScript, and Go. Just a few lines of code to integrate.</p>
-
-            <div class="code-tabs">
-                <button class="code-tab active" onclick="switchCodeTab(event, 'python')">Python</button>
-                <button class="code-tab" onclick="switchCodeTab(event, 'javascript')">JavaScript</button>
-                <button class="code-tab" onclick="switchCodeTab(event, 'go')">Go</button>
-            </div>
-
-            <div class="code-block-tabs">
-                <div class="code-content-tab active" id="python">
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">1</span>
-                        <span><span class="keyword">from</span> inferenceiq <span class="keyword">import</span> Client</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">2</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">3</span>
-                        <span>client = Client(api_key=<span class="string">"your-api-key"</span>)</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">4</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">5</span>
-                        <span>response = client.completions.create(</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">6</span>
-                        <span>    model=<span class="string">"gpt-4o"</span>,</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">7</span>
-                        <span>    messages=[</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">8</span>
-                        <span>        {<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: prompt}</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">9</span>
-                        <span>    ]</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">10</span>
-                        <span>)</span>
-                    </div>
-                </div>
-
-                <div class="code-content-tab" id="javascript">
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">1</span>
-                        <span><span class="keyword">import</span> { InferenceIQ } <span class="keyword">from</span> <span class="string">"@inferenceiq/sdk"</span>;</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">2</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">3</span>
-                        <span><span class="keyword">const</span> client = <span class="keyword">new</span> InferenceIQ({</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">4</span>
-                        <span>    apiKey: <span class="string">"your-api-key"</span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">5</span>
-                        <span>});</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">6</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">7</span>
-                        <span><span class="keyword">const</span> response = <span class="keyword">await</span> client.completions.create({</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">8</span>
-                        <span>    model: <span class="string">"gpt-4o"</span>,</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">9</span>
-                        <span>    messages: [{ role: <span class="string">"user"</span>, content: prompt }]</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">10</span>
-                        <span>});</span>
-                    </div>
-                </div>
-
-                <div class="code-content-tab" id="go">
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">1</span>
-                        <span><span class="keyword">package</span> main</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">2</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">3</span>
-                        <span><span class="keyword">import</span> <span class="string">"github.com/inferenceiq/go-sdk"</span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">4</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">5</span>
-                        <span>client := sdk.NewClient(apiKey)</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">6</span>
-                        <span></span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">7</span>
-                        <span>resp, err := client.Completions.Create(ctx, &sdk.CompletionRequest{</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">8</span>
-                        <span>    Model: <span class="string">"gpt-4o"</span>,</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">9</span>
-                        <span>    Messages: []sdk.Message{{Role: <span class="string">"user"</span>, Content: prompt}},</span>
-                    </div>
-                    <div class="code-line-tab">
-                        <span class="code-number-tab">10</span>
-                        <span>})</span>
                     </div>
                 </div>
             </div>
@@ -5897,33 +6080,33 @@
                 <div class="testimonial-card">
                     <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"We switched to InferenceIQ and cut our monthly AI spend from $12K to $3.2K. The routing is completely transparent — same quality, fraction of the cost."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">SK</div>
-                        <div>
-                            <div class="testimonial-name">Sarah Kim</div>
-                            <div class="testimonial-role">CTO, NeuralStack</div>
+                    <div class="testimonial-avatar">
+                        <div class="avatar-img" style="background: linear-gradient(135deg, #10b981, #06b6d4);">SK</div>
+                        <div class="testimonial-author-info">
+                            <strong>Sarah Kim</strong>
+                            <span>CTO, NeuralStack</span>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"The automatic failover saved us during the OpenAI outage last month. Our users didn't even notice. InferenceIQ just routed to Anthropic seamlessly."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">MR</div>
-                        <div>
-                            <div class="testimonial-name">Marcus Rivera</div>
-                            <div class="testimonial-role">Lead Engineer, Cortex AI</div>
+                    <div class="testimonial-avatar">
+                        <div class="avatar-img" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6);">MR</div>
+                        <div class="testimonial-author-info">
+                            <strong>Marcus Rivera</strong>
+                            <span>Lead Engineer, Cortex AI</span>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"Integration took literally 5 minutes. We just swapped our OpenAI import for InferenceIQ and everything worked. The dashboard analytics are a huge bonus."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">JL</div>
-                        <div>
-                            <div class="testimonial-name">James Liu</div>
-                            <div class="testimonial-role">Founder, Synthwave Labs</div>
+                    <div class="testimonial-avatar">
+                        <div class="avatar-img" style="background: linear-gradient(135deg, #f59e0b, #f43f5e);">JL</div>
+                        <div class="testimonial-author-info">
+                            <strong>James Liu</strong>
+                            <span>Founder, Synthwave Labs</span>
                         </div>
                     </div>
                 </div>
@@ -5980,11 +6163,21 @@
             <h2 class="section-title">Simple, transparent pricing</h2>
             <p class="section-subtitle">We take 20% of the money we save you. If we don't save you anything, you pay nothing.</p>
 
+            <div class="pricing-toggle">
+                <span class="pricing-toggle-label" data-period="monthly">Monthly</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="pricing-toggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="pricing-toggle-label active" data-period="annual">Annual <span class="save-badge">Save 15%</span></span>
+            </div>
+
             <div class="pricing-cards">
                 <div class="pricing-card">
                     <p class="pricing-name">Starter</p>
                     <p class="pricing-description">Try it risk-free</p>
                     <p class="pricing-price">20%</p>
+                    <p class="pricing-estimate" data-monthly="~$250/mo" data-annual="~$200/mo">~$200/mo estimated</p>
                     <p class="pricing-period">of your savings · up to 100K req/mo</p>
                     <button class="btn btn-lg btn-lg-secondary pricing-button" onclick="switchScreen('login')" style="cursor: pointer;">
                         Get Started Free
@@ -6021,6 +6214,7 @@
                     <p class="pricing-name">Growth</p>
                     <p class="pricing-description">For scaling teams</p>
                     <p class="pricing-price">20%</p>
+                    <p class="pricing-estimate" data-monthly="~$1,000/mo" data-annual="~$800/mo">~$800/mo estimated</p>
                     <p class="pricing-period">of your savings · unlimited requests</p>
                     <button class="btn btn-lg btn-lg-primary pricing-button" onclick="switchScreen('login')" style="cursor: pointer;">
                         Start Free Trial
@@ -6156,17 +6350,6 @@
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- CHANGELOG SECTION -->
-    <section class="changelog" id="changelog">
-        <div class="container">
-            <div class="section-label">CHANGELOG</div>
-            <h2 class="section-title">Coming Soon</h2>
-            <p class="section-subtitle">Follow our product updates and improvements on our GitHub releases page.</p>
-        </div>
-    </section>
-
     <!-- UPDATES/CHANGELOG SECTION -->
     <section class="updates" id="updates">
         <div class="container">
@@ -6275,6 +6458,20 @@
                         <span style="font-size: 18px; font-weight: 700;">InferenceIQ</span>
                     </div>
                     <p class="footer-tagline">Intelligent inference routing for modern AI teams</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/inferenceiq" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="https://twitter.com/inferenceiq" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="https://discord.gg/inferenceiq" target="_blank" rel="noopener" class="social-link" aria-label="Discord">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com/company/inferenceiq" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Newsletter Signup -->
@@ -6311,6 +6508,7 @@
                     <h3>Company</h3>
                     <ul>
                         <li><a href="about.html">About</a></li>
+                        <li><a href="customers.html">Customers</a></li>
                         <li><a href="blog.html">Blog</a></li>
                         <li><a href="careers.html">Careers</a></li>
                         <li><a href="contact.html">Contact</a></li>
@@ -6660,6 +6858,8 @@
             initAdvancedParallax();
             initThemeToggle();
             initStickyBar();
+            initPricingToggle();
+            initStaggeredScrollAnimations();
         }, 500);
 
         // Load Chart.js and cookie banner
@@ -6808,6 +7008,47 @@
         } else {
             faqItem.classList.add('open');
         }
+    }
+
+    // PRICING TOGGLE
+    function initPricingToggle() {
+        const pricingToggle = document.getElementById('pricing-toggle');
+        if (pricingToggle) {
+            pricingToggle.addEventListener('change', function() {
+                const isAnnual = this.checked;
+                document.querySelectorAll('.pricing-toggle-label').forEach(l => l.classList.remove('active'));
+                document.querySelector(`[data-period="${isAnnual ? 'annual' : 'monthly'}"]`).classList.add('active');
+                document.querySelectorAll('.pricing-estimate').forEach(el => {
+                    el.textContent = isAnnual ? el.dataset.annual + ' estimated' : el.dataset.monthly + ' estimated';
+                });
+            });
+        }
+    }
+
+    // STAGGERED SCROLL ANIMATIONS
+    function initStaggeredScrollAnimations() {
+        const staggerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const children = entry.target.querySelectorAll('.integration-card, .bento-item, .persona-card, .testimonial-card, .pricing-card, .faq-item, .step-card');
+                    children.forEach((child, i) => {
+                        child.style.opacity = '0';
+                        child.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            child.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                            child.style.opacity = '1';
+                            child.style.transform = 'translateY(0)';
+                        }, i * 100);
+                    });
+                    staggerObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe grid containers
+        document.querySelectorAll('.integrations-grid, .bento-grid, .personas .container, .testimonials-section .container, .pricing-cards, .faq-list, .how-it-works .container').forEach(el => {
+            if (el) staggerObserver.observe(el);
+        });
     }
 
     // CODE COPY FUNCTION
@@ -7627,7 +7868,7 @@
     function loadChartJS() {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
-        script.defer = true;
+        script.async = false;
         document.body.appendChild(script);
     }
 

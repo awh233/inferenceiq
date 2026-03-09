@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found - InferenceIQ</title>
+    <title>Customers & Case Studies - InferenceIQ</title>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         /* ROOT VARIABLES */
         :root {
@@ -307,10 +310,10 @@
         }
 
         .nav-status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            background: var(--accent);
             animation: status-pulse 2s ease-in-out infinite;
         }
 
@@ -319,62 +322,22 @@
             50% { opacity: 0.5; }
         }
 
-        .nav-link.active {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 1px;
-            width: 100%;
-        }
-
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 24px;
-        }
-
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.2s ease;
-        }
-
-        .theme-toggle:hover {
-            color: var(--text-primary);
-            border-color: var(--accent);
-            background: var(--bg-card-hover);
+            gap: 20px;
         }
 
         .nav-shortcut {
             display: flex;
             gap: 4px;
-            align-items: center;
             padding: 6px 10px;
-            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
         }
 
         .nav-shortcut:hover {
@@ -382,12 +345,29 @@
             color: var(--accent);
         }
 
+        .theme-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.02);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
         .nav-login {
             font-size: 14px;
             font-weight: 500;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .nav-login:hover {
@@ -426,85 +406,6 @@
             transform: scale(0.98);
         }
 
-        /* MAIN CONTENT */
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 72px 32px 32px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .error-container {
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .error-code {
-            font-size: 120px;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 16px;
-        }
-
-        .error-title {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .error-message {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
-        .error-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-        }
-
-        .btn-home {
-            padding: 12px 32px;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-        }
-
-        .btn-home:hover {
-            background: #06a373;
-            transform: translateY(-2px);
-        }
-
-        .btn-docs {
-            padding: 12px 32px;
-            background: var(--bg-elevated);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-        }
-
-        .btn-docs:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
         .hamburger {
             display: none;
             width: 24px;
@@ -523,320 +424,204 @@
             transition: all 0.3s ease;
         }
 
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translateY(12px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translateY(-12px);
-        }
-
-        /* Mobile menu enhancement */
-        #nav.mobile-open {
-            flex-direction: column;
-            align-items: flex-start;
-            height: auto;
-            padding: 16px 24px;
-            gap: 16px;
-        }
-
-        #nav.mobile-open .nav-center {
-            width: 100%;
-            flex-direction: column;
-            gap: 12px;
-            display: flex !important;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        #nav.mobile-open .nav-right {
-            width: 100%;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        @media (max-width: 1024px) {
-            #nav {
-                padding: 0 24px;
-            }
-
-            .nav-center {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-        }
-
         /* MAIN CONTENT */
         main {
-            margin-top: 72px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding-top: 72px;
+        }
+
+        section {
+            padding: 120px 40px;
             position: relative;
             z-index: 2;
         }
 
-        /* HERO */
+        section h2 {
+            font-size: 48px;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 24px;
+            }
+
+            section h2 {
+                font-size: 28px;
+            }
+        }
+
+        /* HERO SECTION */
         .hero {
-            padding: 120px 40px;
             text-align: center;
+            padding-top: 120px;
+            padding-bottom: 80px;
         }
 
         .hero h1 {
             font-size: 56px;
-            font-weight: 800;
+            line-height: 1.2;
+            font-weight: 700;
             margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
-            background-clip: text;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
+            background-clip: text;
         }
 
         .hero p {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto;
         }
 
-        @media (max-width: 768px) {
-            .hero {
-                padding: 80px 24px;
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-        }
-
-        /* SECTION STYLES */
-        section {
-            padding: 100px 40px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        section h2 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            letter-spacing: -0.02em;
-        }
-
-        section p {
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-
-        .section-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        /* MISSION SECTION */
-        .mission-text {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .mission-description {
-            font-size: 16px;
-            color: var(--text-secondary);
-            max-width: 700px;
-            line-height: 1.8;
-        }
-
-        /* STORY SECTION */
-        .story-grid {
+        /* CASE STUDIES GRID */
+        .case-studies-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            margin-top: 40px;
-        }
-
-        .story-item {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .story-item h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .story-item p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        @media (max-width: 768px) {
-            .story-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-        }
-
-        /* TEAM SECTION */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .team-member {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            padding: 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .team-member:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--accent-glow);
-        }
-
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .avatar.accent1 { background: linear-gradient(135deg, #10b981, #34d399); }
-        .avatar.accent2 { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .avatar.accent3 { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-        .avatar.accent4 { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-        .avatar.accent5 { background: linear-gradient(135deg, #f43f5e, #fb7185); }
-        .avatar.accent6 { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-
-        .team-member h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-align: center;
-        }
-
-        .team-member .title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .team-member p {
-            font-size: 14px;
-            color: var(--text-tertiary);
-            text-align: center;
-            line-height: 1.6;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-top: 60px;
         }
 
         @media (max-width: 1024px) {
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .team-grid {
+            .case-studies-grid {
                 grid-template-columns: 1fr;
+                gap: 24px;
             }
         }
 
-        /* VALUES SECTION */
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .value-card {
-            padding: 32px;
+        /* CASE STUDY CARD */
+        .case-study-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            transition: all 0.3s ease;
+            padding: 40px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
-        .value-card:hover {
+        .case-study-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .case-study-card:hover {
             background: var(--bg-card-hover);
-            border-color: var(--accent);
+            border-color: rgba(16, 185, 129, 0.2);
             transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
         }
 
-        .value-card h3 {
-            font-size: 20px;
+        .case-study-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-company {
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 12px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .card-flow {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .flow-item {
+            display: flex;
             gap: 12px;
         }
 
-        .value-card p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        @media (max-width: 768px) {
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* CTA SECTION */
-        .cta-section {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .cta-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            font-weight: 600;
+        .flow-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
             color: var(--accent);
-            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+            min-width: 80px;
+            padding-top: 2px;
         }
 
-        .cta-link:hover {
-            transform: translateX(4px);
+        .flow-content {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        .metric {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .metric-value {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .card-quote {
+            border-left: 3px solid var(--accent);
+            padding-left: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .quote-author {
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            font-style: normal;
+            font-weight: 500;
         }
 
         /* FOOTER */
@@ -1041,12 +826,63 @@
                 flex-direction: column;
                 gap: 40px;
             }
+
+            #nav {
+                padding: 0 24px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .case-studies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 60px 16px;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            #nav {
+                padding: 0 16px;
+            }
+
+            .case-study-card {
+                padding: 24px;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- NAV -->
-    <nav id="nav">
+
+<!-- NAVIGATION -->
+<nav id="nav">
     <div class="nav-logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
         <svg class="nav-logomark" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
@@ -1120,22 +956,144 @@
     </div>
 </nav>
 
-    <!-- MAIN -->
-    <main>
-        <div class="error-container">
-            <div class="error-code">404</div>
-            <h1 class="error-title">Page Not Found</h1>
-            <p class="error-message">
-                The page you're looking for doesn't exist or has been moved. Let's get you back on track.
-            </p>
-            <div class="error-actions">
-                <button class="btn-home" onclick="window.location.href='index.html'">Back to Home</button>
-                <button class="btn-docs" onclick="window.location.href='docs.html'">Documentation</button>
+<main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <h1>Trusted by AI-first teams</h1>
+            <p>See how companies use InferenceIQ to cut costs and improve reliability.</p>
+        </div>
+    </section>
+
+    <!-- CASE STUDIES -->
+    <section>
+        <div class="container">
+            <div class="case-studies-grid">
+                <!-- NeuralStack Case Study -->
+                <div class="case-study-card">
+                    <div class="card-header">
+                        <div class="card-company">NeuralStack</div>
+                        <div class="card-description">AI chatbot platform</div>
+                    </div>
+
+                    <div class="card-flow">
+                        <div class="flow-item">
+                            <div class="flow-label">Challenge</div>
+                            <div class="flow-content">Spending $45K/month on GPT-4 for customer support chatbots</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Solution</div>
+                            <div class="flow-content">InferenceIQ routes simple queries to cheaper models, complex ones to GPT-4</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Results</div>
+                            <div class="flow-content">
+                                <span class="metric-value">68% cost reduction</span> ($45K → $14.4K/mo), same quality scores, <span class="metric-value">99.99% uptime</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-quote">
+                        "We were throwing money at GPT-4 for queries that didn't need it. InferenceIQ made the obvious optimization we'd been too busy to build ourselves."
+                        <div class="quote-author">— Sarah Kim, CTO</div>
+                    </div>
+                </div>
+
+                <!-- Cortex AI Case Study -->
+                <div class="case-study-card">
+                    <div class="card-header">
+                        <div class="card-company">Cortex AI</div>
+                        <div class="card-description">Enterprise AI platform</div>
+                    </div>
+
+                    <div class="card-flow">
+                        <div class="flow-item">
+                            <div class="flow-label">Challenge</div>
+                            <div class="flow-content">Single-provider dependency on OpenAI, suffered 3 major outages in Q4</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Solution</div>
+                            <div class="flow-content">InferenceIQ's automatic failover across 4 providers</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Results</div>
+                            <div class="flow-content">
+                                <span class="metric-value">Zero customer-facing outages</span> since deployment, <span class="metric-value">73% cost savings</span>, <span class="metric-value">12ms average added latency</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-quote">
+                        "During the last OpenAI outage, our customers didn't even notice. InferenceIQ routed to Anthropic in under 50ms."
+                        <div class="quote-author">— Marcus Rivera, Lead Engineer</div>
+                    </div>
+                </div>
+
+                <!-- Synthwave Labs Case Study -->
+                <div class="case-study-card">
+                    <div class="card-header">
+                        <div class="card-company">Synthwave Labs</div>
+                        <div class="card-description">AI-powered content generation</div>
+                    </div>
+
+                    <div class="card-flow">
+                        <div class="flow-item">
+                            <div class="flow-label">Challenge</div>
+                            <div class="flow-content">Needed to scale from 10K to 500K daily requests without breaking the budget</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Solution</div>
+                            <div class="flow-content">InferenceIQ's intelligent routing across Together AI, Groq, and OpenAI</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Results</div>
+                            <div class="flow-content">
+                                <span class="metric-value">5-minute integration</span>, <span class="metric-value">scaled 50x</span> with only <span class="metric-value">3x cost increase</span>, <span class="metric-value">sub-100ms p99 latency</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-quote">
+                        "We literally swapped our OpenAI import for InferenceIQ and everything worked. The dashboard analytics are a huge bonus."
+                        <div class="quote-author">— James Liu, Founder</div>
+                    </div>
+                </div>
+
+                <!-- DataForge Analytics Case Study -->
+                <div class="case-study-card">
+                    <div class="card-header">
+                        <div class="card-company">DataForge Analytics</div>
+                        <div class="card-description">Data processing & insights</div>
+                    </div>
+
+                    <div class="card-flow">
+                        <div class="flow-item">
+                            <div class="flow-label">Challenge</div>
+                            <div class="flow-content">Processing millions of documents with varying complexity levels</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Solution</div>
+                            <div class="flow-content">InferenceIQ routes by document complexity — simple extractions to fast/cheap models, complex analysis to premium models</div>
+                        </div>
+                        <div class="flow-item">
+                            <div class="flow-label">Results</div>
+                            <div class="flow-content">
+                                <span class="metric-value">81% cost reduction</span>, <span class="metric-value">40% faster processing</span> (parallel multi-provider), <span class="metric-value">zero quality regression</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-quote">
+                        "The routing intelligence is remarkable. It figured out which documents need Claude vs which can go to Llama, and the quality stayed the same."
+                        <div class="quote-author">— Priya Patel, VP Engineering</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+    </section>
+</main>
 
-    <!-- FOOTER -->
+<!-- FOOTER -->
 <footer>
     <div class="footer-content">
         <!-- Footer Header with Logo and Tagline -->
@@ -1216,88 +1174,43 @@
         </div>
     </div>
 </footer>
+
 <script>
+    // Initialize Lucide Icons
     lucide.createIcons();
 
-    // THEME TOGGLE FUNCTIONALITY
-    let isDarkMode = true;
-
-    function toggleTheme() {
-        isDarkMode = !isDarkMode;
-        const body = document.body;
-        const themeToggle = document.getElementById('themeToggle');
-
-        if (isDarkMode) {
-            body.classList.remove('light-mode');
-            themeToggle.innerHTML = '<i data-lucide="sun" class="icon-small"></i>';
+    // Navigation Scroll Effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            nav.classList.add('scrolled');
         } else {
-            body.classList.add('light-mode');
-            themeToggle.innerHTML = '<i data-lucide="moon" class="icon-small"></i>';
-        }
-        lucide.createIcons();
-    }
-
-    // COMMAND PALETTE
-    let commandPaletteOpen = false;
-
-    function openCommandPalette() {
-        if (commandPaletteOpen) {
-            closeCommandPalette();
-            return;
-        }
-        commandPaletteOpen = true;
-        alert('Command palette - feature placeholder');
-    }
-
-    function closeCommandPalette() {
-        commandPaletteOpen = false;
-    }
-
-    // Keyboard listener for Cmd+K
-    document.addEventListener('keydown', (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-            e.preventDefault();
-            openCommandPalette();
-        }
-        if (e.key === 'Escape') {
-            closeCommandPalette();
+            nav.classList.remove('scrolled');
         }
     });
 
-    // Hamburger menu toggle
-    function setupHamburgerMenu() {
-        const hamburger = document.getElementById('hamburger');
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            const nav = document.getElementById('nav');
-            nav.classList.toggle('mobile-open');
-        });
-
-        // Close menu when nav links are clicked
-        const navLinks = document.querySelectorAll('.nav-link, .nav-login, .nav-right .btn');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                document.getElementById('nav').classList.remove('mobile-open');
-            });
-        });
+    // Theme Toggle
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        lucide.createIcons();
     }
 
-    // Scroll behavior for nav
-    function setupScrollNavigation() {
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 0) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
     }
 
-    // Initialize on DOM ready
-    setupHamburgerMenu();
-    setupScrollNavigation();
+    // Command Palette (placeholder)
+    function openCommandPalette() {
+        console.log('Command palette opened');
+    }
+
+    // Hamburger Menu (placeholder)
+    document.getElementById('hamburger').addEventListener('click', () => {
+        console.log('Mobile menu toggled');
+    });
 </script>
+
 </body>
 </html>
